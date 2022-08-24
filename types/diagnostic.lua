@@ -77,6 +77,20 @@ function vim.diagnostic.disable(bufnr, namespace) end
 ---                  namespace.
 function vim.diagnostic.enable(bufnr, namespace) end
 
+-- Parse a diagnostic from a string.
+--- @param str any #(string) String to parse diagnostics from.
+--- @param pat any #(string) Lua pattern with capture groups.
+--- @param groups any #(table) List of fields in a |diagnostic-structure| to
+---                     associate with captures from {pat}.
+--- @param severity_map any #(table) A table mapping the severity field from
+---                     {groups} with an item from |vim.diagnostic.severity|.
+--- @param defaults any #(table|nil) Table of default values for any fields not
+---                     listed in {groups}. When omitted, numeric values
+---                     default to 0 and "severity" defaults to ERROR.
+--- @return any #diagnostic |diagnostic-structure| or `nil` if {pat} fails to match
+---     {str}.
+function vim.diagnostic.filetype.match(str, pat, groups, severity_map, defaults) end
+
 -- Convert a list of quickfix items to a list of diagnostics.
 --- @param list any[] #(table) A list of quickfix items from |getqflist()| or
 ---             |getloclist()|.
@@ -153,19 +167,14 @@ function vim.diagnostic.goto_prev(opts) end
 ---                  omitted, hide diagnostics in all buffers.
 function vim.diagnostic.hide(namespace, bufnr) end
 
--- Parse a diagnostic from a string.
---- @param str any #(string) String to parse diagnostics from.
---- @param pat any #(string) Lua pattern with capture groups.
---- @param groups any #(table) List of fields in a |diagnostic-structure| to
----                     associate with captures from {pat}.
---- @param severity_map any #(table) A table mapping the severity field from
----                     {groups} with an item from |vim.diagnostic.severity|.
---- @param defaults any #(table|nil) Table of default values for any fields not
----                     listed in {groups}. When omitted, numeric values
----                     default to 0 and "severity" defaults to ERROR.
---- @return any #diagnostic |diagnostic-structure| or `nil` if {pat} fails to match
----     {str}.
-function vim.diagnostic.match(str, pat, groups, severity_map, defaults) end
+-- Set diagnostics for the given namespace and buffer.
+--- @param namespace any #(number) The diagnostic namespace
+--- @param bufnr any #(number) Buffer number
+--- @param diagnostics any #(table) A list of diagnostic items
+---                    |diagnostic-structure|
+--- @param opts any #(table|nil) Display options to pass to
+---                    |vim.diagnostic.show()|
+function vim.diagnostic.keymap.set(namespace, bufnr, diagnostics, opts) end
 
 -- Show diagnostics in a floating window.
 --- @param opts any #(table|nil) Configuration table with the same keys as
@@ -222,15 +231,6 @@ function vim.diagnostic.open_float(opts, ...) end
 --- @param bufnr any #(number|nil) Remove diagnostics for the given buffer.
 ---                  When omitted, diagnostics are removed for all buffers.
 function vim.diagnostic.reset(namespace, bufnr) end
-
--- Set diagnostics for the given namespace and buffer.
---- @param namespace any #(number) The diagnostic namespace
---- @param bufnr any #(number) Buffer number
---- @param diagnostics any #(table) A list of diagnostic items
----                    |diagnostic-structure|
---- @param opts any #(table|nil) Display options to pass to
----                    |vim.diagnostic.show()|
-function vim.diagnostic.set(namespace, bufnr, diagnostics, opts) end
 
 -- Add buffer diagnostics to the location list.
 --- @param opts any #(table|nil) Configuration table with the following keys:
