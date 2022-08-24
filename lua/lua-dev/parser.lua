@@ -12,7 +12,7 @@ function M.infer_type(param)
     -- Try extracting the type by parsing the docs
     local parsed_type, new_doc = param.doc:match("^%((%l-)%) (.*)")
     if not parsed_type then
-      parsed_type, new_doc = param.doc:match("^%l+%|%l+ (.*)")
+      parsed_type, new_doc = param.doc:match("^%(?(%l+%|%l+)%)? (.*)")
     end
     if new_doc then
       param.doc = new_doc
@@ -41,6 +41,30 @@ function M.infer_type(param)
   return type
 end
 
+local function format_bullet_points(text)
+  local current_level = -1
+  local prev_indent = -1
+  local lines = vim.split(text, "\n", {})
+  local reindented_lines = {}
+
+  for i, line in ipairs(lines) do
+    local whitespace = line:match("^(%s*)• ")
+    if whitespace then
+      local indent = #whitespace
+      if indent > prev_indent then
+        current_level = current_level + 1
+      elseif indent < prev_indent then
+        current_level = current_level - 1
+      end
+      reindented_lines[i] = (" "):rep(current_level * 2) .. line:sub(indent + 1)
+      prev_indent = indent
+    else
+      reindented_lines[i] = line:gsub("^%s+", "") .. (" "):rep(current_level * 2)
+    end
+  end
+  return table.concat(reindented_lines, "\n")
+end
+
 function M.emmy_param(param, is_return)
   if param.doc then
     -- Vimdocs contain many newlines due to the way it is formatted.
@@ -48,36 +72,7 @@ function M.emmy_param(param, is_return)
     param.doc = param.doc:gsub("([^%.:])\n%s+", "%1 ")
     -- Reinsert newlines before • characters
     param.doc = param.doc:gsub("([^%s]) • ", "%1\n • ")
-    if param.doc:find("\n(%s+)") then
-      local x = param.doc:match("\n(%s+)")
-      print(x, #x)
-    end
-    local current_level = -1
-    local prev_indent = -1
-    local lines = vim.split(param.doc, "\n", {})
-    local reindented_lines = {}
-
-    for i, line in ipairs(lines) do
-      local whitespace = line:match("^(%s*)• ")
-      if whitespace then
-        local indent = #whitespace
-        if indent > prev_indent then
-          current_level = current_level + 1
-        elseif indent < prev_indent then
-          current_level = current_level - 1
-        end
-        reindented_lines[i] = (" "):rep(current_level * 2) .. line:sub(indent + 1)
-        vim.pretty_print(current_level, reindented_lines[i])
-        prev_indent = indent
-        print("NEW IN", indent, line)
-      else
-        reindented_lines[i] = line
-      end
-    end
-    if #reindented_lines > 1 then
-      vim.pretty_print(reindented_lines)
-      param.doc = table.concat(reindented_lines, "\n")
-    end
+    param.doc = format_bullet_points(param.doc)
   end
   local type = M.infer_type(param)
   local parts = {}
