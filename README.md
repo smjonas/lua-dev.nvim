@@ -47,15 +47,10 @@ Plug 'folke/lua-dev.nvim'
     vimruntime = true, -- runtime path
     types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
     plugins = true, -- installed opt or start plugins in packpath
-    -- you can also specify the list of plugins to make available as a workspace library
+    -- you can also specify a list of plugins to make available as a workspace library
     -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
   },
   runtime_path = false, -- enable this to get completion in require strings. Slow!
-  -- pass any additional options that will be merged in the final lsp config
-  lspconfig = {
-    -- cmd = {"lua-language-server"},
-    -- on_attach = ...
-  },
 }
 ```
 
@@ -65,15 +60,19 @@ Be aware that this will configure Sumneko to work for Neovim init.lua and plugin
 This setup is **NOT** intended to be used for any other types of projects.
 
 ```lua
-local luadev = require("lua-dev").setup({
-  -- add any options here, or leave empty to use the default settings
-  -- lspconfig = {
-  --   cmd = {"lua-language-server"}
-  -- },
-})
+-- Your LSP configuration for sumneko_lua
+local sumneko_config = {
+  -- on_attach = { ... }
+}
 
-local lspconfig = require('lspconfig')
-lspconfig.sumneko_lua.setup(luadev)
+-- Lua-dev-specific options
+local lua_dev_opts = {
+  -- plugins = { ... }
+}
+
+-- Both tables passed to setup will be merged with lua-dev's default settings (they can be nil)
+local luadev_config = require("lua-dev").setup(sumneko_config, lua_dev_opts)
+require("lspconfig").sumneko_lua.setup(luadev_config)
 ```
 
 ## ❓ How?
@@ -92,4 +91,4 @@ and make them available for the [Sumneko LSP](https://github.com/sumneko/lua-lan
 
 ## ⭐ Acknowledgment
 
-- docs for options and functions are based on the work of [vim-lsp](https://github.com/prabirshrestha/vim-lsp)
+abdocs for options and functions are based on the work of [vim-lsp](https://github.com/prabirshrestha/vim-lsp)

@@ -1,50 +1,22 @@
 local M = {}
 
-function M.setup(opts)
-  local config = require("lua-dev.config")
-  config.setup(opts)
-  M.setup_workspace()
-  local ret = require("lua-dev.sumneko").setup()
-  return vim.tbl_deep_extend("force", {}, ret, config.options.lspconfig or {})
-end
+--- @class LuaApiOptions
+local default_opts = {
+  library = {
+    vimruntime = true, -- runtime path
+    types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+    plugins = true, -- installed opt or start plugins in packpath
+    -- you can also specify a list of plugins to make available as a workspace library
+    -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+  },
+  runtime_path = false, -- enable this to get completion in require strings. Slow!
+}
 
-function M.setup_workspace()
-  local ok, workspace = pcall(require, "workspace")
-  if not ok then
-    return
-  end
-  local config = require("lua-dev.config")
-  local sumneko = require("lua-dev.sumneko")
-  workspace.register({
-    name = "lua-dev",
-
-    get_schema = function()
-      return require("workspace.schema").to_schema({ ["lua-dev"] = config.defaults })
-    end,
-
-    ---@param ws Workspace
-    on_workspace_settings = function(ws)
-      local local_settings = ws.local_settings
-
-      -- merge global lua-dev options with workspace options
-      local opts = ws.settings:get("lua-dev", { defaults = config.options })
-
-      -- enable lua-dev if:
-      -- * this is a lua file part of your nvim config
-      -- * this is a workspace that has a lua folder (so most likely a plugin)
-      -- * the local workspace settings have lua-dev.enabled = true
-      local is_vim_config = ws:has_file(sumneko.config_path())
-      local enabled = is_vim_config or ws:has_file(ws.root_dir .. "/lua") or local_settings:get("lua-dev.enabled")
-      if enabled then
-        -- enable plugins by default only for nvim configs
-        if not is_vim_config and not local_settings:get("lua-dev.library.plugins") then
-          opts.library.plugins = false
-        end
-        local settings = sumneko.setup(opts).settings
-        ws.settings:merge(settings, "lspconfig." .. opts.config_name .. ".settings")
-      end
-    end,
-  })
+function M.setup(user_lsp_config, user_opts)
+  local opts = vim.tbl_deep_extend("force", {}, default_opts, user_opts or {})
+  local lsp_config = require("lua-dev.sumneko").make_lsp_config(opts)
+  lsp_config.lspconfig = vim.tbl_deep_extend("force", {}, lsp_config, user_lsp_config or {})
+  return lsp_config
 end
 
 return M

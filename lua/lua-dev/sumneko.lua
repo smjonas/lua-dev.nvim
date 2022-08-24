@@ -1,9 +1,6 @@
-local Config = require("lua-dev.config")
-
 local M = {}
 
 function M.library(opts)
-  opts = opts or Config.options
   local ret = {}
 
   if opts.library.types then
@@ -62,7 +59,7 @@ function M.types()
   return vim.loop.fs_realpath(vim.fn.fnamemodify(f, ":h:h:h") .. "/types")
 end
 
-function M.setup(opts)
+function M.make_lsp_config(opts)
   return {
     settings = {
       Lua = {
@@ -73,19 +70,10 @@ function M.setup(opts)
           path = M.path(),
         },
         completion = { callSnippet = "Replace" },
-        -- diagnostics = {
-        --   -- Get the language server to recognize the `vim` global
-        --   globals = { "vim" },
-        -- },
-        -- hint = { enable = true },
         workspace = {
           -- Make the server aware of Neovim runtime files
           library = M.library(opts),
-          maxPreload = 1000,
-          preloadFileSize = 150,
         },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = { enable = false },
       },
     },
   }
