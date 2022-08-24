@@ -1,18 +1,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
---- @return number
-function vim.fn.searchpair(start, middle, _end, flags, ...) end
-
--- Return 1 if {expr} is a positive infinity, or -1 a negative
--- 		infinity, otherwise 0. >
--- 			:echo isinf(1.0 / 0.0)
--- <			1 >
--- 			:echo isinf(-1.0 / 0.0)
--- <			-1
---- @return number
-function vim.fn.isinf(expr) end
-
 -- Returns a list with all the entries in the location list for
 -- 		window {nr}.  {nr} can be the window number or the |window-ID|.
 -- 		When {nr} is zero the current window is used.
@@ -28,13 +16,11 @@ function vim.fn.isinf(expr) end
 -- 		window used to display files from the location list. This
 -- 		field is applicable only when called from a location list
 -- 		window.
---- @return list
 function vim.fn.getloclist(nr, what) end
 
 -- Return the current |command-line-window| type. Possible return
 -- 		values are the same as |getcmdtype()|. Returns an empty string
 -- 		when not in the command-line window.
---- @return string
 function vim.fn.getcmdwintype() end
 
 -- Write |List| {list} to file {fname}.  Each list item is
@@ -67,14 +53,12 @@ function vim.fn.getcmdwintype() end
 -- 			:let fl = readfile("foo", "b")
 -- 			:call writefile(fl, "foocopy", "b")
 --- @param list any[]
---- @return number
 function vim.fn.writefile(list, fname, flags) end
 
 -- Returns a list of server addresses, or empty if all servers
 -- 		were stopped. |serverstart()| |serverstop()|
 -- 		Example: >
 -- 			:echo serverlist()
---- @return string
 function vim.fn.serverlist() end
 
 -- Returns 1 if the terminal of {buf} is using the alternate
@@ -83,7 +67,6 @@ function vim.fn.serverlist() end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_getaltscreen()
---- @return number
 function vim.fn.term_getaltscreen(buf) end
 
 -- Evaluate MzScheme expression {expr} and return its result
@@ -133,7 +116,6 @@ function vim.fn.mzeval(expr) end
 -- 			winid		|window-ID|
 -- 			winnr		window number
 -- 			winrow		topmost screen column of the window
---- @return list
 function vim.fn.getwininfo(winid) end
 
 -- Return the hyperbolic cosine of {expr} as a |Float| in the range
@@ -144,7 +126,6 @@ function vim.fn.getwininfo(winid) end
 -- <			1.127626 >
 -- 			:echo cosh(-0.5)
 -- <			-1.127626
---- @return float
 function vim.fn.cosh(expr) end
 
 -- Return the exponential of {expr} as a |Float| in the range
@@ -155,7 +136,6 @@ function vim.fn.cosh(expr) end
 -- <			7.389056 >
 -- 			:echo exp(-1)
 -- <			0.367879
---- @return float
 function vim.fn.exp(expr) end
 
 -- Convert {expr} into a JSON string.  Accepts
@@ -167,7 +147,6 @@ function vim.fn.exp(expr) end
 -- 		surrogate pairs (such strings are not valid UTF-8 strings).
 -- 		Non-printable characters are converted into "\u1234" escapes
 -- 		or special escapes like "\t", other are dumped as-is.
---- @return string
 function vim.fn.json_encode(expr) end
 
 -- Convert String {expr} to a Float.  This mostly works the same
@@ -182,7 +161,6 @@ function vim.fn.json_encode(expr) end
 -- 		12.0.  You can strip out thousands separators with
 -- 		|substitute()|: >
 -- 			let f = str2float(substitute(text, ',', '', 'g'))
---- @return float
 function vim.fn.str2float(expr) end
 
 -- Without argument: The result is the badly spelled word under
@@ -208,7 +186,6 @@ function vim.fn.str2float(expr) end
 -- 		The spelling information for the current window is used.  The
 -- 		'spell' option must be set and the value of 'spelllang' is
 -- 		used.
---- @return string
 function vim.fn.spellbadword() end
 
 -- Get the status of terminal {buf}. This returns a comma
@@ -224,7 +201,6 @@ function vim.fn.spellbadword() end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_getstatus()
---- @return string
 function vim.fn.term_getstatus(buf) end
 
 -- Return the number of lines that scrolled to above the top of
@@ -239,12 +215,10 @@ function vim.fn.term_getstatus(buf) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_getscrolled()
---- @return number
 function vim.fn.term_getscrolled(buf) end
 
 -- Stop playing all sounds.
 -- 		{only available when compiled with the |+sound| feature}
---- @return none
 function vim.fn.sound_clear() end
 
 -- Open a new window displaying the difference between the two
@@ -296,7 +270,6 @@ function vim.fn.sound_clear() end
 -- 		Can also be used as a |method|: >
 -- 			GetFilename()->term_dumpdiff(otherfile)
 -- <
---- @return number
 function vim.fn.term_dumpdiff(filename, filename, options) end
 
 -- Dump the contents of the terminal screen of {buf} in the file
@@ -314,7 +287,6 @@ function vim.fn.term_dumpdiff(filename, filename, options) end
 -- 		Can also be used as a |method|, the base is used for the file
 -- 		name: >
 -- 			GetFilename()->term_dumpwrite(bufnr)
---- @return none
 function vim.fn.term_dumpwrite(buf, filename, options) end
 
 -- Returns a Dictionary with the last known position of the
@@ -344,7 +316,6 @@ function vim.fn.term_dumpwrite(buf, filename, options) end
 --
 -- 		When using |getchar()| the Vim variables |v:mouse_lnum|,
 -- 		|v:mouse_col| and |v:mouse_winid| also provide these values.
---- @return dict
 function vim.fn.getmousepos() end
 
 -- Escape the characters in {chars} that occur in {string} with a
@@ -353,7 +324,6 @@ function vim.fn.getmousepos() end
 -- <		results in: >
 -- 			c:\\program\ files\\vim
 -- <		Also see |shellescape()| and |fnameescape()|.
---- @return string
 function vim.fn.escape(string, chars) end
 
 -- Returns the properties of property type {name}.  This is a
@@ -369,7 +339,6 @@ function vim.fn.escape(string, chars) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPropName()->prop_type_get()
---- @return dict
 function vim.fn.prop_type_get(name, props) end
 
 -- Close popup {id}.  The window and the associated buffer will
@@ -382,13 +351,11 @@ function vim.fn.prop_type_get(name, props) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPopup()->popup_close()
---- @return none
 function vim.fn.popup_close(id, result) end
 
 -- Like |screenchar()|, but return the attribute.  This is a rather
 -- 		arbitrary number that can only be used to compare to the
 -- 		attribute at other positions.
---- @return number
 function vim.fn.screenattr(row, col) end
 
 -- Open the buffer {expr} or jump to the window that contains
@@ -404,7 +371,6 @@ function vim.fn.screenattr(row, col) end
 -- 			" Jump to sign 10 in the current buffer
 -- 			call sign_jump(10, '', '')
 -- <
---- @return number
 function vim.fn.sign_jump(id, group, expr) end
 
 -- Tells Nvim the number of elements displaying in the popumenu,
@@ -427,7 +393,6 @@ function vim.fn.nvim_ui_pum_set_height(height) end
 -- 		Note that Vim uses UTF-8 for all Unicode encodings, conversion
 -- 		from/to UCS-2 is automatically changed to use UTF-8.  You
 -- 		cannot use UCS-2 in a string anyway, because of the NUL bytes.
---- @return string
 function vim.fn.iconv(expr, from, to) end
 
 -- The result is a String, which is {expr} with all unprintable
@@ -436,7 +401,6 @@ function vim.fn.iconv(expr, from, to) end
 -- 			echo strtrans(@a)
 -- <		This displays a newline in register a as "^@" instead of
 -- 		starting a new line.
---- @return string
 function vim.fn.strtrans(expr) end
 
 -- Set line {lnum} to {text} in buffer {expr}.  To insert
@@ -450,7 +414,6 @@ function vim.fn.strtrans(expr) end
 --
 -- 		If {expr} is not a valid buffer or {lnum} is not valid, an
 -- 		error message is given.
---- @return number
 function vim.fn.setbufline(expr, lnum, line) end
 
 -- If {arg} is not specified, then information about all the tab
@@ -464,7 +427,6 @@ function vim.fn.setbufline(expr, lnum, line) end
 -- 			variables	a reference to the dictionary with
 -- 					tabpage-local variables
 -- 			windows		List of |window-ID|s in the tab page.
---- @return list
 function vim.fn.gettabinfo(expr) end
 
 -- Same as |matchstr()|, but return the matched string, the start
@@ -483,7 +445,6 @@ function vim.fn.gettabinfo(expr) end
 -- 			:echo matchstrpos([1, '__x'], '\a')
 -- <		result is ["x", 1, 2, 3].
 -- 		The type isn't changed, it's not necessarily a String.
---- @return list
 function vim.fn.matchstrpos(expr, pat, start, count) end
 
 -- The result is a Number, which is 1 when the tabpage or window
@@ -499,7 +460,6 @@ function vim.fn.matchstrpos(expr, pat, start, count) end
 -- 		With {winnr} and {tabnr} use the window in that tabpage.
 -- 		{winnr} can be the window number or the |window-ID|.
 -- 		If {winnr} is -1 it is ignored, only the tab is resolved.
---- @return number
 function vim.fn.haslocaldir(winnr, tabnr) end
 
 -- Returns a list of tags matching the regular expression {expr}.
@@ -543,7 +503,6 @@ function vim.fn.haslocaldir(winnr, tabnr) end
 -- 		Refer to |'tags'| for information about how the tags file is
 -- 		located by Vim. Refer to |tags-file-format| for the format of
 -- 		the tags file generated by the different ctags tools.
---- @return list
 function vim.fn.taglist(expr, filename) end
 
 -- Return the reference count of {expr}.  When {expr} is of a
@@ -552,7 +511,6 @@ function vim.fn.taglist(expr, filename) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetVarname()->test_refcount()
---- @return number
 function vim.fn.test_refcount(expr) end
 
 -- Join the items in {list} together into one String.
@@ -565,7 +523,6 @@ function vim.fn.test_refcount(expr) end
 -- 		converted into a string like with |string()|.
 -- 		The opposite function is |split()|.
 --- @param list any[]
---- @return string
 function vim.fn.join(list, sep) end
 
 -- Returns a list with all the current quickfix errors.  Each
@@ -653,7 +610,6 @@ function vim.fn.join(list, sep) end
 -- 			:echo getqflist({'all': 1})
 -- 			:echo getqflist({'nr': 2, 'title': 1})
 -- 			:echo getqflist({'lines' : ["F1:10:L10"]})
---- @return list
 function vim.fn.getqflist(what) end
 
 -- Remove second and succeeding copies of repeated adjacent
@@ -664,7 +620,6 @@ function vim.fn.getqflist(what) end
 -- 		each item.  For the use of {func} and {dict} see |sort()|.
 --- @param list any[]
 --- @param dict dictionary
---- @return list
 function vim.fn.uniq(list, func, dict) end
 
 -- TODO: Documentation
@@ -685,13 +640,11 @@ function vim.fn.nvim_ui_set_option(name, value) end
 -- 		Can also be used as a |method|: >
 -- 			GetText()->popup_beval({})
 -- <
---- @return number
 function vim.fn.popup_beval(what, options) end
 
 -- Resize the pseudo terminal window of |job-id| {job} to {width}
 -- 		columns and {height} rows.
 -- 		Fails if the job was not started with `"pty":v:true`.
---- @return number
 function vim.fn.jobresize(id, width, height) end
 
 -- The result is a copy of the {src} string with all characters
@@ -706,7 +659,6 @@ function vim.fn.jobresize(id, width, height) end
 -- <		returns "Hello THere" >
 -- 			echo tr("<blob>", "<>", "{}")
 -- <		returns "{blob}"
---- @return string
 function vim.fn.tr(src, fromstr, tostr) end
 
 -- Get the buffer number that {handle} is using for {what}.
@@ -717,12 +669,10 @@ function vim.fn.tr(src, fromstr, tostr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_getbufnr(what)
---- @return number
 function vim.fn.ch_getbufnr(handle, what) end
 
 -- Return the current time, measured as seconds since 1st Jan
 -- 		1970.  See also |strftime()| and |getftime()|.
---- @return number
 function vim.fn.localtime() end
 
 -- Deactivates UI events on the channel.
@@ -735,7 +685,6 @@ function vim.fn.nvim_ui_detach() end
 -- 			[x-pos, y-pos]
 -- 		{timeout} can be used to specify how long to wait in msec for
 -- 		a response from the terminal.  When omitted 100 msec is used.
---- @return list
 function vim.fn.getwinpos(timeout) end
 
 -- The result is a Number, which is |TRUE| when a file with the
@@ -744,7 +693,6 @@ function vim.fn.getwinpos(timeout) end
 -- 		expression, which is used as a String.
 -- 		If you don't care about the file being readable you can use
 -- 		|glob()|.
---- @return number
 function vim.fn.filereadable(file) end
 
 -- Returns a 2-tuple (Array), where item 0 is the current channel
@@ -766,7 +714,6 @@ function vim.fn.nvim_get_api_info() end
 -- <			65536.0 >
 -- 			:echo pow(32, 0.20)
 -- <			2.0
---- @return float
 function vim.fn.pow(x, y) end
 
 -- Returns a positive number if there are available strings
@@ -780,7 +727,6 @@ function vim.fn.pow(x, y) end
 -- 		Examples: >
 -- 			:let repl = ""
 -- 			:echo "PEEK: ".remote_peek(id, "repl").": ".repl
---- @return number
 function vim.fn.remote_peek(serverid, retvar) end
 
 -- The result is a Number, which is the foldlevel of line {lnum}
@@ -791,13 +737,11 @@ function vim.fn.remote_peek(serverid, retvar) end
 -- 		returned for lines where folds are still to be updated and the
 -- 		foldlevel is unknown.  As a special case the level of the
 -- 		previous line is usually available.
---- @return number
 function vim.fn.foldlevel(lnum) end
 
 -- The result is a String, which is the name of the machine on
 -- 		which Vim is currently running.  Machine names greater than
 -- 		256 characters long are truncated.
---- @return string
 function vim.fn.hostname() end
 
 -- Get a single character from the user or input stream.
@@ -857,7 +801,6 @@ function vim.fn.hostname() end
 -- 			:    endif
 -- 			:  endwhile
 -- 			:endfunction
---- @return number
 function vim.fn.getchar(expr) end
 
 -- Return the lowest index in |List| {list} where the item has a
@@ -874,7 +817,6 @@ function vim.fn.getchar(expr) end
 -- 			:let idx = index(words, "the")
 -- 			:if index(numbers, 123) >= 0
 --- @param list any[]
---- @return number
 function vim.fn.index(list, expr, start, ic) end
 
 -- The result is a Number representing the type of {expr}.
@@ -901,7 +843,6 @@ function vim.fn.index(list, expr, start, ic) end
 -- 			:if myvar is v:null
 -- <               To check if the v:t_ variables exist use this: >
 --                         :if exists('v:t_number')
---- @return number
 function vim.fn.type(name) end
 
 -- Return the number of times an item with value {expr} appears
@@ -916,7 +857,6 @@ function vim.fn.type(name) end
 -- 		occurrences of {expr} is returned. Zero is returned when
 -- 		{expr} is an empty string.
 --- @param list any[]
---- @return number
 function vim.fn.count(list, expr, ic, start) end
 
 -- Return a |List| with the lines starting from {lnum} to {end}
@@ -941,12 +881,10 @@ function vim.fn.count(list, expr, ic, start) end
 --
 -- 		Example: >
 -- 			:let lines = getbufline(bufnr("myfile"), 1, "$")
---- @return list
 function vim.fn.getbufline(expr, lnum, _end) end
 
 -- Pops and restores the |context| at the top of the
 -- 		|context-stack|.
---- @return none
 function vim.fn.ctxpop() end
 
 -- The result is a |List|, where each item is the number of the
@@ -960,7 +898,6 @@ function vim.fn.ctxpop() end
 -- 			   call extend(buflist, tabpagebuflist(i + 1))
 -- 			endfor
 -- <		Note that a buffer may appear in more than one window.
---- @return list
 function vim.fn.tabpagebuflist(arg) end
 
 -- Return the logarithm of Float {expr} to base 10 as a |Float|.
@@ -970,7 +907,6 @@ function vim.fn.tabpagebuflist(arg) end
 -- <			3.0 >
 -- 			:echo log10(0.01)
 -- <			-2.0
---- @return float
 function vim.fn.log10(expr) end
 
 -- {feature} argument is a feature name like "nvim-0.2.1" or
@@ -1016,14 +952,12 @@ function vim.fn.log10(expr) end
 -- <		4.  Vim version. For example the "patch-7.4.237" feature means
 -- 		    that Nvim is Vim-compatible to version 7.4.237 or later. >
 -- 			:if has("patch-7.4.237")
---- @return number
 function vim.fn.has(feature) end
 
 -- Return the value of environment variable {name}.
 -- 		When the variable does not exist |v:null| is returned.  That
 -- 		is different from a variable set to an empty string.
 -- 		See also |expr-env|.
---- @return string
 function vim.fn.getenv(name) end
 
 -- Activates UI events on the channel.
@@ -1063,14 +997,12 @@ function vim.fn.json_decode(expr) end
 -- Returns a |Dictionary| representing the |context| at {index}
 -- 		from the top of the |context-stack| (see |context-dict|).
 -- 		If {index} is not given, it is assumed to be 0 (i.e.: top).
---- @return dict
 function vim.fn.ctxget(index) end
 
 -- Returns the full path of {expr} if it is an executable and
 -- 		given as a (partial or full) path or is found in $PATH.
 -- 		Returns empty string otherwise.
 -- 		If {expr} starts with "./" the |current-directory| is used.
---- @return string
 function vim.fn.exepath(expr) end
 
 -- Return an item that represents a time value.  The format of
@@ -1090,7 +1022,6 @@ function vim.fn.exepath(expr) end
 -- 		reltime().
 --
 -- 		Note: |localtime()| returns the current (non-relative) time.
---- @return list
 function vim.fn.reltime(start, _end) end
 
 -- Return the largest integral value with magnitude less than or
@@ -1103,7 +1034,6 @@ function vim.fn.reltime(start, _end) end
 -- <			-5.0  >
 -- 			echo trunc(4.0)
 -- <			4.0
---- @return float
 function vim.fn.trunc(expr) end
 
 -- Start a job and return a Job object.  Unlike |system()| and
@@ -1164,7 +1094,6 @@ function vim.fn.trunc(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			BuildCommand()->job_start()
---- @return job
 function vim.fn.job_start(command, options) end
 
 -- When {actual} is not true an error message is added to
@@ -1174,7 +1103,6 @@ function vim.fn.job_start(command, options) end
 -- 		When {actual} is not a number or |v:true| the assert fails.
 -- 		When {msg} is omitted an error in the form "Expected True but
 -- 		got {actual}" is produced.
---- @return number
 function vim.fn.assert_true(actual, msg) end
 
 -- The result is a Number, which is the size in bytes of the
@@ -1183,12 +1111,10 @@ function vim.fn.assert_true(actual, msg) end
 -- 		If the file {fname} can't be found, -1 is returned.
 -- 		If the size of {fname} is too big to fit in a Number then -2
 -- 		is returned.
---- @return number
 function vim.fn.getfsize(fname) end
 
 -- Returns a String with 64 hex characters, which is the SHA256
 -- 		checksum of {string}.
---- @return string
 function vim.fn.sha256(string) end
 
 -- Send {string} over {handle}.
@@ -1227,7 +1153,6 @@ function vim.fn.ch_evalraw(handle, string, options) end
 -- 		If there are less than {nr} characters -1 is returned.
 -- 		If there are exactly {nr} characters the length of the string
 -- 		in bytes is returned.
---- @return number
 function vim.fn.byteidx(expr, nr) end
 
 -- The result is a dictionary of byte/chars/word statistics for
@@ -1249,7 +1174,6 @@ function vim.fn.byteidx(expr, nr) end
 -- 					(only in Visual mode)
 -- 			visual_words    Number of chars visually selected
 -- 					(only in Visual mode)
---- @return dict
 function vim.fn.wordcount() end
 
 -- Restores a list of matches saved by |getmatches() for the
@@ -1257,7 +1181,6 @@ function vim.fn.wordcount() end
 -- 		current matches are cleared before the list is restored.  See
 -- 		example for |getmatches()|.
 --- @param list any[]
---- @return number
 function vim.fn.setmatches(list) end
 
 -- Call function {funcname} in the run-time library {libname}
@@ -1302,6 +1225,27 @@ function vim.fn.setmatches(list) end
 -- 		Examples: >
 -- 			:echo libcall("libc.so", "getenv", "HOME")
 -- <
---- @return string
 function vim.fn.libcall(lib, func, arg) end
+
+-- Without {end}: Remove the item at {idx} from |List| {list} and
+-- 		return the item.
+-- 		With {end}: Remove items from {idx} to {end} (inclusive) and
+-- 		return a List with these items.  When {idx} points to the same
+-- 		item as {end} a list with one item is returned.  When {end}
+-- 		points to an item before {idx} this is an error.
+-- 		See |list-index| for possible values of {idx} and {end}.
+-- 		Example: >
+-- 			:echo "last item: " . remove(mylist, -1)
+-- 		Remove the entry from {dict} with key {key} and return it.
+-- 		Example: >
+-- 			:echo "removed " . remove(dict, "one")
+-- <		If there is no {key} in {dict} this is an error.
+--
+-- 		Use |delete()| to remove a file.
+--- @param dict dictionary
+function vim.fn.remove(dict, key) end
+
+-- Get the |window-ID| for the popup preview window.
+-- 		Return zero if there is none.
+function vim.fn.popup_findpreview() end
 

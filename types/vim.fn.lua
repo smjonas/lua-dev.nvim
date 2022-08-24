@@ -11,7 +11,6 @@
 -- <			-5.0  >
 -- 			echo ceil(4.0)
 -- <			4.0
---- @return float
 function vim.fn.ceil(expr) end
 
 -- Get the channel handle that {job} is using.
@@ -20,7 +19,6 @@ function vim.fn.ceil(expr) end
 -- <
 -- 		Can also be used as a |method|: >
 -- 			GetJob()->job_getchannel()
---- @return channel
 function vim.fn.job_getchannel(job) end
 
 -- Return a list of signs placed in a buffer or all the buffers.
@@ -83,7 +81,6 @@ function vim.fn.job_getchannel(job) end
 -- 			echo sign_getplaced()
 -- <
 --- @param dict dictionary
---- @return list
 function vim.fn.sign_getplaced(expr, dict) end
 
 -- Evaluate Ruby expression {expr} and return its result
@@ -110,7 +107,6 @@ function vim.fn.rubyeval(expr) end
 -- 			GetSoundPath()->sound_playfile()
 --
 -- <		{only available when compiled with the |+sound| feature}
---- @return number
 function vim.fn.sound_playfile(path, callback) end
 
 -- Return the {options} for popup {id} in a Dict.
@@ -145,17 +141,14 @@ function vim.fn.sound_playfile(path, callback) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPopup()->popup_getoptions()
---- @return dict
 function vim.fn.popup_getoptions(id) end
 
 -- the left hand side of the GUI Vim window.  The result will be
 -- 		-1 if the information is not available.
 -- 		The value can be used with `:winpos`.
---- @return number
 function vim.fn.getwinposx() end
 
 -- Return a |String| that is null. Only useful for testing.
---- @return string
 function vim.fn.test_null_string() end
 
 -- Convert a |readfile()|-style list to a list of VimL objects.
@@ -230,7 +223,6 @@ function vim.fn.test_null_string() end
 -- 			representing extension type. Second is
 -- 			|readfile()|-style list of strings.
 --- @param list any[]
---- @return list
 function vim.fn.msgpackparse(list) end
 
 -- Shorten directory names in the path {expr} and return the
@@ -240,7 +232,6 @@ function vim.fn.msgpackparse(list) end
 -- 			:echo pathshorten('~/.config/nvim/autoload/file1.vim')
 -- <			~/.c/n/a/file1.vim ~
 -- 		It doesn't matter if the path exists or not.
---- @return string
 function vim.fn.pathshorten(expr) end
 
 -- Attach a text property at position {lnum}, {col}.  {col} is
@@ -284,7 +275,6 @@ function vim.fn.pathshorten(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetLnum()->prop_add(col, props)
---- @return none
 function vim.fn.prop_add(lnum, col, props) end
 
 -- Expand special items in {expr} like what is done for an Ex
@@ -293,7 +283,6 @@ function vim.fn.prop_add(lnum, col, props) end
 -- 		{expr}.  Returns the expanded string.
 -- 		Example: >
 -- 			:echo expandcmd('make %<.o')
---- @return string
 function vim.fn.expandcmd(expr) end
 
 -- Return the natural logarithm (base e) of {expr} as a |Float|.
@@ -304,7 +293,6 @@ function vim.fn.expandcmd(expr) end
 -- <			2.302585 >
 -- 			:echo log(exp(5))
 -- <			5.0
---- @return float
 function vim.fn.log(expr) end
 
 -- On MS-Windows, when {filename} is a shortcut (a .lnk file),
@@ -318,7 +306,6 @@ function vim.fn.log(expr) end
 -- 		resolve() keeps a leading path component specifying the
 -- 		current directory (provided the result is still a relative
 -- 		path name) and also keeps a trailing path separator.
---- @return string
 function vim.fn.resolve(filename) end
 
 -- Preserve typeahead (also from mappings) and clear it, so that
@@ -327,7 +314,6 @@ function vim.fn.resolve(filename) end
 -- 		be used several times, in which case there must be just as
 -- 		many inputrestore() calls.
 -- 		Returns 1 when out of memory, 0 otherwise.
---- @return number
 function vim.fn.inputsave() end
 
 -- Like |strpart()| but using character index and length instead
@@ -336,7 +322,6 @@ function vim.fn.inputsave() end
 -- 		exist it is assumed to be one character.  For example: >
 -- 			strcharpart('abc', -1, 2)
 -- <		results in 'a'.
---- @return string
 function vim.fn.strcharpart(str, start, len) end
 
 -- Returns a |List| with Numbers:
@@ -356,7 +341,6 @@ function vim.fn.strcharpart(str, start, len) end
 -- 			range(0)		" []
 -- 			range(2, 0)		" error!
 -- <
---- @return list
 function vim.fn.range(expr, max, stride) end
 
 -- Return the non-negative square root of Float {expr} as a
@@ -369,7 +353,6 @@ function vim.fn.range(expr, max, stride) end
 -- 			:echo sqrt(-4.01)
 -- <			nan
 -- 		"nan" may be different, it depends on system libraries.
---- @return float
 function vim.fn.sqrt(expr) end
 
 -- The result is a Number, which is the height of window {nr}.
@@ -380,7 +363,6 @@ function vim.fn.sqrt(expr) end
 -- 		This excludes any window toolbar line.
 -- 		Examples: >
 --   :echo "The current window has " . winheight(0) . " lines."
---- @return number
 function vim.fn.winheight(nr) end
 
 -- Adds a watcher to a dictionary. A dictionary watcher is
@@ -422,7 +404,6 @@ function vim.fn.winheight(nr) end
 -- 		This function can be used by plugins to implement options with
 -- 		validation and parsing logic.
 --- @param dict dictionary
---- @return start
 function vim.fn.dictwatcheradd(dict, pattern, callback) end
 
 -- The result is a Number, which is the current screen row of the
@@ -431,7 +412,6 @@ function vim.fn.dictwatcheradd(dict, pattern, callback) end
 -- 		Alternatively you can use |winline()|.
 --
 -- 		Note: Same restrictions as with |screencol()|.
---- @return number
 function vim.fn.screenrow() end
 
 -- Return the current command-line.  Only works when the command
@@ -442,7 +422,6 @@ function vim.fn.screenrow() end
 -- <		Also see |getcmdtype()|, |getcmdpos()| and |setcmdpos()|.
 -- 		Returns an empty string when entering a password or using
 -- 		|inputsecret()|.
---- @return string
 function vim.fn.getcmdline() end
 
 -- Move the window {nr} to a new split of the window {target}.
@@ -466,7 +445,6 @@ function vim.fn.getcmdline() end
 -- 		Can also be used as a |method|: >
 -- 			GetWinid()->win_splitmove(target)
 -- <
---- @return number
 function vim.fn.win_splitmove(nr, target, options) end
 
 -- The result is the Number of the current entry in {history}.
@@ -475,7 +453,6 @@ function vim.fn.win_splitmove(nr, target, options) end
 --
 -- 		Example: >
 -- 			:let inp_index = histnr("expr")
---- @return number
 function vim.fn.histnr(history) end
 
 -- Convert {expr} to a Number by omitting the part after the
@@ -497,7 +474,6 @@ function vim.fn.histnr(history) end
 -- <			-2147483647 (or -9223372036854775807) >
 -- 			echo float2nr(1.0e-100)
 -- <			0
---- @return number
 function vim.fn.float2nr(expr) end
 
 -- Set the command to write in a session file to restore the job
@@ -510,7 +486,6 @@ function vim.fn.float2nr(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_setrestore(command)
---- @return none
 function vim.fn.term_setrestore(buf, command) end
 
 -- Add a text property type {name}.  If a property type with this
@@ -537,14 +512,12 @@ function vim.fn.term_setrestore(buf, command) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPropName()->prop_type_add(props)
---- @return none
 function vim.fn.prop_type_add(name, props) end
 
 -- Removes a watcher added  with |dictwatcheradd()|. All three
 -- 		arguments must match the ones passed to |dictwatcheradd()| in
 -- 		order for the watcher to be successfully deleted.
 --- @param dict dictionary
---- @return stop
 function vim.fn.dictwatcherdel(dict, pattern, callback) end
 
 -- Modify the tag stack of the window {nr} using {dict}.
@@ -588,12 +561,10 @@ function vim.fn.dictwatcherdel(dict, pattern, callback) end
 -- 			unlet stack
 -- <
 --- @param dict dictionary
---- @return number
 function vim.fn.settagstack(nr, dict, action) end
 
 -- Returns a list with |window-ID|s for windows that contain
 -- 		buffer {bufnr}.  When there is none the list is empty.
---- @return list
 function vim.fn.win_findbuf(bufnr) end
 
 -- The result is a Number, which is 1 if there is a mapping that
@@ -622,14 +593,12 @@ function vim.fn.win_findbuf(bufnr) end
 -- 			:endif
 -- <		This installs the mapping to "\ABCdoit" only if there isn't
 -- 		already a mapping to "\ABCdoit".
---- @return number
 function vim.fn.hasmapto(what, mode, abbr) end
 
 -- Sends {event} to {channel} via |RPC| and returns immediately.
 -- 		If {channel} is 0, the event is broadcast to all channels.
 -- 		Example: >
 -- 			:au VimLeave call rpcnotify(0, "leaving")
---- @return sends
 function vim.fn.rpcnotify(channel, event, ...) end
 
 -- Return the arc tangent of {expr1} / {expr2}, measured in
@@ -640,7 +609,6 @@ function vim.fn.rpcnotify(channel, event, ...) end
 -- <			-0.785398 >
 -- 			:echo atan2(1, -1)
 -- <			2.356194
---- @return float
 function vim.fn.atan2(expr, expr) end
 
 -- Open a channel to {address}.  See |channel|.
@@ -654,7 +622,6 @@ function vim.fn.atan2(expr, expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetAddress()->ch_open()
---- @return channel
 function vim.fn.ch_open(address, options) end
 
 -- The result is a Dict with the screen position of the text
@@ -672,13 +639,11 @@ function vim.fn.ch_open(address, options) end
 -- 		The "curscol" value is where the cursor would be placed.  For
 -- 		a Tab it would be the same as "endcol", while for a double
 -- 		width character it would be the same as "col".
---- @return dict
 function vim.fn.screenpos(winid, lnum, col) end
 
 -- Stop all timers.  The timer callbacks will no longer be
 -- 		invoked.  Useful if some timers is misbehaving.  If there are
 -- 		no timers there is no error.
---- @return none
 function vim.fn.timer_stopall() end
 
 -- The result is a Number, which is the character at position
@@ -689,7 +654,6 @@ function vim.fn.timer_stopall() end
 -- 		encodings it may only be the first byte.
 -- 		This is mainly to be used for testing.
 -- 		Returns -1 when row or col is out of range.
---- @return number
 function vim.fn.screenchar(row, col) end
 
 -- In a nvim launched with the |--headless| option, this opens
@@ -711,7 +675,6 @@ function vim.fn.screenchar(row, col) end
 -- 		  - The channel ID on success (this is always 1)
 -- 		  - 0 on invalid arguments
 --- @param dict dictionary
---- @return number
 function vim.fn.stdioopen(dict) end
 
 -- Pretend using scrollbar {which} to move it to position
@@ -732,11 +695,9 @@ function vim.fn.stdioopen(dict) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetValue()->test_scrollbar('right', 0)
---- @return none
 function vim.fn.test_scrollbar(which, value, dragging) end
 
 -- Return the PID (process id) of |job-id| {job}.
---- @return number
 function vim.fn.jobpid(id) end
 
 -- Returns a Dictionary with information about {handle}.  The
@@ -767,7 +728,6 @@ function vim.fn.jobpid(id) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_info()
---- @return string
 function vim.fn.ch_info(handle) end
 
 -- Overrides certain parts of Vim's internal processing to be able
@@ -801,7 +761,6 @@ function vim.fn.ch_info(handle) end
 --
 -- <		Can also be used as a |method|: >
 -- 			GetOverrideVal()-> test_override('starting')
---- @return none
 function vim.fn.test_override(expr, val) end
 
 -- Return the arc sine of {expr} measured in radians, as a |Float|
@@ -813,7 +772,6 @@ function vim.fn.test_override(expr, val) end
 -- <			0.927295 >
 -- 			:echo asin(-0.5)
 -- <			-0.523599
---- @return float
 function vim.fn.asin(expr) end
 
 -- Sort the items in {list} in-place.  Returns {list}.
@@ -870,7 +828,6 @@ function vim.fn.asin(expr) end
 -- <
 --- @param list any[]
 --- @param dict dictionary
---- @return list
 function vim.fn.sort(list, func, dict) end
 
 -- The result is a String, which is a description of the kind of
@@ -891,7 +848,6 @@ function vim.fn.sort(list, func, dict) end
 -- <		Note that a type such as "link" will only be returned on
 -- 		systems that support it.  On some systems only "dir" and
 -- 		"file" are returned.
---- @return string
 function vim.fn.getftype(fname) end
 
 -- Returns the |jumplist| for the specified window.
@@ -911,11 +867,9 @@ function vim.fn.getftype(fname) end
 -- 			coladd		column offset for 'virtualedit'
 -- 			filename	filename if available
 -- 			lnum		line number
---- @return list
 function vim.fn.getjumplist(winnr, tabnr) end
 
 -- This is a unique number, until Vim exits.
---- @return number
 function vim.fn.getpid() end
 
 -- a client to a Vim server. |remote_send()|
@@ -923,7 +877,6 @@ function vim.fn.getpid() end
 -- 		allow a window to bring itself to the foreground.  Use
 -- 		|remote_foreground()| instead.
 -- 		{only in the Win32 GUI and console version}
---- @return number
 function vim.fn.foreground() end
 
 -- Set the file permissions for {fname} to {mode}.
@@ -941,7 +894,6 @@ function vim.fn.foreground() end
 -- 		Returns non-zero for success, zero for failure.
 --
 -- 		To read permissions see |getfperm()|.
---- @return number
 function vim.fn.setfperm(fname, mode) end
 
 -- Convert string {expr} to a number.
@@ -954,7 +906,6 @@ function vim.fn.setfperm(fname, mode) end
 -- 		is 8 a leading "0" is ignored, and when {base} is 2 a leading
 -- 		"0b" or "0B" is ignored.
 -- 		Text after the number is silently ignored.
---- @return number
 function vim.fn.str2nr(expr, base) end
 
 -- The result is a Number, which gives the byte index in
@@ -973,13 +924,11 @@ function vim.fn.str2nr(expr, base) end
 -- <							*strrchr()*
 -- 		When used with a single character it works similar to the C
 -- 		function strrchr().
---- @return number
 function vim.fn.strridx(haystack, needle, start) end
 
 -- Bitwise invert.  The argument is converted to a number.  A
 -- 		List, Dict or Float argument causes an error.  Example: >
 -- 			:let bits = invert(bits)
---- @return number
 function vim.fn.invert(expr) end
 
 -- Get the name of the controlling terminal associated with
@@ -991,12 +940,10 @@ function vim.fn.invert(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_gettty()
---- @return string
 function vim.fn.term_gettty(buf, input) end
 
 -- Returns the single letter name of the register being recorded.
 -- 		Returns an empty string string when not recording.  See |q|.
---- @return string
 function vim.fn.reg_recording() end
 
 -- Return a list of command-line completion matches. {type}
@@ -1049,7 +996,6 @@ function vim.fn.reg_recording() end
 --
 -- 		If there are no matches, an empty list is returned.  An
 -- 		invalid value for {type} produces an error.
---- @return list
 function vim.fn.getcompletion(pat, type, filtered) end
 
 -- {expr1} and {expr2} must be both |Lists| or both
@@ -1086,7 +1032,6 @@ function vim.fn.getcompletion(pat, type, filtered) end
 -- 		When {expr1} is locked and {expr2} is not empty the operation
 -- 		fails.
 -- 		Returns {expr1}.
---- @return list/dict
 function vim.fn.extend(expr1, expr2, expr3) end
 
 -- {expr} can be a list or a dictionary.  For a dictionary,
@@ -1094,7 +1039,6 @@ function vim.fn.extend(expr1, expr2, expr3) end
 -- 		If {expr} is neither a list nor a dictionary, or one of the
 -- 		items in {expr} cannot be used as a Number this results in
 -- 		an error.  An empty |List| or |Dictionary| results in zero.
---- @return number
 function vim.fn.min(expr) end
 
 -- Return the line number of the first line at or below {lnum}
@@ -1103,7 +1047,6 @@ function vim.fn.min(expr) end
 -- <		When {lnum} is invalid or there is no non-blank line at or
 -- 		below it, zero is returned.
 -- 		See also |prevnonblank()|.
---- @return number
 function vim.fn.nextnonblank(lnum) end
 
 -- Like |append()| but append the text in buffer {expr}.
@@ -1120,7 +1063,6 @@ function vim.fn.nextnonblank(lnum) end
 -- 		error message is given. Example: >
 -- 			:let failed = appendbufline(13, 0, "# THE START")
 -- <
---- @return number
 function vim.fn.appendbufline(expr, lnum, text) end
 
 -- Returns the text that is displayed for the closed fold at line
@@ -1130,7 +1072,6 @@ function vim.fn.appendbufline(expr, lnum, text) end
 -- 		{lnum} is used like with |getline()|.  Thus "." is the current
 -- 		line, "'m" mark m, etc.
 -- 		Useful when exporting folded text, e.g., to HTML.
---- @return string
 function vim.fn.foldtextresult(lnum) end
 
 -- Get the Job associated with {channel}.
@@ -1139,7 +1080,6 @@ function vim.fn.foldtextresult(lnum) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_getjob()
---- @return job
 function vim.fn.ch_getjob(channel) end
 
 -- The result is a Number, which is the number of the current
@@ -1151,13 +1091,11 @@ function vim.fn.ch_getjob(channel) end
 -- 				|g<Tab>| goes to).  If there is no previous
 -- 				tab page, 0 is returned.
 -- 		The number can be used with the |:tab| command.
---- @return number
 function vim.fn.tabpagenr(arg) end
 
 -- The result is a Number, which is |TRUE| if a buffer called
 -- 		{expr} exists and is loaded (shown in a window or hidden).
 -- 		The {expr} argument is used like with |bufexists()|.
---- @return number
 function vim.fn.bufloaded(expr) end
 
 -- Returns |standard-path| locations of various default files and
@@ -1175,7 +1113,6 @@ function vim.fn.bufloaded(expr) end
 --
 -- 		Example: >
 -- 			:echo stdpath("config")
---- @return string/list
 function vim.fn.stdpath(what) end
 
 -- Create or replace or add to the location list for window {nr}.
@@ -1191,7 +1128,6 @@ function vim.fn.stdpath(what) end
 -- 		only the items listed in {what} are set. Refer to |setqflist()|
 -- 		for the list of supported keys in {what}.
 --- @param list any[]
---- @return number
 function vim.fn.setloclist(nr, list, action, what) end
 
 -- Return the principal value of the arc tangent of {expr}, in
@@ -1202,7 +1138,6 @@ function vim.fn.setloclist(nr, list, action, what) end
 -- <			1.560797 >
 -- 			:echo atan(-4.01)
 -- <			-1.326405
---- @return float
 function vim.fn.atan(expr) end
 
 -- Return the byte count from the start of the buffer for line
@@ -1216,7 +1151,6 @@ function vim.fn.atan(expr) end
 -- 		it is the file size plus one.
 -- 		When {lnum} is invalid -1 is returned.
 -- 		Also see |byte2line()|, |go| and |:goto|.
---- @return number
 function vim.fn.line2byte(lnum) end
 
 -- Returns a String with the status of {job}:
@@ -1235,7 +1169,6 @@ function vim.fn.line2byte(lnum) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetJob()->job_status()
---- @return string
 function vim.fn.job_status(job) end
 
 -- This asserts number and |Float| values.  When {actual}  is lower
@@ -1244,7 +1177,6 @@ function vim.fn.job_status(job) end
 -- 		When {msg} is omitted an error in the form
 -- 		"Expected range {lower} - {upper}, but got {actual}" is
 -- 		produced.
---- @return number
 function vim.fn.assert_inrange(lower, upper, actual, msg) end
 
 -- Create or replace or add to the quickfix list.
@@ -1341,6 +1273,15 @@ function vim.fn.assert_inrange(lower, upper, actual, msg) end
 -- 		independent of the 'errorformat' setting.  Use a command like
 -- 		`:cc 1` to jump to the first position.
 --- @param list any[]
---- @return number
 function vim.fn.setqflist(list, action, what) end
+
+function vim.fn.searchpair(start, middle, _end, flags, ...) end
+
+-- Return 1 if {expr} is a positive infinity, or -1 a negative
+-- 		infinity, otherwise 0. >
+-- 			:echo isinf(1.0 / 0.0)
+-- <			1 >
+-- 			:echo isinf(-1.0 / 0.0)
+-- <			-1
+function vim.fn.isinf(expr) end
 

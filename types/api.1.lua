@@ -3,13 +3,13 @@
 
 -- Writes a message to the Vim output buffer. Does not append "\n", the
 -- message is buffered (won't display) until a linefeed is written.
---- @param str string #Message
+--- @param str any #Message
 function vim.api.nvim_out_write(str) end
 
 -- Parse command line.
---- @param str string #Command line string to parse. Cannot contain "\n".
---- @param opts dictionary #Optional parameters. Reserved for future use.
---- @return any #Dictionary containing command information, with these keys:
+--- @param str any #Command line string to parse. Cannot contain "\n".
+--- @param opts any #Optional parameters. Reserved for future use.
+--- @return #Dictionary containing command information, with these keys:
 ---     • cmd: (string) Command name.
 ---     • range: (array) Command <range>. Can have 0-2 elements depending on
 ---       how many items the range contains. Has no elements if command
@@ -67,8 +67,8 @@ function vim.api.nvim_out_write(str) end
 function vim.api.nvim_parse_cmd(str, opts) end
 
 -- Parse a VimL expression.
---- @param expr string #Expression to parse. Always treated as a single line.
---- @param flags string #Flags:
+--- @param expr any #Expression to parse. Always treated as a single line.
+--- @param flags any #Flags:
 ---                  • "m" if multiple expressions in a row are allowed (only
 ---                    the first one will be parsed),
 ---                  • "E" if EOC tokens are not allowed (determines whether
@@ -80,13 +80,13 @@ function vim.api.nvim_parse_cmd(str, opts) end
 ---                  • "E" to parse like for "<C-r>=".
 ---                  • empty string for ":call".
 ---                  • "lm" to parse for ":let".
---- @param highlight boolean #If true, return value will also include "highlight" key
+--- @param highlight any #If true, return value will also include "highlight" key
 ---                  containing array of 4-tuples (arrays) (Integer, Integer,
 ---                  Integer, String), where first three numbers define the
 ---                  highlighted region and represent line, starting column
 ---                  and ending column (latter exclusive: one should highlight
 ---                  region [start_col, end_col)).
---- @return any #
+--- @return #
 ---     • AST: top-level dictionary with these keys:
 ---       • "error": Dictionary with error, present only if parser saw some
 ---         error. Contains the following keys:
@@ -140,50 +140,50 @@ function vim.api.nvim_parse_cmd(str, opts) end
 function vim.api.nvim_parse_expression(expr, flags, highlight) end
 
 -- Pastes at cursor, in any mode.
---- @param data string #Multiline input. May be binary (containing NUL bytes).
---- @param crlf boolean #Also break lines at CR and CRLF.
---- @param phase integer #-1: paste in a single call (i.e. without streaming). To
+--- @param data any #Multiline input. May be binary (containing NUL bytes).
+--- @param crlf any #Also break lines at CR and CRLF.
+--- @param phase any #-1: paste in a single call (i.e. without streaming). To
 ---              "stream" a paste, call `nvim_paste` sequentially with these `phase` values:
 ---              • 1: starts the paste (exactly once)
 ---              • 2: continues the paste (zero or more times)
 ---              • 3: ends the paste (exactly once)
---- @return any #
+--- @return #
 ---     • true: Client may continue pasting.
 ---     • false: Client must cancel the paste.
 function vim.api.nvim_paste(data, crlf, phase) end
 
 -- Puts text at cursor, in any mode.
---- @param lines string[] #|readfile()|-style list of lines. |channel-lines|
---- @param type string #Edit behavior: any |getregtype()| result, or:
+--- @param lines any #|readfile()|-style list of lines. |channel-lines|
+--- @param type any #Edit behavior: any |getregtype()| result, or:
 ---               • "b" |blockwise-visual| mode (may include width, e.g. "b3")
 ---               • "c" |charwise| mode
 ---               • "l" |linewise| mode
 ---               • "" guess by contents, see |setreg()|
---- @param after boolean #If true insert after cursor (like |p|), or before (like
+--- @param after any #If true insert after cursor (like |p|), or before (like
 ---               |P|).
---- @param follow boolean #If true place cursor at end of inserted text.
+--- @param follow any #If true place cursor at end of inserted text.
 function vim.api.nvim_put(lines, type, after, follow) end
 
 -- Replaces terminal codes and |keycodes| (<CR>, <Esc>, ...) in a string with
 -- the internal representation.
---- @param str string #String to be converted.
---- @param from_part boolean #Legacy Vim parameter. Usually true.
---- @param do_lt boolean #Also translate <lt>. Ignored if `special` is false.
---- @param special boolean #Replace |keycodes|, e.g. <CR> becomes a "\r" char.
+--- @param str any #String to be converted.
+--- @param from_part any #Legacy Vim parameter. Usually true.
+--- @param do_lt any #Also translate <lt>. Ignored if `special` is false.
+--- @param special any #Replace |keycodes|, e.g. <CR> becomes a "\r" char.
 function vim.api.nvim_replace_termcodes(str, from_part, do_lt, special) end
 
 -- Selects an item in the completion popupmenu.
---- @param item integer #Index (zero-based) of the item to select. Value of -1
+--- @param item any #Index (zero-based) of the item to select. Value of -1
 ---               selects nothing and restores the original text.
---- @param insert boolean #Whether the selection should be inserted in the buffer.
---- @param finish boolean #Finish the completion and dismiss the popupmenu. Implies
+--- @param insert any #Whether the selection should be inserted in the buffer.
+--- @param finish any #Finish the completion and dismiss the popupmenu. Implies
 ---               `insert`.
---- @param opts dictionary #Optional parameters. Reserved for future use.
+--- @param opts any #Optional parameters. Reserved for future use.
 function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 
 -- Self-identifies the client.
---- @param name string #Short name for the connected client
---- @param version dictionary #Dictionary describing the version, with these (optional)
+--- @param name any #Short name for the connected client
+--- @param version any #Dictionary describing the version, with these (optional)
 ---                   keys:
 ---                   • "major" major version (defaults to 0 if not set, for
 ---                     no release yet)
@@ -192,7 +192,7 @@ function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 ---                   • "prerelease" string describing a prerelease, like
 ---                     "dev" or "beta1"
 ---                   • "commit" hash or similar identifier of commit
---- @param type string #Must be one of the following values. Client libraries
+--- @param type any #Must be one of the following values. Client libraries
 ---                   should default to "remote" unless overridden by the
 ---                   user.
 ---                   • "remote" remote client connected to Nvim.
@@ -201,7 +201,7 @@ function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 ---                     example, IDE/editor implementing a vim mode).
 ---                   • "host" plugin host, typically started by nvim
 ---                   • "plugin" single plugin, started by nvim
---- @param methods dictionary #Builtin methods in the client. For a host, this does not
+--- @param methods any #Builtin methods in the client. For a host, this does not
 ---                   include plugin methods which will be discovered later.
 ---                   The key should be the method name, the values are dicts
 ---                   with these (optional) keys (more keys may be added in
@@ -213,7 +213,7 @@ function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 ---                   • "nargs" Number of arguments. Could be a single integer
 ---                     or an array of two integers, minimum and maximum
 ---                     inclusive.
---- @param attributes dictionary #Arbitrary string:string map of informal client
+--- @param attributes any #Arbitrary string:string map of informal client
 ---                   properties. Suggested keys:
 ---                   • "website": Client homepage URL (e.g. GitHub
 ---                     repository)
@@ -224,28 +224,28 @@ function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 function vim.api.nvim_set_client_info(name, version, type, methods, attributes) end
 
 -- Sets the current buffer.
---- @param buffer buffer #Buffer handle
+--- @param buffer any #Buffer handle
 function vim.api.nvim_set_current_buf(buffer) end
 
 -- Changes the global working directory.
---- @param dir string #Directory path
+--- @param dir any #Directory path
 function vim.api.nvim_set_current_dir(dir) end
 
 -- Sets the current line.
---- @param line string #Line contents
+--- @param line any #Line contents
 function vim.api.nvim_set_current_line(line) end
 
 -- Sets the current tabpage.
---- @param tabpage tabpage #Tabpage handle
+--- @param tabpage any #Tabpage handle
 function vim.api.nvim_set_current_tabpage(tabpage) end
 
 -- Sets the current window.
---- @param window window #Window handle
+--- @param window any #Window handle
 function vim.api.nvim_set_current_win(window) end
 
 -- Set or change decoration provider for a namespace
---- @param ns_id integer #Namespace id from |nvim_create_namespace()|
---- @param opts table<string, luaref> #Callbacks invoked during redraw:
+--- @param ns_id any #Namespace id from |nvim_create_namespace()|
+--- @param opts any #Callbacks invoked during redraw:
 ---              • on_start: called first on each screen redraw ["start",
 ---                tick]
 ---              • on_buf: called for each buffer being redrawn (before window
@@ -259,10 +259,10 @@ function vim.api.nvim_set_current_win(window) end
 function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 
 -- Sets a highlight group.
---- @param ns_id integer #Namespace id for this highlight |nvim_create_namespace()|.
+--- @param ns_id any #Namespace id for this highlight |nvim_create_namespace()|.
 ---              Use 0 to set a highlight group globally |:highlight|.
---- @param name string #Highlight group name, e.g. "ErrorMsg"
---- @param val dict(highlight) * #Highlight definition map, accepts the following keys:
+--- @param name any #Highlight group name, e.g. "ErrorMsg"
+--- @param val any #Highlight definition map, accepts the following keys:
 ---              • fg (or foreground): color name or "#RRGGBB", see note.
 ---              • bg (or background): color name or "#RRGGBB", see note.
 ---              • sp (or special): color name or "#RRGGBB"
@@ -290,19 +290,19 @@ function vim.api.nvim_set_hl(ns_id, name, val) end
 
 -- Set active namespace for highlights. This can be set for a single window,
 -- see |nvim_win_set_hl_ns|.
---- @param ns_id integer #the namespace to use
+--- @param ns_id any #the namespace to use
 function vim.api.nvim_set_hl_ns(ns_id) end
 
 -- Set active namespace for highlights while redrawing.
---- @param ns_id integer #the namespace to activate
+--- @param ns_id any #the namespace to activate
 function vim.api.nvim_set_hl_ns_fast(ns_id) end
 
 -- Sets a global |mapping| for the given mode.
---- @param mode string #Mode short-name (map command prefix: "n", "i", "v", "x", …) or
+--- @param mode any #Mode short-name (map command prefix: "n", "i", "v", "x", …) or
 ---             "!" for |:map!|, or empty string for |:map|.
---- @param lhs string #Left-hand-side |{lhs}| of the mapping.
---- @param rhs string #Right-hand-side |{rhs}| of the mapping.
---- @param opts dict(keymap) * #Optional parameters map: keys are |:map-arguments|, values are
+--- @param lhs any #Left-hand-side |{lhs}| of the mapping.
+--- @param rhs any #Right-hand-side |{rhs}| of the mapping.
+--- @param opts any #Optional parameters map: keys are |:map-arguments|, values are
 ---             booleans (default false). Accepts all |:map-arguments| as keys
 ---             excluding |<buffer>| but including |noremap| and "desc".
 ---             Unknown key is an error. "desc" can be used to give a
@@ -315,16 +315,16 @@ function vim.api.nvim_set_hl_ns_fast(ns_id) end
 function vim.api.nvim_set_keymap(mode, lhs, rhs, opts) end
 
 -- Sets the global value of an option.
---- @param name string #Option name
---- @param value object #New option value
+--- @param name any #Option name
+--- @param value any #New option value
 function vim.api.nvim_set_option(name, value) end
 
 -- Sets the value of an option. The behavior of this function matches that of
 -- |:set|: for global-local options, both the global and local value are set
 -- unless otherwise specified with {scope}.
---- @param name string #Option name
---- @param value object #New option value
---- @param opts dict(option) * #Optional parameters
+--- @param name any #Option name
+--- @param value any #New option value
+--- @param opts any #Optional parameters
 ---              • scope: One of 'global' or 'local'. Analogous to
 ---                |:setglobal| and |:setlocal|, respectively.
 ---              • win: |window-ID|. Used for setting window local option.
@@ -332,66 +332,66 @@ function vim.api.nvim_set_option(name, value) end
 function vim.api.nvim_set_option_value(name, value, opts) end
 
 -- Sets a global (g:) variable.
---- @param name string #Variable name
---- @param value object #Variable value
+--- @param name any #Variable name
+--- @param value any #Variable value
 function vim.api.nvim_set_var(name, value) end
 
 -- Sets a v: variable, if it is not readonly.
---- @param name string #Variable name
---- @param value object #Variable value
+--- @param name any #Variable name
+--- @param value any #Variable value
 function vim.api.nvim_set_vvar(name, value) end
 
 -- Calculates the number of display cells occupied by `text`. Control
 -- characters including <Tab> count as one cell.
---- @param text string #Some text
---- @return any #Number of cells
+--- @param text any #Some text
+--- @return #Number of cells
 function vim.api.nvim_strwidth(text) end
 
 -- Subscribes to event broadcasts.
---- @param event string #Event type string
+--- @param event any #Event type string
 function vim.api.nvim_subscribe(event) end
 
 -- Removes a tab-scoped (t:) variable
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @param name string #Variable name
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @param name any #Variable name
 function vim.api.nvim_tabpage_del_var(tabpage, name) end
 
 -- Gets the tabpage number
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @return any #Tabpage number
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @return #Tabpage number
 function vim.api.nvim_tabpage_get_number(tabpage) end
 
 -- Gets a tab-scoped (t:) variable
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @param name string #Variable name
---- @return any #Variable value
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @param name any #Variable name
+--- @return #Variable value
 function vim.api.nvim_tabpage_get_var(tabpage, name) end
 
 -- Gets the current window in a tabpage
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @return any #Window handle
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @return #Window handle
 function vim.api.nvim_tabpage_get_win(tabpage) end
 
 -- Checks if a tabpage is valid
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @return any #true if the tabpage is valid, false otherwise
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @return #true if the tabpage is valid, false otherwise
 function vim.api.nvim_tabpage_is_valid(tabpage) end
 
 -- Gets the windows in a tabpage
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @return any #List of windows in `tabpage`
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @return #List of windows in `tabpage`
 function vim.api.nvim_tabpage_list_wins(tabpage) end
 
 -- Sets a tab-scoped (t:) variable
---- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
---- @param name string #Variable name
---- @param value object #Variable value
+--- @param tabpage any #Tabpage handle, or 0 for current tabpage
+--- @param name any #Variable name
+--- @param value any #Variable value
 function vim.api.nvim_tabpage_set_var(tabpage, name, value) end
 
 -- Activates UI events on the channel.
---- @param width integer #Requested screen columns
---- @param height integer #Requested screen rows
---- @param options dictionary #|ui-option| map
+--- @param width any #Requested screen columns
+--- @param height any #Requested screen rows
+--- @param options any #|ui-option| map
 function vim.api.nvim_ui_attach(width, height, options) end
 
 -- Deactivates UI events on the channel.
@@ -399,162 +399,157 @@ function vim.api.nvim_ui_detach() end
 
 -- Tells Nvim the geometry of the popumenu, to align floating windows with an
 -- external popup menu.
---- @param width float #Popupmenu width.
---- @param height float #Popupmenu height.
---- @param row float #Popupmenu row.
---- @param col float #Popupmenu height.
+--- @param width any #Popupmenu width.
+--- @param height any #Popupmenu height.
+--- @param row any #Popupmenu row.
+--- @param col any #Popupmenu height.
 function vim.api.nvim_ui_pum_set_bounds(width, height, row, col) end
 
 -- Tells Nvim the number of elements displaying in the popumenu, to decide
 -- <PageUp> and <PageDown> movement.
---- @param height integer #Popupmenu height, must be greater than zero.
+--- @param height any #Popupmenu height, must be greater than zero.
 function vim.api.nvim_ui_pum_set_height(height) end
 
---- @param name string
---- @param value object
 function vim.api.nvim_ui_set_option(name, value) end
 
---- @param width integer
---- @param height integer
 function vim.api.nvim_ui_try_resize(width, height) end
 
 -- Tell Nvim to resize a grid. Triggers a grid_resize event with the
 -- requested grid size or the maximum size if it exceeds size limits.
---- @param grid integer #The handle of the grid to be changed.
---- @param width integer #The new requested width.
---- @param height integer #The new requested height.
+--- @param grid any #The handle of the grid to be changed.
+--- @param width any #The new requested width.
+--- @param height any #The new requested height.
 function vim.api.nvim_ui_try_resize_grid(grid, width, height) end
 
 -- Unsubscribes to event broadcasts.
---- @param event string #Event type string
+--- @param event any #Event type string
 function vim.api.nvim_unsubscribe(event) end
 
 -- Calls a function with window as temporary current window.
---- @param window window #Window handle, or 0 for current window
---- @param fun luaref #Function to call inside the window (currently lua callable
+--- @param window any #Window handle, or 0 for current window
+--- @param fun any #Function to call inside the window (currently lua callable
 ---               only)
---- @return any #Return value of function. NB: will deepcopy lua values currently, use
+--- @return #Return value of function. NB: will deepcopy lua values currently, use
 ---     upvalues to send lua references in and out.
 function vim.api.nvim_win_call(window, fun) end
 
 -- Closes the window (like |:close| with a |window-ID|).
---- @param window window #Window handle, or 0 for current window
---- @param force boolean #Behave like `:close!` The last window of a buffer with
+--- @param window any #Window handle, or 0 for current window
+--- @param force any #Behave like `:close!` The last window of a buffer with
 ---               unwritten changes can be closed. The buffer will become
 ---               hidden, even if 'hidden' is not set.
 function vim.api.nvim_win_close(window, force) end
 
 -- Removes a window-scoped (w:) variable
---- @param window window #Window handle, or 0 for current window
---- @param name string #Variable name
+--- @param window any #Window handle, or 0 for current window
+--- @param name any #Variable name
 function vim.api.nvim_win_del_var(window, name) end
 
 -- Gets the current buffer in a window
---- @param window window #Window handle, or 0 for current window
---- @return any #Buffer handle
+--- @param window any #Window handle, or 0 for current window
+--- @return #Buffer handle
 function vim.api.nvim_win_get_buf(window) end
 
 -- Gets window configuration.
---- @param window window #Window handle, or 0 for current window
---- @return any #Map defining the window configuration, see |nvim_open_win()|
+--- @param window any #Window handle, or 0 for current window
+--- @return #Map defining the window configuration, see |nvim_open_win()|
 function vim.api.nvim_win_get_config(window) end
 
 -- Gets the (1,0)-indexed cursor position in the window. |api-indexing|
---- @param window window #Window handle, or 0 for current window
---- @return any #(row, col) tuple
+--- @param window any #Window handle, or 0 for current window
+--- @return #(row, col) tuple
 function vim.api.nvim_win_get_cursor(window) end
 
 -- Gets the window height
---- @param window window #Window handle, or 0 for current window
---- @return any #Height as a count of rows
+--- @param window any #Window handle, or 0 for current window
+--- @return #Height as a count of rows
 function vim.api.nvim_win_get_height(window) end
 
 -- Gets the window number
---- @param window window #Window handle, or 0 for current window
---- @return any #Window number
+--- @param window any #Window handle, or 0 for current window
+--- @return #Window number
 function vim.api.nvim_win_get_number(window) end
 
 -- Gets a window option value
---- @param window window #Window handle, or 0 for current window
---- @param name string #Option name
---- @return any #Option value
+--- @param window any #Window handle, or 0 for current window
+--- @param name any #Option name
+--- @return #Option value
 function vim.api.nvim_win_get_option(window, name) end
 
 -- Gets the window position in display cells. First position is zero.
---- @param window window #Window handle, or 0 for current window
---- @return any #(row, col) tuple with the window position
+--- @param window any #Window handle, or 0 for current window
+--- @return #(row, col) tuple with the window position
 function vim.api.nvim_win_get_position(window) end
 
 -- Gets the window tabpage
---- @param window window #Window handle, or 0 for current window
---- @return any #Tabpage that contains the window
+--- @param window any #Window handle, or 0 for current window
+--- @return #Tabpage that contains the window
 function vim.api.nvim_win_get_tabpage(window) end
 
 -- Gets a window-scoped (w:) variable
---- @param window window #Window handle, or 0 for current window
---- @param name string #Variable name
---- @return any #Variable value
+--- @param window any #Window handle, or 0 for current window
+--- @param name any #Variable name
+--- @return #Variable value
 function vim.api.nvim_win_get_var(window, name) end
 
 -- Gets the window width
---- @param window window #Window handle, or 0 for current window
---- @return any #Width as a count of columns
+--- @param window any #Window handle, or 0 for current window
+--- @return #Width as a count of columns
 function vim.api.nvim_win_get_width(window) end
 
 -- Closes the window and hide the buffer it contains (like |:hide| with a
 -- |window-ID|).
---- @param window window #Window handle, or 0 for current window
+--- @param window any #Window handle, or 0 for current window
 function vim.api.nvim_win_hide(window) end
 
 -- Checks if a window is valid
---- @param window window #Window handle, or 0 for current window
---- @return any #true if the window is valid, false otherwise
+--- @param window any #Window handle, or 0 for current window
+--- @return #true if the window is valid, false otherwise
 function vim.api.nvim_win_is_valid(window) end
 
 -- Sets the current buffer in a window, without side effects
---- @param window window #Window handle, or 0 for current window
---- @param buffer buffer #Buffer handle
+--- @param window any #Window handle, or 0 for current window
+--- @param buffer any #Buffer handle
 function vim.api.nvim_win_set_buf(window, buffer) end
 
 -- Configures window layout. Currently only for floating and external windows
 -- (including changing a split window to those layouts).
---- @param window window #Window handle, or 0 for current window
---- @param config dict(float_config) * #Map defining the window configuration, see |nvim_open_win()|
+--- @param window any #Window handle, or 0 for current window
+--- @param config any #Map defining the window configuration, see |nvim_open_win()|
 function vim.api.nvim_win_set_config(window, config) end
 
 -- Sets the (1,0)-indexed cursor position in the window. |api-indexing| This
 -- scrolls the window even if it is not the current one.
---- @param window window #Window handle, or 0 for current window
---- @param pos number[] #(row, col) tuple representing the new position
+--- @param window any #Window handle, or 0 for current window
+--- @param pos any #(row, col) tuple representing the new position
 function vim.api.nvim_win_set_cursor(window, pos) end
 
 -- Sets the window height.
---- @param window window #Window handle, or 0 for current window
---- @param height integer #Height as a count of rows
+--- @param window any #Window handle, or 0 for current window
+--- @param height any #Height as a count of rows
 function vim.api.nvim_win_set_height(window, height) end
 
 -- Set highlight namespace for a window. This will use highlights defined in
 -- this namespace, but fall back to global highlights (ns=0) when missing.
---- @param window window
---- @param ns_id integer #the namespace to use
+--- @param ns_id any #the namespace to use
 function vim.api.nvim_win_set_hl_ns(window, ns_id) end
 
 -- Sets a window option value. Passing `nil` as value deletes the option
 -- (only works if there's a global fallback)
---- @param window window #Window handle, or 0 for current window
---- @param name string #Option name
---- @param value object #Option value
+--- @param window any #Window handle, or 0 for current window
+--- @param name any #Option name
+--- @param value any #Option value
 function vim.api.nvim_win_set_option(window, name, value) end
 
 -- Sets a window-scoped (w:) variable
---- @param window window #Window handle, or 0 for current window
---- @param name string #Variable name
---- @param value object #Variable value
+--- @param window any #Window handle, or 0 for current window
+--- @param name any #Variable name
+--- @param value any #Variable value
 function vim.api.nvim_win_set_var(window, name, value) end
 
 -- Sets the window width. This will only succeed if the screen is split
 -- vertically.
---- @param window window #Window handle, or 0 for current window
---- @param width integer #Width as a count of columns
+--- @param window any #Window handle, or 0 for current window
+--- @param width any #Width as a count of columns
 function vim.api.nvim_win_set_width(window, width) end
 

@@ -1,67 +1,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Round off {expr} to the nearest integral value and return it
--- 		as a |Float|.  If {expr} lies halfway between two integral
--- 		values, then use the larger one (away from zero).
--- 		{expr} must evaluate to a |Float| or a |Number|.
--- 		Examples: >
--- 			echo round(0.456)
--- <			0.0  >
--- 			echo round(4.5)
--- <			5.0 >
--- 			echo round(-4.5)
--- <			-5.0
---- @return float
-function vim.fn.round(expr) end
-
--- Set the function name prefix to be used for the |terminal-api|
--- 		function in terminal {buf}.  For example: >
--- 		    :call term_setapi(buf, "Myapi_")
--- 		    :call term_setapi(buf, "")
--- <
--- 		The default is "Tapi_".  When {expr} is an empty string then
--- 		no |terminal-api| function can be used for {buf}.
---- @return none
-function vim.fn.term_setapi(buf, expr) end
-
--- Perform glob() on all directories in {path} and concatenate
--- 		the results.  Example: >
--- 			:echo globpath(&rtp, "syntax/c.vim")
--- <
--- 		{path} is a comma-separated list of directory names.  Each
--- 		directory name is prepended to {expr} and expanded like with
--- 		|glob()|.  A path separator is inserted when needed.
--- 		To add a comma inside a directory name escape it with a
--- 		backslash.  Note that on MS-Windows a directory may have a
--- 		trailing backslash, remove it if you put a comma after it.
--- 		If the expansion fails for one of the directories, there is no
--- 		error message.
---
--- 		Unless the optional {nosuf} argument is given and is |TRUE|,
--- 		the 'suffixes' and 'wildignore' options apply: Names matching
--- 		one of the patterns in 'wildignore' will be skipped and
--- 		'suffixes' affect the ordering of matches.
---
--- 		When {list} is present and it is |TRUE| the result is a List
--- 		with all matching files. The advantage of using a List is, you
--- 		also get filenames containing newlines correctly. Otherwise
--- 		the result is a String and when there are several matches,
--- 		they are separated by <NL> characters.  Example: >
--- 			:echo globpath(&rtp, "syntax/c.vim", 0, 1)
--- <
--- 		{allinks} is used as with |glob()|.
---
--- 		The "**" item can be used to search in a directory tree.
--- 		For example, to find all "README.txt" files in the directories
--- 		in 'runtimepath' and below: >
--- 			:echo globpath(&rtp, "**/README.txt")
--- <		Upwards search and limiting the depth of "**" is not
--- 		supported, thus using 'path' will not always work properly.
---- @param list any[]
---- @return string
-function vim.fn.globpath(path, expr, nosuf, list, alllinks) end
-
 -- This is similar to |json_decode()| with these differences:
 -- 		- Object key names do not have to be in quotes.
 -- 		- Strings can be in single quotes.
@@ -75,14 +14,12 @@ function vim.fn.js_decode(string) end
 -- Return |TRUE| if {expr} is a float with value NaN. >
 -- 			echo isnan(0.0 / 0.0)
 -- <			1
---- @return number
 function vim.fn.isnan(expr) end
 
 -- current buffer.  The indent is counted in spaces, the value
 -- 		of 'tabstop' is relevant.  {lnum} is used just like in
 -- 		|getline()|.
 -- 		When {lnum} is invalid -1 is returned.
---- @return number
 function vim.fn.indent(lnum) end
 
 -- Return the oldest available reply from {serverid} and consume
@@ -93,14 +30,12 @@ function vim.fn.indent(lnum) end
 -- 		Example: >
 -- 			:echo remote_read(id)
 -- <
---- @return string
 function vim.fn.remote_read(serverid, timeout) end
 
 -- {list}.
 -- 		If you want a list to remain unmodified make a copy first: >
 -- 			:let revlist = reverse(copy(mylist))
 --- @param list any[]
---- @return list
 function vim.fn.reverse(list) end
 
 -- Cleanup unused |Lists| and |Dictionaries| that have circular
@@ -121,7 +56,6 @@ function vim.fn.reverse(list) end
 -- 		The garbage collection is not done immediately but only when
 -- 		it's safe to perform.  This is when waiting for the user to
 -- 		type a character.
---- @return none
 function vim.fn.garbagecollect(atexit) end
 
 -- Returns the number of filler lines above line {lnum}.
@@ -131,7 +65,6 @@ function vim.fn.garbagecollect(atexit) end
 -- 		{lnum} is used like with |getline()|.  Thus "." is the current
 -- 		line, "'m" mark m, etc.
 -- 		Returns 0 if the current window is not in diff mode.
---- @return number
 function vim.fn.diff_filler(lnum) end
 
 -- Return number value of the first char in {expr}.  Examples: >
@@ -144,7 +77,6 @@ function vim.fn.diff_filler(lnum) end
 -- 		{utf8} is ignored, it exists only for backwards-compatibility.
 -- 		A combining character is a separate character.
 -- 		|nr2char()| does the opposite.
---- @return number
 function vim.fn.char2nr(expr, utf8) end
 
 -- When {dict} is omitted or zero: Return the rhs of mapping
@@ -202,7 +134,6 @@ function vim.fn.char2nr(expr, utf8) end
 -- 		mapped, and have it do the original mapping too.  Sketch: >
 -- 			exe 'nnoremap <Tab> ==' . maparg('<Tab>', 'n')
 --- @param dict dictionary
---- @return string
 function vim.fn.maparg(name, mode, abbr, dict) end
 
 -- Stop playing sound {id}.  {id} must be previously returned by
@@ -215,7 +146,6 @@ function vim.fn.maparg(name, mode, abbr, dict) end
 -- 			soundid->sound_stop()
 --
 -- <		{only available when compiled with the |+sound| feature}
---- @return none
 function vim.fn.sound_stop(id) end
 
 -- Unstabilized interface for defining syntax hl in lua.
@@ -237,20 +167,17 @@ function vim.fn.nvim__buf_set_luahl(buffer, opts) end
 -- 		If there is an existing swap file for the file of the buffer,
 -- 		there will be no dialog, the buffer will be loaded anyway.
 -- 		The {expr} argument is used like with |bufexists()|.
---- @return number
 function vim.fn.bufload(expr) end
 
 -- The result is a Number.  If the line {lnum} is in a closed
 -- 		fold, the result is the number of the last line in that fold.
 -- 		If the line {lnum} is not in a closed fold, -1 is returned.
---- @return number
 function vim.fn.foldclosedend(lnum) end
 
 -- Returns non-zero when the popup menu is visible, zero
 -- 		otherwise.  See |ins-completion-menu|.
 -- 		This can be used to avoid some things that would remove the
 -- 		popup menu.
---- @return number
 function vim.fn.pumvisible() end
 
 -- The result is a Number, which is the last modification time of
@@ -258,7 +185,6 @@ function vim.fn.pumvisible() end
 -- 		since 1st Jan 1970, and may be passed to strftime().  See also
 -- 		|localtime()| and |strftime()|.
 -- 		If the file {fname} can't be found -1 is returned.
---- @return number
 function vim.fn.getftime(fname) end
 
 -- Execute Lua code. Parameters (if any) are available as `...`
@@ -288,7 +214,6 @@ function vim.fn.nvim_exec_lua(code, args) end
 -- <			0.13 >
 -- 			:echo fmod(-12.33, 1.22)
 -- <			-0.13
---- @return float
 function vim.fn.fmod(expr1, expr2) end
 
 -- Send {expr} over {handle}.  The {expr} is encoded
@@ -319,7 +244,6 @@ function vim.fn.ch_evalexpr(handle, expr, options) end
 -- 		Otherwise {winid} specifies the window of which the argument
 -- 		list is used: either the window number or the window ID.
 -- 		Returns -1 if the {winid} argument is invalid.
---- @return number
 function vim.fn.argc(winid) end
 
 -- Evaluate Python expression {expr} and return its result
@@ -336,11 +260,9 @@ function vim.fn.pyxeval(expr) end
 -- <			0.462117 >
 -- 			:echo tanh(-1)
 -- <			-0.761594
---- @return float
 function vim.fn.tanh(expr) end
 
 -- Returns the size of the |context-stack|.
---- @return number
 function vim.fn.ctxsize() end
 
 -- Get the amount of indent for line {lnum} according the lisp
@@ -349,11 +271,9 @@ function vim.fn.ctxsize() end
 -- 		relevant.  {lnum} is used just like in |getline()|.
 -- 		When {lnum} is invalid or Vim was not compiled the
 -- 		|+lispindent| feature, -1 is returned.
---- @return number
 function vim.fn.lispindent(lnum) end
 
 -- windows for the current tab and global popups.
---- @return none
 function vim.fn.popup_clear() end
 
 -- Return the number of the most recent change.  This is the same
@@ -362,7 +282,6 @@ function vim.fn.popup_clear() end
 -- 		When a change was made it is the number of that change.  After
 -- 		redo it is the number of the redone change.  After undo it is
 -- 		one less than the number of the undone change.
---- @return number
 function vim.fn.changenr() end
 
 -- Just like |libcall()|, but used for a function that returns an
@@ -372,12 +291,10 @@ function vim.fn.changenr() end
 -- 			:call libcallnr("libc.so", "printf", "Hello World!\n")
 -- 			:call libcallnr("libc.so", "sleep", 10)
 -- <
---- @return number
 function vim.fn.libcallnr(lib, func, arg) end
 
 -- Report a test failure directly, using {msg}.
 -- 		Always returns one.
---- @return number
 function vim.fn.assert_report(msg) end
 
 -- Get a list of defined signs and their attributes.
@@ -409,11 +326,9 @@ function vim.fn.assert_report(msg) end
 --
 -- 			" Get the attribute of the sign named mySign
 -- 			echo sign_getdefined("mySign")
---- @return list
 function vim.fn.sign_getdefined(name) end
 
 -- for the current buffer.  This is the 'tags' option expanded.
---- @return list
 function vim.fn.tagfiles() end
 
 -- Remove all text properties from line {lnum}.
@@ -428,7 +343,6 @@ function vim.fn.tagfiles() end
 -- 		Can also be used as a |method|: >
 -- 			GetLnum()->prop_clear()
 -- <
---- @return none
 function vim.fn.prop_clear(lnum, lnum_end, props) end
 
 -- Create a timer and return the timer ID.
@@ -455,7 +369,6 @@ function vim.fn.prop_clear(lnum, lnum_end, props) end
 -- 			let timer = timer_start(500, 'MyHandler',
 -- 				\ {'repeat': 3})
 -- <		This invokes MyHandler() three times at 500 msec intervals.
---- @return number
 function vim.fn.timer_start(time, callback, options) end
 
 -- Remove a listener previously added with listener_add().
@@ -464,11 +377,9 @@ function vim.fn.timer_start(time, callback, options) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetListenerId()->listener_remove()
---- @return none
 function vim.fn.listener_remove(id) end
 
 --- @param list any[]
---- @return list
 function vim.fn.sign_placelist(list) end
 
 -- Pushes the current editor state (|context|) on the
@@ -476,7 +387,6 @@ function vim.fn.sign_placelist(list) end
 -- 		If {types} is given and is a |List| of |String|s, it specifies
 -- 		which |context-types| to include in the pushed context.
 -- 		Otherwise, all context types are included.
---- @return none
 function vim.fn.ctxpush(types) end
 
 -- Filter that can be used for a popup. These keys can be used:
@@ -496,7 +406,6 @@ function vim.fn.ctxpush(types) end
 --
 -- 		To add shortcut keys, see the example here:
 -- 		|popup_menu-shortcut-example|
---- @return number
 function vim.fn.popup_filter_menu(id, key) end
 
 -- Same as |matchadd()|, but requires a list of positions {pos}
@@ -535,7 +444,6 @@ function vim.fn.popup_filter_menu(id, key) end
 -- 		|getmatches()| with an entry "pos1", "pos2", etc., with the
 -- 		value a list like the {pos} item.
 --- @param list any[]
---- @return number
 function vim.fn.matchaddpos(group, list, priority, id) end
 
 -- Positions the cursor at the column (byte count) {col} in the
@@ -565,7 +473,6 @@ function vim.fn.matchaddpos(group, list, priority, id) end
 -- 		position within a <Tab> or after the last character.
 -- 		Returns 0 when the position could be set, -1 otherwise.
 --- @param list any[]
---- @return number
 function vim.fn.cursor(list) end
 
 -- Convert a file pattern, as used by glob(), into a search
@@ -578,7 +485,6 @@ function vim.fn.cursor(list) end
 -- 		empty string.
 -- 		Note that the result depends on the system.  On MS-Windows
 -- 		a backslash usually means a path separator.
---- @return string
 function vim.fn.glob2regpat(expr) end
 
 -- Connect a socket to an address. If {mode} is "pipe" then
@@ -600,7 +506,6 @@ function vim.fn.glob2regpat(expr) end
 -- 		Returns:
 -- 		  - The channel ID on success (greater than zero)
 -- 		  - 0 on invalid arguments or connection failure.
---- @return number
 function vim.fn.sockconnect(mode, address, opts) end
 
 -- When the files {fname-one} and {fname-two} do not contain
@@ -608,7 +513,6 @@ function vim.fn.sockconnect(mode, address, opts) end
 -- 		Also see |assert-return|.
 -- 		When {fname-one} or {fname-two} does not exist the error will
 -- 		mention that.
---- @return number
 function vim.fn.assert_equalfile(fname_one, fname_two) end
 
 -- the default function used for the 'foldtext' option and should
@@ -624,7 +528,6 @@ function vim.fn.assert_equalfile(fname_one, fname_two) end
 -- 		When used to draw the actual foldtext, the rest of the line
 -- 		will be filled with the fold char from the 'fillchars'
 -- 		setting.
---- @return string
 function vim.fn.foldtext() end
 
 -- Evaluate Python expression {expr} and return its result
@@ -647,7 +550,6 @@ function vim.fn.py3eval(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetTime()->test_settime()
---- @return none
 function vim.fn.test_settime(expr) end
 
 -- Make a |List| out of {expr}.  When {pattern} is omitted or
@@ -671,7 +573,6 @@ function vim.fn.test_settime(expr) end
 -- 		Splitting a table where the first element can be empty: >
 -- 			:let items = split(line, ':', 1)
 -- <		The opposite function is |join()|.
---- @return list
 function vim.fn.split(expr, pat, keepempty) end
 
 -- The result is a Number, which is the screen column of the file
@@ -709,7 +610,6 @@ function vim.fn.split(expr, pat, keepempty) end
 -- 		A more advanced example that echoes the maximum length of
 -- 		all lines: >
 -- 		    echo max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
---- @return number
 function vim.fn.virtcol(expr) end
 
 -- Set the position for {expr}.  Possible values:
@@ -759,7 +659,6 @@ function vim.fn.virtcol(expr) end
 -- 		also set the preferred column.  Also see the "curswant" key in
 -- 		|winrestview()|.
 --- @param list any[]
---- @return number
 function vim.fn.setpos(expr, list) end
 
 -- Just like |function()|, but the returned Funcref will lookup
@@ -770,14 +669,12 @@ function vim.fn.setpos(expr, list) end
 -- 		Also for autoloaded functions. {name} cannot be a builtin
 -- 		function.
 --- @param dict dictionary
---- @return funcref
 function vim.fn.funcref(name, arglist, dict) end
 
 -- Restore typeahead that was saved with a previous |inputsave()|.
 -- 		Should be called the same number of times inputsave() is
 -- 		called.  Calling it more often is harmless though.
 -- 		Returns 1 when there is nothing to restore, 0 otherwise.
---- @return number
 function vim.fn.inputrestore() end
 
 -- Return the current command-line type. Possible return values
@@ -793,7 +690,6 @@ function vim.fn.inputrestore() end
 -- 		|c_CTRL-\_e| or |c_CTRL-R_=| or an expression mapping.
 -- 		Returns an empty string otherwise.
 -- 		Also see |getcmdpos()|, |setcmdpos()| and |getcmdline()|.
---- @return string
 function vim.fn.getcmdtype() end
 
 -- When {expr} is a String or a Number the length in bytes is
@@ -804,7 +700,6 @@ function vim.fn.getcmdtype() end
 -- 		When {expr} is a |Dictionary| the number of entries in the
 -- 		|Dictionary| is returned.
 -- 		Otherwise an error is given.
---- @return number
 function vim.fn.len(expr) end
 
 -- Change the current working directory to {dir}.  The scope of
@@ -829,7 +724,6 @@ function vim.fn.len(expr) end
 --
 -- <		Can also be used as a |method|: >
 -- 			GetDir()->chdir()
---- @return string
 function vim.fn.chdir(dir) end
 
 -- Set prompt for buffer {buf} to {text}.  You most likely want
@@ -837,7 +731,6 @@ function vim.fn.chdir(dir) end
 -- 		The result is only visible if {buf} has 'buftype' set to
 -- 		"prompt".  Example: >
 -- 			call prompt_setprompt(bufnr(''), 'command: ')
---- @return none
 function vim.fn.prompt_setprompt(buf, text) end
 
 -- Get the Job associated with terminal window {buf}.
@@ -846,7 +739,6 @@ function vim.fn.prompt_setprompt(buf, text) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_getjob()
---- @return job
 function vim.fn.term_getjob(buf) end
 
 -- The result is a List of Numbers.  The first number is the same
@@ -857,14 +749,12 @@ function vim.fn.term_getjob(buf) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetRow()->screenchars(col)
---- @return list
 function vim.fn.screenchars(row, col) end
 
 -- Sends a request to {channel} to invoke {method} via
 -- 		|RPC| and blocks until a response is received.
 -- 		Example: >
 -- 			:let result = rpcrequest(rpc_chan, "func", 1, 2, 3)
---- @return sends
 function vim.fn.rpcrequest(channel, method, ...) end
 
 -- Return the argument list ID.  This is a number which
@@ -877,7 +767,6 @@ function vim.fn.rpcrequest(channel, method, ...) end
 -- 		With {winnr} and {tabnr} use the window in the specified tab
 -- 		page.
 -- 		{winnr} can be the window number or the |window-ID|.
---- @return number
 function vim.fn.arglistid(winnr, tabnr) end
 
 -- Return a Float that represents the time value of {time}.
@@ -888,7 +777,6 @@ function vim.fn.arglistid(winnr, tabnr) end
 -- 			let seconds = reltimefloat(reltime(start))
 -- 		See the note of reltimestr() about overhead.
 --  		Also see |profiling|.
---- @return float
 function vim.fn.reltimefloat(time) end
 
 -- Return non-zero when there is something to read from {handle}.
@@ -902,7 +790,6 @@ function vim.fn.reltimefloat(time) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_canread()
---- @return number
 function vim.fn.ch_canread(handle) end
 
 -- Ignore any error containing {expr}.  A normal message is given
@@ -916,7 +803,6 @@ function vim.fn.ch_canread(handle) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetErrorText()->test_ignore_error()
---- @return none
 function vim.fn.test_ignore_error(expr) end
 
 -- Read file {fname} and return a |List|, each line of the file
@@ -947,7 +833,6 @@ function vim.fn.test_ignore_error(expr) end
 -- 		When the file can't be opened an error message is given and
 -- 		the result is an empty list.
 -- 		Also see |writefile()|.
---- @return list
 function vim.fn.readfile(fname, binary, max) end
 
 -- Show the {what} near the cursor, handle selecting one of the
@@ -980,7 +865,6 @@ function vim.fn.readfile(fname, binary, max) end
 --
 -- <		Can also be used as a |method|: >
 -- 			GetChoices()->popup_menu({})
---- @return number
 function vim.fn.popup_menu(what, options) end
 
 -- The result is a Number, which is the width of window {nr}.
@@ -995,7 +879,6 @@ function vim.fn.popup_menu(what, options) end
 --   :endif
 -- <		For getting the terminal or screen size, see the 'columns'
 -- 		option.
---- @return number
 function vim.fn.winwidth(nr) end
 
 -- Expand the file wildcards in {expr}.  See |wildcards| for the
@@ -1049,13 +932,11 @@ function vim.fn.glob(expr, nosuf, list, alllinks) end
 --
 -- <		{only available when compiled with GUI enabled and/or the
 -- 		|+termguicolors| feature}
---- @return list
 function vim.fn.term_getansicolors(buf) end
 
 -- Stop a timer.  The timer callback will no longer be invoked.
 -- 		{timer} is an ID returned by timer_start(), thus it must be a
 -- 		Number.  If {timer} does not exist there is no error.
---- @return none
 function vim.fn.timer_stop(timer) end
 
 -- Return a list containing the number values which represent
@@ -1069,7 +950,6 @@ function vim.fn.timer_stop(timer) end
 -- 		characters.  With utf-8 composing characters are handled
 -- 		properly: >
 -- 			str2list("á")		returns [97, 769]
---- @return list
 function vim.fn.str2list(expr, utf8) end
 
 -- The result is the name of a buffer, as it is displayed by the
@@ -1099,7 +979,6 @@ function vim.fn.str2list(expr, utf8) end
 -- 	bufname(3)		name of buffer 3
 -- 	bufname("%")		name of current buffer
 -- 	bufname("file2")	name of buffer where "file2" matches.
---- @return string
 function vim.fn.bufname(expr) end
 
 -- Remove the text property type {name}.  When text properties
@@ -1116,13 +995,11 @@ function vim.fn.bufname(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPropName()->prop_type_delete()
---- @return none
 function vim.fn.prop_type_delete(name, props) end
 
 -- The result is a Number.  If the line {lnum} is in a closed
 -- 		fold, the result is the number of the first line in that fold.
 -- 		If the line {lnum} is not in a closed fold, -1 is returned.
---- @return number
 function vim.fn.foldclosed(lnum) end
 
 -- This function acts much like the |input()| function with but
@@ -1134,7 +1011,6 @@ function vim.fn.foldclosed(lnum) end
 -- 		The result is a String, which is whatever the user actually
 -- 		typed on the command-line in response to the issued prompt.
 -- 		NOTE: Command-line completion is not supported.
---- @return string
 function vim.fn.inputsecret(prompt, text) end
 
 -- Set the mouse position to be used for the next mouse action.
@@ -1142,7 +1018,6 @@ function vim.fn.inputsecret(prompt, text) end
 -- 		For example: >
 -- 			call test_setmouse(4, 20)
 -- 			call feedkeys("\<LeftMouse>", "xt")
---- @return none
 function vim.fn.test_setmouse(row, col) end
 
 -- Same as |match()|, but return a |List|.  The first item in the
@@ -1153,7 +1028,6 @@ function vim.fn.test_setmouse(row, col) end
 -- 			echo matchlist('acd', '\(a\)\?\(b\)\?\(c\)\?\(.*\)')
 -- <		Results in: ['acd', 'a', '', 'c', 'd', '', '', '', '', '']
 -- 		When there is no match an empty list is returned.
---- @return list
 function vim.fn.matchlist(expr, pat, start, count) end
 
 -- Return the position of the cursor in the command line as a
@@ -1162,7 +1036,6 @@ function vim.fn.matchlist(expr, pat, start, count) end
 -- 		|c_CTRL-\_e| or |c_CTRL-R_=| or an expression mapping.
 -- 		Returns 0 otherwise.
 -- 		Also see |getcmdtype()|, |setcmdpos()| and |getcmdline()|.
---- @return number
 function vim.fn.getcmdpos() end
 
 -- If [expr] is supplied and it evaluates to a non-zero Number or
@@ -1205,7 +1078,6 @@ function vim.fn.getcmdpos() end
 -- 		be added. It's better not to compare the whole string but only
 -- 		the leading character(s).
 -- 		Also see |visualmode()|.
---- @return string
 function vim.fn.mode(expr) end
 
 -- Return {text} as a String where any character in {mask} is
@@ -1222,7 +1094,6 @@ function vim.fn.mode(expr) end
 -- <		returns "RESERVE_TAIL" >
 -- 			echo trim("rm<Xrm<>X>rrm", "rm<>")
 -- <		returns "Xrm<>X" (characters in the middle are not removed)
---- @return string
 function vim.fn.trim(text, mask) end
 
 -- with name {name}.  When the highlight group doesn't exist,
@@ -1231,11 +1102,9 @@ function vim.fn.trim(text, mask) end
 -- 		group.  For example, to get the background color of the
 -- 		"Comment" group: >
 -- 	:echo synIDattr(synIDtrans(hlID("Comment")), "bg")
---- @return number
 function vim.fn.hlID(name) end
 
 -- Return a |Partial| that is null. Only useful for testing.
---- @return funcref
 function vim.fn.test_null_partial() end
 
 -- Return the largest integral value less than or equal to
@@ -1248,7 +1117,6 @@ function vim.fn.test_null_partial() end
 -- <			-6.0  >
 -- 			echo floor(4.0)
 -- <			4.0
---- @return float
 function vim.fn.floor(expr) end
 
 -- Set prompt callback for buffer {buf} to {expr}.  When {expr}
@@ -1278,7 +1146,6 @@ function vim.fn.floor(expr) end
 -- 		       set nomodified
 -- 		     endif
 -- 		   endfunc
---- @return none
 function vim.fn.prompt_setcallback(buf, expr) end
 
 -- Like |gettabwinvar()| for the current tabpage.
@@ -1286,4 +1153,112 @@ function vim.fn.prompt_setcallback(buf, expr) end
 -- 			:let list_is_on = getwinvar(2, '&list')
 -- 			:echo "myvar = " . getwinvar(1, 'myvar')
 function vim.fn.getwinvar(nr, varname, def) end
+
+-- Deletes a match with ID {id} previously defined by |matchadd()|
+-- 		or one of the |:match| commands.  Returns 0 if successful,
+-- 		otherwise -1.  See example for |matchadd()|.  All matches can
+-- 		be deleted in one operation by |clearmatches()|.
+function vim.fn.matchdelete(id) end
+
+-- Return the position and size of popup {id}.  Returns a Dict
+-- 		with these entries:
+-- 		    col		screen column of the popup, one-based
+-- 		    line	screen line of the popup, one-based
+-- 		    width	width of the whole popup in screen cells
+-- 		    height	height of the whole popup in screen cells
+-- 		    core_col	screen column of the text box
+-- 		    core_line	screen line of the text box
+-- 		    core_width	width of the text box in screen cells
+-- 		    core_height	height of the text box in screen cells
+-- 		    firstline	line of the buffer at top (1 unless scrolled)
+-- 				(not the value of the "firstline" property)
+-- 		    lastline	line of the buffer at the bottom (updated when
+-- 				the popup is redrawn)
+-- 		    scrollbar	non-zero if a scrollbar is displayed
+-- 		    visible	one if the popup is displayed, zero if hidden
+-- 		Note that these are the actual screen positions.  They differ
+-- 		from the values in `popup_getoptions()` for the sizing and
+-- 		positioning mechanism applied.
+--
+-- 		The "core_" values exclude the padding and border.
+--
+-- 		If popup window {id} is not found an empty Dict is returned.
+--
+-- 		Can also be used as a |method|: >
+-- 			GetPopup()->popup_getpos()
+function vim.fn.popup_getpos(id) end
+
+-- Selects the {nr} match item, as set with a |:match|,
+-- 		|:2match| or |:3match| command.
+-- 		Return a |List| with two elements:
+-- 			The name of the highlight group used
+-- 			The pattern used.
+-- 		When {nr} is not 1, 2 or 3 returns an empty |List|.
+-- 		When there is no match item set returns ['', ''].
+-- 		This is useful to save and restore a |:match|.
+-- 		Highlighting matches using the |:match| commands are limited
+-- 		to three matches. |matchadd()| does not have this limitation.
+function vim.fn.matcharg(nr) end
+
+-- Return the tangent of {expr}, measured in radians, as a |Float|
+-- 		in the range [-inf, inf].
+-- 		{expr} must evaluate to a |Float| or a |Number|.
+-- 		Examples: >
+-- 			:echo tan(10)
+-- <			0.648361 >
+-- 			:echo tan(-4.01)
+-- <			-1.181502
+function vim.fn.tan(expr) end
+
+-- Clears all matches previously defined for the current window
+-- 		by |matchadd()| and the |:match| commands.
+function vim.fn.clearmatches() end
+
+-- Set the register {regname} to {value}.
+-- 		{value} may be any value returned by |getreg()|, including
+-- 		a |List|.
+-- 		If {options} contains "a" or {regname} is upper case,
+-- 		then the value is appended.
+-- 		{options} can also contain a register type specification:
+-- 		    "c" or "v"	      |charwise| mode
+-- 		    "l" or "V"	      |linewise| mode
+-- 		    "b" or "<CTRL-V>" |blockwise-visual| mode
+-- 		If a number immediately follows "b" or "<CTRL-V>" then this is
+-- 		used as the width of the selection - if it is not specified
+-- 		then the width of the block is set to the number of characters
+-- 		in the longest line (counting a <Tab> as 1 character).
+-- 		If {options} contains "u" or '"', then the unnamed register is
+-- 		set to point to register {regname}.
+--
+-- 		If {options} contains no register settings, then the default
+-- 		is to use character mode unless {value} ends in a <NL> for
+-- 		string {value} and linewise mode for list {value}. Blockwise
+-- 		mode is never selected automatically.
+-- 		Returns zero for success, non-zero for failure.
+--
+-- 							*E883*
+-- 		Note: you may not use |List| containing more than one item to
+-- 		      set search and expression registers. Lists containing no
+-- 		      items act like empty strings.
+--
+-- 		Examples: >
+-- 			:call setreg(v:register, @*)
+-- 			:call setreg('*', @%, 'ac')
+-- 			:call setreg('a', "1\n2\n3", 'b5')
+--
+-- <		This example shows using the functions to save and restore a
+-- 		register: >
+-- 			:let var_a = getreg('a', 1, 1)
+-- 			:let var_amode = getregtype('a')
+-- 			    ....
+-- 			:call setreg('a', var_a, var_amode)
+-- <		Note: you may not reliably restore register value
+-- 		without using the third argument to |getreg()| as without it
+-- 		newlines are represented as newlines AND Nul bytes are
+-- 		represented as newlines as well, see |NL-used-for-Nul|.
+--
+-- 		You can also change the type of a register by appending
+-- 		nothing: >
+-- 			:call setreg('a', '', 'al')
+function vim.fn.setreg(n, v, opt) end
 

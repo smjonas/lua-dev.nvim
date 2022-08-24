@@ -1,29 +1,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Without {end}: Remove the item at {idx} from |List| {list} and
--- 		return the item.
--- 		With {end}: Remove items from {idx} to {end} (inclusive) and
--- 		return a List with these items.  When {idx} points to the same
--- 		item as {end} a list with one item is returned.  When {end}
--- 		points to an item before {idx} this is an error.
--- 		See |list-index| for possible values of {idx} and {end}.
--- 		Example: >
--- 			:echo "last item: " . remove(mylist, -1)
--- 		Remove the entry from {dict} with key {key} and return it.
--- 		Example: >
--- 			:echo "removed " . remove(dict, "one")
--- <		If there is no {key} in {dict} this is an error.
---
--- 		Use |delete()| to remove a file.
---- @param dict dictionary
-function vim.fn.remove(dict, key) end
-
--- Get the |window-ID| for the popup preview window.
--- 		Return zero if there is none.
---- @return number
-function vim.fn.popup_findpreview() end
-
 -- Waits until {condition} evaluates to |TRUE|, where {condition}
 -- 		is a |Funcref| or |string| containing an expression.
 --
@@ -38,7 +15,6 @@ function vim.fn.popup_findpreview() end
 -- 			-1 if the timeout was exceeded
 -- 			-2 if the function was interrupted (by |CTRL-C|)
 -- 			-3 if an error occurred
---- @return number
 function vim.fn.wait(timeout, condition, interval) end
 
 -- Set the size of terminal {buf}. The size of the window
@@ -52,7 +28,6 @@ function vim.fn.wait(timeout, condition, interval) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_setsize(rows, cols)
---- @return none
 function vim.fn.term_setsize(buf, rows, cols) end
 
 -- When {actual} is not false an error message is added to
@@ -62,7 +37,6 @@ function vim.fn.term_setsize(buf, rows, cols) end
 -- 		is not a number or |v:false| the assert fails.
 -- 		When {msg} is omitted an error in the form
 -- 		"Expected False but got {actual}" is produced.
---- @return number
 function vim.fn.assert_false(actual, msg) end
 
 -- Like `execute()` but in the context of window {id}.
@@ -81,7 +55,6 @@ function vim.fn.assert_false(actual, msg) end
 -- 		Can also be used as a |method|, the base is passed as the
 -- 		second argument: >
 -- 			GetCommand()->win_execute(winid)
---- @return string
 function vim.fn.win_execute(id, command, silent) end
 
 -- Send the {string} to {server}.  The string is sent as input
@@ -104,7 +77,6 @@ function vim.fn.win_execute(id, command, silent) end
 -- 		:echo remote_send("gvim", ":sleep 10 | echo ".
 -- 		 \ 'server2client(expand("<client>"), "HELLO")<CR>')
 -- <
---- @return string
 function vim.fn.remote_send(server, string, idvar) end
 
 -- The result is a Number, which is non-zero if a highlight group
@@ -112,17 +84,14 @@ function vim.fn.remote_send(server, string, idvar) end
 -- 		defined in some way.  Not necessarily when highlighting has
 -- 		been defined for it, it may also have been used for a syntax
 -- 		item.
---- @return number
 function vim.fn.hlexists(name) end
 
 -- Return a |Dict| that is null. Only useful for testing.
---- @return dict
 function vim.fn.test_null_dict() end
 
 -- The result is a copy of the String given, with all uppercase
 -- 		characters turned into lowercase (just like applying |gu| to
 -- 		the string).
---- @return string
 function vim.fn.tolower(expr) end
 
 -- Check if there is a mapping that matches with {name} in mode
@@ -156,7 +125,6 @@ function vim.fn.tolower(expr) end
 -- 	:endif
 -- <		This avoids adding the "_vv" mapping when there already is a
 -- 		mapping for "_v" or for "_vvv".
---- @return string
 function vim.fn.mapcheck(name, mode, abbr) end
 
 -- With no arguments the result is a String, which is the name of
@@ -170,7 +138,6 @@ function vim.fn.mapcheck(name, mode, abbr) end
 -- 			getcwd(0, 0)
 -- <		If {winnr} is -1 it is ignored, only the tab is resolved.
 -- 		{winnr} can be the window number or the |window-ID|.
---- @return string
 function vim.fn.getcwd(winnr, tabnr) end
 
 -- Returns a list with all property type names.
@@ -179,7 +146,6 @@ function vim.fn.getcwd(winnr, tabnr) end
 -- 		this buffer instead of the global property types.
 --
 -- 		See |text-properties| for information about text properties.
---- @return list
 function vim.fn.prop_type_list(props) end
 
 -- Waits for jobs and their |on_exit| handlers to complete.
@@ -201,7 +167,6 @@ function vim.fn.prop_type_list(props) end
 -- 			-1 if the timeout was exceeded
 -- 			-2 if the job was interrupted (by |CTRL-C|)
 -- 			-3 if the job-id is invalid
---- @return number
 function vim.fn.jobwait(ids, timeout) end
 
 -- Search for regexp pattern {pattern}.  The search starts at the
@@ -287,7 +252,6 @@ function vim.fn.jobwait(ids, timeout) end
 -- 		finds the "endif" and returns 3.  The same thing happens
 -- 		without the 'e' flag if the cursor is on the "f" of "if".
 -- 		The 'n' flag tells the function not to move the cursor.
---- @return number
 function vim.fn.search(pattern, flags, stopline, timeout) end
 
 -- Returns |TRUE| when the wildmenu is active and |FALSE|
@@ -299,7 +263,6 @@ function vim.fn.search(pattern, flags, stopline, timeout) end
 --     :cnoremap <expr> <C-j> wildmenumode() ? "\<Down>\<Tab>" : "\<c-j>"
 -- <
 -- 		(Note, this needs the 'wildcharm' option set appropriately).
---- @return number
 function vim.fn.wildmenumode() end
 
 -- Return a |List| with spelling suggestions to replace {word}.
@@ -322,7 +285,6 @@ function vim.fn.wildmenumode() end
 -- 		The spelling information for the current window is used.  The
 -- 		'spell' option must be set and the values of 'spelllang' and
 -- 		'spellsuggest' are used.
---- @return list
 function vim.fn.spellsuggest(word, max, capital) end
 
 -- FileType event has been triggered at least once.  Can be used
@@ -334,7 +296,6 @@ function vim.fn.spellsuggest(word, max, capital) end
 -- 		current buffer.  This allows an autocommand that starts
 -- 		editing another buffer to set 'filetype' and load a syntax
 -- 		file.
---- @return number
 function vim.fn.did_filetype() end
 
 -- Returns a Dictionary with information about {job}:
@@ -362,7 +323,6 @@ function vim.fn.did_filetype() end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetJob()->job_info()
---- @return dict
 function vim.fn.job_info(job) end
 
 -- Send |String| or |Blob| {expr} over {handle}.
@@ -459,7 +419,6 @@ function vim.fn.ch_sendraw(handle, expr, options) end
 -- 			exists(bufcount)
 -- <		This doesn't check for existence of the "bufcount" variable,
 -- 		but gets the value of "bufcount", and checks if that exists.
---- @return number
 function vim.fn.exists(expr) end
 
 -- Close the "in" part of {handle}.  See |channel-close-in|.
@@ -468,14 +427,12 @@ function vim.fn.exists(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_close_in()
---- @return none
 function vim.fn.ch_close_in(handle) end
 
 -- Returns 1 when inside an event handler.  That is that Vim got
 -- 		interrupted while waiting for the user to type a character,
 -- 		e.g., when dropping a file on Vim.  This means interactive
 -- 		commands cannot be used.  Otherwise zero is returned.
---- @return number
 function vim.fn.eventhandler() end
 
 -- This is similar to |json_encode()| with these differences:
@@ -493,7 +450,6 @@ function vim.fn.eventhandler() end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetObject()->js_encode()
---- @return string
 function vim.fn.js_encode(expr) end
 
 -- Return the line number of the first line at or above {lnum}
@@ -502,7 +458,6 @@ function vim.fn.js_encode(expr) end
 -- <		When {lnum} is invalid or there is no non-blank line at or
 -- 		above it, zero is returned.
 -- 		Also see |nextnonblank()|.
---- @return number
 function vim.fn.prevnonblank(lnum) end
 
 -- This is for testing: If the memory allocation with {id} is
@@ -512,7 +467,6 @@ function vim.fn.prevnonblank(lnum) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetAllocId()->test_alloc_fail()
---- @return none
 function vim.fn.test_alloc_fail(id, countdown, _repeat) end
 
 -- The result is a String, which is the name of a file that
@@ -522,7 +476,6 @@ function vim.fn.test_alloc_fail(id, countdown, _repeat) end
 -- <		For Unix, the file will be in a private directory |tempfile|.
 -- 		For MS-Windows forward slashes are used when the 'shellslash'
 -- 		option is set or when 'shellcmdflag' starts with '-'.
---- @return string
 function vim.fn.tempname() end
 
 -- Send data to channel {id}. For a job, it writes it to the
@@ -541,7 +494,6 @@ function vim.fn.tempname() end
 -- 		chansend() writes raw data, not RPC messages.  If the channel
 -- 		was created with `"rpc":v:true` then the channel expects RPC
 -- 		messages, use |rpcnotify()| and |rpcrequest()| instead.
---- @return number
 function vim.fn.chansend(id, data) end
 
 -- Get the cursor position of terminal {buf}. Returns a list with
@@ -566,12 +518,10 @@ function vim.fn.chansend(id, data) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_getcursor()
---- @return list
 function vim.fn.term_getcursor(buf) end
 
 -- cursor in the window.  This is counting screen cells from the
 -- 		left side of the window.  The leftmost column is one.
---- @return number
 function vim.fn.wincol() end
 
 -- Evaluate Perl expression {expr} in scalar context and return
@@ -609,7 +559,6 @@ function vim.fn.perleval(expr) end
 -- 			:echo matchend("testing", "ing", 5)
 -- <		result is "-1".
 -- 		When {expr} is a |List| the result is equal to |match()|.
---- @return number
 function vim.fn.matchend(expr, pat, start, count) end
 
 -- Stop |job-id| {id} by sending SIGTERM to the job process. If
@@ -620,7 +569,6 @@ function vim.fn.matchend(expr, pat, start, count) end
 --
 -- 		Returns 1 for valid job id, 0 for invalid id, including jobs have
 -- 		exited or stopped.
---- @return number
 function vim.fn.jobstop(id) end
 
 -- Move popup {id} to the position specified with {options}.
@@ -639,14 +587,12 @@ function vim.fn.jobstop(id) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPopup()->popup_move(options)
---- @return none
 function vim.fn.popup_move(id, options) end
 
 -- The result is a Number, which is |TRUE| when a directory
 -- 		with the name {directory} exists.  If {directory} doesn't
 -- 		exist, or isn't a directory, the result is |FALSE|.  {directory}
 -- 		is any expression, which is used as a String.
---- @return number
 function vim.fn.isdirectory(directory) end
 
 -- Set options on {handle}:
@@ -664,7 +610,6 @@ function vim.fn.isdirectory(directory) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_setoptions(options)
---- @return none
 function vim.fn.ch_setoptions(handle, options) end
 
 -- Reset the flag that indicates option {name} was set.  Thus it
@@ -677,7 +622,6 @@ function vim.fn.ch_setoptions(handle, options) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetOptionName()->test_option_not_set()
---- @return none
 function vim.fn.test_option_not_set(name) end
 
 -- Set attrs in nvim__buf_set_lua_hl callbacks
@@ -693,7 +637,6 @@ function vim.fn.nvim__put_attr(id, c0, c1) end
 -- 		created buffer.  When {name} is an empty string then a new
 -- 		buffer is always created.
 -- 		The buffer will not have' 'buflisted' set.
---- @return number
 function vim.fn.bufadd(name) end
 
 -- Delete lines {first} to {last} (inclusive) from buffer {expr}.
@@ -705,14 +648,12 @@ function vim.fn.bufadd(name) end
 -- 		{first} and {last} are used like with |setline()|. Note that
 -- 		when using |line()| this refers to the current buffer. Use "$"
 -- 		to refer to the last line in buffer {expr}.
---- @return number
 function vim.fn.deletebufline(expr, first, last) end
 
 -- Specifically used to interrupt a program being debugged.  It
 -- 		will cause process {pid} to get a SIGTRAP.  Behavior for other
 -- 		processes is undefined. See |terminal-debugger|.
 -- 		{Sends a SIGINT to a process {pid} other than MS-Windows}
---- @return number
 function vim.fn.debugbreak(pid) end
 
 -- Like ch_read() but for a JS and JSON channel does not decode
@@ -722,7 +663,6 @@ function vim.fn.debugbreak(pid) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_readraw()
---- @return string
 function vim.fn.ch_readraw(handle, options) end
 
 -- Evaluate Lua expression {expr} and return its result converted
@@ -730,7 +670,6 @@ function vim.fn.ch_readraw(handle, options) end
 function vim.fn.luaeval(expr, expr) end
 
 -- the first file.  argc() - 1 is the last one.  See |arglist|.
---- @return number
 function vim.fn.argidx() end
 
 -- Append the item {expr} to |List| {list}.  Returns the
@@ -741,7 +680,6 @@ function vim.fn.argidx() end
 -- 		item.  Use |extend()| to concatenate |Lists|.
 -- 		Use |insert()| to add an item at another position.
 --- @param list any[]
---- @return list
 function vim.fn.add(list, item) end
 
 -- {expr} can be a list or a dictionary.  For a dictionary,
@@ -749,7 +687,6 @@ function vim.fn.add(list, item) end
 -- 		If {expr} is neither a list nor a dictionary, or one of the
 -- 		items in {expr} cannot be used as a Number this results in
 --                 an error.  An empty |List| or |Dictionary| results in zero.
---- @return number
 function vim.fn.max(expr) end
 
 -- Get the contents of {row} of terminal screen of {buf}.
@@ -769,7 +706,6 @@ function vim.fn.max(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_scrape(row)
---- @return list
 function vim.fn.term_scrape(buf, row) end
 
 -- Same as |system()|, but returns a |List| with lines (parts of
@@ -780,7 +716,6 @@ function vim.fn.term_scrape(buf, row) end
 -- 		Note that on MS-Windows you may get trailing CR characters.
 --
 -- 		Returns an empty string on error.
---- @return list
 function vim.fn.systemlist(cmd, input) end
 
 -- Self-identifies the client.
@@ -869,12 +804,10 @@ function vim.fn.nvim_subscribe(event) end
 -- 						   Show mod time of file.c.
 -- <		Not available on all systems.  To check use: >
 -- 			:if exists("*strftime")
---- @return string
 function vim.fn.strftime(format, time) end
 
 -- Return the current text in the balloon.  Only for the string,
 -- 		not used for the List.
---- @return string
 function vim.fn.balloon_gettext() end
 
 -- Interrupt script execution.  It works more or less like the
@@ -888,7 +821,6 @@ function vim.fn.balloon_gettext() end
 -- 		:   endif
 -- 		:endfunction
 -- 		:au BufWritePre * call s:check_typoname(expand('<amatch>'))
---- @return none
 function vim.fn.interrupt() end
 
 -- Like |input()|, but when the GUI is running and text dialogs
@@ -906,7 +838,6 @@ function vim.fn.interrupt() end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPrompt()->inputdialog()
---- @return string
 function vim.fn.inputdialog(prompt, text, completion) end
 
 -- Escape {string} for use as a shell command argument.
@@ -937,7 +868,6 @@ function vim.fn.inputdialog(prompt, text, completion) end
 -- 		cursor.  Example of use with |system()|: >
 -- 		    :call system("chmod +w -- " . shellescape(expand("%")))
 -- <		See also |::S|.
---- @return string
 function vim.fn.shellescape(string, special) end
 
 -- Play a sound identified by {name}.  Which event names are
@@ -970,7 +900,6 @@ function vim.fn.shellescape(string, special) end
 -- 			GetSoundName()->sound_playevent()
 --
 -- <		{only available when compiled with the |+sound| feature}
---- @return number
 function vim.fn.sound_playevent(name, callback) end
 
 -- Like ch_read() but reads binary data and returns a |Blob|.
@@ -978,7 +907,6 @@ function vim.fn.sound_playevent(name, callback) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_readblob()
---- @return blob
 function vim.fn.ch_readblob(handle, options) end
 
 -- Like |winnr()| but for tab page {tabarg}.
@@ -992,7 +920,6 @@ function vim.fn.ch_readblob(handle, options) end
 -- 		    tabpagewinnr(1)	    " current window of tab page 1
 -- 		    tabpagewinnr(4, '$')    " number of windows in tab page 4
 -- <		When {tabarg} is invalid zero is returned.
---- @return number
 function vim.fn.tabpagewinnr(tabarg, arg) end
 
 -- {expr1} must be a |List| or a |Dictionary|.
@@ -1037,14 +964,12 @@ function vim.fn.tabpagewinnr(tabarg, arg) end
 -- 		further items in {expr1} are processed. When {expr2} is a
 -- 		Funcref errors inside a function are ignored, unless it was
 -- 		defined with the "abort" flag.
---- @return list/dict
 function vim.fn.map(expr1, expr2) end
 
 -- Like |garbagecollect()|, but executed right away.  This must
 -- 		only be called directly to avoid any structure to exist
 -- 		internally, and |v:testing| must have been set before calling
 -- 		any function.
---- @return none
 function vim.fn.test_garbagecollect_now() end
 
 -- {textlist} must be a |List| of strings.  This |List| is
@@ -1061,13 +986,11 @@ function vim.fn.test_garbagecollect_now() end
 -- 		Example: >
 -- 			let color = inputlist(['Select color:', '1. red',
 -- 				\ '2. green', '3. blue'])
---- @return number
 function vim.fn.inputlist(textlist) end
 
 -- The result is a Number, which is 1 if |Dictionary| {dict} has
 -- 		an entry with key {key}.  Zero otherwise.
 --- @param dict dictionary
---- @return number
 function vim.fn.has_key(dict, key) end
 
 -- Define a new sign named {name} or modify the attributes of an
@@ -1098,7 +1021,6 @@ function vim.fn.has_key(dict, key) end
 -- 			call sign_define("mySign", {"text" : "=>", "texthl" :
 -- 					\ "Error", "linehl" : "Search"})
 --- @param dict dictionary
---- @return number
 function vim.fn.sign_define(name, dict) end
 
 -- Characters in {string} are queued for processing as if they
@@ -1107,7 +1029,6 @@ function vim.fn.sign_define(name, dict) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetText()->test_feedinput()
---- @return none
 function vim.fn.test_feedinput(string) end
 
 -- Set option or local variable {varname} in buffer {expr} to
@@ -1121,7 +1042,6 @@ function vim.fn.test_feedinput(string) end
 -- 			:call setbufvar(1, "&mod", 1)
 -- 			:call setbufvar("todo", "myvar", "foobar")
 -- <		This function is not available in the |sandbox|.
---- @return set
 function vim.fn.setbufvar(expr, varname, val) end
 
 -- The result is a dictionary, which holds information about the
@@ -1140,7 +1060,6 @@ function vim.fn.setbufvar(expr, varname, val) end
 -- 			Cannot read file: cannot read first block
 -- 			Not a swap file: does not contain correct block ID
 -- 			Magic number mismatch: Info in first block is invalid
---- @return dict
 function vim.fn.swapinfo(fname) end
 
 -- Get a line of text from the terminal window of {buf}.
@@ -1154,7 +1073,6 @@ function vim.fn.swapinfo(fname) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_getline(row)
---- @return string
 function vim.fn.term_getline(buf, row) end
 
 -- Return the arc cosine of {expr} measured in radians, as a
@@ -1166,7 +1084,6 @@ function vim.fn.term_getline(buf, row) end
 -- <			1.570796 >
 -- 			:echo acos(-0.5)
 -- <			2.094395
---- @return float
 function vim.fn.acos(expr) end
 
 -- Get the value of a tab-local variable {varname} in tab page
@@ -1181,7 +1098,6 @@ function vim.fn.gettabvar(nr, varname, def) end
 
 -- Return a list with the buffer numbers of all buffers for
 -- 		terminal windows.
---- @return list
 function vim.fn.term_list() end
 
 -- When {pattern} does not match {actual} an error message is
@@ -1201,7 +1117,6 @@ function vim.fn.term_list() end
 -- 	assert_match('^f.*o$', 'foobar')
 -- <		Will result in a string to be added to |v:errors|:
 -- 	test.vim line 12: Pattern '^f.*o$' does not match 'foobar' ~
---- @return number
 function vim.fn.assert_match(pat, text, msg) end
 
 -- Get the title of terminal {buf}. This is the title that the
@@ -1213,7 +1128,6 @@ function vim.fn.assert_match(pat, text, msg) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_gettitle()
---- @return string
 function vim.fn.term_gettitle(buf) end
 
 -- Send a reply string to {clientid}.  The most recent {clientid}
@@ -1225,7 +1139,6 @@ function vim.fn.term_gettitle(buf) end
 -- 		See also |clientserver|.
 -- 		Example: >
 -- 			:echo server2client(expand("<client>"), "HELLO")
---- @return number
 function vim.fn.server2client(clientid, string) end
 
 -- Set line {lnum} of the current buffer to {text}.  To insert
@@ -1251,7 +1164,6 @@ function vim.fn.server2client(clientid, string) end
 -- 			:endfor
 --
 -- <		Note: The '[ and '] marks are not set.
---- @return number
 function vim.fn.setline(lnum, line) end
 
 -- If the popup menu (see |ins-completion-menu|) is not visible,
@@ -1265,7 +1177,6 @@ function vim.fn.setline(lnum, line) end
 --  			scrollbar	|TRUE| if visible
 --
 --   		The values are the same as in |v:event| during |CompleteChanged|.
---- @return dict
 function vim.fn.pum_getpos() end
 
 -- Without {flags} or with {flags} empty: Deletes the file by the
@@ -1282,6 +1193,63 @@ function vim.fn.pum_getpos() end
 --
 -- 		The result is a Number, which is 0 if the delete operation was
 -- 		successful and -1 when the deletion failed or partly failed.
---- @return number
 function vim.fn.delete(fname, flags) end
+
+-- Round off {expr} to the nearest integral value and return it
+-- 		as a |Float|.  If {expr} lies halfway between two integral
+-- 		values, then use the larger one (away from zero).
+-- 		{expr} must evaluate to a |Float| or a |Number|.
+-- 		Examples: >
+-- 			echo round(0.456)
+-- <			0.0  >
+-- 			echo round(4.5)
+-- <			5.0 >
+-- 			echo round(-4.5)
+-- <			-5.0
+function vim.fn.round(expr) end
+
+-- Set the function name prefix to be used for the |terminal-api|
+-- 		function in terminal {buf}.  For example: >
+-- 		    :call term_setapi(buf, "Myapi_")
+-- 		    :call term_setapi(buf, "")
+-- <
+-- 		The default is "Tapi_".  When {expr} is an empty string then
+-- 		no |terminal-api| function can be used for {buf}.
+function vim.fn.term_setapi(buf, expr) end
+
+-- Perform glob() on all directories in {path} and concatenate
+-- 		the results.  Example: >
+-- 			:echo globpath(&rtp, "syntax/c.vim")
+-- <
+-- 		{path} is a comma-separated list of directory names.  Each
+-- 		directory name is prepended to {expr} and expanded like with
+-- 		|glob()|.  A path separator is inserted when needed.
+-- 		To add a comma inside a directory name escape it with a
+-- 		backslash.  Note that on MS-Windows a directory may have a
+-- 		trailing backslash, remove it if you put a comma after it.
+-- 		If the expansion fails for one of the directories, there is no
+-- 		error message.
+--
+-- 		Unless the optional {nosuf} argument is given and is |TRUE|,
+-- 		the 'suffixes' and 'wildignore' options apply: Names matching
+-- 		one of the patterns in 'wildignore' will be skipped and
+-- 		'suffixes' affect the ordering of matches.
+--
+-- 		When {list} is present and it is |TRUE| the result is a List
+-- 		with all matching files. The advantage of using a List is, you
+-- 		also get filenames containing newlines correctly. Otherwise
+-- 		the result is a String and when there are several matches,
+-- 		they are separated by <NL> characters.  Example: >
+-- 			:echo globpath(&rtp, "syntax/c.vim", 0, 1)
+-- <
+-- 		{allinks} is used as with |glob()|.
+--
+-- 		The "**" item can be used to search in a directory tree.
+-- 		For example, to find all "README.txt" files in the directories
+-- 		in 'runtimepath' and below: >
+-- 			:echo globpath(&rtp, "**/README.txt")
+-- <		Upwards search and limiting the depth of "**" is not
+-- 		supported, thus using 'path' will not always work properly.
+--- @param list any[]
+function vim.fn.globpath(path, expr, nosuf, list, alllinks) end
 

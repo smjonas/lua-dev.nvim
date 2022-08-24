@@ -1,198 +1,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Return a String with {fmt}, where "%" items are replaced by
--- 		the formatted form of their respective arguments.  Example: >
--- 			printf("%4d: E%d %.30s", lnum, errno, msg)
--- <		May result in:
--- 			"  99: E42 asdfasdfasdfasdfasdfasdfasdfas" ~
---
--- 		Often used items are:
--- 		  %s	string
--- 		  %6S	string right-aligned in 6 display cells
--- 		  %6s	string right-aligned in 6 bytes
--- 		  %.9s	string truncated to 9 bytes
--- 		  %c	single byte
--- 		  %d	decimal number
--- 		  %5d	decimal number padded with spaces to 5 characters
--- 		  %b	binary number
--- 		  %08b	binary number padded with zeros to at least 8 characters
--- 		  %B	binary number using upper case letters
--- 		  %x	hex number
--- 		  %04x	hex number padded with zeros to at least 4 characters
--- 		  %X	hex number using upper case letters
--- 		  %o	octal number
--- 		  %f	floating point number as 12.23, inf, -inf or nan
--- 		  %F	floating point number as 12.23, INF, -INF or NAN
--- 		  %e	floating point number as 1.23e3, inf, -inf or nan
--- 		  %E	floating point number as 1.23E3, INF, -INF or NAN
--- 		  %g	floating point number, as %f or %e depending on value
--- 		  %G	floating point number, as %F or %E depending on value
--- 		  %%	the % character itself
--- 		  %p	representation of the pointer to the container
---
--- 		Conversion specifications start with '%' and end with the
--- 		conversion type.  All other characters are copied unchanged to
--- 		the result.
---
--- 		The "%" starts a conversion specification.  The following
--- 		arguments appear in sequence:
---
--- 			%  [flags]  [field-width]  [.precision]  type
---
--- 		flags
--- 			Zero or more of the following flags:
---
--- 		    #	      The value should be converted to an "alternate
--- 			      form".  For c, d, and s conversions, this option
--- 			      has no effect.  For o conversions, the precision
--- 			      of the number is increased to force the first
--- 			      character of the output string to a zero (except
--- 			      if a zero value is printed with an explicit
--- 			      precision of zero).
--- 			      For x and X conversions, a non-zero result has
--- 			      the string "0x" (or "0X" for X conversions)
--- 			      prepended to it.
---
--- 		    0 (zero)  Zero padding.  For all conversions the converted
--- 			      value is padded on the left with zeros rather
--- 			      than blanks.  If a precision is given with a
--- 			      numeric conversion (d, o, x, and X), the 0 flag
--- 			      is ignored.
---
--- 		    -	      A negative field width flag; the converted value
--- 			      is to be left adjusted on the field boundary.
--- 			      The converted value is padded on the right with
--- 			      blanks, rather than on the left with blanks or
--- 			      zeros.  A - overrides a 0 if both are given.
---
--- 		    ' ' (space)  A blank should be left before a positive
--- 			      number produced by a signed conversion (d).
---
--- 		    +	      A sign must always be placed before a number
--- 			      produced by a signed conversion.  A + overrides
--- 			      a space if both are used.
---
--- 		field-width
--- 			An optional decimal digit string specifying a minimum
--- 			field width.  If the converted value has fewer bytes
--- 			than the field width, it will be padded with spaces on
--- 			the left (or right, if the left-adjustment flag has
--- 			been given) to fill out the field width.
---
--- 		.precision
--- 			An optional precision, in the form of a period '.'
--- 			followed by an optional digit string.  If the digit
--- 			string is omitted, the precision is taken as zero.
--- 			This gives the minimum number of digits to appear for
--- 			d, o, x, and X conversions, or the maximum number of
--- 			bytes to be printed from a string for s conversions.
--- 			For floating point it is the number of digits after
--- 			the decimal point.
---
--- 		type
--- 			A character that specifies the type of conversion to
--- 			be applied, see below.
---
--- 		A field width or precision, or both, may be indicated by an
--- 		asterisk '*' instead of a digit string.  In this case, a
--- 		Number argument supplies the field width or precision.  A
--- 		negative field width is treated as a left adjustment flag
--- 		followed by a positive field width; a negative precision is
--- 		treated as though it were missing.  Example: >
--- 			:echo printf("%d: %.*s", nr, width, line)
--- <		This limits the length of the text used from "line" to
--- 		"width" bytes.
---
--- 		The conversion specifiers and their meanings are:
---
--- 				*printf-d* *printf-b* *printf-B* *printf-o* *printf-x* *printf-X*
--- 		dbBoxX	The Number argument is converted to signed decimal (d),
--- 			unsigned binary (b and B), unsigned octal (o), or
--- 			unsigned hexadecimal (x and X) notation.  The letters
--- 			"abcdef" are used for x conversions; the letters
--- 			"ABCDEF" are used for X conversions.  The precision, if
--- 			any, gives the minimum number of digits that must
--- 			appear; if the converted value requires fewer digits, it
--- 			is padded on the left with zeros.  In no case does a
--- 			non-existent or small field width cause truncation of a
--- 			numeric field; if the result of a conversion is wider
--- 			than the field width, the field is expanded to contain
--- 			the conversion result.
--- 			The 'h' modifier indicates the argument is 16 bits.
--- 			The 'l' modifier indicates the argument is 32 bits.
--- 			The 'L' modifier indicates the argument is 64 bits.
--- 			Generally, these modifiers are not useful. They are
--- 			ignored when type is known from the argument.
---
--- 		i	alias for d
--- 		D	alias for ld
--- 		U	alias for lu
--- 		O	alias for lo
---
--- 							*printf-c*
--- 		c	The Number argument is converted to a byte, and the
--- 			resulting character is written.
---
--- 							*printf-s*
--- 		s	The text of the String argument is used.  If a
--- 			precision is specified, no more bytes than the number
--- 			specified are used.
--- 			If the argument is not a String type, it is
--- 			automatically converted to text with the same format
--- 			as ":echo".
--- 							*printf-S*
--- 		S	The text of the String argument is used.  If a
--- 			precision is specified, no more display cells than the
--- 			number specified are used.
---
--- 							*printf-f* *E807*
--- 		f F	The Float argument is converted into a string of the
--- 			form 123.456.  The precision specifies the number of
--- 			digits after the decimal point.  When the precision is
--- 			zero the decimal point is omitted.  When the precision
--- 			is not specified 6 is used.  A really big number
--- 			(out of range or dividing by zero) results in "inf"
--- 			 or "-inf" with %f (INF or -INF with %F).
--- 			 "0.0 / 0.0" results in "nan" with %f (NAN with %F).
--- 			Example: >
--- 				echo printf("%.2f", 12.115)
--- <				12.12
--- 			Note that roundoff depends on the system libraries.
--- 			Use |round()| when in doubt.
---
--- 							*printf-e* *printf-E*
--- 		e E	The Float argument is converted into a string of the
--- 			form 1.234e+03 or 1.234E+03 when using 'E'.  The
--- 			precision specifies the number of digits after the
--- 			decimal point, like with 'f'.
---
--- 							*printf-g* *printf-G*
--- 		g G	The Float argument is converted like with 'f' if the
--- 			value is between 0.001 (inclusive) and 10000000.0
--- 			(exclusive).  Otherwise 'e' is used for 'g' and 'E'
--- 			for 'G'.  When no precision is specified superfluous
--- 			zeroes and '+' signs are removed, except for the zero
--- 			immediately after the decimal point.  Thus 10000000.0
--- 			results in 1.0e7.
---
--- 							*printf-%*
--- 		%	A '%' is written.  No argument is converted.  The
--- 			complete conversion specification is "%%".
---
--- 		When a Number argument is expected a String argument is also
--- 		accepted and automatically converted.
--- 		When a Float or String argument is expected a Number argument
--- 		is also accepted and automatically converted.
--- 		Any other argument type results in an error message.
---
--- 							*E766* *E767*
--- 		The number of {exprN} arguments must exactly match the number
--- 		of "%" items.  If there are not sufficient or too many
--- 		arguments an error is given.  Up to 18 arguments can be used.
---- @return string
-function vim.fn.printf(fmt, ...) end
-
 -- When exiting Vim or trying to close the terminal window in
 -- 		another way, {how} defines whether the job in the terminal can
 -- 		be stopped.
@@ -206,7 +14,6 @@ function vim.fn.printf(fmt, ...) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_setkill(how)
---- @return none
 function vim.fn.term_setkill(buf, how) end
 
 -- Send the {string} to {server}.  The string is sent as an
@@ -233,7 +40,6 @@ function vim.fn.term_setkill(buf, how) end
 -- 			:echo remote_expr("gvim", "2+2")
 -- 			:echo remote_expr("gvim1", "b:current_syntax")
 -- <
---- @return string
 function vim.fn.remote_expr(server, string, idvar, timeout) end
 
 -- Return the hyperbolic sine of {expr} as a |Float| in the range
@@ -244,7 +50,6 @@ function vim.fn.remote_expr(server, string, idvar, timeout) end
 -- <			0.521095 >
 -- 			:echo sinh(-0.9)
 -- <			-1.026517
---- @return float
 function vim.fn.sinh(expr) end
 
 -- Just like |popup_create()| but with these default options: >
@@ -268,7 +73,6 @@ function vim.fn.sinh(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetText()->popup_dialog({})
---- @return number
 function vim.fn.popup_dialog(what, options) end
 
 -- The result is a String, which is type of register {regname}.
@@ -279,7 +83,6 @@ function vim.fn.popup_dialog(what, options) end
 -- 		    ""			for an empty or unknown register
 -- 		<CTRL-V> is one character with value 0x16.
 -- 		If {regname} is not specified, |v:register| is used.
---- @return string
 function vim.fn.getregtype(regname) end
 
 -- The result is the value of option or local buffer variable
@@ -399,7 +202,6 @@ function vim.fn.expand(expr, nosuf, list) end
 -- 		4. Other strings are always dumped as BIN strings.
 -- 		5. Points 3. and 4. do not apply to |msgpack-special-dict|s.
 --- @param list any[]
---- @return list
 function vim.fn.msgpackdump(list) end
 
 -- Return a pseudo-random Number generated with an xoshiro128**
@@ -415,7 +217,6 @@ function vim.fn.msgpackdump(list) end
 -- 			:echo rand(seed)
 -- 			:echo rand(seed) % 16  " random number 0 - 15
 -- <
---- @return number
 function vim.fn.rand(expr) end
 
 -- Send keystrokes {keys} to terminal {buf}.
@@ -426,14 +227,12 @@ function vim.fn.rand(expr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBufnr()->term_sendkeys(keys)
---- @return none
 function vim.fn.term_sendkeys(buf, keys) end
 
 -- The result is a Number, which is the translated syntax ID of
 -- 		{synID}.  This is the syntax group ID of what is being used to
 -- 		highlight the character.  Highlight links given with
 -- 		":highlight link" are followed.
---- @return number
 function vim.fn.synIDtrans(synID) end
 
 -- Defines a pattern to be highlighted in the current window (a
@@ -488,7 +287,6 @@ function vim.fn.synIDtrans(synID) end
 -- <		A list of matches defined by |matchadd()| and |:match| are
 -- 		available from |getmatches()|.  All matches can be deleted in
 -- 		one operation by |clearmatches()|.
---- @return number
 function vim.fn.matchadd(group, pattern, priority, id) end
 
 -- Set the matches for Insert mode completion.
@@ -518,7 +316,6 @@ function vim.fn.matchadd(group, pattern, priority, id) end
 -- 	endfunc
 -- <		This isn't very useful, but it shows how it works.  Note that
 -- 		an empty string is returned to avoid a zero being inserted.
---- @return none
 function vim.fn.complete(startcol, matches) end
 
 -- Return the cosine of {expr}, measured in radians, as a |Float|.
@@ -528,7 +325,6 @@ function vim.fn.complete(startcol, matches) end
 -- <			0.862319 >
 -- 			:echo cos(-4.01)
 -- <			-0.646043
---- @return float
 function vim.fn.cos(expr) end
 
 -- The result is a List with currently three items:
@@ -554,7 +350,6 @@ function vim.fn.cos(expr) end
 -- 		   	synconcealed(lnum, 4)   [1, 'X', 2]
 -- 		   	synconcealed(lnum, 5)   [1, 'X', 2]
 -- 		   	synconcealed(lnum, 6)   [0, '', 0]
---- @return list
 function vim.fn.synconcealed(lnum, col) end
 
 -- Get the amount of indent for line {lnum} according the C
@@ -563,10 +358,8 @@ function vim.fn.synconcealed(lnum, col) end
 -- 		relevant.  {lnum} is used just like in |getline()|.
 -- 		When {lnum} is invalid -1 is returned.
 -- 		See |C-indenting|.
---- @return number
 function vim.fn.cindent(lnum) end
 
---- @return none
 function vim.fn.prompt_addtext(buf, expr) end
 
 -- Returns a Dictionary with information about Insert mode
@@ -620,7 +413,6 @@ function vim.fn.prompt_addtext(buf, expr) end
 -- 			" Get only 'mode' and 'pum_visible'
 -- 			call complete_info(['mode', 'pum_visible'])
 -- <
---- @return dict
 function vim.fn.complete_info(what) end
 
 -- Search for the declaration of {name}.
@@ -738,7 +530,6 @@ function vim.fn.complete_info(what) end
 -- 			:let [lnum,col] = searchpairpos('{', '', '}', 'n')
 -- <
 -- 		See |match-parens| for a bigger and more useful example.
---- @return number
 function vim.fn.searchdecl(name, global, thisblock) end
 
 -- Run {cmd} and add an error message to |v:errors| if it does
@@ -746,7 +537,6 @@ function vim.fn.searchdecl(name, global, thisblock) end
 -- 		When {error} is given it must match in |v:errmsg|.
 -- 		Note that beeping is not considered an error, and some failing
 -- 		commands only beep.  Use |assert_beeps()| for those.
---- @return number
 function vim.fn.assert_fails(cmd, error) end
 
 -- Confirm() offers the user a dialog, from which a choice can be
@@ -798,7 +588,6 @@ function vim.fn.assert_fails(cmd, error) end
 -- 		tries to put the buttons in one horizontal line.  If they
 -- 		don't fit, a vertical layout is used anyway.  For some systems
 -- 		the horizontal layout is always used.
---- @return number
 function vim.fn.confirm(msg, choices, default, type) end
 
 -- Get the |window-ID| for the popup info window, as it used by
@@ -807,7 +596,6 @@ function vim.fn.confirm(msg, choices, default, type) end
 -- 		and |popup_close()|.  Use |popup_show()| to reposition it to
 -- 		the item in the popup menu.
 -- 		Returns zero if there is none.
---- @return number
 function vim.fn.popup_findinfo() end
 
 -- The result is the number of a buffer, as it is displayed by
@@ -822,7 +610,6 @@ function vim.fn.popup_findinfo() end
 -- 		of existing buffers.  Note that not all buffers with a smaller
 -- 		number necessarily exist, because ":bwipeout" may have removed
 -- 		them.  Use bufexists() to test for the existence of a buffer.
---- @return number
 function vim.fn.bufnr(expr, create) end
 
 -- Modify file name {fname} according to {mods}.  {mods} is a
@@ -834,12 +621,10 @@ function vim.fn.bufnr(expr, create) end
 -- 			/home/mool/vim/vim/src
 -- <		Note: Environment variables don't work in {fname}, use
 -- 		|expand()| first then.
---- @return string
 function vim.fn.fnamemodify(fname, mods) end
 
 -- Return the window number of window with ID {expr}.
 -- 		Return 0 if the window cannot be found in the current tabpage.
---- @return number
 function vim.fn.win_id2win(expr) end
 
 -- Same as |match()|, but return the matched string.  Example: >
@@ -853,7 +638,6 @@ function vim.fn.win_id2win(expr) end
 -- <		result is "".
 -- 		When {expr} is a |List| then the matching item is returned.
 -- 		The type isn't changed, it's not necessarily a String.
---- @return string
 function vim.fn.matchstr(expr, pat, start, count) end
 
 -- Return the current state of the undo tree in a dictionary with
@@ -897,7 +681,6 @@ function vim.fn.matchstr(expr, pat, start, count) end
 -- 		  "alt"		Alternate entry.  This is again a List of undo
 -- 				blocks.  Each item may again have an "alt"
 -- 				item.
---- @return list
 function vim.fn.undotree() end
 
 -- Place the sign defined as {name} at line {lnum} in file {expr}
@@ -947,7 +730,6 @@ function vim.fn.undotree() end
 -- 			call sign_place(10, 'g3', 'sign4', 'json.c',
 -- 					\ {'lnum' : 40, 'priority' : 90})
 --- @param dict dictionary
---- @return number
 function vim.fn.sign_place(id, group, name, expr, dict) end
 
 -- Returns the highlight ID for diff mode at line {lnum} column
@@ -959,7 +741,6 @@ function vim.fn.sign_place(id, group, name, expr, dict) end
 -- 		line.
 -- 		The highlight ID can be used with |synIDattr()| to obtain
 -- 		syntax information about the highlighting.
---- @return number
 function vim.fn.diff_hlID(lnum, col) end
 
 -- Insert {item} at the start of |List| {list}.
@@ -975,7 +756,6 @@ function vim.fn.diff_hlID(lnum, col) end
 -- 		Note that when {item} is a |List| it is inserted as a single
 -- 		item.  Use |extend()| to concatenate |Lists|.
 --- @param list any[]
---- @return list
 function vim.fn.insert(list, item, idx) end
 
 -- If {id} is a displayed popup, hide it now. If the popup has a
@@ -986,7 +766,6 @@ function vim.fn.insert(list, item, idx) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPopup()->popup_hide()
---- @return none
 function vim.fn.popup_hide(id) end
 
 -- Deletes a previously defined sign {name}. This is similar to
@@ -1001,7 +780,6 @@ function vim.fn.popup_hide(id) end
 --
 -- 			" Delete all the signs
 -- 			call sign_undefine()
---- @return number
 function vim.fn.sign_undefine(name) end
 
 -- The result is a Number, which is the number of the first
@@ -1014,13 +792,11 @@ function vim.fn.sign_undefine(name) end
 -- <		The number can be used with |CTRL-W_w| and ":wincmd w"
 -- 		|:wincmd|.
 -- 		Only deals with the current tab page.
---- @return number
 function vim.fn.bufwinnr(expr) end
 
 -- The result is a Number, which is |TRUE| if a buffer called
 -- 		{expr} exists and is listed (has the 'buflisted' option set).
 -- 		The {expr} argument is used like with |bufexists()|.
---- @return number
 function vim.fn.buflisted(expr) end
 
 -- Get item {idx} from |List| {list}.  When this item is not
@@ -1041,7 +817,6 @@ function vim.fn.get(func, what) end
 -- Return a |List| with all the values of {dict}.  The |List| is
 -- 		in arbitrary order.
 --- @param dict dictionary
---- @return list
 function vim.fn.values(dict) end
 
 -- Check for a key typed while looking for completion matches.
@@ -1050,7 +825,6 @@ function vim.fn.values(dict) end
 -- 		zero otherwise.
 -- 		Only to be used by the function specified with the
 -- 		'completefunc' option.
---- @return number
 function vim.fn.complete_check() end
 
 -- Put up a directory requester.  This only works when
@@ -1063,7 +837,6 @@ function vim.fn.complete_check() end
 -- 		    {initdir}	directory to start browsing in
 -- 		When the "Cancel" button is hit, something went wrong, or
 -- 		browsing is not possible, an empty string is returned.
---- @return string
 function vim.fn.browsedir(title, initdir) end
 
 -- Return the status of {handle}:
@@ -1082,13 +855,11 @@ function vim.fn.browsedir(title, initdir) end
 -- <
 -- 		Can also be used as a |method|: >
 -- 			GetChannel()->ch_status()
---- @return string
 function vim.fn.ch_status(handle, options) end
 
 -- Return a list with the tab number and window number of window
 -- 		with ID {expr}: [tabnr, winnr].
 -- 		Return [0, 0] if the window cannot be found.
---- @return list
 function vim.fn.win_id2tabwin(expr) end
 
 -- The result is a Number, which is the syntax ID at the position
@@ -1113,7 +884,6 @@ function vim.fn.win_id2tabwin(expr) end
 -- 		Example (echoes the name of the syntax item under the cursor): >
 -- 			:echo synIDattr(synID(line("."), col("."), 1), "name")
 -- <
---- @return number
 function vim.fn.synID(lnum, col, trans) end
 
 -- Return a list with file and directory names in {directory}.
@@ -1124,7 +894,6 @@ function vim.fn.synID(lnum, col, trans) end
 -- 		When {expr} is given, it is evaluated to check what to do:
 -- 			If {expr} results in -1 then no further entries will
 -- 			be handled.
---- @return list
 function vim.fn.readdir(dir, expr) end
 
 -- position given with {expr}.  The accepted positions are:
@@ -1148,7 +917,6 @@ function vim.fn.readdir(dir, expr) end
 -- 			line(".")		line number of the cursor
 -- 			line("'t")		line number of mark t
 -- 			line("'" . marker)	line number of mark marker
---- @return number
 function vim.fn.line(expr) end
 
 -- turn the result of |string()| back into the original value.
@@ -1166,7 +934,6 @@ function vim.fn.eval(string) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetRow()->screenstring(col)
---- @return string
 function vim.fn.screenstring(row, col) end
 
 -- Open a terminal window and run {cmd} in it.
@@ -1238,6 +1005,243 @@ function vim.fn.screenstring(row, col) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetCommand()->term_start()
---- @return number
 function vim.fn.term_start(cmd, options) end
+
+-- Show the {what} above the cursor, and close it when the cursor
+-- 		moves.  This works like: >
+-- 			call popup_create({what}, #{
+-- 				\ pos: 'botleft',
+-- 				\ line: 'cursor-1',
+-- 				\ col: 'cursor',
+-- 				\ moved: 'WORD',
+-- 				\ })
+-- <		Use {options} to change the properties.
+-- 		If "pos" is passed as "topleft" then the default for "line"
+-- 		becomes "cursor+1".
+--
+-- 		Can also be used as a |method|: >
+-- 			GetText()->popup_atcursor({})
+function vim.fn.popup_atcursor(what, options) end
+
+-- Escape {string} for use as file name command argument.  All
+-- 		characters that have a special meaning, such as '%' and '|'
+-- 		are escaped with a backslash.
+-- 		For most systems the characters escaped are
+-- 		" \t\n*?[{`$\\%#'\"|!<".  For systems where a backslash
+-- 		appears in a filename, it depends on the value of 'isfname'.
+-- 		A leading '+' and '>' is also escaped (special after |:edit|
+-- 		and |:write|).  And a "-" by itself (special after |:cd|).
+-- 		Example: >
+-- 			:let fname = '+some str%nge|name'
+-- 			:exe "edit " . fnameescape(fname)
+-- <		results in executing: >
+-- 			edit \+some\ str\%nge\|name
+function vim.fn.fnameescape(fname) end
+
+-- Send {expr} over {handle}.  The {expr} is encoded
+-- 		according to the type of channel.  The function cannot be used
+-- 		with a raw channel.
+-- 		See |channel-use|.				*E912*
+-- 		{handle} can be a Channel or a Job that has a Channel.
+--
+-- 		Can also be used as a |method|: >
+-- 			GetChannel()->ch_sendexpr(expr)
+function vim.fn.ch_sendexpr(handle, expr, options) end
+
+-- Remove a previously placed sign in one or more buffers.  This
+-- 		is similar to the |:sign-unplace| command.
+--
+-- 		{group} is the sign group name. To use the global sign group,
+-- 		use an empty string.  If {group} is set to '*', then all the
+-- 		groups including the global group are used.
+-- 		The signs in {group} are selected based on the entries in
+-- 		{dict}.  The following optional entries in {dict} are
+-- 		supported:
+-- 			buffer	buffer name or number. See |bufname()|.
+-- 			id	sign identifier
+-- 		If {dict} is not supplied, then all the signs in {group} are
+-- 		removed.
+--
+-- 		Returns 0 on success and -1 on failure.
+--
+-- 		Examples: >
+-- 			" Remove sign 10 from buffer a.vim
+-- 			call sign_unplace('', {'buffer' : "a.vim", 'id' : 10})
+--
+-- 			" Remove sign 20 in group 'g1' from buffer 3
+-- 			call sign_unplace('g1', {'buffer' : 3, 'id' : 20})
+--
+-- 			" Remove all the signs in group 'g2' from buffer 10
+-- 			call sign_unplace('g2', {'buffer' : 10})
+--
+-- 			" Remove sign 30 in group 'g3' from all the buffers
+-- 			call sign_unplace('g3', {'id' : 30})
+--
+-- 			" Remove all the signs placed in buffer 5
+-- 			call sign_unplace('*', {'buffer' : 5})
+--
+-- 			" Remove the signs in group 'g4' from all the buffers
+-- 			call sign_unplace('g4')
+--
+-- 			" Remove sign 40 from all the buffers
+-- 			call sign_unplace('*', {'id' : 40})
+--
+-- 			" Remove all the placed signs from all the buffers
+-- 			call sign_unplace('*')
+--- @param dict dictionary
+function vim.fn.sign_unplace(group, dict) end
+
+-- The result is a String, which is the contents of register
+-- 		{regname}.  Example: >
+-- 			:let cliptext = getreg('*')
+-- <		When {regname} was not set the result is an empty string.
+--
+-- 		getreg('=') returns the last evaluated value of the expression
+-- 		register.  (For use in maps.)
+-- 		getreg('=', 1) returns the expression itself, so that it can
+-- 		be restored with |setreg()|.  For other registers the extra
+-- 		argument is ignored, thus you can always give it.
+--
+-- 		If {list} is present and |TRUE|, the result type is changed
+-- 		to |List|. Each list item is one text line. Use it if you care
+-- 		about zero bytes possibly present inside register: without
+-- 		third argument both NLs and zero bytes are represented as NLs
+-- 		(see |NL-used-for-Nul|).
+-- 		When the register was not set an empty list is returned.
+--
+-- 		If {regname} is not specified, |v:register| is used.
+--- @param list any[]
+function vim.fn.getreg(regname, _1, list) end
+
+-- Create directory {name}.
+-- 		If {path} is "p" then intermediate directories are created as
+-- 		necessary.  Otherwise it must be "".
+-- 		If {prot} is given it is used to set the protection bits of
+-- 		the new directory.  The default is 0755 (rwxr-xr-x: r/w for
+-- 		the user readable for others).  Use 0700 to make it unreadable
+-- 		for others.
+--
+-- 		{prot} is applied for all parts of {name}.  Thus if you create
+-- 		/tmp/foo/bar then /tmp/foo will be created with 0700. Example: >
+-- 			:call mkdir($HOME . "/tmp/foo/bar", "p", 0700)
+-- <		This function is not available in the |sandbox|.
+--
+-- 		If you try to create an existing directory with {path} set to
+-- 		"p" mkdir() will silently exit.
+function vim.fn.mkdir(name, path, prot) end
+
+-- The result is a String, the entry with Number {index} from
+-- 		{history}.  See |hist-names| for the possible values of
+-- 		{history}, and |:history-indexing| for {index}.  If there is
+-- 		no such entry, an empty String is returned.  When {index} is
+-- 		omitted, the most recent item from the history is used.
+--
+-- 		Examples:
+-- 		Redo the second last search from history. >
+-- 			:execute '/' . histget("search", -2)
+--
+-- <		Define an Ex command ":H {num}" that supports re-execution of
+-- 		the {num}th entry from the output of |:history|. >
+-- 			:command -nargs=1 H execute histget("cmd", 0+<args>)
+function vim.fn.histget(history, index) end
+
+-- Pause or unpause a timer.  A paused timer does not invoke its
+-- 		callback when its time expires.  Unpausing a timer may cause
+-- 		the callback to be invoked almost immediately if enough time
+-- 		has passed.
+--
+-- 		Pausing a timer is useful to avoid the callback to be called
+-- 		for a short time.
+--
+-- 		If {paused} evaluates to a non-zero Number or a non-empty
+-- 		String, then the timer is paused, otherwise it is unpaused.
+-- 		See |non-zero-arg|.
+function vim.fn.timer_pause(id, pause) end
+
+-- Open a popup window showing {what}, which is either:
+-- 		- a buffer number
+-- 		- a string
+-- 		- a list of strings
+-- 		- a list of text lines with text properties
+-- 		When {what} is not a buffer number, a buffer is created with
+-- 		'buftype' set to "popup".  That buffer will be wiped out once
+-- 		the popup closes.
+--
+-- 		{options} is a dictionary with many possible entries.
+-- 		See |popup_create-arguments| for details.
+--
+-- 		Returns a window-ID, which can be used with other popup
+-- 		functions.  Use `winbufnr()` to get the number of the buffer
+-- 		in the window: >
+-- 			let winid = popup_create('hello', {})
+-- 			let bufnr = winbufnr(winid)
+-- 			call setbufline(bufnr, 2, 'second line')
+-- <		In case of failure zero is returned.
+--
+-- 		Can also be used as a |method|: >
+-- 			GetText()->popup_create({})
+function vim.fn.popup_create(what, options) end
+
+-- Change options for {job}.  Supported are:
+-- 		   "stoponexit"	|job-stoponexit|
+-- 		   "exit_cb"	|job-exit_cb|
+--
+-- 		Can also be used as a |method|: >
+-- 			GetJob()->job_setoptions(options)
+function vim.fn.job_setoptions(job, options) end
+
+-- Change properties of an existing text property type.  If a
+-- 		property with this name does not exist an error is given.
+-- 		The {props} argument is just like |prop_type_add()|.
+--
+-- 		See |text-properties| for information about text properties.
+--
+-- 		Can also be used as a |method|: >
+-- 			GetPropName()->prop_type_change(props)
+function vim.fn.prop_type_change(name, props) end
+
+-- Stop the {job}.  This can also be used to signal the job.
+--
+-- 		When {how} is omitted or is "term" the job will be terminated.
+-- 		For Unix SIGTERM is sent.  On MS-Windows the job will be
+-- 		terminated forcedly (there is no "gentle" way).
+-- 		This goes to the process group, thus children may also be
+-- 		affected.
+--
+-- 		Effect for Unix:
+-- 			"term"	 SIGTERM (default)
+-- 			"hup"	 SIGHUP
+-- 			"quit"	 SIGQUIT
+-- 			"int"	 SIGINT
+-- 			"kill"	 SIGKILL (strongest way to stop)
+-- 			number	 signal with that number
+--
+-- 		Effect for MS-Windows:
+-- 			"term"	 terminate process forcedly (default)
+-- 			"hup"	 CTRL_BREAK
+-- 			"quit"	 CTRL_BREAK
+-- 			"int"	 CTRL_C
+-- 			"kill"	 terminate process forcedly
+-- 			Others	 CTRL_BREAK
+--
+-- 		On Unix the signal is sent to the process group.  This means
+-- 		that when the job is "sh -c command" it affects both the shell
+-- 		and the command.
+--
+-- 		The result is a Number: 1 if the operation could be executed,
+-- 		0 if "how" is not supported on the system.
+-- 		Note that even when the operation was executed, whether the
+-- 		job was actually stopped needs to be checked with
+-- 		|job_status()|.
+--
+-- 		If the status of the job is "dead", the signal will not be
+-- 		sent.  This is to avoid to stop the wrong job (esp. on Unix,
+-- 		where process numbers are recycled).
+--
+-- 		When using "kill" Vim will assume the job will die and close
+-- 		the channel.
+--
+-- 		Can also be used as a |method|: >
+-- 			GetJob()->job_stop()
+function vim.fn.job_stop(job, how) end
 

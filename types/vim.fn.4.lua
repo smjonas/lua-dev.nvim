@@ -1,120 +1,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Deletes a match with ID {id} previously defined by |matchadd()|
--- 		or one of the |:match| commands.  Returns 0 if successful,
--- 		otherwise -1.  See example for |matchadd()|.  All matches can
--- 		be deleted in one operation by |clearmatches()|.
---- @return number
-function vim.fn.matchdelete(id) end
-
--- Return the position and size of popup {id}.  Returns a Dict
--- 		with these entries:
--- 		    col		screen column of the popup, one-based
--- 		    line	screen line of the popup, one-based
--- 		    width	width of the whole popup in screen cells
--- 		    height	height of the whole popup in screen cells
--- 		    core_col	screen column of the text box
--- 		    core_line	screen line of the text box
--- 		    core_width	width of the text box in screen cells
--- 		    core_height	height of the text box in screen cells
--- 		    firstline	line of the buffer at top (1 unless scrolled)
--- 				(not the value of the "firstline" property)
--- 		    lastline	line of the buffer at the bottom (updated when
--- 				the popup is redrawn)
--- 		    scrollbar	non-zero if a scrollbar is displayed
--- 		    visible	one if the popup is displayed, zero if hidden
--- 		Note that these are the actual screen positions.  They differ
--- 		from the values in `popup_getoptions()` for the sizing and
--- 		positioning mechanism applied.
---
--- 		The "core_" values exclude the padding and border.
---
--- 		If popup window {id} is not found an empty Dict is returned.
---
--- 		Can also be used as a |method|: >
--- 			GetPopup()->popup_getpos()
---- @return dict
-function vim.fn.popup_getpos(id) end
-
--- Selects the {nr} match item, as set with a |:match|,
--- 		|:2match| or |:3match| command.
--- 		Return a |List| with two elements:
--- 			The name of the highlight group used
--- 			The pattern used.
--- 		When {nr} is not 1, 2 or 3 returns an empty |List|.
--- 		When there is no match item set returns ['', ''].
--- 		This is useful to save and restore a |:match|.
--- 		Highlighting matches using the |:match| commands are limited
--- 		to three matches. |matchadd()| does not have this limitation.
---- @return list
-function vim.fn.matcharg(nr) end
-
--- Return the tangent of {expr}, measured in radians, as a |Float|
--- 		in the range [-inf, inf].
--- 		{expr} must evaluate to a |Float| or a |Number|.
--- 		Examples: >
--- 			:echo tan(10)
--- <			0.648361 >
--- 			:echo tan(-4.01)
--- <			-1.181502
---- @return float
-function vim.fn.tan(expr) end
-
--- Clears all matches previously defined for the current window
--- 		by |matchadd()| and the |:match| commands.
---- @return none
-function vim.fn.clearmatches() end
-
--- Set the register {regname} to {value}.
--- 		{value} may be any value returned by |getreg()|, including
--- 		a |List|.
--- 		If {options} contains "a" or {regname} is upper case,
--- 		then the value is appended.
--- 		{options} can also contain a register type specification:
--- 		    "c" or "v"	      |charwise| mode
--- 		    "l" or "V"	      |linewise| mode
--- 		    "b" or "<CTRL-V>" |blockwise-visual| mode
--- 		If a number immediately follows "b" or "<CTRL-V>" then this is
--- 		used as the width of the selection - if it is not specified
--- 		then the width of the block is set to the number of characters
--- 		in the longest line (counting a <Tab> as 1 character).
--- 		If {options} contains "u" or '"', then the unnamed register is
--- 		set to point to register {regname}.
---
--- 		If {options} contains no register settings, then the default
--- 		is to use character mode unless {value} ends in a <NL> for
--- 		string {value} and linewise mode for list {value}. Blockwise
--- 		mode is never selected automatically.
--- 		Returns zero for success, non-zero for failure.
---
--- 							*E883*
--- 		Note: you may not use |List| containing more than one item to
--- 		      set search and expression registers. Lists containing no
--- 		      items act like empty strings.
---
--- 		Examples: >
--- 			:call setreg(v:register, @*)
--- 			:call setreg('*', @%, 'ac')
--- 			:call setreg('a', "1\n2\n3", 'b5')
---
--- <		This example shows using the functions to save and restore a
--- 		register: >
--- 			:let var_a = getreg('a', 1, 1)
--- 			:let var_amode = getregtype('a')
--- 			    ....
--- 			:call setreg('a', var_a, var_amode)
--- <		Note: you may not reliably restore register value
--- 		without using the third argument to |getreg()| as without it
--- 		newlines are represented as newlines AND Nul bytes are
--- 		represented as newlines as well, see |NL-used-for-Nul|.
---
--- 		You can also change the type of a register by appending
--- 		nothing: >
--- 			:call setreg('a', '', 'al')
---- @return number
-function vim.fn.setreg(n, v, opt) end
-
 -- Show the {what} for 3 seconds at the top of the Vim window.
 -- 		This works like: >
 -- 			call popup_create({what}, #{
@@ -142,7 +28,6 @@ function vim.fn.setreg(n, v, opt) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetText()->popup_notification({})
---- @return number
 function vim.fn.popup_notification(what, options) end
 
 -- When {expected} and {actual} are not equal an error message is
@@ -158,7 +43,6 @@ function vim.fn.popup_notification(what, options) end
 -- 	assert_equal('foo', 'bar')
 -- <		Will result in a string to be added to |v:errors|:
 -- 	test.vim line 12: Expected 'foo' but got 'bar' ~
---- @return number
 function vim.fn.assert_equal(exp, act, msg) end
 
 -- The result is the swap file path of the buffer {expr}.
@@ -166,7 +50,6 @@ function vim.fn.assert_equal(exp, act, msg) end
 -- 		If buffer {expr} is the current buffer, the result is equal to
 -- 		|:swapname| (unless no swap file).
 -- 		If buffer {expr} has no swap file, returns an empty string.
---- @return string
 function vim.fn.swapname(expr) end
 
 -- The result is a Number which is the state of the modifiers for
@@ -183,7 +66,6 @@ function vim.fn.swapname(expr) end
 -- 		Only the modifiers that have not been included in the
 -- 		character itself are obtained.  Thus Shift-a results in "A"
 -- 		without a modifier.
---- @return number
 function vim.fn.getcharmod() end
 
 -- When {expr} is a |List| then this returns the index of the
@@ -242,7 +124,6 @@ function vim.fn.getcharmod() end
 -- 		The 'ignorecase' option is used to set the ignore-caseness of
 -- 		the pattern.  'smartcase' is NOT used.  The matching is always
 -- 		done like 'magic' is set and 'cpoptions' is empty.
---- @return number
 function vim.fn.match(expr, pat, start, count) end
 
 -- Set the text of the buffer in popup win {id}. {text} is the
@@ -253,7 +134,6 @@ function vim.fn.match(expr, pat, start, count) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetPopup()->popup_settext('hello')
---- @return none
 function vim.fn.popup_settext(id, text) end
 
 -- The result is a String, which is a copy of {expr}, in which
@@ -295,7 +175,6 @@ function vim.fn.popup_settext(id, text) end
 -- 		matched string and up to nine submatches, like what
 -- 		|submatch()| returns.  Example: >
 -- 		   :echo substitute(s, '%\(\x\x\)', {m -> '0x' . m[1]}, 'g')
---- @return string
 function vim.fn.substitute(expr, pat, sub, flags) end
 
 -- The result is the {nr}th file in the argument list.  See
@@ -310,7 +189,6 @@ function vim.fn.substitute(expr, pat, sub, flags) end
 -- 		the whole |arglist| is returned.
 --
 -- 		The {winid} argument specifies the window ID, see |argc()|.
---- @return list
 function vim.fn.argv(_1, winid) end
 
 -- {not implemented yet}
@@ -337,7 +215,6 @@ function vim.fn.argv(_1, winid) end
 -- 		If no match is found then an empty Dict is returned.
 --
 -- 		See |text-properties| for information about text properties.
---- @return dict
 function vim.fn.prop_find(props, direction) end
 
 -- Return a string which contains characters indicating the
@@ -374,7 +251,6 @@ function vim.fn.prop_find(props, direction) end
 -- 		    c	callback invoked, including timer (repeats for
 -- 			recursiveness up to "ccc")
 -- 		    s	screen has scrolled for messages
---- @return string
 function vim.fn.state(what) end
 
 -- different from using {expr} directly.
@@ -408,7 +284,6 @@ function vim.fn.copy(expr) end
 -- 			endif
 -- 		      endfunction
 -- 		    endif
---- @return number
 function vim.fn.strchars(expr, skipcc) end
 
 -- Set the current character search information to {dict},
@@ -430,7 +305,6 @@ function vim.fn.strchars(expr, skipcc) end
 -- 			:call setcharsearch(prevsearch)
 -- <		Also see |getcharsearch()|.
 --- @param dict dictionary
---- @return dict
 function vim.fn.setcharsearch(dict) end
 
 -- window.  The top window has number 1.
@@ -458,13 +332,11 @@ function vim.fn.setcharsearch(dict) end
 -- 			let prev_window = winnr('#')
 -- 			let wnum = winnr('3k')
 -- <
---- @return number
 function vim.fn.winnr(expr) end
 
 -- The result is a copy of the String given, with all lowercase
 -- 		characters turned into uppercase (just like applying |gU| to
 -- 		the string).
---- @return string
 function vim.fn.toupper(expr) end
 
 -- The result is a Number, which is a unix timestamp representing
@@ -492,13 +364,11 @@ function vim.fn.toupper(expr) end
 --
 -- 		Not available on all systems.  To check use: >
 -- 			:if exists("*strptime")
---- @return number
 function vim.fn.strptime(format, timestring) end
 
 -- the top of the GUI Vim window.  The result will be -1 if the
 -- 		information is not available.
 -- 		The value can be used with `:winpos`.
---- @return number
 function vim.fn.getwinposy() end
 
 -- The result is a String, which is part of {src}, starting from
@@ -517,7 +387,6 @@ function vim.fn.getwinposy() end
 -- <		Note: To get the first character, {start} must be 0.  For
 -- 		example, to get three bytes under and after the cursor: >
 -- 			strpart(getline("."), col(".") - 1, 3)
---- @return string
 function vim.fn.strpart(str, start, len) end
 
 -- Evaluate Python expression {expr} and return its result
@@ -552,7 +421,6 @@ function vim.fn.deepcopy(expr, noref) end
 -- 		For {id} see `popup_hide()`.
 -- 		If {id} is the info popup it will be positioned next to the
 -- 		current popup menu item.
---- @return none
 function vim.fn.popup_show(id) end
 
 -- Returns the |changelist| for the buffer {expr}. For the use
@@ -569,7 +437,6 @@ function vim.fn.popup_show(id) end
 -- 		If buffer {expr} is the current buffer, then the current
 -- 		position refers to the position in the list. For other
 -- 		buffers, it is set to the length of the list.
---- @return list
 function vim.fn.getchangelist(expr) end
 
 -- Set the cursor position in the command line to byte position
@@ -585,7 +452,6 @@ function vim.fn.getchangelist(expr) end
 -- 		line.  A number smaller than one has undefined results.
 -- 		Returns 0 when successful, 1 when not editing the command
 -- 		line.
---- @return number
 function vim.fn.setcmdpos(pos) end
 
 -- Invoke listener callbacks for buffer {buf}.  If there are no
@@ -597,11 +463,9 @@ function vim.fn.setcmdpos(pos) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetBuffer()->listener_flush()
---- @return none
 function vim.fn.listener_flush(buf) end
 
 -- Return a |Blob| that is null. Only useful for testing.
---- @return blob
 function vim.fn.test_null_blob() end
 
 -- When {text} is a |List|: Append each item of the |List| as a
@@ -614,7 +478,6 @@ function vim.fn.test_null_blob() end
 -- 			:let failed = append(line('$'), "# THE END")
 -- 			:let failed = append(0, ["Chapter 1", "the beginning"])
 --- @param list any[]
---- @return number
 function vim.fn.append(lnum, list) end
 
 -- Get the |window-ID| for the specified window.
@@ -624,7 +487,6 @@ function vim.fn.append(lnum, list) end
 -- 		Without {tab} use the current tab, otherwise the tab with
 -- 		number {tab}.  The first tab has number one.
 -- 		Return zero if the window cannot be found.
---- @return number
 function vim.fn.win_getid(win, tab) end
 
 -- Return the screen position of window {nr} as a list with two
@@ -633,13 +495,11 @@ function vim.fn.win_getid(win, tab) end
 -- 		{nr} can be the window number or the |window-ID|.
 -- 		Return [0, 0] if the window cannot be found in the current
 -- 		tabpage.
---- @return list
 function vim.fn.win_screenpos(nr) end
 
 -- The opposite of `assert_match()`: add an error message to
 -- 		|v:errors| when {pattern} matches {actual}.
 -- 		Also see |assert-return|.
---- @return number
 function vim.fn.assert_notmatch(pat, text, msg) end
 
 -- Characters in {string} are queued for processing as if they
@@ -685,7 +545,6 @@ function vim.fn.assert_notmatch(pat, text, msg) end
 -- 			a little later.  Useful for testing CursorHoldI.
 --
 -- 		Return value is always 0.
---- @return number
 function vim.fn.feedkeys(string, mode) end
 
 -- Return a |List| with all the key-value pairs of {dict}.  Each
@@ -693,7 +552,6 @@ function vim.fn.feedkeys(string, mode) end
 -- 		entry and the value of this entry.  The |List| is in arbitrary
 -- 		order.
 --- @param dict dictionary
---- @return list
 function vim.fn.items(dict) end
 
 -- Get the value of window-local variable {varname} in window
@@ -744,7 +602,6 @@ function vim.fn.gettabwinvar(tabnr, winnr, name, def) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetProps()->prop_remove()
---- @return number
 function vim.fn.prop_remove(props, lnum, lnum_end) end
 
 -- The result is a Number, which is |TRUE| if a buffer called
@@ -767,7 +624,6 @@ function vim.fn.prop_remove(props, lnum, lnum_end) end
 -- 		for MS-Windows 8.3 names in the form "c:\DOCUME~1"
 -- 		Use "bufexists(0)" to test for the existence of an alternate
 -- 		file name.
---- @return number
 function vim.fn.bufexists(expr) end
 
 -- Add a callback function that will be invoked when changes have
@@ -841,7 +697,6 @@ function vim.fn.bufexists(expr) end
 -- 		Can also be used as a |method|, the base is passed as the
 -- 		second argument: >
 -- 			GetBuffer()->listener_add(callback)
---- @return number
 function vim.fn.listener_add(callback, buf) end
 
 -- Execute {command} and capture its output.
@@ -867,13 +722,11 @@ function vim.fn.listener_add(callback, buf) end
 -- 		Note: If nested, an outer execute() will not observe output of
 -- 		the inner calls.
 -- 		Note: Text attributes (highlights) are not captured.
---- @return string
 function vim.fn.execute(command) end
 
 -- The result is a Number, which is |TRUE| when the IME status is
 -- 		active.
 -- 		See 'imstatusfunc'.
---- @return number
 function vim.fn.getimstatus() end
 
 -- Set a callback for buffer {buf} to {expr}.  When {expr} is an
@@ -883,17 +736,14 @@ function vim.fn.getimstatus() end
 -- 		This callback will be invoked when pressing CTRL-C in Insert
 -- 		mode.  Without setting a callback Vim will exit Insert mode,
 -- 		as in any buffer.
---- @return none
 function vim.fn.prompt_setinterrupt(buf, text) end
 
 -- Return a |Job| that is null. Only useful for testing.
 -- 		{only available when compiled with the +job feature}
---- @return job
 function vim.fn.test_null_job() end
 
 -- Set the flag to call the garbagecollector as if in the main
 -- 		loop.  Only to be used in tests.
---- @return none
 function vim.fn.test_garbagecollect_soon() end
 
 -- Return the name of the undo file that would be used for a file
@@ -907,7 +757,6 @@ function vim.fn.test_garbagecollect_soon() end
 -- 		Useful in combination with |:wundo| and |:rundo|.
 -- 		When compiled without the |+persistent_undo| option this always
 -- 		returns an empty string.
---- @return string
 function vim.fn.undofile(name) end
 
 -- The result is a String, which is the {what} attribute of
@@ -943,7 +792,6 @@ function vim.fn.undofile(name) end
 -- 		Example (echoes the color of the syntax item under the
 -- 		cursor): >
 -- 	:echo synIDattr(synIDtrans(synID(line("."), col("."), 1)), "fg")
---- @return string
 function vim.fn.synIDattr(synID, what, mode) end
 
 -- Show {expr} inside the balloon.  For the GUI {expr} is used as
@@ -975,7 +823,6 @@ function vim.fn.synIDattr(synID, what, mode) end
 -- 		error message.
 -- 		{only available when compiled with the |+balloon_eval| or
 -- 		|+balloon_eval_term| feature}
---- @return none
 function vim.fn.balloon_show(expr) end
 
 -- Return a String that represents the time value of {time}.
@@ -989,7 +836,6 @@ function vim.fn.balloon_show(expr) end
 -- 		can use split() to remove it. >
 -- 			echo split(reltimestr(reltime(start)))[0]
 -- <		Also see |profiling|.
---- @return string
 function vim.fn.reltimestr(time) end
 
 -- Filter that can be used for a popup. It handles only the keys
@@ -999,14 +845,12 @@ function vim.fn.reltimestr(time) end
 -- 		pressing 'n'.  CTRL-C invokes the callback with -1.  Other
 -- 		keys are ignored.
 -- 		See the example here: |popup_dialog-example|
---- @return number
 function vim.fn.popup_filter_yesno(id, key) end
 
 -- Get character {index} from {str}.  This uses a character
 -- 		index, not a byte index.  Composing characters are considered
 -- 		separate characters here.
 -- 		Also see |strcharpart()| and |strchars()|.
---- @return number
 function vim.fn.strgetchar(str, index) end
 
 -- Bitwise XOR on the two arguments.  The arguments are converted
@@ -1014,7 +858,6 @@ function vim.fn.strgetchar(str, index) end
 -- 		Example: >
 -- 			:let bits = xor(bits, 0x80)
 -- <
---- @return number
 function vim.fn.xor(expr, expr) end
 
 -- Unsubscribes to event broadcasts.
@@ -1032,7 +875,6 @@ function vim.fn.nvim_unsubscribe(event) end
 -- <		The first and third echo result in 3 ('e' plus composing
 -- 		character is 3 bytes), the second echo results in 1 ('e' is
 -- 		one byte).
---- @return number
 function vim.fn.byteidxcomp(expr, nr) end
 
 -- Given {attr}, a value returned by term_scrape() in the "attr"
@@ -1045,7 +887,6 @@ function vim.fn.byteidxcomp(expr, nr) end
 --
 -- 		Can also be used as a |method|: >
 -- 			GetAttr()->term_getattr()
---- @return number
 function vim.fn.term_getattr(attr, what) end
 
 -- When v:exception does not contain the string {error} an error
@@ -1059,14 +900,12 @@ function vim.fn.term_getattr(attr, what) end
 -- 			catch
 -- 			  call assert_exception('E492:')
 -- 			endtry
---- @return number
 function vim.fn.assert_exception(error, msg) end
 
 -- in the window.  This is counting screen lines from the top of
 -- 		the window.  The first line is one.
 -- 		If the cursor was moved the view on the file will be updated
 -- 		first, this may cause a scroll.
---- @return number
 function vim.fn.winline() end
 
 -- Open a new window displaying the contents of {filename}
@@ -1079,7 +918,6 @@ function vim.fn.winline() end
 -- 		Can also be used as a |method|: >
 -- 			GetFilename()->term_dumpload()
 -- <
---- @return number
 function vim.fn.term_dumpload(filename, options) end
 
 -- the view of the current window.  Use |winrestview()| to
@@ -1101,7 +939,6 @@ function vim.fn.term_dumpload(filename, options) end
 -- 			leftcol		first column displayed
 -- 			skipcol		columns skipped
 -- 		Note that no option values are saved.
---- @return dict
 function vim.fn.winsaveview() end
 
 -- Set the ANSI color palette used by terminal {buf}.
@@ -1137,10 +974,8 @@ function vim.fn.winsaveview() end
 --
 -- <		{only available with GUI enabled and/or the |+termguicolors|
 -- 		feature}
---- @return none
 function vim.fn.term_setansicolors(buf, colors) end
 
---- @return list
 function vim.fn.searchpairpos(start, middle, _end, flags, ...) end
 
 -- Uses the |Dictionary| returned by |winsaveview()| to restore
@@ -1158,7 +993,6 @@ function vim.fn.searchpairpos(start, middle, _end, flags, ...) end
 -- 		If you have changed the values the result is unpredictable.
 -- 		If the window size changed the result won't be the same.
 --- @param dict dictionary
---- @return none
 function vim.fn.winrestview(dict) end
 
 -- Get the output of {cmd} as a |string| (use |systemlist()| to
@@ -1212,7 +1046,6 @@ function vim.fn.winrestview(dict) end
 -- 		when using a security agent application.
 -- 		Unlike ":!cmd" there is no automatic check for changed files.
 -- 		Use |:checktime| to force a check.
---- @return string
 function vim.fn.system(cmd, input) end
 
 -- Get the value of an internal variable.  These values for
@@ -1236,7 +1069,6 @@ function vim.fn.test_getvalue(string) end
 -- 		removed when "dir" is a symbolic link within the same
 -- 		directory.  In order to resolve all the involved symbolic
 -- 		links before simplifying the path name, use |resolve()|.
---- @return string
 function vim.fn.simplify(filename) end
 
 -- Return a List with all text properties in line {lnum}.
@@ -1265,7 +1097,6 @@ function vim.fn.simplify(filename) end
 -- 		Can also be used as a |method|: >
 -- 			GetLnum()->prop_list()
 -- <
---- @return list
 function vim.fn.prop_list(lnum, props) end
 
 -- Find directory {name} in {path}.  Supports both downwards and
@@ -1279,12 +1110,201 @@ function vim.fn.prop_list(lnum, props) end
 -- 		{name} in {path} instead of the first one.
 -- 		When {count} is negative return all the matches in a |List|.
 -- 		This is quite similar to the ex-command |:find|.
---- @return string
 function vim.fn.finddir(name, path, count) end
 
 -- Go to window with ID {expr}.  This may also change the current
 -- 		tabpage.
 -- 		Return 1 if successful, 0 if the window cannot be found.
---- @return number
 function vim.fn.win_gotoid(expr) end
+
+-- Return a String with {fmt}, where "%" items are replaced by
+-- 		the formatted form of their respective arguments.  Example: >
+-- 			printf("%4d: E%d %.30s", lnum, errno, msg)
+-- <		May result in:
+-- 			"  99: E42 asdfasdfasdfasdfasdfasdfasdfas" ~
+--
+-- 		Often used items are:
+-- 		  %s	string
+-- 		  %6S	string right-aligned in 6 display cells
+-- 		  %6s	string right-aligned in 6 bytes
+-- 		  %.9s	string truncated to 9 bytes
+-- 		  %c	single byte
+-- 		  %d	decimal number
+-- 		  %5d	decimal number padded with spaces to 5 characters
+-- 		  %b	binary number
+-- 		  %08b	binary number padded with zeros to at least 8 characters
+-- 		  %B	binary number using upper case letters
+-- 		  %x	hex number
+-- 		  %04x	hex number padded with zeros to at least 4 characters
+-- 		  %X	hex number using upper case letters
+-- 		  %o	octal number
+-- 		  %f	floating point number as 12.23, inf, -inf or nan
+-- 		  %F	floating point number as 12.23, INF, -INF or NAN
+-- 		  %e	floating point number as 1.23e3, inf, -inf or nan
+-- 		  %E	floating point number as 1.23E3, INF, -INF or NAN
+-- 		  %g	floating point number, as %f or %e depending on value
+-- 		  %G	floating point number, as %F or %E depending on value
+-- 		  %%	the % character itself
+-- 		  %p	representation of the pointer to the container
+--
+-- 		Conversion specifications start with '%' and end with the
+-- 		conversion type.  All other characters are copied unchanged to
+-- 		the result.
+--
+-- 		The "%" starts a conversion specification.  The following
+-- 		arguments appear in sequence:
+--
+-- 			%  [flags]  [field-width]  [.precision]  type
+--
+-- 		flags
+-- 			Zero or more of the following flags:
+--
+-- 		    #	      The value should be converted to an "alternate
+-- 			      form".  For c, d, and s conversions, this option
+-- 			      has no effect.  For o conversions, the precision
+-- 			      of the number is increased to force the first
+-- 			      character of the output string to a zero (except
+-- 			      if a zero value is printed with an explicit
+-- 			      precision of zero).
+-- 			      For x and X conversions, a non-zero result has
+-- 			      the string "0x" (or "0X" for X conversions)
+-- 			      prepended to it.
+--
+-- 		    0 (zero)  Zero padding.  For all conversions the converted
+-- 			      value is padded on the left with zeros rather
+-- 			      than blanks.  If a precision is given with a
+-- 			      numeric conversion (d, o, x, and X), the 0 flag
+-- 			      is ignored.
+--
+-- 		    -	      A negative field width flag; the converted value
+-- 			      is to be left adjusted on the field boundary.
+-- 			      The converted value is padded on the right with
+-- 			      blanks, rather than on the left with blanks or
+-- 			      zeros.  A - overrides a 0 if both are given.
+--
+-- 		    ' ' (space)  A blank should be left before a positive
+-- 			      number produced by a signed conversion (d).
+--
+-- 		    +	      A sign must always be placed before a number
+-- 			      produced by a signed conversion.  A + overrides
+-- 			      a space if both are used.
+--
+-- 		field-width
+-- 			An optional decimal digit string specifying a minimum
+-- 			field width.  If the converted value has fewer bytes
+-- 			than the field width, it will be padded with spaces on
+-- 			the left (or right, if the left-adjustment flag has
+-- 			been given) to fill out the field width.
+--
+-- 		.precision
+-- 			An optional precision, in the form of a period '.'
+-- 			followed by an optional digit string.  If the digit
+-- 			string is omitted, the precision is taken as zero.
+-- 			This gives the minimum number of digits to appear for
+-- 			d, o, x, and X conversions, or the maximum number of
+-- 			bytes to be printed from a string for s conversions.
+-- 			For floating point it is the number of digits after
+-- 			the decimal point.
+--
+-- 		type
+-- 			A character that specifies the type of conversion to
+-- 			be applied, see below.
+--
+-- 		A field width or precision, or both, may be indicated by an
+-- 		asterisk '*' instead of a digit string.  In this case, a
+-- 		Number argument supplies the field width or precision.  A
+-- 		negative field width is treated as a left adjustment flag
+-- 		followed by a positive field width; a negative precision is
+-- 		treated as though it were missing.  Example: >
+-- 			:echo printf("%d: %.*s", nr, width, line)
+-- <		This limits the length of the text used from "line" to
+-- 		"width" bytes.
+--
+-- 		The conversion specifiers and their meanings are:
+--
+-- 				*printf-d* *printf-b* *printf-B* *printf-o* *printf-x* *printf-X*
+-- 		dbBoxX	The Number argument is converted to signed decimal (d),
+-- 			unsigned binary (b and B), unsigned octal (o), or
+-- 			unsigned hexadecimal (x and X) notation.  The letters
+-- 			"abcdef" are used for x conversions; the letters
+-- 			"ABCDEF" are used for X conversions.  The precision, if
+-- 			any, gives the minimum number of digits that must
+-- 			appear; if the converted value requires fewer digits, it
+-- 			is padded on the left with zeros.  In no case does a
+-- 			non-existent or small field width cause truncation of a
+-- 			numeric field; if the result of a conversion is wider
+-- 			than the field width, the field is expanded to contain
+-- 			the conversion result.
+-- 			The 'h' modifier indicates the argument is 16 bits.
+-- 			The 'l' modifier indicates the argument is 32 bits.
+-- 			The 'L' modifier indicates the argument is 64 bits.
+-- 			Generally, these modifiers are not useful. They are
+-- 			ignored when type is known from the argument.
+--
+-- 		i	alias for d
+-- 		D	alias for ld
+-- 		U	alias for lu
+-- 		O	alias for lo
+--
+-- 							*printf-c*
+-- 		c	The Number argument is converted to a byte, and the
+-- 			resulting character is written.
+--
+-- 							*printf-s*
+-- 		s	The text of the String argument is used.  If a
+-- 			precision is specified, no more bytes than the number
+-- 			specified are used.
+-- 			If the argument is not a String type, it is
+-- 			automatically converted to text with the same format
+-- 			as ":echo".
+-- 							*printf-S*
+-- 		S	The text of the String argument is used.  If a
+-- 			precision is specified, no more display cells than the
+-- 			number specified are used.
+--
+-- 							*printf-f* *E807*
+-- 		f F	The Float argument is converted into a string of the
+-- 			form 123.456.  The precision specifies the number of
+-- 			digits after the decimal point.  When the precision is
+-- 			zero the decimal point is omitted.  When the precision
+-- 			is not specified 6 is used.  A really big number
+-- 			(out of range or dividing by zero) results in "inf"
+-- 			 or "-inf" with %f (INF or -INF with %F).
+-- 			 "0.0 / 0.0" results in "nan" with %f (NAN with %F).
+-- 			Example: >
+-- 				echo printf("%.2f", 12.115)
+-- <				12.12
+-- 			Note that roundoff depends on the system libraries.
+-- 			Use |round()| when in doubt.
+--
+-- 							*printf-e* *printf-E*
+-- 		e E	The Float argument is converted into a string of the
+-- 			form 1.234e+03 or 1.234E+03 when using 'E'.  The
+-- 			precision specifies the number of digits after the
+-- 			decimal point, like with 'f'.
+--
+-- 							*printf-g* *printf-G*
+-- 		g G	The Float argument is converted like with 'f' if the
+-- 			value is between 0.001 (inclusive) and 10000000.0
+-- 			(exclusive).  Otherwise 'e' is used for 'g' and 'E'
+-- 			for 'G'.  When no precision is specified superfluous
+-- 			zeroes and '+' signs are removed, except for the zero
+-- 			immediately after the decimal point.  Thus 10000000.0
+-- 			results in 1.0e7.
+--
+-- 							*printf-%*
+-- 		%	A '%' is written.  No argument is converted.  The
+-- 			complete conversion specification is "%%".
+--
+-- 		When a Number argument is expected a String argument is also
+-- 		accepted and automatically converted.
+-- 		When a Float or String argument is expected a Number argument
+-- 		is also accepted and automatically converted.
+-- 		Any other argument type results in an error message.
+--
+-- 							*E766* *E767*
+-- 		The number of {exprN} arguments must exactly match the number
+-- 		of "%" items.  If there are not sufficient or too many
+-- 		arguments an error is given.  Up to 18 arguments can be used.
+function vim.fn.printf(fmt, ...) end
 

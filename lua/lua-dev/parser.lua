@@ -7,10 +7,21 @@ function M.comment(str, comment_str)
 end
 
 function M.infer_type(param)
-  local type = param.type or "any"
-  if type == "" then
+  local type = param.type
+  if (not type or type == "") and param.doc then
+    -- Try extracting the type by parsing the docs
+    local parsed_type, new_doc = param.doc:match("^%((%l-)%) (.*)")
+    if not parsed_type then
+      parsed_type, new_doc = param.doc:match("^%l+%|%l+ (.*)")
+    end
+    if new_doc then
+      param.doc = new_doc
+      type = parsed_type
+    end
+  else
     type = "any"
   end
+
   if type == "any" then
     if param.name == "fn" then
       type = "fun(...)"
