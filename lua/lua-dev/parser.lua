@@ -48,6 +48,36 @@ function M.emmy_param(param, is_return)
     param.doc = param.doc:gsub("([^%.:])\n%s+", "%1 ")
     -- Reinsert newlines before • characters
     param.doc = param.doc:gsub("([^%s]) • ", "%1\n • ")
+    if param.doc:find("\n(%s+)") then
+      local x = param.doc:match("\n(%s+)")
+      print(x, #x)
+    end
+    local current_level = -1
+    local prev_indent = -1
+    local lines = vim.split(param.doc, "\n", {})
+    local reindented_lines = {}
+
+    for i, line in ipairs(lines) do
+      local whitespace = line:match("^(%s*)• ")
+      if whitespace then
+        local indent = #whitespace
+        if indent > prev_indent then
+          current_level = current_level + 1
+        elseif indent < prev_indent then
+          current_level = current_level - 1
+        end
+        reindented_lines[i] = (" "):rep(current_level * 2) .. line:sub(indent + 1)
+        vim.pretty_print(current_level, reindented_lines[i])
+        prev_indent = indent
+        print("NEW IN", indent, line)
+      else
+        reindented_lines[i] = line
+      end
+    end
+    if #reindented_lines > 1 then
+      vim.pretty_print(reindented_lines)
+      param.doc = table.concat(reindented_lines, "\n")
+    end
   end
   local type = M.infer_type(param)
   local parts = {}
@@ -150,7 +180,7 @@ function M.intro(fd)
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
-]],
+]]   ,
     -1
   )
 end
@@ -212,7 +242,7 @@ function M.parse(mpack, prefix, exclude)
 --- @class %s
 %s = {}
 
-]]):format(prefix .. "." .. parts[1], prefix .. "." .. parts[1]))
+]]       ):format(prefix .. "." .. parts[1], prefix .. "." .. parts[1]))
         classes[parts[1]] = true
       end
       local emmy = M.emmy(M.process(name, fun, prefix))
