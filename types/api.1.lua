@@ -1,62 +1,25 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Parse a VimL expression.
---- @param expr any #Expression to parse. Always treated as a single line.
---- @param flags any #Flags:
----                  • "m" if multiple expressions in a row are allowed (only the first one will be parsed),
----  • "E" if EOC tokens are not allowed (determines whether they will stop parsing process or be recognized as an operator/space, though also yielding an error).
----                  • "l" when needing to start parsing with lvalues for ":let" or ":for". Common flag sets:
----                  • "m" to parse like for ":echo".
----                  • "E" to parse like for "<C-r>=".
----                  • empty string for ":call".
----                  • "lm" to parse for ":let".
---- @param highlight any #If true, return value will also include "highlight" key containing array of 4-tuples (arrays) (Integer, Integer, Integer, String), where first three numbers define the highlighted region and represent line, starting column and ending column (latter exclusive: one should highlight region [start_col, end_col)).
---- @return #
----     • AST: top-level dictionary with these keys:
----       • "error": Dictionary with error, present only if parser saw some error. Contains the following keys:
----         • "message": String, error message in printf format, translated.
----           Must contain exactly one "%.*s".
----         • "arg": String, error message argument.
----  • "len": Amount of bytes successfully parsed. With flags equal to "" that should be equal to the length of expr string. (“Successfully parsed” here means “participated in AST creation”, not “till the first error”.)
----  • "ast": AST, either nil or a dictionary with these keys:
----         • "type": node type, one of the value names from ExprASTNodeType stringified without "kExprNode" prefix.
----         • "start": a pair [line, column] describing where node is "started" where "line" is always 0 (will not be 0 if you will be using nvim_parse_viml() on e.g. ":let", but that is not present yet). Both elements are Integers.
----         • "len": “length” of the node. This and "start" are there for debugging purposes primary (debugging parser and providing debug information).
----         • "children": a list of nodes described in top/"ast". There always is zero, one or two children, key will not be present if node has no children. Maximum number of children may be found in node_maxchildren array.
----  • Local values (present only for certain nodes):
----       • "scope": a single Integer, specifies scope for "Option" and "PlainIdentifier" nodes. For "Option" it is one of ExprOptScope values, for "PlainIdentifier" it is one of ExprVarScope values.
----       • "ident": identifier (without scope, if any), present for "Option", "PlainIdentifier", "PlainKey" and "Environment" nodes.
----       • "name": Integer, register name (one character) or -1. Only present for "Register" nodes.
----       • "cmp_type": String, comparison type, one of the value names from ExprComparisonType, stringified without "kExprCmp" prefix. Only present for "Comparison" nodes.
----       • "ccs_strategy": String, case comparison strategy, one of the value names from ExprCaseCompareStrategy, stringified without "kCCStrategy" prefix. Only present for "Comparison" nodes.
----       • "augmentation": String, augmentation type for "Assignment" nodes.
----         Is either an empty string, "Add", "Subtract" or "Concat" for "=", "+=", "-=" or ".=" respectively.
----       • "invert": Boolean, true if result of comparison needs to be inverted. Only present for "Comparison" nodes.
----       • "ivalue": Integer, integer value for "Integer" nodes.
----       • "fvalue": Float, floating-point value for "Float" nodes.
----       • "svalue": String, value for "SingleQuotedString" and "DoubleQuotedString" nodes.
-function vim.api.nvim_parse_expression(expr, flags, highlight) end
-
 -- Pastes at cursor, in any mode.
 --- @param data any #Multiline input. May be binary (containing NUL bytes).
 --- @param crlf any #Also break lines at CR and CRLF.
 --- @param phase any #-1: paste in a single call (i.e. without streaming). To "stream" a paste, call `nvim_paste` sequentially with these `phase` values:
----              • 1: starts the paste (exactly once)
----  • 2: continues the paste (zero or more times)
----  • 3: ends the paste (exactly once)
+--- • 1: starts the paste (exactly once)
+--- • 2: continues the paste (zero or more times)
+--- • 3: ends the paste (exactly once)
 --- @return #
----     • true: Client may continue pasting.
----     • false: Client must cancel the paste.
+--- • true: Client may continue pasting.
+--- • false: Client must cancel the paste.
 function vim.api.nvim_paste(data, crlf, phase) end
 
 -- Puts text at cursor, in any mode.
 --- @param lines any #|readfile()|-style list of lines. |channel-lines|
 --- @param type any #Edit behavior: any |getregtype()| result, or:
----               • "b" |blockwise-visual| mode (may include width, e.g. "b3")
----  • "c" |charwise| mode
----  • "l" |linewise| mode
----  • "" guess by contents, see |setreg()|
+--- • "b" |blockwise-visual| mode (may include width, e.g. "b3")
+--- • "c" |charwise| mode
+--- • "l" |linewise| mode
+--- • "" guess by contents, see |setreg()|
 --- @param after any #If true insert after cursor (like |p|), or before (like |P|).
 --- @param follow any #If true place cursor at end of inserted text.
 function vim.api.nvim_put(lines, type, after, follow) end
@@ -79,26 +42,26 @@ function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 -- Self-identifies the client.
 --- @param name any #Short name for the connected client
 --- @param version any #Dictionary describing the version, with these (optional) keys:
----                   • "major" major version (defaults to 0 if not set, for no release yet)
----  • "minor" minor version
----  • "patch" patch number
----  • "prerelease" string describing a prerelease, like "dev" or "beta1"
----  • "commit" hash or similar identifier of commit
+--- • "major" major version (defaults to 0 if not set, for no release yet)
+--- • "minor" minor version
+--- • "patch" patch number
+--- • "prerelease" string describing a prerelease, like "dev" or "beta1"
+--- • "commit" hash or similar identifier of commit
 --- @param type any #Must be one of the following values. Client libraries should default to "remote" unless overridden by the user.
----                   • "remote" remote client connected to Nvim.
----                   • "ui" gui frontend
----  • "embedder" application using Nvim as a component (for example, IDE/editor implementing a vim mode).
----                   • "host" plugin host, typically started by nvim
----  • "plugin" single plugin, started by nvim
+--- • "remote" remote client connected to Nvim.
+--- • "ui" gui frontend
+--- • "embedder" application using Nvim as a component (for example, IDE/editor implementing a vim mode).
+--- • "host" plugin host, typically started by nvim
+--- • "plugin" single plugin, started by nvim
 --- @param methods any #Builtin methods in the client. For a host, this does not include plugin methods which will be discovered later.
 ---                   The key should be the method name, the values are dicts with these (optional) keys (more keys may be added in future versions of Nvim, thus unknown keys are ignored.
 ---                   Clients must only use keys defined in this or later versions of Nvim):
----                   • "async" if true, send as a notification. If false or unspecified, use a blocking request
----  • "nargs" Number of arguments. Could be a single integer or an array of two integers, minimum and maximum inclusive.
+--- • "async" if true, send as a notification. If false or unspecified, use a blocking request
+--- • "nargs" Number of arguments. Could be a single integer or an array of two integers, minimum and maximum inclusive.
 --- @param attributes any #Arbitrary string:string map of informal client properties. Suggested keys:
----                   • "website": Client homepage URL (e.g. GitHub repository)
----  • "license": License description ("Apache 2", "GPLv3", "MIT", …)
----  • "logo": URI or path to image, preferably small logo or icon. .png or .svg format is preferred.
+--- • "website": Client homepage URL (e.g. GitHub repository)
+--- • "license": License description ("Apache 2", "GPLv3", "MIT", …)
+--- • "logo": URI or path to image, preferably small logo or icon. .png or .svg format is preferred.
 function vim.api.nvim_set_client_info(name, version, type, methods, attributes) end
 
 -- Sets the current buffer.
@@ -124,12 +87,12 @@ function vim.api.nvim_set_current_win(window) end
 -- Set or change decoration provider for a namespace
 --- @param ns_id any #Namespace id from |nvim_create_namespace()|
 --- @param opts any #Callbacks invoked during redraw:
----              • on_start: called first on each screen redraw ["start", tick]
----  • on_buf: called for each buffer being redrawn (before window callbacks) ["buf", bufnr, tick]
----  • on_win: called when starting to redraw a specific window.
+--- • on_start: called first on each screen redraw ["start", tick]
+--- • on_buf: called for each buffer being redrawn (before window callbacks) ["buf", bufnr, tick]
+--- • on_win: called when starting to redraw a specific window.
 ---                ["win", winid, bufnr, topline, botline_guess]
----  • on_line: called for each buffer line being redrawn. (The interaction with fold lines is subject to change) ["win", winid, bufnr, row]
----  • on_end: called at the end of a redraw cycle ["end", tick]
+--- • on_line: called for each buffer line being redrawn. (The interaction with fold lines is subject to change) ["win", winid, bufnr, row]
+--- • on_end: called at the end of a redraw cycle ["end", tick]
 function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 
 -- Sets a highlight group.
@@ -137,26 +100,26 @@ function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 ---              Use 0 to set a highlight group globally |:highlight|.
 --- @param name any #Highlight group name, e.g. "ErrorMsg"
 --- @param val any #Highlight definition map, accepts the following keys:
----              • fg (or foreground): color name or "#RRGGBB", see note.
----              • bg (or background): color name or "#RRGGBB", see note.
----              • sp (or special): color name or "#RRGGBB"
----  • blend: integer between 0 and 100
----  • bold: boolean
----  • standout: boolean
----  • underline: boolean
----  • undercurl: boolean
----  • underdouble: boolean
----  • underdotted: boolean
----  • underdashed: boolean
----  • strikethrough: boolean
----  • italic: boolean
----  • reverse: boolean
----  • nocombine: boolean
----  • link: name of another highlight group to link to, see |:hi-link|.
----              • default: Don't override existing definition |:hi-default|
----  • ctermfg: Sets foreground of cterm color |highlight-ctermfg|
----  • ctermbg: Sets background of cterm color |highlight-ctermbg|
----  • cterm: cterm attribute map, like |highlight-args|. If not set, cterm attributes will match those from the attribute map documented above.
+--- • fg (or foreground): color name or "#RRGGBB", see note.
+--- • bg (or background): color name or "#RRGGBB", see note.
+--- • sp (or special): color name or "#RRGGBB"
+--- • blend: integer between 0 and 100
+--- • bold: boolean
+--- • standout: boolean
+--- • underline: boolean
+--- • undercurl: boolean
+--- • underdouble: boolean
+--- • underdotted: boolean
+--- • underdashed: boolean
+--- • strikethrough: boolean
+--- • italic: boolean
+--- • reverse: boolean
+--- • nocombine: boolean
+--- • link: name of another highlight group to link to, see |:hi-link|.
+--- • default: Don't override existing definition |:hi-default|
+--- • ctermfg: Sets foreground of cterm color |highlight-ctermfg|
+--- • ctermbg: Sets background of cterm color |highlight-ctermbg|
+--- • cterm: cterm attribute map, like |highlight-args|. If not set, cterm attributes will match those from the attribute map documented above.
 function vim.api.nvim_set_hl(ns_id, name, val) end
 
 -- Set active namespace for highlights. This can be set for a single window,
@@ -187,9 +150,9 @@ function vim.api.nvim_set_option(name, value) end
 --- @param name any #Option name
 --- @param value any #New option value
 --- @param opts any #Optional parameters
----  • scope: One of 'global' or 'local'. Analogous to |:setglobal| and |:setlocal|, respectively.
----              • win: |window-ID|. Used for setting window local option.
----              • buf: Buffer number. Used for setting buffer local option.
+--- • scope: One of 'global' or 'local'. Analogous to |:setglobal| and |:setlocal|, respectively.
+---   • win: |window-ID|. Used for setting window local option.
+---   • buf: Buffer number. Used for setting buffer local option.
 function vim.api.nvim_set_option_value(name, value, opts) end
 
 -- Sets a global (g:) variable.

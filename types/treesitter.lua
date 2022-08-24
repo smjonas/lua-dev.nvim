@@ -50,10 +50,10 @@ function vim.treesitter.LanguageTree:parse() end
 
 -- Registers callbacks for the parser.
 --- @param cbs table #An |nvim_buf_attach()|-like table argument with the following keys :
----             • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
----             • `on_changedtree` : a callback that will be called every time the tree has syntactical changes. It will only be passed one argument, which is a table of the ranges (as node ranges) that changed.
----             • `on_child_added` : emitted when a child is added to the tree.
----             • `on_child_removed` : emitted when a child is removed from the tree.
+--- • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
+--- • `on_changedtree` : a callback that will be called every time the tree has syntactical changes. It will only be passed one argument, which is a table of the ranges (as node ranges) that changed.
+--- • `on_child_added` : emitted when a child is added to the tree.
+--- • `on_child_removed` : emitted when a child is removed from the tree.
 function vim.treesitter.LanguageTree:register_cbs(cbs) end
 
 -- Removes a child language from this tree.

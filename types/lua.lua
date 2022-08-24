@@ -50,10 +50,10 @@ function vim.filetype.add(filetypes) end
 -- Perform filetype detection.
 --- @param args table #Table specifying which matching strategy to use.
 ---             Accepted keys are:
----             • buf (number): Buffer number to use for matching. Mutually exclusive with {contents}
----  • filename (string): Filename to use for matching. When {buf} is given, defaults to the filename of the given buffer number. The file need not actually exist in the filesystem.
+--- • buf (number): Buffer number to use for matching. Mutually exclusive with {contents}
+--- • filename (string): Filename to use for matching. When {buf} is given, defaults to the filename of the given buffer number. The file need not actually exist in the filesystem.
 ---               When used without {buf} only the name of the file is used for filetype matching. This may result in failure to detect the filetype in cases where the filename alone is not enough to disambiguate the filetype.
----             • contents (table): An array of lines representing file contents to use for matching. Can be used with {filename}.
+--- • contents (table): An array of lines representing file contents to use for matching. Can be used with {filename}.
 ---               Mutually exclusive with {buf}.
 --- @return #(string|nil) If a match was found, the matched filetype.
 --- @return #(function|nil) A function that modifies buffer state when called (for example, to set some filetype specific buffer variables). The function accepts a buffer number as its only argument.
@@ -78,11 +78,11 @@ function vim.fs.dirname(file) end
 --- @param names #(string|table) Names of the files and directories to find.
 ---              Must be base names, paths and globs are not supported.
 --- @param opts table #Optional keyword arguments:
----              • path (string): Path to begin searching from. If omitted, the current working directory is used.
----              • upward (boolean, default false): If true, search upward through parent directories. Otherwise, search through child directories (recursively).
----              • stop (string): Stop searching when this directory is reached. The directory itself is not searched.
----              • type (string): Find only files ("file") or directories ("directory"). If omitted, both files and directories that match {name} are included.
----              • limit (number, default 1): Stop the search after finding this many matches. Use `math.huge` to place no limit on the number of matches.
+--- • path (string): Path to begin searching from. If omitted, the current working directory is used.
+--- • upward (boolean, default false): If true, search upward through parent directories. Otherwise, search through child directories (recursively).
+--- • stop (string): Stop searching when this directory is reached. The directory itself is not searched.
+--- • type (string): Find only files ("file") or directories ("directory"). If omitted, both files and directories that match {name} are included.
+--- • limit (number, default 1): Stop the search after finding this many matches. Use `math.huge` to place no limit on the number of matches.
 --- @return table #The paths of all matching files or directories
 function vim.fs.find(names, opts) end
 
@@ -119,7 +119,7 @@ function vim.is_callable(f) end
 --
 -- <
 --- @param opts table #A table of optional arguments:
----             • buffer: (number or boolean) Remove a mapping from the given buffer. When "true" or 0, use the current buffer.
+--- • buffer: (number or boolean) Remove a mapping from the given buffer. When "true" or 0, use the current buffer.
 function vim.keymap.del(modes, lhs, opts) end
 
 -- Add a new |mapping|. Examples: >
@@ -145,12 +145,12 @@ function vim.keymap.del(modes, lhs, opts) end
 --- @param lhs string #Left-hand side |{lhs}| of the mapping.
 --- @param rhs #string|function Right-hand side |{rhs}| of the mapping. Can also be a Lua function.
 --- @param opts table #A table of |:map-arguments|.
----             • Accepts options accepted by the {opts} parameter in |nvim_set_keymap()|, with the following notable differences:
----               • replace_keycodes: Defaults to `true` if "expr" is `true`.
----               • noremap: Always overridden with the inverse of "remap" (see below).
----  • In addition to those options, the table accepts the following keys:
----               • buffer: (number or boolean) Add a mapping to the given buffer. When `0` or `true`, use the current buffer.
----               • remap: (boolean) Make the mapping recursive. This is the inverse of the "noremap" option from |nvim_set_keymap()|.
+--- • Accepts options accepted by the {opts} parameter in |nvim_set_keymap()|, with the following notable differences:
+---   • replace_keycodes: Defaults to `true` if "expr" is `true`.
+---   • noremap: Always overridden with the inverse of "remap" (see below).
+--- • In addition to those options, the table accepts the following keys:
+---   • buffer: (number or boolean) Add a mapping to the given buffer. When `0` or `true`, use the current buffer.
+---   • remap: (boolean) Make the mapping recursive. This is the inverse of the "noremap" option from |nvim_set_keymap()|.
 ---                 Defaults to `false`.
 function vim.keymap.set(mode, lhs, rhs, opts) end
 
@@ -197,9 +197,9 @@ function vim.on_key(fn, ns_id) end
 -- |TUI|) pastes text into the editor.
 --- @param lines #|readfile()|-style list of lines to paste. |channel-lines|
 --- @param phase #-1: "non-streaming" paste: the call contains all lines. If paste is "streamed", `phase` indicates the stream state:
----              • 1: starts the paste (exactly once)
----  • 2: continues the paste (zero or more times)
----  • 3: ends the paste (exactly once)
+--- • 1: starts the paste (exactly once)
+--- • 2: continues the paste (zero or more times)
+--- • 3: ends the paste (exactly once)
 --- @return #false if client should cancel the paste.
 function vim.paste(lines, phase) end
 
@@ -233,8 +233,8 @@ function vim.schedule_wrap(cb) end
 --- @param s string #String to split
 --- @param sep string #Separator or pattern
 --- @param kwargs table #Keyword arguments:
----               • plain: (boolean) If `true` use `sep` literally (passed to string.find)
----  • trimempty: (boolean) If `true` remove empty items from the front and back of the list
+--- • plain: (boolean) If `true` use `sep` literally (passed to string.find)
+--- • trimempty: (boolean) If `true` remove empty items from the front and back of the list
 --- @return table #List of split components
 function vim.split(s, sep, kwargs) end
 
@@ -263,18 +263,18 @@ function vim.tbl_count(t) end
 
 -- Merges recursively two or more map-like tables.
 --- @param behavior string #Decides what to do if a key is found in more than one map:
----                 • "error": raise an error
----  • "keep": use value from the leftmost map
----  • "force": use value from the rightmost map
+--- • "error": raise an error
+--- • "keep": use value from the leftmost map
+--- • "force": use value from the rightmost map
 --- @vararg table #Two or more map-like tables
 --- @return table #Merged table
 function vim.tbl_deep_extend(behavior, ...) end
 
 -- Merges two or more map-like tables.
 --- @param behavior string #Decides what to do if a key is found in more than one map:
----                 • "error": raise an error
----  • "keep": use value from the leftmost map
----  • "force": use value from the rightmost map
+--- • "error": raise an error
+--- • "keep": use value from the leftmost map
+--- • "force": use value from the rightmost map
 --- @vararg table #Two or more map-like tables
 --- @return table #Merged table
 function vim.tbl_extend(behavior, ...) end
@@ -333,30 +333,30 @@ function vim.trim(s) end
 
 -- Prompts the user for input
 --- @param opts table #Additional options. See |input()|
----  • prompt (string|nil) Text of the prompt
----  • default (string|nil) Default reply to the input
----  • completion (string|nil) Specifies type of completion supported for input. Supported types are the same that can be supplied to a user-defined command using the "-complete=" argument. See |:command-completion|
----  • highlight (function) Function that will be used for highlighting user inputs.
+--- • prompt (string|nil) Text of the prompt
+--- • default (string|nil) Default reply to the input
+--- • completion (string|nil) Specifies type of completion supported for input. Supported types are the same that can be supplied to a user-defined command using the "-complete=" argument. See |:command-completion|
+--- • highlight (function) Function that will be used for highlighting user inputs.
 --- @param on_confirm function #((input|nil) -> ()) Called once the user confirms or abort the input. `input` is what the user typed. `nil` if the user aborted the dialog.
 function vim.ui.input(opts, on_confirm) end
 
 -- Prompts the user to pick a single item from a collection of entries
 --- @param items table #Arbitrary items
 --- @param opts table #Additional options
----  • prompt (string|nil) Text of the prompt. Defaults to `Select one of:`
----  • format_item (function item -> text) Function to format an individual item from `items`. Defaults to `tostring`.
----                  • kind (string|nil) Arbitrary hint string indicating the item shape. Plugins reimplementing `vim.ui.select` may wish to use this to infer the structure or semantics of `items`, or the context in which select() was called.
+--- • prompt (string|nil) Text of the prompt. Defaults to `Select one of:`
+--- • format_item (function item -> text) Function to format an individual item from `items`. Defaults to `tostring`.
+---   • kind (string|nil) Arbitrary hint string indicating the item shape. Plugins reimplementing `vim.ui.select` may wish to use this to infer the structure or semantics of `items`, or the context in which select() was called.
 --- @param on_choice function #((item|nil, idx|nil) -> ()) Called once the user made a choice. `idx` is the 1-based index of `item` within `items`. `nil` if the user aborted the dialog.
 function vim.ui.select(items, opts, on_choice) end
 
 -- Validates a parameter specification (types and values).
 --- @param opt table #Names of parameters to validate. Each key is a parameter name; each value is a tuple in one of these forms:
 ---            1. (arg_value, type_name, optional)
----  • arg_value: argument value
----  • type_name: string|table type name, one of: ("table", "t", "string", "s", "number", "n", "boolean", "b", "function", "f", "nil", "thread", "userdata") or list of them.
----               • optional: (optional) boolean, if true, `nil` is valid 2. (arg_value, fn, msg)
----  • arg_value: argument value
----  • fn: any function accepting one argument, returns true if and only if the argument is valid. Can optionally return an additional informative error message as the second returned value.
----               • msg: (optional) error string if validation fails
+--- • arg_value: argument value
+--- • type_name: string|table type name, one of: ("table", "t", "string", "s", "number", "n", "boolean", "b", "function", "f", "nil", "thread", "userdata") or list of them.
+---   • optional: (optional) boolean, if true, `nil` is valid 2. (arg_value, fn, msg)
+--- • arg_value: argument value
+--- • fn: any function accepting one argument, returns true if and only if the argument is valid. Can optionally return an additional informative error message as the second returned value.
+---   • msg: (optional) error string if validation fails
 function vim.validate(opt) end
 
