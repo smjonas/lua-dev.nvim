@@ -42,6 +42,13 @@ function M.infer_type(param)
 end
 
 function M.emmy_param(param, is_return)
+  if param.doc then
+    -- Vimdocs contain many newlines due to the way it is formatted.
+    -- Remove them here because the text will be wrapped automatically in the preview window anyway.
+    param.doc = param.doc:gsub("([^%.:])\n%s+", "%1 ")
+    -- Reinsert newlines before • characters
+    param.doc = param.doc:gsub("([^%s]) • ", "%1\n • ")
+  end
   local type = M.infer_type(param)
   local parts = {}
   if param.name and param.name ~= "..." then

@@ -8,8 +8,7 @@ function vim.lsp.add_workspace_folder(workspace_folder) end
 -- Applies a `TextDocumentEdit`, which is a list of changes to a single
 -- document.
 --- @param text_document_edit #table: a `TextDocumentEdit` object
---- @param index #number: Optional index of the edit, if from a
----                           list of edits (or nil, if not from a list)
+--- @param index #number: Optional index of the edit, if from a list of edits (or nil, if not from a list)
 function vim.lsp.apply_text_document_edit(text_document_edit, index, offset_encoding) end
 
 -- Applies a list of text edits to a buffer.
@@ -29,8 +28,7 @@ function vim.lsp.buf_clear_references(bufnr) end
 
 -- Shows a list of document highlights for a certain buffer.
 --- @param bufnr number #Buffer id
---- @param references table #List of `DocumentHighlight` objects to
----                        highlight
+--- @param references table #List of `DocumentHighlight` objects to highlight
 --- @param offset_encoding string #One of "utf-8", "utf-16", "utf-32".
 function vim.lsp.buf_highlight_references(bufnr, references, offset_encoding) end
 
@@ -38,42 +36,26 @@ function vim.lsp.buf_highlight_references(bufnr, references, offset_encoding) en
 --- @param buf number #buffer number (0 for current)
 --- @param row #0-indexed line
 --- @param col #0-indexed byte offset in line
---- @param offset_encoding string #utf-8|utf-16|utf-32|nil defaults to
----                        `offset_encoding` of first client of `buf`
---- @return #(number, number) `offset_encoding` index of the character in line
----     {row} column {col} in buffer {buf}
+--- @param offset_encoding string #utf-8|utf-16|utf-32|nil defaults to `offset_encoding` of first client of `buf`
+--- @return #(number, number) `offset_encoding` index of the character in line {row} column {col} in buffer {buf}
 function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 
 -- Removes document highlights from current buffer.
 function vim.lsp.clear_references() end
 
 -- Selects a code action available at the current cursor position.
---- @param options #(table|nil) Optional table which holds the following
----                optional fields:
+--- @param options #(table|nil) Optional table which holds the following optional fields:
 ---                • context: (table|nil) Corresponds to `CodeActionContext` of the LSP specification:
 ---                  • diagnostics (table|nil): LSP`Diagnostic[]` . Inferred from the current position if not provided.
----                  • only (table|nil): List of LSP `CodeActionKind`s used to
----                    filter the code actions. Most language servers support
----                    values like `refactor` or `quickfix`.
----
----                • filter: (function|nil) Predicate taking an `CodeAction`
----                  and returning a boolean.
----                • apply: (boolean|nil) When set to `true`, and there is
----                  just one remaining action (after filtering), the action
----                  is applied without user query.
----                • range: (table|nil) Range for which code actions should be
----                  requested. If in visual mode this defaults to the active
----                  selection. Table must contain `start` and `end` keys with
----                  {row, col} tuples using mark-like indexing. See
----                  |api-indexing|
+---                  • only (table|nil): List of LSP `CodeActionKind`s used to filter the code actions. Most language servers support values like `refactor` or `quickfix`.
+---  • filter: (function|nil) Predicate taking an `CodeAction` and returning a boolean.
+---                • apply: (boolean|nil) When set to `true`, and there is just one remaining action (after filtering), the action is applied without user query.
+---                • range: (table|nil) Range for which code actions should be requested. If in visual mode this defaults to the active selection. Table must contain `start` and `end` keys with {row, col} tuples using mark-like indexing. See |api-indexing|
 function vim.lsp.code_action(options) end
 
 -- Retrieves the completion items at the current cursor position. Can only be
 -- called in Insert mode.
---- @param context #(context support not yet implemented) Additional
----                information about the context in which a completion was
----                triggered (how it was triggered, and by which trigger
----                character, if applicable)
+--- @param context #(context support not yet implemented) Additional information about the context in which a completion was triggered (how it was triggered, and by which trigger character, if applicable)
 function vim.lsp.completion(context) end
 
 -- Returns the range table for the difference between prev and curr lines
@@ -85,17 +67,14 @@ function vim.lsp.compute_diff(___MissingCloseParenHere___) end
 -- window for `textDocument/hover`, for parsing the result of
 -- `textDocument/signatureHelp`, and potentially others.
 --- @param input #(`MarkedString` | `MarkedString[]` | `MarkupContent`)
---- @param contents #(table, optional, default `{}`) List of strings to extend
----                 with converted lines
+--- @param contents #(table, optional, default `{}`) List of strings to extend with converted lines
 --- @return #{contents}, extended with lines of converted markdown.
 function vim.lsp.convert_input_to_markdown_lines(input, contents) end
 
 -- Converts `textDocument/SignatureHelp` response to markdown lines.
 --- @param signature_help #Response of `textDocument/SignatureHelp`
---- @param ft #optional filetype that will be use as the `lang` for
----                       the label markdown code block
---- @param triggers #optional list of trigger characters from the lsp
----                       server. used to better determine parameter offsets
+--- @param ft #optional filetype that will be use as the `lang` for the label markdown code block
+--- @param triggers #optional list of trigger characters from the lsp server. used to better determine parameter offsets
 --- @return #list of lines of converted markdown.
 function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, triggers) end
 
@@ -104,18 +83,14 @@ function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, tr
 --     Many servers do not implement this method. Generally, see
 --     |vim.lsp.buf.definition()| instead.
 --- @param options #(table|nil) additional options
----                • reuse_win: (boolean) Jump to existing window if buffer is
----                  already open.
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • reuse_win: (boolean) Jump to existing window if buffer is already open.
+---                • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.declaration(options) end
 
 -- Jumps to the definition of the symbol under the cursor.
 --- @param options #(table|nil) additional options
----                • reuse_win: (boolean) Jump to existing window if buffer is
----                  already open.
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • reuse_win: (boolean) Jump to existing window if buffer is already open.
+---                • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.definition(options) end
 
 -- Display the lenses using virtual text
@@ -131,8 +106,7 @@ function vim.lsp.document_highlight() end
 
 -- Lists all symbols in the current buffer in the quickfix window.
 --- @param options #(table|nil) additional options
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.document_symbol(options) end
 
 -- Executes an LSP server command.
@@ -146,35 +120,18 @@ function vim.lsp.extract_completion_items(result) end
 
 -- Formats a buffer using the attached (and optionally filtered) language
 -- server clients.
---- @param options #table|nil Optional table which holds the following optional
----                fields:
----                • formatting_options (table|nil): Can be used to specify
----                  FormattingOptions. Some unspecified options will be
----                  automatically derived from the current Neovim options.
+--- @param options #table|nil Optional table which holds the following optional fields:
+---                • formatting_options (table|nil): Can be used to specify FormattingOptions. Some unspecified options will be automatically derived from the current Neovim options.
 ---                  See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
----                • timeout_ms (integer|nil, default 1000): Time in
----                  milliseconds to block for formatting requests. No effect
----                  if async=true
----                • bufnr (number|nil): Restrict formatting to the clients
----                  attached to the given buffer, defaults to the current
----                  buffer (0).
+---  • timeout_ms (integer|nil, default 1000): Time in milliseconds to block for formatting requests. No effect if async=true
+---  • bufnr (number|nil): Restrict formatting to the clients attached to the given buffer, defaults to the current buffer (0).
 ---                • filter (function|nil): Predicate used to filter clients.
 ---                  Receives a client as argument and must return a boolean.
----                  Clients matching the predicate are included. Example:               • >
----
----         -- Never request typescript-language-server for formatting
----         vim.lsp.buf.format {
----           filter = function(client) return client.name ~= "tsserver" end
----         }
----
---- <
----                • async boolean|nil If true the method won't block.
----                  Defaults to false. Editing the buffer while formatting
----                  asynchronous can lead to unexpected changes.
----                • id (number|nil): Restrict formatting to the client with
----                  ID (client.id) matching this field.
----                • name (string|nil): Restrict formatting to the client with
----                  name (client.name) matching this field.
+---                  Clients matching the predicate are included. Example:               • > -- Never request typescript-language-server for formatting vim.lsp.buf.format { filter = function(client) return client.name ~= "tsserver" end } <
+---  • async boolean|nil If true the method won't block.
+---                  Defaults to false. Editing the buffer while formatting asynchronous can lead to unexpected changes.
+---                • id (number|nil): Restrict formatting to the client with ID (client.id) matching this field.
+---                • name (string|nil): Restrict formatting to the client with name (client.name) matching this field.
 function vim.lsp.format(options) end
 
 -- Constructs an error message from an LSP error object.
@@ -182,20 +139,14 @@ function vim.lsp.format(options) end
 function vim.lsp.format_rpc_error() end
 
 -- Formats the current buffer.
---- @param options #(table|nil) Can be used to specify FormattingOptions. Some
----                unspecified options will be automatically derived from the
----                current Neovim options.
+--- @param options #(table|nil) Can be used to specify FormattingOptions. Some unspecified options will be automatically derived from the current Neovim options.
 function vim.lsp.formatting(options) end
 
 -- Formats the current buffer by sequentially requesting formatting from
 -- attached clients.
 --- @param options #(table|nil) `FormattingOptions` entries
 --- @param timeout_ms #(number|nil) Request timeout
---- @param order #(table|nil) List of client names. Formatting is
----                   requested from clients in the following order: first all
----                   clients that are not in the `order` list, then the
----                   remaining clients in the order as they occur in the
----                   `order` list.
+--- @param order #(table|nil) List of client names. Formatting is requested from clients in the following order: first all clients that are not in the `order` list, then the remaining clients in the order as they occur in the `order` list.
 function vim.lsp.formatting_seq_sync(options, timeout_ms, order) end
 
 -- Performs |vim.lsp.buf.formatting()| synchronously.
@@ -238,15 +189,14 @@ function vim.lsp.get_namespace(client_id) end
 -- <
 --- @param config table #Configuration table.
 ---               • border: (default=nil)
----                 • Add borders to the floating window
----                 • See |nvim_open_win()|
+---  • Add borders to the floating window
+---  • See |nvim_open_win()|
 function vim.lsp.hover(_, result, ctx, config) end
 
 -- Lists all the implementations for the symbol under the cursor in the
 -- quickfix window.
 --- @param options #(table|nil) additional options
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.implementation(options) end
 
 -- Lists all the call sites of the symbol under the cursor in the |quickfix|
@@ -257,8 +207,7 @@ function vim.lsp.incoming_calls() end
 -- Jumps to a location.
 --- @param location table #(`Location`|`LocationLink`)
 --- @param offset_encoding string #utf-8|utf-16|utf-32 (required)
---- @param reuse_win boolean #Jump to existing window if buffer is
----                        already opened.
+--- @param reuse_win boolean #Jump to existing window if buffer is already opened.
 --- @return #`true` if the jump succeeded
 function vim.lsp.jump_to_location(location, offset_encoding, reuse_win) end
 
@@ -268,8 +217,7 @@ function vim.lsp.list_workspace_folders() end
 -- Returns the items with the byte position calculated correctly and in
 -- sorted order, for display in quickfix and location lists.
 --- @param locations table #list of `Location`s or `LocationLink`s
---- @param offset_encoding string #offset_encoding for locations
----                        utf-8|utf-16|utf-32
+--- @param offset_encoding string #offset_encoding for locations utf-8|utf-16|utf-32
 --- @return table #list of items
 function vim.lsp.locations_to_items(locations, offset_encoding) end
 
@@ -288,11 +236,11 @@ function vim.lsp.make_client_capabilities() end
 --- @param width number #window width (in character cells)
 --- @param height number #window height (in character cells)
 --- @param opts #(table, optional)
----               • offset_x (number) offset to add to `col`
----               • offset_y (number) offset to add to `row`
----               • border (string or table) override `border`
----               • focusable (string or table) override `focusable`
----               • zindex (string or table) override `zindex`, defaults to 50
+---  • offset_x (number) offset to add to `col`
+---  • offset_y (number) offset to add to `row`
+---  • border (string or table) override `border`
+---  • focusable (string or table) override `focusable`
+---  • zindex (string or table) override `zindex`, defaults to 50
 --- @return table #Options
 function vim.lsp.make_floating_popup_options(width, height, opts) end
 
@@ -308,21 +256,15 @@ function vim.lsp.make_formatting_params(options) end
 ---                        Defaults to the start of the last visual selection.
 --- @param end_pos #number[]|nil {row, col} mark-indexed position.
 ---                        Defaults to the end of the last visual selection.
---- @param bufnr #(number|nil) buffer handle or 0 for current,
----                        defaults to current
---- @param offset_encoding #"utf-8"|"utf-16"|"utf-32"|nil defaults to
----                        `offset_encoding` of first client of `bufnr`
---- @return #{ textDocument = { uri = `current_file_uri` }, range = { start =
----     `start_position`, end = `end_position` } }
+--- @param bufnr #(number|nil) buffer handle or 0 for current, defaults to current
+--- @param offset_encoding #"utf-8"|"utf-16"|"utf-32"|nil defaults to `offset_encoding` of first client of `bufnr`
+--- @return #{ textDocument = { uri = `current_file_uri` }, range = { start = `start_position`, end = `end_position` } }
 function vim.lsp.make_given_range_params(start_pos, end_pos, bufnr, offset_encoding) end
 
 -- Creates a `TextDocumentPositionParams` object for the current buffer and
 -- cursor position.
---- @param window #number|nil: window handle or 0 for current,
----                        defaults to current
---- @param offset_encoding string #utf-8|utf-16|utf-32|nil defaults to
----                        `offset_encoding` of first client of buffer of
----                        `window`
+--- @param window #number|nil: window handle or 0 for current, defaults to current
+--- @param offset_encoding string #utf-8|utf-16|utf-32|nil defaults to `offset_encoding` of first client of buffer of `window`
 --- @return #`TextDocumentPositionParams` object
 function vim.lsp.make_position_params(window, offset_encoding) end
 
@@ -330,13 +272,9 @@ function vim.lsp.make_position_params(window, offset_encoding) end
 -- can be used as a building block for several LSP requests, such as
 -- `textDocument/codeAction`, `textDocument/colorPresentation`,
 -- `textDocument/rangeFormatting`.
---- @param window #number|nil: window handle or 0 for current,
----                        defaults to current
---- @param offset_encoding #"utf-8"|"utf-16"|"utf-32"|nil defaults to
----                        `offset_encoding` of first client of buffer of
----                        `window`
---- @return #{ textDocument = { uri = `current_file_uri` }, range = { start =
----     `current_position`, end = `current_position` } }
+--- @param window #number|nil: window handle or 0 for current, defaults to current
+--- @param offset_encoding #"utf-8"|"utf-16"|"utf-32"|nil defaults to `offset_encoding` of first client of buffer of `window`
+--- @return #{ textDocument = { uri = `current_file_uri` }, range = { start = `current_position`, end = `current_position` } }
 function vim.lsp.make_range_params(window, offset_encoding) end
 
 -- Creates a `TextDocumentIdentifier` object for the current buffer.
@@ -365,28 +303,20 @@ function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 -- Shows contents in a floating window.
 --- @param contents table #of lines to show in window
 --- @param syntax string #of syntax to set for opened buffer
---- @param opts table #with optional fields (additional keys are passed
----                 on to |vim.api.nvim_open_win()|)
----                 • height: (number) height of floating window
----                 • width: (number) width of floating window
----                 • wrap: (boolean, default true) wrap long lines
----                 • wrap_at: (number) character to wrap at for computing
----                   height when wrap is enabled
----                 • max_width: (number) maximal width of floating window
----                 • max_height: (number) maximal height of floating window
----                 • pad_top: (number) number of lines to pad contents at top
----                 • pad_bottom: (number) number of lines to pad contents at
----                   bottom
----                 • focus_id: (string) if a popup with this id is opened,
----                   then focus it
----                 • close_events: (table) list of events that closes the
----                   floating window
----                 • focusable: (boolean, default true) Make float focusable
----                 • focus: (boolean, default true) If `true`, and if
----                   {focusable} is also `true`, focus an existing floating
----                   window with the same {focus_id}
---- @return #bufnr,winnr buffer and window number of the newly created floating
----     preview window
+--- @param opts table #with optional fields (additional keys are passed on to |vim.api.nvim_open_win()|)
+---  • height: (number) height of floating window
+---  • width: (number) width of floating window
+---  • wrap: (boolean, default true) wrap long lines
+---  • wrap_at: (number) character to wrap at for computing height when wrap is enabled
+---  • max_width: (number) maximal width of floating window
+---  • max_height: (number) maximal height of floating window
+---  • pad_top: (number) number of lines to pad contents at top
+---  • pad_bottom: (number) number of lines to pad contents at bottom
+---  • focus_id: (string) if a popup with this id is opened, then focus it
+---  • close_events: (table) list of events that closes the floating window
+---  • focusable: (boolean, default true) Make float focusable
+---  • focus: (boolean, default true) If `true`, and if {focusable} is also `true`, focus an existing floating window with the same {focus_id}
+--- @return #bufnr,winnr buffer and window number of the newly created floating preview window
 function vim.lsp.open_floating_preview(contents, syntax, opts) end
 
 -- Lists all the items that are called by the symbol under the cursor in the
@@ -407,9 +337,7 @@ function vim.lsp.preview_location(location, opts) end
 -- Performs |vim.lsp.buf.code_action()| for a given range.
 --- @param context #(table|nil) `CodeActionContext` of the LSP specification:
 ---                  • diagnostics: (table|nil) LSP`Diagnostic[]` . Inferred from the current position if not provided.
----                  • only: (table|nil) List of LSP `CodeActionKind`s used to
----                    filter the code actions. Most language servers support
----                    values like `refactor` or `quickfix`.
+---                  • only: (table|nil) List of LSP `CodeActionKind`s used to filter the code actions. Most language servers support values like `refactor` or `quickfix`.
 --- @param start_pos #({number, number}, optional) mark-indexed position.
 ---                  Defaults to the start of the last visual selection.
 --- @param end_pos #({number, number}, optional) mark-indexed position.
@@ -428,8 +356,7 @@ function vim.lsp.range_formatting(options, start_pos, end_pos) end
 -- window.
 --- @param context table #Context for the request
 --- @param options #(table|nil) additional options
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.references(context, options) end
 
 -- Refresh the codelens for the current buffer
@@ -447,15 +374,12 @@ function vim.lsp.rename(old_fname, new_fname, opts) end
 --- @param method string #The invoked LSP method
 --- @param params table #Parameters for the invoked LSP method
 --- @param callback function #Callback to invoke
---- @param notify_reply_callback #(function|nil) Callback to invoke as soon as
----                              a request is no longer pending
---- @return #(bool, number) `(true, message_id)` if request could be sent, `false`
----     if not
+--- @param notify_reply_callback #(function|nil) Callback to invoke as soon as a request is no longer pending
+--- @return #(bool, number) `(true, message_id)` if request could be sent, `false` if not
 function vim.lsp.request(method, params, callback, notify_reply_callback) end
 
 -- Creates a normalized object describing LSP server capabilities.
---- @param server_capabilities table #Table of capabilities supported by the
----                            server
+--- @param server_capabilities table #Table of capabilities supported by the server
 --- @return table #Normalized table of capabilities
 function vim.lsp.resolve_capabilities(server_capabilities) end
 
@@ -474,8 +398,7 @@ function vim.lsp.save(lenses, bufnr, client_id) end
 function vim.lsp.server_ready() end
 
 -- Sets formatting function used to format logs
---- @param handle function #function to apply to logging arguments, pass
----               vim.inspect for multi-line formatting
+--- @param handle function #function to apply to logging arguments, pass vim.inspect for multi-line formatting
 function vim.lsp.set_format_func(handle) end
 
 -- Sets the current log level.
@@ -508,8 +431,8 @@ function vim.lsp.should_log(level) end
 -- <
 --- @param config table #Configuration table.
 ---               • border: (default=nil)
----                 • Add borders to the floating window
----                 • See |vim.api.nvim_open_win()|
+---  • Add borders to the floating window
+---  • See |vim.api.nvim_open_win()|
 function vim.lsp.signature_help(_, result, ctx, config) end
 
 -- Converts markdown into syntax highlighted regions by stripping the code
@@ -518,14 +441,14 @@ function vim.lsp.signature_help(_, result, ctx, config) end
 -- readability.
 --- @param contents table #of lines to show in window
 --- @param opts #dictionary with optional fields
----                 • height of floating window
----                 • width of floating window
----                 • wrap_at character to wrap at for computing height
----                 • max_width maximal width of floating window
----                 • max_height maximal height of floating window
----                 • pad_top number of lines to pad contents at top
----                 • pad_bottom number of lines to pad contents at bottom
----                 • separator insert separator after code block
+---  • height of floating window
+---  • width of floating window
+---  • wrap_at character to wrap at for computing height
+---  • max_width maximal width of floating window
+---  • max_height maximal height of floating window
+---  • pad_top number of lines to pad contents at top
+---  • pad_bottom number of lines to pad contents at bottom
+---  • separator insert separator after code block
 --- @return #width,height size of float
 function vim.lsp.stylize_markdown(bufnr, contents, opts) end
 
@@ -535,9 +458,7 @@ function vim.lsp.symbols_to_items(symbols, bufnr) end
 
 -- Turns the result of a `textDocument/completion` request into
 -- vim-compatible |complete-items|.
---- @param result #The result of a `textDocument/completion` call, e.g. from
----               |vim.lsp.buf.completion()|, which may be one of
----               `CompletionItem[]`, `CompletionList` or `null`
+--- @param result #The result of a `textDocument/completion` call, e.g. from |vim.lsp.buf.completion()|, which may be one of `CompletionItem[]`, `CompletionList` or `null`
 --- @param prefix string #the prefix to filter the completion items
 --- @return #{ matches = complete-items table, incomplete = bool }
 function vim.lsp.text_document_completion_list_to_complete_items(result, prefix) end
@@ -555,16 +476,13 @@ function vim.lsp.try_trim_markdown_code_blocks(lines) end
 
 -- Jumps to the definition of the type of the symbol under the cursor.
 --- @param options #(table|nil) additional options
----                • reuse_win: (boolean) Jump to existing window if buffer is
----                  already open.
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • reuse_win: (boolean) Jump to existing window if buffer is already open.
+---                • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.type_definition(options) end
 
 -- Lists all symbols in the current workspace in the quickfix window.
 --- @param query #(string, optional)
 --- @param options #(table|nil) additional options
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---  • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.workspace_symbol(query, options) end
 
