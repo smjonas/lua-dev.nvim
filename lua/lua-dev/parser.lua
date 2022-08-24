@@ -137,13 +137,31 @@ function M.intro(fd)
   )
 end
 
+local vim_modules = {
+  "filetype",
+  "fs",
+  "keymap",
+  "ui",
+}
+
 function M.get_functions(mpack)
+  local vim_functions = {}
+  vim.tbl_map(function(module)
+    for _, fn in ipairs(vim.tbl_keys(vim[module])) do
+      vim_functions[fn] = ("%s.%s"):format(module, fn)
+    end
+  end, vim_modules)
+
   mpack = "data/" .. mpack
   local data = vim.fn.msgpackparse(vim.fn.readfile(mpack, "b"))
   local ret = {}
   for _, functions in pairs(data) do
-    for name, fun in pairs(functions) do
-      table.insert(ret, { name, fun })
+    for name, fn in pairs(functions) do
+      if vim.tbl_contains(vim.tbl_keys(vim_functions), name) then
+        print(("Changed name from %s to %s"):format(name, vim_functions[name]))
+        name = vim_functions[name]
+      end
+      table.insert(ret, { name, fn })
     end
   end
   table.sort(ret, function(a, b)
