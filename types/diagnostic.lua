@@ -3,7 +3,7 @@
 
 -- Configure diagnostic options globally or for a specific diagnostic
 -- namespace.
---- @param opts #(table|nil) When omitted or "nil", retrieve the current configuration. Otherwise, a configuration table with the following keys:
+--- @param opts table|nil #When omitted or "nil", retrieve the current configuration. Otherwise, a configuration table with the following keys:
 --- • underline: (default true) Use underline for diagnostics. Options:
 ---   • severity: Only underline diagnostics matching the given severity |diagnostic-severity|
 --- • virtual_text: (default true) Use virtual text for diagnostics. If multiple diagnostics are set for a namespace, one prefix per diagnostic + the last diagnostic message are shown. Options:
@@ -13,27 +13,27 @@
 ---   • prefix: (string) Prepend diagnostic message with prefix.
 ---   • format: (function) A function that takes a diagnostic as input and returns a string. The return value is the text used to display the diagnostic. Example: > function(diagnostic) if diagnostic.severity == vim.diagnostic.severity.ERROR then return string.format("E: %s", diagnostic.message) end return diagnostic.message end <
 --- • signs: (default true) Use signs for diagnostics.
----                    Options:
+--- Options:
 ---   • severity: Only show signs for diagnostics matching the given severity |diagnostic-severity|
 --- • priority: (number, default 10) Base priority to use for signs. When {severity_sort} is used, the priority of a sign is adjusted based on its severity.
----                      Otherwise, all signs use the same priority.
+--- Otherwise, all signs use the same priority.
 --- • float: Options for floating windows. See |vim.diagnostic.open_float()|.
 ---   • update_in_insert: (default false) Update diagnostics in Insert mode (if false, diagnostics are updated on InsertLeave)
 --- • severity_sort: (default false) Sort diagnostics by severity. This affects the order in which signs and virtual text are displayed. When true, higher severities are displayed before lower severities (e.g.
----                    ERROR is displayed before WARN). Options:
+--- ERROR is displayed before WARN). Options:
 ---   • reverse: (boolean) Reverse sort order
---- @param namespace #(number|nil) Update the options for the given namespace.
----                  When omitted, update the global diagnostic options.
+--- @param namespace number|nil #Update the options for the given namespace.
+--- When omitted, update the global diagnostic options.
 function vim.diagnostic.config(opts, namespace) end
 
 -- Disable diagnostics in the given buffer.
---- @param bufnr #(number|nil) Buffer number, or 0 for current buffer. When omitted, disable diagnostics in all buffers.
---- @param namespace #(number|nil) Only disable diagnostics for the given namespace.
+--- @param bufnr number|nil #Buffer number, or 0 for current buffer. When omitted, disable diagnostics in all buffers.
+--- @param namespace number|nil #Only disable diagnostics for the given namespace.
 function vim.diagnostic.disable(bufnr, namespace) end
 
 -- Enable diagnostics in the given buffer.
---- @param bufnr #(number|nil) Buffer number, or 0 for current buffer. When omitted, enable diagnostics in all buffers.
---- @param namespace #(number|nil) Only enable diagnostics for the given namespace.
+--- @param bufnr number|nil #Buffer number, or 0 for current buffer. When omitted, enable diagnostics in all buffers.
+--- @param namespace number|nil #Only enable diagnostics for the given namespace.
 function vim.diagnostic.enable(bufnr, namespace) end
 
 -- Parse a diagnostic from a string.
@@ -41,7 +41,7 @@ function vim.diagnostic.enable(bufnr, namespace) end
 --- @param pat string #Lua pattern with capture groups.
 --- @param groups table #List of fields in a |diagnostic-structure| to associate with captures from {pat}.
 --- @param severity_map table #A table mapping the severity field from {groups} with an item from |vim.diagnostic.severity|.
---- @param defaults #(table|nil) Table of default values for any fields not listed in {groups}. When omitted, numeric values default to 0 and "severity" defaults to ERROR.
+--- @param defaults table|nil #Table of default values for any fields not listed in {groups}. When omitted, numeric values default to 0 and "severity" defaults to ERROR.
 --- @return #diagnostic |diagnostic-structure| or `nil` if {pat} fails to match {str}.
 function vim.diagnostic.filetype.match(str, pat, groups, severity_map, defaults) end
 
@@ -51,8 +51,8 @@ function vim.diagnostic.filetype.match(str, pat, groups, severity_map, defaults)
 function vim.diagnostic.fromqflist(list) end
 
 -- Get current diagnostics.
---- @param bufnr #(number|nil) Buffer number to get diagnostics from. Use 0 for current buffer or nil for all buffers.
---- @param opts #(table|nil) A table with the following keys:
+--- @param bufnr number|nil #Buffer number to get diagnostics from. Use 0 for current buffer or nil for all buffers.
+--- @param opts table|nil #A table with the following keys:
 --- • namespace: (number) Limit diagnostics to the given namespace.
 --- • lnum: (number) Limit diagnostics to the given line number.
 --- • severity: See |diagnostic-severity|.
@@ -89,7 +89,7 @@ function vim.diagnostic.get_prev(opts) end
 function vim.diagnostic.get_prev_pos(opts) end
 
 -- Move to the next diagnostic.
---- @param opts #(table|nil) Configuration table with the following keys:
+--- @param opts table|nil #Configuration table with the following keys:
 --- • namespace: (number) Only consider diagnostics from the given namespace.
 --- • cursor_position: (cursor position) Cursor position as a (row, col) tuple. See |nvim_win_get_cursor()|. Defaults to the current cursor position.
 --- • wrap: (boolean, default true) Whether to loop around file or not. Similar to 'wrapscan'.
@@ -103,43 +103,43 @@ function vim.diagnostic.goto_next(opts) end
 function vim.diagnostic.goto_prev(opts) end
 
 -- Hide currently displayed diagnostics.
---- @param namespace #(number|nil) Diagnostic namespace. When omitted, hide diagnostics from all namespaces.
---- @param bufnr #(number|nil) Buffer number, or 0 for current buffer. When omitted, hide diagnostics in all buffers.
+--- @param namespace number|nil #Diagnostic namespace. When omitted, hide diagnostics from all namespaces.
+--- @param bufnr number|nil #Buffer number, or 0 for current buffer. When omitted, hide diagnostics in all buffers.
 function vim.diagnostic.hide(namespace, bufnr) end
 
 -- Set diagnostics for the given namespace and buffer.
 --- @param namespace number #The diagnostic namespace
 --- @param bufnr number #Buffer number
 --- @param diagnostics table #A list of diagnostic items |diagnostic-structure|
---- @param opts #(table|nil) Display options to pass to |vim.diagnostic.show()|
+--- @param opts table|nil #Display options to pass to |vim.diagnostic.show()|
 function vim.diagnostic.keymap.set(namespace, bufnr, diagnostics, opts) end
 
 -- Show diagnostics in a floating window.
---- @param opts #(table|nil) Configuration table with the same keys as |vim.lsp.util.open_floating_preview()| in addition to the following:
+--- @param opts table|nil #Configuration table with the same keys as |vim.lsp.util.open_floating_preview()| in addition to the following:
 --- • bufnr: (number) Buffer number to show diagnostics from.
----               Defaults to the current buffer.
+--- Defaults to the current buffer.
 --- • namespace: (number) Limit diagnostics to the given namespace
 --- • scope: (string, default "line") Show diagnostics from the whole buffer ("buffer"), the current cursor line ("line"), or the current cursor position ("cursor"). Shorthand versions are also accepted ("c" for "cursor", "l" for "line", "b" for "buffer").
 --- • pos: (number or table) If {scope} is "line" or "cursor", use this position rather than the cursor position. If a number, interpreted as a line number; otherwise, a (row, col) tuple.
 --- • severity_sort: (default false) Sort diagnostics by severity.
----               Overrides the setting from |vim.diagnostic.config()|.
+--- Overrides the setting from |vim.diagnostic.config()|.
 --- • severity: See |diagnostic-severity|. Overrides the setting from |vim.diagnostic.config()|.
 --- • header: (string or table) String to use as the header for the floating window. If a table, it is interpreted as a [text, hl_group] tuple. Overrides the setting from |vim.diagnostic.config()|.
 --- • source: (boolean or string) Include the diagnostic source in the message. Use "if_many" to only show sources if there is more than one source of diagnostics in the buffer.
----               Otherwise, any truthy value means to always show the diagnostic source. Overrides the setting from |vim.diagnostic.config()|.
+--- Otherwise, any truthy value means to always show the diagnostic source. Overrides the setting from |vim.diagnostic.config()|.
 --- • format: (function) A function that takes a diagnostic as input and returns a string. The return value is the text used to display the diagnostic. Overrides the setting from |vim.diagnostic.config()|.
 --- • prefix: (function, string, or table) Prefix each diagnostic in the floating window. If a function, it must have the signature (diagnostic, i, total) -> (string, string), where {i} is the index of the diagnostic being evaluated and {total} is the total number of diagnostics displayed in the window. The function should return a string which is prepended to each diagnostic in the window as well as an (optional) highlight group which will be used to highlight the prefix. If {prefix} is a table, it is interpreted as a [text, hl_group] tuple as in |nvim_echo()|; otherwise, if {prefix} is a string, it is prepended to each diagnostic in the window with no highlight. Overrides the setting from |vim.diagnostic.config()|.
 --- @return #tuple ({float_bufnr}, {win_id})
 function vim.diagnostic.open_float(opts, ...) end
 
 -- Remove all diagnostics from the given namespace.
---- @param namespace #(number|nil) Diagnostic namespace. When omitted, remove diagnostics from all namespaces.
---- @param bufnr #(number|nil) Remove diagnostics for the given buffer.
----                  When omitted, diagnostics are removed for all buffers.
+--- @param namespace number|nil #Diagnostic namespace. When omitted, remove diagnostics from all namespaces.
+--- @param bufnr number|nil #Remove diagnostics for the given buffer.
+--- When omitted, diagnostics are removed for all buffers.
 function vim.diagnostic.reset(namespace, bufnr) end
 
 -- Add buffer diagnostics to the location list.
---- @param opts #(table|nil) Configuration table with the following keys:
+--- @param opts table|nil #Configuration table with the following keys:
 --- • namespace: (number) Only add diagnostics from the given namespace.
 --- • winnr: (number, default 0) Window number to set location list for.
 --- • open: (boolean, default true) Open the location list after setting.
@@ -148,7 +148,7 @@ function vim.diagnostic.reset(namespace, bufnr) end
 function vim.diagnostic.setloclist(opts) end
 
 -- Add all diagnostics to the quickfix list.
---- @param opts #(table|nil) Configuration table with the following keys:
+--- @param opts table|nil #Configuration table with the following keys:
 --- • namespace: (number) Only add diagnostics from the given namespace.
 --- • open: (boolean, default true) Open quickfix list after setting.
 --- • title: (string) Title of quickfix list. Defaults to "Diagnostics".
@@ -156,11 +156,11 @@ function vim.diagnostic.setloclist(opts) end
 function vim.diagnostic.setqflist(opts) end
 
 -- Display diagnostics for the given namespace and buffer.
---- @param namespace #(number|nil) Diagnostic namespace. When omitted, show diagnostics from all namespaces.
---- @param bufnr #(number|nil) Buffer number, or 0 for current buffer.
----                    When omitted, show diagnostics in all buffers.
---- @param diagnostics #(table|nil) The diagnostics to display. When omitted, use the saved diagnostics for the given namespace and buffer. This can be used to display a list of diagnostics without saving them or to display only a subset of diagnostics. May not be used when {namespace} or {bufnr} is nil.
---- @param opts #(table|nil) Display options. See |vim.diagnostic.config()|.
+--- @param namespace number|nil #Diagnostic namespace. When omitted, show diagnostics from all namespaces.
+--- @param bufnr number|nil #Buffer number, or 0 for current buffer.
+--- When omitted, show diagnostics in all buffers.
+--- @param diagnostics table|nil #The diagnostics to display. When omitted, use the saved diagnostics for the given namespace and buffer. This can be used to display a list of diagnostics without saving them or to display only a subset of diagnostics. May not be used when {namespace} or {bufnr} is nil.
+--- @param opts table|nil #Display options. See |vim.diagnostic.config()|.
 function vim.diagnostic.show(namespace, bufnr, diagnostics, opts) end
 
 -- Convert a list of diagnostics to a list of quickfix items that can be

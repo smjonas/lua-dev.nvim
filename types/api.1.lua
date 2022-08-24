@@ -54,8 +54,8 @@ function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 --- • "host" plugin host, typically started by nvim
 --- • "plugin" single plugin, started by nvim
 --- @param methods any #Builtin methods in the client. For a host, this does not include plugin methods which will be discovered later.
----                   The key should be the method name, the values are dicts with these (optional) keys (more keys may be added in future versions of Nvim, thus unknown keys are ignored.
----                   Clients must only use keys defined in this or later versions of Nvim):
+--- The key should be the method name, the values are dicts with these (optional) keys (more keys may be added in future versions of Nvim, thus unknown keys are ignored.
+--- Clients must only use keys defined in this or later versions of Nvim):
 --- • "async" if true, send as a notification. If false or unspecified, use a blocking request
 --- • "nargs" Number of arguments. Could be a single integer or an array of two integers, minimum and maximum inclusive.
 --- @param attributes any #Arbitrary string:string map of informal client properties. Suggested keys:
@@ -90,14 +90,14 @@ function vim.api.nvim_set_current_win(window) end
 --- • on_start: called first on each screen redraw ["start", tick]
 --- • on_buf: called for each buffer being redrawn (before window callbacks) ["buf", bufnr, tick]
 --- • on_win: called when starting to redraw a specific window.
----                ["win", winid, bufnr, topline, botline_guess]
+--- ["win", winid, bufnr, topline, botline_guess]
 --- • on_line: called for each buffer line being redrawn. (The interaction with fold lines is subject to change) ["win", winid, bufnr, row]
 --- • on_end: called at the end of a redraw cycle ["end", tick]
 function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 
 -- Sets a highlight group.
 --- @param ns_id any #Namespace id for this highlight |nvim_create_namespace()|.
----              Use 0 to set a highlight group globally |:highlight|.
+--- Use 0 to set a highlight group globally |:highlight|.
 --- @param name any #Highlight group name, e.g. "ErrorMsg"
 --- @param val any #Highlight definition map, accepts the following keys:
 --- • fg (or foreground): color name or "#RRGGBB", see note.
@@ -136,7 +136,7 @@ function vim.api.nvim_set_hl_ns_fast(ns_id) end
 --- @param lhs any #Left-hand-side |{lhs}| of the mapping.
 --- @param rhs any #Right-hand-side |{rhs}| of the mapping.
 --- @param opts any #Optional parameters map: keys are |:map-arguments|, values are booleans (default false). Accepts all |:map-arguments| as keys excluding |<buffer>| but including |noremap| and "desc".
----             Unknown key is an error. "desc" can be used to give a description to the mapping. When called from Lua, also accepts a "callback" key that takes a Lua function to call when the mapping is executed. When "expr" is true, "replace_keycodes" (boolean) can be used to replace keycodes in the resulting string (see |nvim_replace_termcodes()|), and a Lua callback returning `nil` is equivalent to returning an empty string.
+--- Unknown key is an error. "desc" can be used to give a description to the mapping. When called from Lua, also accepts a "callback" key that takes a Lua function to call when the mapping is executed. When "expr" is true, "replace_keycodes" (boolean) can be used to replace keycodes in the resulting string (see |nvim_replace_termcodes()|), and a Lua callback returning `nil` is equivalent to returning an empty string.
 function vim.api.nvim_set_keymap(mode, lhs, rhs, opts) end
 
 -- Sets the global value of an option.

@@ -44,7 +44,7 @@ function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 function vim.lsp.clear_references() end
 
 -- Selects a code action available at the current cursor position.
---- @param options #(table|nil) Optional table which holds the following optional fields:
+--- @param options table|nil #Optional table which holds the following optional fields:
 --- • context: (table|nil) Corresponds to `CodeActionContext` of the LSP specification:
 ---   • diagnostics (table|nil): LSP`Diagnostic[]` . Inferred from the current position if not provided.
 ---   • only (table|nil): List of LSP `CodeActionKind`s used to filter the code actions. Most language servers support values like `refactor` or `quickfix`.
@@ -82,13 +82,13 @@ function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, tr
 -- Note:
 --     Many servers do not implement this method. Generally, see
 --     |vim.lsp.buf.definition()| instead.
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • reuse_win: (boolean) Jump to existing window if buffer is already open.
 ---   • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.declaration(options) end
 
 -- Jumps to the definition of the symbol under the cursor.
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • reuse_win: (boolean) Jump to existing window if buffer is already open.
 ---   • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.definition(options) end
@@ -105,7 +105,7 @@ function vim.lsp.display(lenses, bufnr, client_id) end
 function vim.lsp.document_highlight() end
 
 -- Lists all symbols in the current buffer in the quickfix window.
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.document_symbol(options) end
 
@@ -120,16 +120,16 @@ function vim.lsp.extract_completion_items(result) end
 
 -- Formats a buffer using the attached (and optionally filtered) language
 -- server clients.
---- @param options #table|nil Optional table which holds the following optional fields:
+--- @param options table|nil #Optional table which holds the following optional fields:
 --- • formatting_options (table|nil): Can be used to specify FormattingOptions. Some unspecified options will be automatically derived from the current Neovim options.
----                  See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
+--- See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
 --- • timeout_ms (integer|nil, default 1000): Time in milliseconds to block for formatting requests. No effect if async=true
 --- • bufnr (number|nil): Restrict formatting to the clients attached to the given buffer, defaults to the current buffer (0).
 --- • filter (function|nil): Predicate used to filter clients.
----                  Receives a client as argument and must return a boolean.
----                  Clients matching the predicate are included. Example:               • > -- Never request typescript-language-server for formatting vim.lsp.buf.format { filter = function(client) return client.name ~= "tsserver" end } <
+--- Receives a client as argument and must return a boolean.
+--- Clients matching the predicate are included. Example:               • > -- Never request typescript-language-server for formatting vim.lsp.buf.format { filter = function(client) return client.name ~= "tsserver" end } <
 --- • async boolean|nil If true the method won't block.
----                  Defaults to false. Editing the buffer while formatting asynchronous can lead to unexpected changes.
+--- Defaults to false. Editing the buffer while formatting asynchronous can lead to unexpected changes.
 --- • id (number|nil): Restrict formatting to the client with ID (client.id) matching this field.
 --- • name (string|nil): Restrict formatting to the client with name (client.name) matching this field.
 function vim.lsp.format(options) end
@@ -139,18 +139,18 @@ function vim.lsp.format(options) end
 function vim.lsp.format_rpc_error() end
 
 -- Formats the current buffer.
---- @param options #(table|nil) Can be used to specify FormattingOptions. Some unspecified options will be automatically derived from the current Neovim options.
+--- @param options table|nil #Can be used to specify FormattingOptions. Some unspecified options will be automatically derived from the current Neovim options.
 function vim.lsp.formatting(options) end
 
 -- Formats the current buffer by sequentially requesting formatting from
 -- attached clients.
---- @param options #(table|nil) `FormattingOptions` entries
---- @param timeout_ms #(number|nil) Request timeout
---- @param order #(table|nil) List of client names. Formatting is requested from clients in the following order: first all clients that are not in the `order` list, then the remaining clients in the order as they occur in the `order` list.
+--- @param options table|nil #`FormattingOptions` entries
+--- @param timeout_ms number|nil #Request timeout
+--- @param order table|nil #List of client names. Formatting is requested from clients in the following order: first all clients that are not in the `order` list, then the remaining clients in the order as they occur in the `order` list.
 function vim.lsp.formatting_seq_sync(options, timeout_ms, order) end
 
 -- Performs |vim.lsp.buf.formatting()| synchronously.
---- @param options #(table|nil) with valid `FormattingOptions` entries
+--- @param options table|nil #with valid `FormattingOptions` entries
 --- @param timeout_ms number #Request timeout
 function vim.lsp.formatting_sync(options, timeout_ms) end
 
@@ -195,7 +195,7 @@ function vim.lsp.hover(_, result, ctx, config) end
 
 -- Lists all the implementations for the symbol under the cursor in the
 -- quickfix window.
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.implementation(options) end
 
@@ -246,17 +246,17 @@ function vim.lsp.make_floating_popup_options(width, height, opts) end
 
 -- Creates a `DocumentFormattingParams` object for the current buffer and
 -- cursor position.
---- @param options #(table|nil) with valid `FormattingOptions` entries
+--- @param options table|nil #with valid `FormattingOptions` entries
 --- @return #`DocumentFormattingParams` object
 function vim.lsp.make_formatting_params(options) end
 
 -- Using the given range in the current buffer, creates an object that is
 -- similar to |vim.lsp.util.make_range_params()|.
 --- @param start_pos #number[]|nil {row, col} mark-indexed position.
----                        Defaults to the start of the last visual selection.
+--- Defaults to the start of the last visual selection.
 --- @param end_pos #number[]|nil {row, col} mark-indexed position.
----                        Defaults to the end of the last visual selection.
---- @param bufnr #(number|nil) buffer handle or 0 for current, defaults to current
+--- Defaults to the end of the last visual selection.
+--- @param bufnr number|nil #buffer handle or 0 for current, defaults to current
 --- @param offset_encoding #"utf-8"|"utf-16"|"utf-32"|nil defaults to `offset_encoding` of first client of `bufnr`
 --- @return #{ textDocument = { uri = `current_file_uri` }, range = { start = `start_position`, end = `end_position` } }
 function vim.lsp.make_given_range_params(start_pos, end_pos, bufnr, offset_encoding) end
@@ -335,27 +335,27 @@ function vim.lsp.parse_snippet(input) end
 function vim.lsp.preview_location(location, opts) end
 
 -- Performs |vim.lsp.buf.code_action()| for a given range.
---- @param context #(table|nil) `CodeActionContext` of the LSP specification:
+--- @param context table|nil #`CodeActionContext` of the LSP specification:
 --- • diagnostics: (table|nil) LSP`Diagnostic[]` . Inferred from the current position if not provided.
 --- • only: (table|nil) List of LSP `CodeActionKind`s used to filter the code actions. Most language servers support values like `refactor` or `quickfix`.
 --- @param start_pos #({number, number}, optional) mark-indexed position.
----                  Defaults to the start of the last visual selection.
+--- Defaults to the start of the last visual selection.
 --- @param end_pos #({number, number}, optional) mark-indexed position.
----                  Defaults to the end of the last visual selection.
+--- Defaults to the end of the last visual selection.
 function vim.lsp.range_code_action(context, start_pos, end_pos) end
 
 -- Formats a given range.
 --- @param options #Table with valid `FormattingOptions` entries.
 --- @param start_pos #({number, number}, optional) mark-indexed position.
----                  Defaults to the start of the last visual selection.
+--- Defaults to the start of the last visual selection.
 --- @param end_pos #({number, number}, optional) mark-indexed position.
----                  Defaults to the end of the last visual selection.
+--- Defaults to the end of the last visual selection.
 function vim.lsp.range_formatting(options, start_pos, end_pos) end
 
 -- Lists all the references to the symbol under the cursor in the quickfix
 -- window.
 --- @param context table #Context for the request
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.references(context, options) end
 
@@ -374,7 +374,7 @@ function vim.lsp.rename(old_fname, new_fname, opts) end
 --- @param method string #The invoked LSP method
 --- @param params table #Parameters for the invoked LSP method
 --- @param callback function #Callback to invoke
---- @param notify_reply_callback #(function|nil) Callback to invoke as soon as a request is no longer pending
+--- @param notify_reply_callback function|nil #Callback to invoke as soon as a request is no longer pending
 --- @return #(bool, number) `(true, message_id)` if request could be sent, `false` if not
 function vim.lsp.request(method, params, callback, notify_reply_callback) end
 
@@ -475,14 +475,14 @@ function vim.lsp.trim_empty_lines(lines) end
 function vim.lsp.try_trim_markdown_code_blocks(lines) end
 
 -- Jumps to the definition of the type of the symbol under the cursor.
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • reuse_win: (boolean) Jump to existing window if buffer is already open.
 ---   • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.type_definition(options) end
 
 -- Lists all symbols in the current workspace in the quickfix window.
 --- @param query #(string, optional)
---- @param options #(table|nil) additional options
+--- @param options table|nil #additional options
 --- • on_list: (function) handler for list results. See |lsp-on-list-handler|
 function vim.lsp.workspace_symbol(query, options) end
 

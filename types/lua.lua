@@ -2,8 +2,8 @@
 ---@diagnostic disable: unused-local
 
 -- Execute Vim script commands.
---- @param command #string|table Command(s) to execute. If a string, executes multiple lines of Vim script at once. In this case, it is an alias to |nvim_exec()|, where `output` is set to false.
----                Thus it works identical to |:source|. If a table, executes a single command. In this case, it is an alias to |nvim_cmd()| where `opts` is empty.
+--- @param command string|table #Command(s) to execute. If a string, executes multiple lines of Vim script at once. In this case, it is an alias to |nvim_exec()|, where `output` is set to false.
+--- Thus it works identical to |:source|. If a table, executes a single command. In this case, it is an alias to |nvim_cmd()| where `opts` is empty.
 function vim.cmd(command) end
 
 function vim.connection_failure_errmsg(consequence) end
@@ -31,10 +31,10 @@ function vim.defer_fn(fn, timeout) end
 
 -- Display a deprecation notification to the user.
 --- @param name #string Deprecated function.
---- @param alternative #(string|nil) Preferred alternative function.
+--- @param alternative string|nil #Preferred alternative function.
 --- @param version #string Version in which the deprecated function will be removed.
---- @param plugin #string|nil Plugin name that the function will be removed from. Defaults to "Nvim".
---- @param backtrace #boolean|nil Prints backtrace. Defaults to true.
+--- @param plugin string|nil #Plugin name that the function will be removed from. Defaults to "Nvim".
+--- @param backtrace boolean|nil #Prints backtrace. Defaults to true.
 function vim.deprecate(name, alternative, version, plugin, backtrace) end
 
 -- Tests if `s` ends with `suffix`.
@@ -49,14 +49,14 @@ function vim.filetype.add(filetypes) end
 
 -- Perform filetype detection.
 --- @param args table #Table specifying which matching strategy to use.
----             Accepted keys are:
+--- Accepted keys are:
 --- • buf (number): Buffer number to use for matching. Mutually exclusive with {contents}
 --- • filename (string): Filename to use for matching. When {buf} is given, defaults to the filename of the given buffer number. The file need not actually exist in the filesystem.
----               When used without {buf} only the name of the file is used for filetype matching. This may result in failure to detect the filetype in cases where the filename alone is not enough to disambiguate the filetype.
+--- When used without {buf} only the name of the file is used for filetype matching. This may result in failure to detect the filetype in cases where the filename alone is not enough to disambiguate the filetype.
 --- • contents (table): An array of lines representing file contents to use for matching. Can be used with {filename}.
----               Mutually exclusive with {buf}.
---- @return #(string|nil) If a match was found, the matched filetype.
---- @return #(function|nil) A function that modifies buffer state when called (for example, to set some filetype specific buffer variables). The function accepts a buffer number as its only argument.
+--- Mutually exclusive with {buf}.
+--- @return string|nil #If a match was found, the matched filetype.
+--- @return function|nil #A function that modifies buffer state when called (for example, to set some filetype specific buffer variables). The function accepts a buffer number as its only argument.
 function vim.filetype.match(args) end
 
 -- Return the basename of the given file or directory
@@ -75,8 +75,8 @@ function vim.fs.dir(path) end
 function vim.fs.dirname(file) end
 
 -- Find files or directories in the given path.
---- @param names #(string|table) Names of the files and directories to find.
----              Must be base names, paths and globs are not supported.
+--- @param names string|table #Names of the files and directories to find.
+--- Must be base names, paths and globs are not supported.
 --- @param opts table #Optional keyword arguments:
 --- • path (string): Path to begin searching from. If omitted, the current working directory is used.
 --- • upward (boolean, default false): If true, search upward through parent directories. Otherwise, search through child directories (recursively).
@@ -141,9 +141,9 @@ function vim.keymap.del(modes, lhs, opts) end
 --    vim.keymap.set('n', '[%', '<Plug>(MatchitNormalMultiBackward)')
 --
 -- <
---- @param mode #string|table Same mode short names as |nvim_set_keymap()|. Can also be list of modes to create mapping on multiple modes.
+--- @param mode string|table #Same mode short names as |nvim_set_keymap()|. Can also be list of modes to create mapping on multiple modes.
 --- @param lhs string #Left-hand side |{lhs}| of the mapping.
---- @param rhs #string|function Right-hand side |{rhs}| of the mapping. Can also be a Lua function.
+--- @param rhs string|function #Right-hand side |{rhs}| of the mapping. Can also be a Lua function.
 --- @param opts table #A table of |:map-arguments|.
 --- • Accepts options accepted by the {opts} parameter in |nvim_set_keymap()|, with the following notable differences:
 ---   • replace_keycodes: Defaults to `true` if "expr" is `true`.
@@ -151,7 +151,7 @@ function vim.keymap.del(modes, lhs, opts) end
 --- • In addition to those options, the table accepts the following keys:
 ---   • buffer: (number or boolean) Add a mapping to the given buffer. When `0` or `true`, use the current buffer.
 ---   • remap: (boolean) Make the mapping recursive. This is the inverse of the "noremap" option from |nvim_set_keymap()|.
----                 Defaults to `false`.
+--- Defaults to `false`.
 function vim.keymap.set(mode, lhs, rhs, opts) end
 
 -- Extends a list-like table with the values of another list-like table.
@@ -172,14 +172,14 @@ function vim.list_slice(list, start, finish) end
 
 -- Display a notification to the user.
 --- @param msg string #Content of the notification to show to the user.
---- @param level #(number|nil) One of the values from |vim.log.levels|.
---- @param opts #(table|nil) Optional parameters. Unused by default.
+--- @param level number|nil #One of the values from |vim.log.levels|.
+--- @param opts table|nil #Optional parameters. Unused by default.
 function vim.notify(msg, level, opts) end
 
 -- Display a notification only one time.
 --- @param msg string #Content of the notification to show to the user.
---- @param level #(number|nil) One of the values from |vim.log.levels|.
---- @param opts #(table|nil) Optional parameters. Unused by default.
+--- @param level number|nil #One of the values from |vim.log.levels|.
+--- @param opts table|nil #Optional parameters. Unused by default.
 --- @return boolean #true if message was displayed, else false
 function vim.notify_once(msg, level, opts) end
 
@@ -190,7 +190,7 @@ function vim.notify_once(msg, level, opts) end
 --- @return number #Namespace id associated with {fn}. Or count of all callbacks if on_key() is called without arguments.
 --- @return #
 --- Note:
----     {fn} will be removed if an error occurs while calling.
+--- {fn} will be removed if an error occurs while calling.
 function vim.on_key(fn, ns_id) end
 
 -- Paste handler, invoked by |nvim_paste()| when a conforming UI (such as the
@@ -280,7 +280,7 @@ function vim.tbl_deep_extend(behavior, ...) end
 function vim.tbl_extend(behavior, ...) end
 
 -- Filter a table using a predicate function
---- @param func #function|table Function or callable table
+--- @param func function|table #Function or callable table
 --- @param t table #Table
 --- @return table #Table of filtered values
 function vim.tbl_filter(func, t) end
@@ -315,7 +315,7 @@ function vim.tbl_islist(t) end
 function vim.tbl_keys(t) end
 
 -- Apply a function to all values of a table.
---- @param func #function|table Function or callable table
+--- @param func function|table #Function or callable table
 --- @param t table #Table
 --- @return table #Table of transformed values
 function vim.tbl_map(func, t) end
@@ -351,7 +351,7 @@ function vim.ui.select(items, opts, on_choice) end
 
 -- Validates a parameter specification (types and values).
 --- @param opt table #Names of parameters to validate. Each key is a parameter name; each value is a tuple in one of these forms:
----            1. (arg_value, type_name, optional)
+--- 1. (arg_value, type_name, optional)
 --- • arg_value: argument value
 --- • type_name: string|table type name, one of: ("table", "t", "string", "s", "number", "n", "boolean", "b", "function", "f", "nil", "thread", "userdata") or list of them.
 ---   • optional: (optional) boolean, if true, `nil` is valid 2. (arg_value, fn, msg)

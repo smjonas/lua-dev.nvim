@@ -97,7 +97,7 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 --- • buffer handle
 --- • utf_sizes: include UTF-32 and UTF-16 size of the replaced region, as args to `on_lines`.
 ---   • preview: also attach to command preview (i.e.
----                      'inccommand') events.
+--- 'inccommand') events.
 --- @return #False if attach failed (invalid parameter, or buffer isn't loaded); otherwise True. TODO: LUA_API_NO_EVAL
 function vim.api.nvim_buf_attach(buffer, send_buffer, opts) end
 
@@ -184,7 +184,7 @@ function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 --- @param ns_id any #Namespace id from |nvim_create_namespace()|
 --- @param start any #Start of range: a 0-indexed (row, col) or valid extmark id (whose position defines the bound). |api-indexing|
 --- @param end_ any #End of range (inclusive): a 0-indexed (row, col) or valid extmark id (whose position defines the bound).
----               |api-indexing|
+--- |api-indexing|
 --- @param opts any #Optional parameters. Keys:
 --- • limit: Maximum number of marks to return
 --- • details Whether to include the details dict
@@ -284,7 +284,7 @@ function vim.api.nvim_buf_line_count(buffer) end
 --- • "combine": combine with background text color
 --- • "blend": blend with background text color.
 --- • virt_lines : virtual lines to add next to this mark This should be an array over lines, where each line in turn is an array over [text, highlight] tuples. In general, buffer and window options do not affect the display of the text.
----                 In particular 'wrap' and 'linebreak' options do not take effect, so the number of extra screen lines will always match the size of the array. However the 'tabstop' buffer option is still used for hard tabs. By default lines are placed below the buffer line containing the mark.
+--- In particular 'wrap' and 'linebreak' options do not take effect, so the number of extra screen lines will always match the size of the array. However the 'tabstop' buffer option is still used for hard tabs. By default lines are placed below the buffer line containing the mark.
 ---   • virt_lines_above: place virtual lines above instead.
 ---   • virt_lines_leftcol: Place extmarks in the leftmost column of the window, bypassing sign and number columns.
 ---   • ephemeral : for use with |nvim_set_decoration_provider| callbacks. The mark will only be used for the current redraw cycle, and not be permantently stored in the buffer.
@@ -298,8 +298,8 @@ function vim.api.nvim_buf_line_count(buffer) end
 --- • line_hl_group: name of the highlight group used to highlight the whole line. Note: ranges are unsupported and decorations are only applied to start_row
 --- • cursorline_hl_group: name of the highlight group used to highlight the line when the cursor is on the same line as the mark and 'cursorline' is enabled. Note: ranges are unsupported and decorations are only applied to start_row
 --- • conceal: string which should be either empty or a single character. Enable concealing similar to |:syn-conceal|.
----                 When a character is supplied it is used as |:syn-cchar|.
----                 "hl_group" is used as highlight for the cchar if provided, otherwise it defaults to |hl-Conceal|.
+--- When a character is supplied it is used as |:syn-cchar|.
+--- "hl_group" is used as highlight for the cchar if provided, otherwise it defaults to |hl-Conceal|.
 ---   • ui_watched: boolean that indicates the mark should be drawn by a UI. When set, the UI will receive win_extmark events. Note: the mark is positioned by virt_text attributes. Can be used together with virt_text.
 --- @return #Id of the created/updated extmark
 function vim.api.nvim_buf_set_extmark(buffer, ns_id, line, col, opts) end
@@ -389,7 +389,7 @@ function vim.api.nvim_chan_send(chan, data) end
 --- • pattern: (string|table)
 --- • pattern or patterns to match exactly.
 ---   • For example, if you have `*.py` as that pattern for the autocmd, you must pass `*.py` exactly to clear it.
----                   `test.py` will not match the pattern.
+--- `test.py` will not match the pattern.
 --- • defaults to clearing all patterns.
 ---   • NOTE: Cannot be used with {buffer}
 --- • buffer: (bufnr)
@@ -401,7 +401,7 @@ function vim.api.nvim_clear_autocmds(opts) end
 
 -- Executes an Ex command.
 --- @param cmd any #Command to execute. Must be a Dictionary that can contain the same values as the return value of |nvim_parse_cmd()| except "addr", "nargs" and "nextcmd" which are ignored if provided.
----             All values except for "cmd" are optional.
+--- All values except for "cmd" are optional.
 --- @param opts any #Optional parameters.
 --- • output: (boolean, default false) Whether to return command output.
 --- @return #Command output (non-error, non-shell |:!|) if `output` is true, else empty string.
@@ -434,7 +434,7 @@ function vim.api.nvim_create_augroup(name, opts) end
 --- • file: (string) the expanded value of |<afile>|
 --- • data: (any) arbitrary data passed to |nvim_exec_autocmds()|
 --- • command (string) optional: Vim command to execute on event.
----                Cannot be used with {callback}
+--- Cannot be used with {callback}
 --- • once (boolean) optional: defaults to false. Run the autocommand only once |autocmd-once|.
 ---   • nested (boolean) optional: defaults to false. Run nested autocommands |autocmd-nested|.
 --- @return #Integer id of the created autocommand.
@@ -460,14 +460,14 @@ function vim.api.nvim_create_namespace(name) end
 --- • line1: (number) The starting line of the command range |<line1>|
 --- • line2: (number) The final line of the command range |<line2>|
 --- • range: (number) The number of items in the command range:
----                  0, 1, or 2 |<range>|
+--- 0, 1, or 2 |<range>|
 --- • count: (number) Any count supplied |<count>|
 --- • reg: (string) The optional register, if specified |<reg>|
 --- • mods: (string) Command modifiers, if any |<mods>|
 --- • smods: (table) Command modifiers in a structured format.
----                  Has the same structure as the "mods" key of |nvim_parse_cmd()|.
+--- Has the same structure as the "mods" key of |nvim_parse_cmd()|.
 --- @param opts any #Optional command attributes. See |command-attributes| for more details. To use boolean attributes (such as |:command-bang| or |:command-bar|) set the value to "true".
----                In addition to the string options listed in |:command-complete|, the "complete" key also accepts a Lua function which works like the "customlist" completion mode |:command-completion-customlist|. Additional parameters:
+--- In addition to the string options listed in |:command-complete|, the "complete" key also accepts a Lua function which works like the "customlist" completion mode |:command-completion-customlist|. Additional parameters:
 --- • desc: (string) Used for listing the command when a Lua function is used for {command}.
 --- • force: (boolean, default true) Override any previous definition.
 --- • preview: (function) Preview callback for 'inccommand' |:command-preview|
@@ -715,7 +715,7 @@ function vim.api.nvim_get_option_info(name) end
 --- • scope: One of "global" or "local". Analogous to |:setglobal| and |:setlocal|, respectively.
 ---   • win: |window-ID|. Used for getting window local options.
 ---   • buf: Buffer number. Used for getting buffer local options.
----               Implies {scope} is "local".
+--- Implies {scope} is "local".
 --- @return #Option value
 function vim.api.nvim_get_option_value(name, opts) end
 
@@ -753,7 +753,7 @@ function vim.api.nvim_input(keys) end
 -- Send mouse event from GUI.
 --- @param button any #Mouse button: one of "left", "right", "middle", "wheel".
 --- @param action any #For ordinary buttons, one of "press", "drag", "release".
----                 For the wheel, one of "up", "down", "left", "right".
+--- For the wheel, one of "up", "down", "left", "right".
 --- @param modifier any #String of modifiers each represented by a single char. The same specifiers are used as for a key press, except that the "-" separator is optional, so "C-A-", "c-a" and "CA" can all be used to specify Ctrl+Alt+click.
 --- @param grid any #Grid number if the client uses |ui-multigrid|, else 0.
 --- @param row any #Mouse row-position (zero-based, like redraw events)
@@ -833,10 +833,10 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---         • 100: insert completion popupmenu
 ---       • 200: message scrollback
 ---       • 250: cmdline completion popupmenu (when wildoptions+=pum) The default value for floats are 50.
----                   In general, values below 100 are recommended, unless there is a good reason to overshadow builtin elements.
+--- In general, values below 100 are recommended, unless there is a good reason to overshadow builtin elements.
 ---       • style: Configure the appearance of the window. Currently only takes one non-empty value:
 ---         • "minimal" Nvim will display the window with many UI options disabled. This is useful when displaying a temporary float where the text should not be edited.
----                   Disables 'number', 'relativenumber', 'cursorline', 'cursorcolumn', 'foldcolumn', 'spell' and 'list' options. 'signcolumn' is changed to `auto` and 'colorcolumn' is cleared. The end-of-buffer region is hidden by setting `eob` flag of 'fillchars' to a space char, and clearing the |EndOfBuffer| region in 'winhighlight'.
+--- Disables 'number', 'relativenumber', 'cursorline', 'cursorcolumn', 'foldcolumn', 'spell' and 'list' options. 'signcolumn' is changed to `auto` and 'colorcolumn' is cleared. The end-of-buffer region is hidden by setting `eob` flag of 'fillchars' to a space char, and clearing the |EndOfBuffer| region in 'winhighlight'.
 ---       • border: Style of (optional) window border. This can either be a string or an array. The string values are
 ---       • "none": No border (default).
 ---         • "single": A single line box.
@@ -913,7 +913,7 @@ function vim.api.nvim_parse_cmd(str, opts) end
 --- • AST: top-level dictionary with these keys:
 ---   • "error": Dictionary with error, present only if parser saw some error. Contains the following keys:
 ---     • "message": String, error message in printf format, translated.
----           Must contain exactly one "%.*s".
+--- Must contain exactly one "%.*s".
 ---     • "arg": String, error message argument.
 ---   • "len": Amount of bytes successfully parsed. With flags equal to "" that should be equal to the length of expr string. (“Successfully parsed” here means “participated in AST creation”, not “till the first error”.)
 ---   • "ast": AST, either nil or a dictionary with these keys:
@@ -928,7 +928,7 @@ function vim.api.nvim_parse_cmd(str, opts) end
 ---     • "cmp_type": String, comparison type, one of the value names from ExprComparisonType, stringified without "kExprCmp" prefix. Only present for "Comparison" nodes.
 ---     • "ccs_strategy": String, case comparison strategy, one of the value names from ExprCaseCompareStrategy, stringified without "kCCStrategy" prefix. Only present for "Comparison" nodes.
 ---     • "augmentation": String, augmentation type for "Assignment" nodes.
----         Is either an empty string, "Add", "Subtract" or "Concat" for "=", "+=", "-=" or ".=" respectively.
+--- Is either an empty string, "Add", "Subtract" or "Concat" for "=", "+=", "-=" or ".=" respectively.
 ---     • "invert": Boolean, true if result of comparison needs to be inverted. Only present for "Comparison" nodes.
 ---     • "ivalue": Integer, integer value for "Integer" nodes.
 ---     • "fvalue": Float, floating-point value for "Float" nodes.
