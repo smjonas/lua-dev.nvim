@@ -12,10 +12,11 @@ local default_opts = {
   runtime_path = false, -- enable this to get completion in require strings. Slow!
 }
 
-function M.setup(user_lsp_config, user_opts)
-  local opts = vim.tbl_deep_extend("force", {}, default_opts, user_opts or {})
+function M.setup(args)
+  args = args or {}
+  local opts = vim.tbl_deep_extend("force", {}, default_opts, args.opts or {})
   local lsp_config = require("lua-dev.sumneko").make_lsp_config(opts)
-  lsp_config.lspconfig = vim.tbl_deep_extend("force", {}, lsp_config, user_lsp_config or {})
+  lsp_config = vim.tbl_deep_extend("keep", {}, lsp_config, args.lsp_config or {})
   return lsp_config
 end
 

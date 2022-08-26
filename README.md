@@ -61,17 +61,20 @@ This setup is **NOT** intended to be used for any other types of projects.
 
 ```lua
 -- Your LSP configuration for sumneko_lua
-local sumneko_config = {
+local lsp_config = {
   -- on_attach = { ... }
 }
 
 -- Lua-dev-specific options
-local lua_dev_opts = {
+local opts = {
   -- plugins = { ... }
 }
 
 -- Both tables passed to setup will be merged with lua-dev's default settings (they can be nil)
-local luadev_config = require("lua-dev").setup(sumneko_config, lua_dev_opts)
+local luadev_config = require("lua-dev").setup {
+  lsp_config = lsp_config,
+  opts = opts,
+}
 require("lspconfig").sumneko_lua.setup(luadev_config)
 ```
 
