@@ -324,7 +324,7 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 highlight groups that will be stacked (highest priority
 ---                 last). A highlight group can be supplied either as a
 ---                 string or as an integer, the latter which can be obtained
----                 using |nvim_get_hl_id_by_name|.
+---                 using |nvim_get_hl_id_by_name()|.
 ---               • virt_text_pos : position of virtual text. Possible values:
 ---                 • "eol": right after eol character (default)
 ---                 • "overlay": display over the specified column, without
@@ -356,7 +356,7 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---               • virt_lines_above: place virtual lines above instead.
 ---               • virt_lines_leftcol: Place extmarks in the leftmost column
 ---                 of the window, bypassing sign and number columns.
----               • ephemeral : for use with |nvim_set_decoration_provider|
+---               • ephemeral : for use with |nvim_set_decoration_provider()|
 ---                 callbacks. The mark will only be used for the current
 ---                 redraw cycle, and not be permantently stored in the
 ---                 buffer.
@@ -490,7 +490,7 @@ function vim.api.nvim_call_function(fn, args) end
 function vim.api.nvim_chan_send(chan, data) end
 
 -- Clear all autocommands that match the corresponding {opts}. To delete a
--- particular autocmd, see |nvim_del_autocmd|.
+-- particular autocmd, see |nvim_del_autocmd()|.
 --- @param opts dict(clear_autocmds) * #Parameters
 ---             • event: (string|table) Examples:
 ---               • event: "pat1"
@@ -1016,7 +1016,7 @@ function vim.api.nvim_notify(msg, log_level, opts) end
 ---                 terminal mode. Note: keypresses are sent raw as they would
 ---                 be to the pty master end. For instance, a carriage return
 ---                 is sent as a "\r", not as a "\n". |textlock| applies. It
----                 is possible to call |nvim_chan_send| directly in the
+---                 is possible to call |nvim_chan_send()| directly in the
 ---                 callback however. ["input", term, bufnr, data]
 --- @return any #Channel id, or 0 on error
 function vim.api.nvim_open_term(buffer, opts) end
@@ -1080,7 +1080,7 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---                   options. 'signcolumn' is changed to `auto` and
 ---                   'colorcolumn' is cleared. The end-of-buffer region is
 ---                   hidden by setting `eob` flag of 'fillchars' to a space
----                   char, and clearing the |EndOfBuffer| region in
+---                   char, and clearing the |hl-EndOfBuffer| region in
 ---                   'winhighlight'.
 ---
 ---               • border: Style of (optional) window border. This can either

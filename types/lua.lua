@@ -251,7 +251,7 @@ function vim.pretty_print(...) end
 --- @param bufnr any #(number) of buffer
 --- @param pos1 any #(line, column) tuple marking beginning of region
 --- @param pos2 any #(line, column) tuple marking end of region
---- @param regtype any #type of selection (:help setreg)
+--- @param regtype any #type of selection, see |setreg()|
 --- @param inclusive any #(boolean) indicating whether the selection is
 ---                  end-inclusive
 --- @return any #region lua table of the form {linenr = {startcol,endcol}}

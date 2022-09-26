@@ -284,15 +284,15 @@ function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 ---              • link: name of another highlight group to link to, see
 ---                |:hi-link|.
 ---              • default: Don't override existing definition |:hi-default|
----              • ctermfg: Sets foreground of cterm color |highlight-ctermfg|
----              • ctermbg: Sets background of cterm color |highlight-ctermbg|
+---              • ctermfg: Sets foreground of cterm color |ctermfg|
+---              • ctermbg: Sets background of cterm color |ctermbg|
 ---              • cterm: cterm attribute map, like |highlight-args|. If not
 ---                set, cterm attributes will match those from the attribute
 ---                map documented above.
 function vim.api.nvim_set_hl(ns_id, name, val) end
 
 -- Set active namespace for highlights. This can be set for a single window,
--- see |nvim_win_set_hl_ns|.
+-- see |nvim_win_set_hl_ns()|.
 --- @param ns_id integer #the namespace to use
 function vim.api.nvim_set_hl_ns(ns_id) end
 
@@ -307,7 +307,7 @@ function vim.api.nvim_set_hl_ns_fast(ns_id) end
 --- @param rhs string #Right-hand-side |{rhs}| of the mapping.
 --- @param opts dict(keymap) * #Optional parameters map: keys are |:map-arguments|, values are
 ---             booleans (default false). Accepts all |:map-arguments| as keys
----             excluding |<buffer>| but including |noremap| and "desc".
+---             excluding |<buffer>| but including |:noremap| and "desc".
 ---             Unknown key is an error. "desc" can be used to give a
 ---             description to the mapping. When called from Lua, also accepts
 ---             a "callback" key that takes a Lua function to call when the
@@ -328,7 +328,7 @@ function vim.api.nvim_set_option(name, value) end
 --- @param name string #Option name
 --- @param value object #New option value
 --- @param opts dict(option) * #Optional parameters
----              • scope: One of 'global' or 'local'. Analogous to
+---              • scope: One of "global" or "local". Analogous to
 ---                |:setglobal| and |:setlocal|, respectively.
 ---              • win: |window-ID|. Used for setting window local option.
 ---              • buf: Buffer number. Used for setting buffer local option.

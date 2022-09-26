@@ -265,7 +265,7 @@ function vim.lsp.implementation(options) end
 
 -- Lists all the call sites of the symbol under the cursor in the |quickfix|
 -- window. If the symbol can resolve to multiple items, the user can pick one
--- in the |inputlist|.
+-- in the |inputlist()|.
 function vim.lsp.incoming_calls() end
 
 -- Jumps to a location.
@@ -380,7 +380,7 @@ function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 --- @param contents any #(table) of lines to show in window
 --- @param syntax any #(string) of syntax to set for opened buffer
 --- @param opts any #(table) with optional fields (additional keys are passed
----                 on to |vim.api.nvim_open_win()|)
+---                 on to |nvim_open_win()|)
 ---                 • height: (number) height of floating window
 ---                 • width: (number) width of floating window
 ---                 • wrap: (boolean, default true) wrap long lines
@@ -405,7 +405,7 @@ function vim.lsp.open_floating_preview(contents, syntax, opts) end
 
 -- Lists all the items that are called by the symbol under the cursor in the
 -- |quickfix| window. If the symbol can resolve to multiple items, the user
--- can pick one in the |inputlist|.
+-- can pick one in the |inputlist()|.
 function vim.lsp.outgoing_calls() end
 
 -- Parses snippets in a completion entry.
@@ -524,7 +524,7 @@ function vim.lsp.should_log(level) end
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window
----                 • See |vim.api.nvim_open_win()|
+---                 • See |nvim_open_win()|
 function vim.lsp.signature_help(_, result, ctx, config) end
 
 -- Converts markdown into syntax highlighted regions by stripping the code
@@ -565,7 +565,7 @@ function vim.lsp.trim_empty_lines(lines) end
 -- Accepts markdown lines and tries to reduce them to a filetype if they
 -- comprise just a single code block.
 --- @param lines any #(table) list of lines
---- @return any #(string) filetype or 'markdown' if it was unchanged.
+--- @return any #(string) filetype or "markdown" if it was unchanged.
 function vim.lsp.try_trim_markdown_code_blocks(lines) end
 
 -- Jumps to the definition of the type of the symbol under the cursor.
