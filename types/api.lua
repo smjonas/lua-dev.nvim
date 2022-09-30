@@ -320,7 +320,7 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---               • virt_text : virtual text to link to this mark. A list of
 ---                 [text, highlight] tuples, each representing a text chunk
 ---                 with specified highlight. `highlight` element can either
----                 be a a single highlight group, or an array of multiple
+---                 be a single highlight group, or an array of multiple
 ---                 highlight groups that will be stacked (highest priority
 ---                 last). A highlight group can be supplied either as a
 ---                 string or as an integer, the latter which can be obtained
