@@ -195,28 +195,6 @@ function vim.lsp.format(options) end
 --- @return any #(string) The formatted error message
 function vim.lsp.format_rpc_error() end
 
--- Formats the current buffer.
---- @param options any #(table|nil) Can be used to specify FormattingOptions. Some
----                unspecified options will be automatically derived from the
----                current Neovim options.
-function vim.lsp.formatting(options) end
-
--- Formats the current buffer by sequentially requesting formatting from
--- attached clients.
---- @param options any #(table|nil) `FormattingOptions` entries
---- @param timeout_ms any #(number|nil) Request timeout
---- @param order any #(table|nil) List of client names. Formatting is
----                   requested from clients in the following order: first all
----                   clients that are not in the `order` list, then the
----                   remaining clients in the order as they occur in the
----                   `order` list.
-function vim.lsp.formatting_seq_sync(options, timeout_ms, order) end
-
--- Performs |vim.lsp.buf.formatting()| synchronously.
---- @param options any #(table|nil) with valid `FormattingOptions` entries
---- @param timeout_ms any #(number) Request timeout
-function vim.lsp.formatting_sync(options, timeout_ms) end
-
 -- Return all lenses for the given buffer
 --- @param bufnr any #(number) Buffer number. 0 can be used for the current buffer.
 --- @return any #(table) (`CodeLens[]`)
@@ -417,26 +395,6 @@ function vim.lsp.parse_snippet(input) end
 --- @param location any #a single `Location` or `LocationLink`
 --- @return any #(bufnr,winnr) buffer and window number of floating window or nil
 function vim.lsp.preview_location(location, opts) end
-
--- Performs |vim.lsp.buf.code_action()| for a given range.
---- @param context any #(table|nil) `CodeActionContext` of the LSP specification:
----                  • diagnostics: (table|nil) LSP`Diagnostic[]` . Inferred from the current position if not provided.
----                  • only: (table|nil) List of LSP `CodeActionKind`s used to
----                    filter the code actions. Most language servers support
----                    values like `refactor` or `quickfix`.
---- @param start_pos any #({number, number}, optional) mark-indexed position.
----                  Defaults to the start of the last visual selection.
---- @param end_pos any #({number, number}, optional) mark-indexed position.
----                  Defaults to the end of the last visual selection.
-function vim.lsp.range_code_action(context, start_pos, end_pos) end
-
--- Formats a given range.
---- @param options any #Table with valid `FormattingOptions` entries.
---- @param start_pos any #({number, number}, optional) mark-indexed position.
----                  Defaults to the start of the last visual selection.
---- @param end_pos any #({number, number}, optional) mark-indexed position.
----                  Defaults to the end of the last visual selection.
-function vim.lsp.range_formatting(options, start_pos, end_pos) end
 
 -- Lists all the references to the symbol under the cursor in the quickfix
 -- window.
