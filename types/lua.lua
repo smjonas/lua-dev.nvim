@@ -47,9 +47,9 @@ function vim.deepcopy(orig) end
 function vim.defaulttable(create) end
 
 -- Defers calling `fn` until `timeout` ms passes.
---- @param fn fun(...) #Callback to call once `timeout` expires
---- @param timeout any #Number of milliseconds to wait before calling `fn`
---- @return any #timer luv timer object
+--- @param fn fun(...) #(function) Callback to call once `timeout` expires
+--- @param timeout any #integer Number of milliseconds to wait before calling `fn`
+--- @return any #(table) timer luv timer object
 function vim.defer_fn(fn, timeout) end
 
 -- Remove an existing mapping. Examples: >
@@ -224,13 +224,14 @@ function vim.parents(start) end
 
 -- Paste handler, invoked by |nvim_paste()| when a conforming UI (such as the
 -- |TUI|) pastes text into the editor.
---- @param lines any #|readfile()|-style list of lines to paste. |channel-lines|
---- @param phase any #-1: "non-streaming" paste: the call contains all lines. If
----              paste is "streamed", `phase` indicates the stream state:
+--- @param lines any #string[] # |readfile()|-style list of lines to paste.
+---              |channel-lines|
+--- @param phase any #paste_phase -1: "non-streaming" paste: the call contains all
+---              lines. If paste is "streamed", `phase` indicates the stream state:
 ---              • 1: starts the paste (exactly once)
 ---              • 2: continues the paste (zero or more times)
 ---              • 3: ends the paste (exactly once)
---- @return any #false if client should cancel the paste.
+--- @return any #(boolean) # false if client should cancel the paste.
 function vim.paste(lines, phase) end
 
 -- Escapes magic chars in |lua-patterns|.
@@ -243,21 +244,25 @@ function vim.pesc(s) end
 --   local hl_normal = vim.pretty_print(vim.api.nvim_get_hl_by_name("Normal", true))
 --
 -- <
---- @return any #given arguments.
+--- @return any #any # given arguments.
 function vim.pretty_print(...) end
 
 -- Get a table of lines with start, end columns for a region marked by two
 -- points
 --- @param bufnr any #(number) of buffer
---- @param pos1 any #(line, column) tuple marking beginning of region
---- @param pos2 any #(line, column) tuple marking end of region
---- @param regtype any #type of selection, see |setreg()|
+--- @param pos1 any #integer[] (line, column) tuple marking beginning of
+---                  region
+--- @param pos2 any #integer[] (line, column) tuple marking end of region
+--- @param regtype any #(string) type of selection, see |setreg()|
 --- @param inclusive any #(boolean) indicating whether the selection is
 ---                  end-inclusive
---- @return any #region lua table of the form {linenr = {startcol,endcol}}
+--- @return any #table<integer, {}> region lua table of the form {linenr =
+---     {startcol,endcol}}
 function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 
 -- Defers callback `cb` until the Nvim API is safe to call.
+--- @param cb any #(function)
+--- @return any #(function)
 function vim.schedule_wrap(cb) end
 
 -- Prompts the user to pick a single item from a collection of entries
@@ -320,7 +325,7 @@ function vim.set(mode, lhs, rhs, opts) end
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
---- @param kwargs any #(table) Keyword arguments:
+--- @param kwargs any #split_kwargs Keyword arguments:
 ---               • plain: (boolean) If `true` use `sep` literally (passed to
 ---                 string.find)
 ---               • trimempty: (boolean) If `true` remove empty items from the
