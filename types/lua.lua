@@ -147,17 +147,17 @@ function vim.is_callable(f) end
 -- Extends a list-like table with the values of another list-like table.
 --- @param dst any #(table) List which will be modified and appended to
 --- @param src any #(table) List from which values will be inserted
---- @param start any #(number) Start index on src. Defaults to 1
---- @param finish any #(number) Final index on src. Defaults to `#src`
+--- @param start any #(number|nil) Start index on src. Defaults to 1
+--- @param finish any #(number|nil) Final index on src. Defaults to `#src`
 --- @return any #(table) dst
 function vim.list_extend(dst, src, start, finish) end
 
 -- Creates a copy of a table containing only elements from start to end
 -- (inclusive)
---- @param list any[] #(table) Table
+--- @param list any[] #(list) Table
 --- @param start any #(number) Start range of slice
 --- @param finish any #(number) End range of slice
---- @return any #(table) Copy of table sliced from start to finish (inclusive)
+--- @return any #(list) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
 
 -- Perform filetype detection.
@@ -204,7 +204,7 @@ function vim.notify_once(msg, level, opts) end
 
 -- Adds Lua function {fn} with namespace id {ns_id} as a listener to every,
 -- yes every, input key.
---- @param fn fun(...) #function: Callback function. It should take one string
+--- @param fn fun(...) #(function) Callback function. It should take one string
 ---              argument. On each key press, Nvim passes the key char to
 ---              fn(). |i_CTRL-V| If {fn} is nil, it removes the callback for
 ---              the associated {ns_id}
@@ -325,12 +325,12 @@ function vim.set(mode, lhs, rhs, opts) end
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
---- @param kwargs any #split_kwargs Keyword arguments:
+--- @param kwargs any #(table|nil) Keyword arguments:
 ---               • plain: (boolean) If `true` use `sep` literally (passed to
 ---                 string.find)
 ---               • trimempty: (boolean) If `true` remove empty items from the
 ---                 front and back of the list
---- @return any #(table) List of split components
+--- @return any #string[] List of split components
 function vim.split(s, sep, kwargs) end
 
 -- Tests if `s` starts with `prefix`.
@@ -377,7 +377,7 @@ function vim.tbl_deep_extend(behavior, ...) end
 function vim.tbl_extend(behavior, ...) end
 
 -- Filter a table using a predicate function
---- @param func any #function|table Function or callable table
+--- @param func any #(function) Function
 --- @param t any #(table) Table
 --- @return any #(table) Table of filtered values
 function vim.tbl_filter(func, t) end
@@ -409,11 +409,11 @@ function vim.tbl_islist(t) end
 -- Return a list of all keys used in a table. However, the order of the
 -- return table of keys is not guaranteed.
 --- @param t any #(table) Table
---- @return any #(table) List of keys
+--- @return any #(list) List of keys
 function vim.tbl_keys(t) end
 
 -- Apply a function to all values of a table.
---- @param func any #function|table Function or callable table
+--- @param func any #(function) Function
 --- @param t any #(table) Table
 --- @return any #(table) Table of transformed values
 function vim.tbl_map(func, t) end
@@ -421,7 +421,7 @@ function vim.tbl_map(func, t) end
 -- Return a list of all values used in a table. However, the order of the
 -- return table of values is not guaranteed.
 --- @param t any #(table) Table
---- @return any #(table) List of values
+--- @return any #(list) List of values
 function vim.tbl_values(t) end
 
 -- Trim whitespace (Lua pattern "%s") from both sides of a string.

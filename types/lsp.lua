@@ -9,8 +9,8 @@ function vim.lsp.add_workspace_folder(workspace_folder) end
 
 -- Applies a `TextDocumentEdit`, which is a list of changes to a single
 -- document.
---- @param text_document_edit any #table: a `TextDocumentEdit` object
---- @param index any #number: Optional index of the edit, if from a
+--- @param text_document_edit any #(table) a `TextDocumentEdit` object
+--- @param index any #(number) Optional index of the edit, if from a
 ---                           list of edits (or nil, if not from a list)
 function vim.lsp.apply_text_document_edit(text_document_edit, index, offset_encoding) end
 
@@ -105,7 +105,7 @@ function vim.lsp.convert_input_to_markdown_lines(input, contents) end
 ---                       the label markdown code block
 --- @param triggers any #optional list of trigger characters from the lsp
 ---                       server. used to better determine parameter offsets
---- @return any #list of lines of converted markdown.
+--- @return any #(list) of lines of converted markdown.
 function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, triggers) end
 
 -- Jumps to the declaration of the symbol under the cursor.
@@ -201,7 +201,7 @@ function vim.lsp.format_rpc_error() end
 function vim.lsp.get(bufnr) end
 
 -- Returns indentation size.
---- @param bufnr any #(number|nil): Buffer handle, defaults to current
+--- @param bufnr any #(number|nil) Buffer handle, defaults to current
 --- @return any #(number) indentation size
 function vim.lsp.get_effective_tabstop(bufnr) end
 
@@ -310,7 +310,7 @@ function vim.lsp.make_given_range_params(start_pos, end_pos, bufnr, offset_encod
 
 -- Creates a `TextDocumentPositionParams` object for the current buffer and
 -- cursor position.
---- @param window any #number|nil: window handle or 0 for current,
+--- @param window any #(number|nil) window handle or 0 for current,
 ---                        defaults to current
 --- @param offset_encoding any #(string) utf-8|utf-16|utf-32|nil defaults to
 ---                        `offset_encoding` of first client of buffer of
@@ -322,7 +322,7 @@ function vim.lsp.make_position_params(window, offset_encoding) end
 -- can be used as a building block for several LSP requests, such as
 -- `textDocument/codeAction`, `textDocument/colorPresentation`,
 -- `textDocument/rangeFormatting`.
---- @param window any #number|nil: window handle or 0 for current,
+--- @param window any #(number|nil) window handle or 0 for current,
 ---                        defaults to current
 --- @param offset_encoding any #"utf-8"|"utf-16"|"utf-32"|nil defaults to
 ---                        `offset_encoding` of first client of buffer of
@@ -332,7 +332,7 @@ function vim.lsp.make_position_params(window, offset_encoding) end
 function vim.lsp.make_range_params(window, offset_encoding) end
 
 -- Creates a `TextDocumentIdentifier` object for the current buffer.
---- @param bufnr any #number|nil: Buffer handle, defaults to current
+--- @param bufnr any #(number|nil) Buffer handle, defaults to current
 --- @return any #`TextDocumentIdentifier`
 function vim.lsp.make_text_document_params(bufnr) end
 
@@ -343,7 +343,7 @@ function vim.lsp.make_workspace_params(added, removed) end
 
 -- Sends a notification to the LSP server.
 --- @param method any #(string) The invoked LSP method
---- @param params any #(table|nil): Parameters for the invoked LSP method
+--- @param params any #(table|nil) Parameters for the invoked LSP method
 --- @return any #(bool) `true` if notification could be sent, `false` if not
 function vim.lsp.notify(method, params) end
 
