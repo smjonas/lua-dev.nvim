@@ -533,11 +533,7 @@ vim.bo.cinkeys = "0{,0},0),0],:,0#,!^F,o,O,e"
 -- 	line, the remaining space is filled in the normal manner.
 -- 	See 'preserveindent'.
 vim.bo.copyindent = "false"
--- string	(default "")
--- 			global or local to buffer |global-local|
--- 	List of file names, separated by commas, that are used to lookup words
--- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
-vim.bo.thesaurus = ""
+vim.bo.cinscopedecls = "public,protected,private"
 -- string	(default "^\s*#\s*define")
 -- 			global or local to buffer |global-local|
 -- 	Pattern to be used to find a macro definition.  It is a search
@@ -969,7 +965,11 @@ vim.bo.softtabstop = "0"
 -- <	Replace the ';' with a ':' or whatever separator is used.  Note that
 -- 	this doesn't work when $INCL contains a comma or white space.
 vim.bo.path = ".,/usr/include,,"
-vim.bo.cinscopedecls = "public,protected,private"
+-- string	(default "")
+-- 			global or local to buffer |global-local|
+-- 	List of file names, separated by commas, that are used to lookup words
+-- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
+vim.bo.thesaurus = ""
 -- string	(default empty)
 -- 			local to buffer
 -- 	Name of the word list file where words are added for the |zg| and |zw|
