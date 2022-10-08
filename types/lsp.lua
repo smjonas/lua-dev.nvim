@@ -248,10 +248,10 @@ function vim.lsp.incoming_calls() end
 
 -- Jumps to a location.
 --- @param location any #(table) (`Location`|`LocationLink`)
---- @param offset_encoding any #(string) utf-8|utf-16|utf-32 (required)
+--- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
 --- @param reuse_win any #(boolean) Jump to existing window if buffer is
----                        already opened.
---- @return any #`true` if the jump succeeded
+---                        already open.
+--- @return any #(boolean) `true` if the jump succeeded
 function vim.lsp.jump_to_location(location, offset_encoding, reuse_win) end
 
 -- List workspace folders.
@@ -467,6 +467,17 @@ function vim.lsp.set_lines(lines, A, B, new_lines) end
 --- @param level any #(number) log level
 --- @return any #(bool) true if would log, false if not
 function vim.lsp.should_log(level) end
+
+-- Shows document and optionally jumps to the location.
+--- @param location any #(table) (`Location`|`LocationLink`)
+--- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
+--- @param opts any #(table) options
+---                        • reuse_win (boolean) Jump to existing window if
+---                          buffer is already open.
+---                        • focus (boolean) Whether to focus/jump to location
+---                          if possible. Defaults to true.
+--- @return any #(boolean) `true` if succeeded
+function vim.lsp.show_document(location, offset_encoding, opts) end
 
 -- |lsp-handler| for the method "textDocument/signatureHelp". The active
 -- parameter is highlighted with |hl-LspSignatureActiveParameter|. >
