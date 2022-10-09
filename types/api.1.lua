@@ -462,7 +462,9 @@ function vim.api.nvim_win_get_buf(window) end
 --- @return any #Map defining the window configuration, see |nvim_open_win()|
 function vim.api.nvim_win_get_config(window) end
 
--- Gets the (1,0)-indexed cursor position in the window. |api-indexing|
+-- Gets the (1,0)-indexed, buffer-relative cursor position for a given window
+-- (different windows showing the same buffer have independent cursor
+-- positions). |api-indexing|
 --- @param window window #Window handle, or 0 for current window
 --- @return any #(row, col) tuple
 function vim.api.nvim_win_get_cursor(window) end
