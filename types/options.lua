@@ -90,11 +90,16 @@ vim.bo.errorformat = "%*[^\"]\"%f\"%*\\D%l: %m,\"%f\"%*\\D%l: %m,%-G%f:%l: (Each
 -- 	]	tag completion
 -- 	t	same as "]"
 vim.bo.complete = ".,w,b,u,t"
--- string (default: "")
+-- string	(default "")
 -- 			local to buffer
--- 	File-content encoding for the current buffer. Conversion is done with
--- 	iconv() or as specified with 'charconvert'.
-vim.bo.fileencoding = ""
+-- 			{only available when compiled with the |+vartabs|
+-- 			feature}
+-- 	A list of the number of spaces that a <Tab> counts for while editing,
+-- 	such as inserting a <Tab> or using <BS>.  It "feels" like variable-
+-- 	width <Tab>s are being inserted, while in fact a mixture of spaces
+-- 	and <Tab>s is used.  Tab widths are separated with commas, with the
+-- 	final value applying to all subsequent tabs.
+vim.bo.varsofttabstop = ""
 -- boolean	(default off)
 -- 			local to buffer
 -- 	When writing a file and the following conditions are met, a BOM (Byte
@@ -125,24 +130,17 @@ vim.bo.bomb = "false"
 -- 	calling an external program if 'equalprg' is empty.
 -- 	This option is not used when 'paste' is set.
 vim.bo.lisp = "false"
--- boolean (default on)
+-- boolean	(default off)
 -- 			local to buffer
--- 	Use a swapfile for the buffer.  This option can be reset when a
--- 	swapfile is not wanted for a specific buffer.  For example, with
--- 	confidential information that even root must not be able to access.
--- 	Careful: All text will be in memory:
--- 		- Don't use this for big files.
--- 		- Recovery will be impossible!
--- 	A swapfile will only be present when |'updatecount'| is non-zero and
--- 	'swapfile' is set.
--- 	When 'swapfile' is reset, the swap file for the current buffer is
--- 	immediately deleted.  When 'swapfile' is set, and 'updatecount' is
--- 	non-zero, a swap file is immediately created.
--- 	Also see |swap-file|.
--- 	If you want to open a new buffer without creating a swap file for it,
--- 	use the |:noswapfile| modifier.
--- 	See 'directory' for where the swap file is created.
-vim.bo.swapfile = "true"
+-- 	When doing keyword completion in insert mode |ins-completion|, and
+-- 	'ignorecase' is also on, the case of the match is adjusted depending
+-- 	on the typed text.  If the typed text contains a lowercase letter
+-- 	where the match has an upper case letter, the completed part is made
+-- 	lowercase.  If the typed text has no lowercase letters and the match
+-- 	has a lowercase letter where the typed text has an uppercase letter,
+-- 	and there is a letter before it, the completed part is made uppercase.
+-- 	With 'noinfercase' the match is used as-is.
+vim.bo.infercase = "false"
 -- string	(default "")
 -- 			local to buffer
 -- 	Name of a keyboard mapping.  See |mbyte-keymap|.
@@ -164,13 +162,17 @@ vim.bo.keymap = ""
 -- 	  prompt	buffer where only the last line can be edited, meant
 -- 			to be used by a plugin, see |prompt-buffer|
 vim.bo.buftype = ""
--- string	(default: empty)
+-- boolean	(default off)
 -- 			local to buffer
--- 	This option specifies a function to be used to perform tag searches.
--- 	The function gets the tag pattern and should return a List of matching
--- 	tags.  See |tag-function| for an explanation of how to write the
--- 	function and an example.
-vim.bo.tagfunc = ""
+-- 	If on, writes fail unless you use a '!'.  Protects you from
+-- 	accidentally overwriting a file.  Default on when Vim is started
+-- 	in read-only mode ("vim -R") or when the executable is called "view".
+-- 	When using ":w!" the 'readonly' option is reset for the current
+-- 	buffer, unless the 'Z' flag is in 'cpoptions'.
+-- 	When using the ":view" command the 'readonly' option is
+-- 	set for the newly edited buffer.
+-- 	See 'modifiable' for disallowing changes to the buffer.
+vim.bo.readonly = "false"
 -- number	(default 0)
 -- 			local to buffer
 -- 	Maximum width of text that is being inserted.  A longer line will be
@@ -248,13 +250,23 @@ vim.bo.suffixesadd = ""
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.bo.formatprg = ""
--- string	(default
--- 				"s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-")
+-- number	(default 0)
 -- 			local to buffer
--- 	A comma separated list of strings that can start a comment line.  See
--- 	|format-comments|.  See |option-backslash| about using backslashes to
--- 	insert a space.
-vim.bo.comments = "s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-"
+-- 	Number of spaces that a <Tab> counts for while performing editing
+-- 	operations, like inserting a <Tab> or using <BS>.  It "feels" like
+-- 	<Tab>s are being inserted, while in fact a mix of spaces and <Tab>s is
+-- 	used.  This is useful to keep the 'ts' setting at its standard value
+-- 	of 8, while being able to edit like it is set to 'sts'.  However,
+-- 	commands like "x" still work on the actual characters.
+-- 	When 'sts' is zero, this feature is off.
+-- 	When 'sts' is negative, the value of 'shiftwidth' is used.
+-- 	'softtabstop' is set to 0 when the 'paste' option is set and restored
+-- 	when 'paste' is reset.
+-- 	See also |ins-expandtab|.  When 'expandtab' is not set, the number of
+-- 	spaces is minimized by using <Tab>s.
+-- 	The 'L' flag in 'cpoptions' changes how tabs are used when 'list' is
+-- 	set.
+vim.bo.softtabstop = "0"
 -- string	(default "[.?!]\_[\])'" \t]\+")
 -- 			local to buffer
 -- 	Pattern to locate the end of a sentence.  The following word will be
@@ -475,65 +487,6 @@ vim.bo.smartindent = "false"
 -- 		:set includeexpr=substitute(v:fname,'\\.','/','g')
 -- <	The "v:fname" variable will be set to the file name that was detected.
 vim.bo.includeexpr = ""
--- string	(default empty)
--- 			local to buffer
--- 	When this option is set, the syntax with this name is loaded, unless
--- 	syntax highlighting has been switched off with ":syntax off".
--- 	Otherwise this option does not always reflect the current syntax (the
--- 	b:current_syntax variable does).
--- 	This option is most useful in a modeline, for a file which syntax is
--- 	not automatically recognized.  Example, in an IDL file:
--- 		/* vim: set syntax=idl : */ ~
--- 	When a dot appears in the value then this separates two filetype
--- 	names.  Example:
--- 		/* vim: set syntax=c.doxygen : */ ~
--- 	This will use the "c" syntax first, then the "doxygen" syntax.
--- 	Note that the second one must be prepared to be loaded as an addition,
--- 	otherwise it will be skipped.  More than one dot may appear.
--- 	To switch off syntax highlighting for the current file, use: >
--- 		:set syntax=OFF
--- <	To switch syntax highlighting on according to the current value of the
--- 	'filetype' option: >
--- 		:set syntax=ON
--- <	What actually happens when setting the 'syntax' option is that the
--- 	Syntax autocommand event is triggered with the value as argument.
--- 	This option is not copied to another buffer, independent of the 's' or
--- 	'S' flag in 'cpoptions'.
--- 	Only normal file name characters can be used, "/\*?[|<>" are illegal.
-vim.bo.syntax = ""
--- boolean	(Vim default: on (off for root),
--- 				 Vi default: off)
--- 			local to buffer
--- 	If 'modeline' is on 'modelines' gives the number of lines that is
--- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
--- 	no lines are checked.  See |modeline|.
-vim.bo.modeline = "true"
--- string	(Vi default for Unix: "yes", otherwise: "auto")
--- 			global or local to buffer |global-local|
--- 	When writing a file and a backup is made, this option tells how it's
--- 	done.  This is a comma separated list of words.
-vim.bo.backupcopy = "auto"
--- string	(default "0{,0},0),0],:,0#,!^F,o,O,e")
--- 			local to buffer
--- 	A list of keys that, when typed in Insert mode, cause reindenting of
--- 	the current line.  Only used if 'cindent' is on and 'indentexpr' is
--- 	empty.
--- 	For the format of this option see |cinkeys-format|.
--- 	See |C-indenting|.
-vim.bo.cinkeys = "0{,0},0),0],:,0#,!^F,o,O,e"
--- boolean	(default off)
--- 			local to buffer
--- 	Copy the structure of the existing lines indent when autoindenting a
--- 	new line.  Normally the new indent is reconstructed by a series of
--- 	tabs followed by spaces as required (unless |'expandtab'| is enabled,
--- 	in which case only spaces are used).  Enabling this option makes the
--- 	new line copy whatever characters were used for indenting on the
--- 	existing line.  'expandtab' has no effect on these characters, a Tab
--- 	remains a Tab.  If the new indent is greater than on the existing
--- 	line, the remaining space is filled in the normal manner.
--- 	See 'preserveindent'.
-vim.bo.copyindent = "false"
-vim.bo.cinscopedecls = "public,protected,private"
 -- string	(default "^\s*#\s*define")
 -- 			global or local to buffer |global-local|
 -- 	Pattern to be used to find a macro definition.  It is a search
@@ -557,6 +510,57 @@ vim.bo.cinscopedecls = "public,protected,private"
 -- 		let &l:define = '^\s*\ze\k\+\s*=\s*function('
 -- <
 vim.bo.define = "^\\s*#\\s*define"
+-- boolean	(Vim default: on (off for root),
+-- 				 Vi default: off)
+-- 			local to buffer
+-- 	If 'modeline' is on 'modelines' gives the number of lines that is
+-- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
+-- 	no lines are checked.  See |modeline|.
+vim.bo.modeline = "true"
+-- string	(default "")
+-- 			global or local to buffer |global-local|
+-- 	List of file names, separated by commas, that are used to lookup words
+-- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
+vim.bo.thesaurus = ""
+-- string	(default "0{,0},0),0],:,0#,!^F,o,O,e")
+-- 			local to buffer
+-- 	A list of keys that, when typed in Insert mode, cause reindenting of
+-- 	the current line.  Only used if 'cindent' is on and 'indentexpr' is
+-- 	empty.
+-- 	For the format of this option see |cinkeys-format|.
+-- 	See |C-indenting|.
+vim.bo.cinkeys = "0{,0},0),0],:,0#,!^F,o,O,e"
+-- boolean	(default off)
+-- 			local to buffer
+-- 	Copy the structure of the existing lines indent when autoindenting a
+-- 	new line.  Normally the new indent is reconstructed by a series of
+-- 	tabs followed by spaces as required (unless |'expandtab'| is enabled,
+-- 	in which case only spaces are used).  Enabling this option makes the
+-- 	new line copy whatever characters were used for indenting on the
+-- 	existing line.  'expandtab' has no effect on these characters, a Tab
+-- 	remains a Tab.  If the new indent is greater than on the existing
+-- 	line, the remaining space is filled in the normal manner.
+-- 	See 'preserveindent'.
+vim.bo.copyindent = "false"
+-- string	(default "grep -n ",
+-- 				 Unix: "grep -n $* /dev/null")
+-- 			global or local to buffer |global-local|
+-- 	Program to use for the |:grep| command.  This option may contain '%'
+-- 	and '#' characters, which are expanded like when used in a command-
+-- 	line.  The placeholder "$*" is allowed to specify where the arguments
+-- 	will be included.  Environment variables are expanded |:set_env|.  See
+-- 	|option-backslash| about including spaces and backslashes.
+-- 	When your "grep" accepts the "-H" argument, use this to make ":grep"
+-- 	also work well with a single file: >
+-- 		:set grepprg=grep\ -nH
+-- <	Special value: When 'grepprg' is set to "internal" the |:grep| command
+-- 	works like |:vimgrep|, |:lgrep| like |:lvimgrep|, |:grepadd| like
+-- 	|:vimgrepadd| and |:lgrepadd| like |:lvimgrepadd|.
+-- 	See also the section |:make_makeprg|, since most of the comments there
+-- 	apply equally to 'grepprg'.
+-- 	This option cannot be set from a |modeline| or in the |sandbox|, for
+-- 	security reasons.
+vim.bo.grepprg = "grep -n $* /dev/null"
 -- string	(default "make")
 -- 			global or local to buffer |global-local|
 -- 	Program to use for the ":make" command.  See |:make_makeprg|.
@@ -575,6 +579,15 @@ vim.bo.define = "^\\s*#\\s*define"
 -- <	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.bo.makeprg = "make"
+-- string (default: "tcqj", Vi default: "vt")
+-- 			local to buffer
+-- 	This is a sequence of letters which describes how automatic
+-- 	formatting is to be done.  See |fo-table|.  When the 'paste' option is
+-- 	on, no formatting is done (like 'formatoptions' is empty).  Commas can
+-- 	be inserted for readability.
+-- 	To avoid problems with flags that are added in the future, use the
+-- 	"+=" and "-=" feature of ":set" |add-option-flags|.
+vim.bo.formatoptions = "tcqj"
 -- string (default: "")
 -- 			local to buffer
 -- 	When this option is set, the FileType autocommand event is triggered.
@@ -599,34 +612,43 @@ vim.bo.makeprg = "make"
 -- 	'S' flag in 'cpoptions'.
 -- 	Only normal file name characters can be used, "/\*?[|<>" are illegal.
 vim.bo.filetype = ""
--- string (default: "tcqj", Vi default: "vt")
+-- string	(default "")
 -- 			local to buffer
--- 	This is a sequence of letters which describes how automatic
--- 	formatting is to be done.  See |fo-table|.  When the 'paste' option is
--- 	on, no formatting is done (like 'formatoptions' is empty).  Commas can
--- 	be inserted for readability.
--- 	To avoid problems with flags that are added in the future, use the
--- 	"+=" and "-=" feature of ":set" |add-option-flags|.
-vim.bo.formatoptions = "tcqj"
--- string	(default "^\s*#\s*include")
--- 			global or local to buffer |global-local|
--- 	Pattern to be used to find an include command.  It is a search
--- 	pattern, just like for the "/" command (See |pattern|).  The default
--- 	value is for C programs.  This option is used for the commands "[i",
--- 	"]I", "[d", etc.
--- 	Normally the 'isfname' option is used to recognize the file name that
--- 	comes after the matched pattern.  But if "\zs" appears in the pattern
--- 	then the text matched from "\zs" to the end, or until "\ze" if it
--- 	appears, is used as the file name.  Use this to include characters
--- 	that are not in 'isfname', such as a space.  You can then use
--- 	'includeexpr' to process the matched text.
--- 	See |option-backslash| about including spaces and backslashes.
-vim.bo.include = "^\\s*#\\s*include"
+-- 	Expression which is evaluated to obtain the proper indent for a line.
+-- 	It is used when a new line is created, for the |=| operator and
+-- 	in Insert mode as specified with the 'indentkeys' option.
+-- 	When this option is not empty, it overrules the 'cindent' and
+-- 	'smartindent' indenting.  When 'lisp' is set, this option is
+-- 	overridden by the Lisp indentation algorithm.
+-- 	When 'paste' is set this option is not used for indenting.
+-- 	The expression is evaluated with |v:lnum| set to the line number for
+-- 	which the indent is to be computed.  The cursor is also in this line
+-- 	when the expression is evaluated (but it may be moved around).
+-- 	The expression must return the number of spaces worth of indent.  It
+-- 	can return "-1" to keep the current indent (this means 'autoindent' is
+-- 	used for the indent).
+-- 	Functions useful for computing the indent are |indent()|, |cindent()|
+-- 	and |lispindent()|.
+-- 	The evaluation of the expression must not have side effects!  It must
+-- 	not change the text, jump to another window, etc.  Afterwards the
+-- 	cursor position is always restored, thus the cursor may be moved.
+-- 	Normally this option would be set to call a function: >
+-- 		:set indentexpr=GetMyIndent()
+-- <	Error messages will be suppressed, unless the 'debug' option contains
+-- 	"msg".
+-- 	See |indent-expression|.
+vim.bo.indentexpr = ""
 -- string	(default is very long)
 -- 			global or local to buffer |global-local|
 -- 	Comma separated list of words that influence the Lisp indenting.
 -- 	|'lisp'|
 vim.bo.lispwords = "defun,define,defmacro,set!,lambda,if,case,let,flet,let*,letrec,do,do*,define-syntax,let-syntax,letrec-syntax,destructuring-bind,defpackage,defparameter,defstruct,deftype,defvar,do-all-symbols,do-external-symbols,do-symbols,dolist,dotimes,ecase,etypecase,eval-when,labels,macrolet,multiple-value-bind,multiple-value-call,multiple-value-prog1,multiple-value-setq,prog1,progv,typecase,unless,unwind-protect,when,with-input-from-string,with-open-file,with-open-stream,with-output-to-string,with-package-iterator,define-condition,handler-bind,handler-case,restart-bind,restart-case,with-simple-restart,store-value,use-value,muffle-warning,abort,continue,with-slots,with-slots*,with-accessors,with-accessors*,defclass,defmethod,print-unreadable-object"
+-- string (default "")
+-- 			local to buffer
+-- 	Expression which is evaluated to format a range of lines for the |gq|
+-- 	operator or automatic formatting (see 'formatoptions').  When this
+-- 	option is empty 'formatprg' is used.
+vim.bo.formatexpr = ""
 -- number	(default 8)
 -- 			local to buffer
 -- 	Number of spaces that a <Tab> in the file counts for.  Also see
@@ -648,32 +670,6 @@ vim.bo.tabstop = "8"
 -- 			'hidden' is set or using |:hide|, like using
 -- 			|:bwipeout|
 vim.bo.bufhidden = ""
--- string (default "")
--- 			local to buffer
--- 	Expression which is evaluated to format a range of lines for the |gq|
--- 	operator or automatic formatting (see 'formatoptions').  When this
--- 	option is empty 'formatprg' is used.
-vim.bo.formatexpr = ""
--- string	(default "bin,hex")
--- 			local to buffer
--- 	This defines what bases Vim will consider for numbers when using the
--- 	CTRL-A and CTRL-X commands for adding to and subtracting from a number
--- 	respectively; see |CTRL-A| for more info on these commands.
--- 	alpha	If included, single alphabetical characters will be
--- 		incremented or decremented.  This is useful for a list with a
--- 		letter index a), b), etc.		*octal-nrformats*
--- 	octal	If included, numbers that start with a zero will be considered
--- 		to be octal.  Example: Using CTRL-A on "007" results in "010".
--- 	hex	If included, numbers starting with "0x" or "0X" will be
--- 		considered to be hexadecimal.  Example: Using CTRL-X on
--- 		"0x100" results in "0x0ff".
--- 	bin	If included, numbers starting with "0b" or "0B" will be
--- 		considered to be binary.  Example: Using CTRL-X on
--- 		"0b1000" subtracts one, resulting in "0b0111".
--- 	Numbers which simply begin with a digit in the range 1-9 are always
--- 	considered decimal.  This also happens for numbers that are not
--- 	recognized as octal or hex.
-vim.bo.nrformats = "bin,hex"
 -- string	(default: empty)
 -- 			local to buffer
 -- 	This option specifies a function to be used for Insert mode omni
@@ -685,20 +681,6 @@ vim.bo.nrformats = "bin,hex"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.bo.omnifunc = ""
--- boolean	(default off)
--- 			local to buffer
--- 	Enables automatic C program indenting.  See 'cinkeys' to set the keys
--- 	that trigger reindenting in insert mode and 'cinoptions' to set your
--- 	preferred indent style.
--- 	If 'indentexpr' is not empty, it overrules 'cindent'.
--- 	If 'lisp' is not on and both 'indentexpr' and 'equalprg' are empty,
--- 	the "=" operator indents using this algorithm rather than calling an
--- 	external program.
--- 	See |C-indenting|.
--- 	When you don't like the way 'cindent' works, try the 'smartindent'
--- 	option or 'indentexpr'.
--- 	This option is not used when 'paste' is set.
-vim.bo.cindent = "false"
 -- string	(default "\")
 -- 			local to buffer
 -- 	The characters that are used to escape quotes in a string.  Used for
@@ -718,6 +700,39 @@ vim.bo.quoteescape = "\\"
 -- <	This will make the first tab 4 spaces wide, the second 20 spaces,
 -- 	the third 10 spaces, and all following tabs 8 spaces.
 vim.bo.vartabstop = ""
+-- boolean	(default off)
+-- 			local to buffer
+-- 	Enables automatic C program indenting.  See 'cinkeys' to set the keys
+-- 	that trigger reindenting in insert mode and 'cinoptions' to set your
+-- 	preferred indent style.
+-- 	If 'indentexpr' is not empty, it overrules 'cindent'.
+-- 	If 'lisp' is not on and both 'indentexpr' and 'equalprg' are empty,
+-- 	the "=" operator indents using this algorithm rather than calling an
+-- 	external program.
+-- 	See |C-indenting|.
+-- 	When you don't like the way 'cindent' works, try the 'smartindent'
+-- 	option or 'indentexpr'.
+-- 	This option is not used when 'paste' is set.
+vim.bo.cindent = "false"
+-- string (default: "")
+-- 			local to buffer
+-- 	File-content encoding for the current buffer. Conversion is done with
+-- 	iconv() or as specified with 'charconvert'.
+vim.bo.fileencoding = ""
+-- string	(default "^\s*#\s*include")
+-- 			global or local to buffer |global-local|
+-- 	Pattern to be used to find an include command.  It is a search
+-- 	pattern, just like for the "/" command (See |pattern|).  The default
+-- 	value is for C programs.  This option is used for the commands "[i",
+-- 	"]I", "[d", etc.
+-- 	Normally the 'isfname' option is used to recognize the file name that
+-- 	comes after the matched pattern.  But if "\zs" appears in the pattern
+-- 	then the text matched from "\zs" to the end, or until "\ze" if it
+-- 	appears, is used as the file name.  Use this to include characters
+-- 	that are not in 'isfname', such as a space.  You can then use
+-- 	'includeexpr' to process the matched text.
+-- 	See |option-backslash| about including spaces and backslashes.
+vim.bo.include = "^\\s*#\\s*include"
 -- string	(default "./tags;,tags")
 -- 			global or local to buffer |global-local|
 -- 	Filenames for the tag command, separated by spaces or commas.  To
@@ -738,25 +753,24 @@ vim.bo.vartabstop = ""
 -- 	file names from the list.  This avoids problems when a future version
 -- 	uses another default.
 vim.bo.tags = "./tags;,tags"
--- string	(default "grep -n ",
--- 				 Unix: "grep -n $* /dev/null")
--- 			global or local to buffer |global-local|
--- 	Program to use for the |:grep| command.  This option may contain '%'
--- 	and '#' characters, which are expanded like when used in a command-
--- 	line.  The placeholder "$*" is allowed to specify where the arguments
--- 	will be included.  Environment variables are expanded |:set_env|.  See
--- 	|option-backslash| about including spaces and backslashes.
--- 	When your "grep" accepts the "-H" argument, use this to make ":grep"
--- 	also work well with a single file: >
--- 		:set grepprg=grep\ -nH
--- <	Special value: When 'grepprg' is set to "internal" the |:grep| command
--- 	works like |:vimgrep|, |:lgrep| like |:lvimgrep|, |:grepadd| like
--- 	|:vimgrepadd| and |:lgrepadd| like |:lvimgrepadd|.
--- 	See also the section |:make_makeprg|, since most of the comments there
--- 	apply equally to 'grepprg'.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.bo.grepprg = "grep -n $* /dev/null"
+-- boolean (default on)
+-- 			local to buffer
+-- 	Use a swapfile for the buffer.  This option can be reset when a
+-- 	swapfile is not wanted for a specific buffer.  For example, with
+-- 	confidential information that even root must not be able to access.
+-- 	Careful: All text will be in memory:
+-- 		- Don't use this for big files.
+-- 		- Recovery will be impossible!
+-- 	A swapfile will only be present when |'updatecount'| is non-zero and
+-- 	'swapfile' is set.
+-- 	When 'swapfile' is reset, the swap file for the current buffer is
+-- 	immediately deleted.  When 'swapfile' is set, and 'updatecount' is
+-- 	non-zero, a swap file is immediately created.
+-- 	Also see |swap-file|.
+-- 	If you want to open a new buffer without creating a swap file for it,
+-- 	use the |:noswapfile| modifier.
+-- 	See 'directory' for where the swap file is created.
+vim.bo.swapfile = "true"
 -- boolean	(default off)
 -- 			local to buffer
 -- 	This option should be set before editing a binary file.  You can also
@@ -786,16 +800,13 @@ vim.bo.grepprg = "grep -n $* /dev/null"
 -- 	the last line if there is none; this would make the file longer).  See
 -- 	the 'endofline' option.
 vim.bo.binary = "false"
--- string	(default "followic")
--- 			global or local to buffer |global-local|
--- 	This option specifies how case is handled when searching the tags
--- 	file:
--- 	   followic	Follow the 'ignorecase' option
--- 	   followscs    Follow the 'smartcase' and 'ignorecase' options
--- 	   ignore	Ignore case
--- 	   match	Match case
--- 	   smart	Ignore case unless an upper case letter is used
-vim.bo.tagcase = "followic"
+-- string	(default
+-- 				"s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-")
+-- 			local to buffer
+-- 	A comma separated list of strings that can start a comment line.  See
+-- 	|format-comments|.  See |option-backslash| about using backslashes to
+-- 	insert a space.
+vim.bo.comments = "s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-"
 -- boolean	(default off)
 -- 			local to buffer
 -- 	In Insert mode: Use the appropriate number of spaces to insert a
@@ -839,57 +850,32 @@ vim.bo.modified = "false"
 -- 	When 'textwidth' is non-zero, this option is not used.
 -- 	See also 'formatoptions' and |ins-textwidth|.
 vim.bo.wrapmargin = "0"
--- string	(default "")
+vim.bo.cinscopedecls = "public,protected,private"
+-- string	(default "bin,hex")
 -- 			local to buffer
--- 	Expression which is evaluated to obtain the proper indent for a line.
--- 	It is used when a new line is created, for the |=| operator and
--- 	in Insert mode as specified with the 'indentkeys' option.
--- 	When this option is not empty, it overrules the 'cindent' and
--- 	'smartindent' indenting.  When 'lisp' is set, this option is
--- 	overridden by the Lisp indentation algorithm.
--- 	When 'paste' is set this option is not used for indenting.
--- 	The expression is evaluated with |v:lnum| set to the line number for
--- 	which the indent is to be computed.  The cursor is also in this line
--- 	when the expression is evaluated (but it may be moved around).
--- 	The expression must return the number of spaces worth of indent.  It
--- 	can return "-1" to keep the current indent (this means 'autoindent' is
--- 	used for the indent).
--- 	Functions useful for computing the indent are |indent()|, |cindent()|
--- 	and |lispindent()|.
--- 	The evaluation of the expression must not have side effects!  It must
--- 	not change the text, jump to another window, etc.  Afterwards the
--- 	cursor position is always restored, thus the cursor may be moved.
--- 	Normally this option would be set to call a function: >
--- 		:set indentexpr=GetMyIndent()
--- <	Error messages will be suppressed, unless the 'debug' option contains
--- 	"msg".
--- 	See |indent-expression|.
-vim.bo.indentexpr = ""
--- boolean	(default off)
--- 			local to buffer
--- 	When changing the indent of the current line, preserve as much of the
--- 	indent structure as possible.  Normally the indent is replaced by a
--- 	series of tabs followed by spaces as required (unless |'expandtab'| is
--- 	enabled, in which case only spaces are used).  Enabling this option
--- 	means the indent will preserve as many existing characters as possible
--- 	for indenting, and only add additional tabs or spaces as required.
--- 	'expandtab' does not apply to the preserved white space, a Tab remains
--- 	a Tab.
--- 	NOTE: When using ">>" multiple times the resulting indent is a mix of
--- 	tabs and spaces.  You might not like this.
--- 	Also see 'copyindent'.
--- 	Use |:retab| to clean up white space.
-vim.bo.preserveindent = "false"
--- string	(default "")
--- 			local to buffer
--- 			{only available when compiled with the |+vartabs|
--- 			feature}
--- 	A list of the number of spaces that a <Tab> counts for while editing,
--- 	such as inserting a <Tab> or using <BS>.  It "feels" like variable-
--- 	width <Tab>s are being inserted, while in fact a mixture of spaces
--- 	and <Tab>s is used.  Tab widths are separated with commas, with the
--- 	final value applying to all subsequent tabs.
-vim.bo.varsofttabstop = ""
+-- 	This defines what bases Vim will consider for numbers when using the
+-- 	CTRL-A and CTRL-X commands for adding to and subtracting from a number
+-- 	respectively; see |CTRL-A| for more info on these commands.
+-- 	alpha	If included, single alphabetical characters will be
+-- 		incremented or decremented.  This is useful for a list with a
+-- 		letter index a), b), etc.		*octal-nrformats*
+-- 	octal	If included, numbers that start with a zero will be considered
+-- 		to be octal.  Example: Using CTRL-A on "007" results in "010".
+-- 	hex	If included, numbers starting with "0x" or "0X" will be
+-- 		considered to be hexadecimal.  Example: Using CTRL-X on
+-- 		"0x100" results in "0x0ff".
+-- 	bin	If included, numbers starting with "0b" or "0B" will be
+-- 		considered to be binary.  Example: Using CTRL-X on
+-- 		"0b1000" subtracts one, resulting in "0b0111".
+-- 	Numbers which simply begin with a digit in the range 1-9 are always
+-- 	considered decimal.  This also happens for numbers that are not
+-- 	recognized as octal or hex.
+vim.bo.nrformats = "bin,hex"
+-- string	(Vi default for Unix: "yes", otherwise: "auto")
+-- 			global or local to buffer |global-local|
+-- 	When writing a file and a backup is made, this option tells how it's
+-- 	done.  This is a comma separated list of words.
+vim.bo.backupcopy = "auto"
 -- number	(default 8)
 -- 			local to buffer
 -- 	Number of spaces to use for each step of (auto)indent.  Used for
@@ -897,23 +883,42 @@ vim.bo.varsofttabstop = ""
 -- 	When zero the 'ts' value will be used.  Use the |shiftwidth()|
 -- 	function to get the effective shiftwidth value.
 vim.bo.shiftwidth = "8"
--- number	(default 0)
+-- string	(default "followic")
+-- 			global or local to buffer |global-local|
+-- 	This option specifies how case is handled when searching the tags
+-- 	file:
+-- 	   followic	Follow the 'ignorecase' option
+-- 	   followscs    Follow the 'smartcase' and 'ignorecase' options
+-- 	   ignore	Ignore case
+-- 	   match	Match case
+-- 	   smart	Ignore case unless an upper case letter is used
+vim.bo.tagcase = "followic"
+-- string	(default empty)
 -- 			local to buffer
--- 	Number of spaces that a <Tab> counts for while performing editing
--- 	operations, like inserting a <Tab> or using <BS>.  It "feels" like
--- 	<Tab>s are being inserted, while in fact a mix of spaces and <Tab>s is
--- 	used.  This is useful to keep the 'ts' setting at its standard value
--- 	of 8, while being able to edit like it is set to 'sts'.  However,
--- 	commands like "x" still work on the actual characters.
--- 	When 'sts' is zero, this feature is off.
--- 	When 'sts' is negative, the value of 'shiftwidth' is used.
--- 	'softtabstop' is set to 0 when the 'paste' option is set and restored
--- 	when 'paste' is reset.
--- 	See also |ins-expandtab|.  When 'expandtab' is not set, the number of
--- 	spaces is minimized by using <Tab>s.
--- 	The 'L' flag in 'cpoptions' changes how tabs are used when 'list' is
--- 	set.
-vim.bo.softtabstop = "0"
+-- 	When this option is set, the syntax with this name is loaded, unless
+-- 	syntax highlighting has been switched off with ":syntax off".
+-- 	Otherwise this option does not always reflect the current syntax (the
+-- 	b:current_syntax variable does).
+-- 	This option is most useful in a modeline, for a file which syntax is
+-- 	not automatically recognized.  Example, in an IDL file:
+-- 		/* vim: set syntax=idl : */ ~
+-- 	When a dot appears in the value then this separates two filetype
+-- 	names.  Example:
+-- 		/* vim: set syntax=c.doxygen : */ ~
+-- 	This will use the "c" syntax first, then the "doxygen" syntax.
+-- 	Note that the second one must be prepared to be loaded as an addition,
+-- 	otherwise it will be skipped.  More than one dot may appear.
+-- 	To switch off syntax highlighting for the current file, use: >
+-- 		:set syntax=OFF
+-- <	To switch syntax highlighting on according to the current value of the
+-- 	'filetype' option: >
+-- 		:set syntax=ON
+-- <	What actually happens when setting the 'syntax' option is that the
+-- 	Syntax autocommand event is triggered with the value as argument.
+-- 	This option is not copied to another buffer, independent of the 's' or
+-- 	'S' flag in 'cpoptions'.
+-- 	Only normal file name characters can be used, "/\*?[|<>" are illegal.
+vim.bo.syntax = ""
 -- string	(default on Unix: ".,/usr/include,,"
 -- 				   other systems: ".,,")
 -- 			global or local to buffer |global-local|
@@ -965,11 +970,6 @@ vim.bo.softtabstop = "0"
 -- <	Replace the ';' with a ':' or whatever separator is used.  Note that
 -- 	this doesn't work when $INCL contains a comma or white space.
 vim.bo.path = ".,/usr/include,,"
--- string	(default "")
--- 			global or local to buffer |global-local|
--- 	List of file names, separated by commas, that are used to lookup words
--- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
-vim.bo.thesaurus = ""
 -- string	(default empty)
 -- 			local to buffer
 -- 	Name of the word list file where words are added for the |zg| and |zw|
@@ -995,12 +995,16 @@ vim.bo.thesaurus = ""
 vim.bo.spellfile = ""
 -- boolean	(default off)
 -- 			local to buffer
--- 	If on, writes fail unless you use a '!'.  Protects you from
--- 	accidentally overwriting a file.  Default on when Vim is started
--- 	in read-only mode ("vim -R") or when the executable is called "view".
--- 	When using ":w!" the 'readonly' option is reset for the current
--- 	buffer, unless the 'Z' flag is in 'cpoptions'.
--- 	When using the ":view" command the 'readonly' option is
--- 	set for the newly edited buffer.
--- 	See 'modifiable' for disallowing changes to the buffer.
-vim.bo.readonly = "false"
+-- 	When changing the indent of the current line, preserve as much of the
+-- 	indent structure as possible.  Normally the indent is replaced by a
+-- 	series of tabs followed by spaces as required (unless |'expandtab'| is
+-- 	enabled, in which case only spaces are used).  Enabling this option
+-- 	means the indent will preserve as many existing characters as possible
+-- 	for indenting, and only add additional tabs or spaces as required.
+-- 	'expandtab' does not apply to the preserved white space, a Tab remains
+-- 	a Tab.
+-- 	NOTE: When using ">>" multiple times the resulting indent is a mix of
+-- 	tabs and spaces.  You might not like this.
+-- 	Also see 'copyindent'.
+-- 	Use |:retab| to clean up white space.
+vim.bo.preserveindent = "false"

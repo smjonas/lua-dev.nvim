@@ -3,41 +3,30 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- string	(default "egmrLT"   (MS-Windows))
+-- number	(default depends on the build)
 -- 			global
--- 	This option only has an effect in the GUI version of Vim.  It is a
--- 	sequence of letters which describes what components and options of the
--- 	GUI should be used.
--- 	To avoid problems with flags that are added in the future, use the
--- 	"+=" and "-=" feature of ":set" |add-option-flags|.
-vim.o.guioptions = ""
--- boolean	(default on)			*E384* *E385*
+-- 	Specifies the python version used for pyx* functions and commands
+-- 	|python_x|.  The default value is as follows:
+vim.o.pyxversion = "3"
+-- number	(default 1)
 -- 			global
--- 	Searches wrap around the end of the file.  Also applies to |]s| and
--- 	|[s|, searching for spelling mistakes.
-vim.o.wrapscan = "true"
--- string	(default: "-c"; Windows: "/s /c")
--- 			global
--- 	Flag passed to the shell to execute "!" and ":!" commands; e.g.,
--- 	`bash.exe -c ls` or `cmd.exe /s /c "dir"`.  For Windows
--- 	systems, the default is set according to the value of 'shell', to
--- 	reduce the need to set this option by the user.
--- 	On Unix it can have more than one flag.  Each white space separated
--- 	part is passed as an argument to the shell command.
--- 	See |option-backslash| about including spaces and backslashes.
--- 	See |shell-unquoting| which talks about separating this option into
--- 	multiple arguments.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.shellcmdflag = "-c"
--- string	(default: see below)
--- 			global
--- 	Expression used to print the PostScript produced with |:hardcopy|.
--- 	See |pexpr-option|.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.printexpr = "system(['lpr'] + (empty(&printdevice)?[]:['-P', &printdevice]) + [v:fname_in]). delete(v:fname_in)+ v:shell_error"
-vim.o.mousemoveevent = "false"
+-- 	Minimal number of lines for the current window.  This is not a hard
+-- 	minimum, Vim will use fewer lines if there is not enough room.  If the
+-- 	focus goes to a window that is smaller, its size is increased, at the
+-- 	cost of the height of other windows.
+-- 	Set 'winheight' to a small number for normal editing.
+-- 	Set it to 999 to make the current window fill most of the screen.
+-- 	Other windows will be only 'winminheight' high.  This has the drawback
+-- 	that ":all" will create only two windows.  To avoid "vim -o 1 2 3 4"
+-- 	to create only two windows, set the option after startup is done,
+-- 	using the |VimEnter| event: >
+-- 		au VimEnter * set winheight=999
+-- <	Minimum value is 1.
+-- 	The height is not adjusted after one of the commands that change the
+-- 	height of the current window.
+-- 	'winheight' applies to the current window.  Use 'winminheight' to set
+-- 	the minimal height for other windows.
+vim.o.winheight = "1"
 -- boolean	(default on)
 -- 			global
 -- 	Allows for mappings to work recursively.  If you do not want this for
@@ -168,22 +157,12 @@ vim.wo.cursorbind = "false"
 -- 	  i		Insert mode
 -- 	  c		Command line editing, for 'incsearch'
 vim.wo.concealcursor = ""
--- boolean	(default off)
--- 			local to window
--- 	Show the line number relative to the line with the cursor in front of
--- 	each line. Relative line numbers help you use the |count| you can
--- 	precede some vertical motion commands (e.g. j k + -) with, without
--- 	having to calculate it yourself. Especially useful in combination with
--- 	other commands (e.g. y d c < > gq gw =).
--- 	When the 'n' option is excluded from 'cpoptions' a wrapped
--- 	line will not use the column of line numbers.
--- 	The 'numberwidth' option can be used to set the room used for the line
--- 	number.
--- 	When a long, wrapped line doesn't start with the first character, '-'
--- 	characters are put before the number.
--- 	See |hl-LineNr|  and |hl-CursorLineNr| for the highlighting used for
--- 	the number.
-vim.wo.relativenumber = "false"
+-- string	(default: "tab:> ,trail:-,nbsp:+"
+-- 				 Vi default: "eol:$")
+-- 			global or local to window |global-local|
+-- 	Strings to use in 'list' mode and for the |:list| command.  It is a
+-- 	comma separated list of string settings.
+vim.wo.listchars = "tab:> ,trail:-,nbsp:+"
 -- string (default: "#")
 -- 			local to window
 -- 	Used only when 'foldmethod' is "indent".  Lines starting with
@@ -191,11 +170,12 @@ vim.wo.relativenumber = "false"
 -- 	lines.  White space is skipped before checking for this character.
 -- 	The default "#" works well for C programs.  See |fold-indent|.
 vim.wo.foldignore = "#"
--- string (default: "foldtext()")
+-- number (default: 20)
 -- 			local to window
--- 	An expression which is used to specify the text displayed for a closed
--- 	fold.  See |fold-foldtext|.
-vim.wo.foldtext = "foldtext()"
+-- 	Sets the maximum nesting of folds for the "indent" and "syntax"
+-- 	methods.  This avoids that too many folds will be created.  Using more
+-- 	than 20 doesn't work, because the internal limit is 20.
+vim.wo.foldnestmax = "20"
 -- boolean	(default on)
 -- 			local to window
 -- 	This option changes how text is displayed.  It doesn't change the text
@@ -283,12 +263,11 @@ vim.wo.conceallevel = "0"
 -- 	"zc" to close a fold, which is displayed open because it's smaller
 -- 	than 'foldminlines', a following "zc" may close a containing fold.
 vim.wo.foldminlines = "1"
--- boolean	(default off)
--- 			local to window
--- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
--- 	line.  Useful to see the difference between tabs and spaces and for
--- 	trailing blanks.  Further changed by the 'listchars' option.
-vim.wo.list = "false"
+-- string	(default "")
+-- 			global or local to window |global-local|
+-- 	Characters to fill the statuslines and vertical separators.
+-- 	It is a comma separated list of items:
+vim.wo.fillchars = ""
 -- string (default empty)
 -- 			local to window
 -- 	Settings for 'breakindent'. It can consist of the following optional
@@ -309,6 +288,28 @@ vim.wo.list = "false"
 vim.wo.breakindentopt = ""
 -- boolean	(default off)
 -- 			local to window
+-- 	Show the line number relative to the line with the cursor in front of
+-- 	each line. Relative line numbers help you use the |count| you can
+-- 	precede some vertical motion commands (e.g. j k + -) with, without
+-- 	having to calculate it yourself. Especially useful in combination with
+-- 	other commands (e.g. y d c < > gq gw =).
+-- 	When the 'n' option is excluded from 'cpoptions' a wrapped
+-- 	line will not use the column of line numbers.
+-- 	The 'numberwidth' option can be used to set the room used for the line
+-- 	number.
+-- 	When a long, wrapped line doesn't start with the first character, '-'
+-- 	characters are put before the number.
+-- 	See |hl-LineNr|  and |hl-CursorLineNr| for the highlighting used for
+-- 	the number.
+vim.wo.relativenumber = "false"
+-- boolean	(default off)
+-- 			local to window
+-- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
+-- 	line.  Useful to see the difference between tabs and spaces and for
+-- 	trailing blanks.  Further changed by the 'listchars' option.
+vim.wo.list = "false"
+-- boolean	(default off)
+-- 			local to window
 -- 	Keep the window height when windows are opened or closed and
 -- 	'equalalways' is set.  Also for |CTRL-W_=|.  Set by default for the
 -- 	|preview-window| and |quickfix-window|.
@@ -327,23 +328,6 @@ vim.wo.winfixheight = "false"
 -- 	"number"	Highlight the line number of the cursor with
 -- 			CursorLineNr |hl-CursorLineNr|.
 vim.wo.cursorlineopt = "both"
--- boolean	(default off)
--- 			local to window
--- 	When on, display orientation becomes right-to-left, i.e., characters
--- 	that are stored in the file appear from the right to the left.
--- 	Using this option, it is possible to edit files for languages that
--- 	are written from the right to the left such as Hebrew and Arabic.
--- 	This option is per window, so it is possible to edit mixed files
--- 	simultaneously, or to view the same file in both ways (this is
--- 	useful whenever you have a mixed text file with both right-to-left
--- 	and left-to-right strings so that both sets are displayed properly
--- 	in different windows).  Also see |rileft.txt|.
-vim.wo.rightleft = "false"
--- string	(default "")
--- 			global or local to window |global-local|
--- 	Characters to fill the statuslines and vertical separators.
--- 	It is a comma separated list of items:
-vim.wo.fillchars = ""
 -- number	(default 0)
 -- 			local to window
 -- 	Enables pseudo-transparency for a floating window. Valid values are in
@@ -405,12 +389,18 @@ vim.wo.signcolumn = "auto"
 -- 		setlocal scrolloff=-1
 -- <	For scrolling horizontally see 'sidescrolloff'.
 vim.wo.scrolloff = "0"
--- number (default: 20)
+-- boolean	(default off)
 -- 			local to window
--- 	Sets the maximum nesting of folds for the "indent" and "syntax"
--- 	methods.  This avoids that too many folds will be created.  Using more
--- 	than 20 doesn't work, because the internal limit is 20.
-vim.wo.foldnestmax = "20"
+-- 	When on, display orientation becomes right-to-left, i.e., characters
+-- 	that are stored in the file appear from the right to the left.
+-- 	Using this option, it is possible to edit files for languages that
+-- 	are written from the right to the left such as Hebrew and Arabic.
+-- 	This option is per window, so it is possible to edit mixed files
+-- 	simultaneously, or to view the same file in both ways (this is
+-- 	useful whenever you have a mixed text file with both right-to-left
+-- 	and left-to-right strings so that both sets are displayed properly
+-- 	in different windows).  Also see |rileft.txt|.
+vim.wo.rightleft = "false"
 -- boolean (default on)
 -- 			local to window
 -- 	When off, all folds are open.  This option can be used to quickly
@@ -431,6 +421,29 @@ vim.wo.foldenable = "true"
 -- 	  between typing English and Arabic key mapping.
 -- 	- Set the 'delcombine' option
 vim.wo.arabic = "false"
+-- string	(default "search")
+-- 			local to window
+-- 	Each word in this option enables the command line editing to work in
+-- 	right-to-left mode for a group of commands:
+vim.wo.rightleftcmd = "search"
+-- string (default: "foldtext()")
+-- 			local to window
+-- 	An expression which is used to specify the text displayed for a closed
+-- 	fold.  See |fold-foldtext|.
+vim.wo.foldtext = "foldtext()"
+-- string	(default "")
+-- 			local to window
+-- 	'colorcolumn' is a comma separated list of screen columns that are
+-- 	highlighted with ColorColumn |hl-ColorColumn|.  Useful to align
+-- 	text.  Will make screen redrawing slower.
+-- 	The screen column can be an absolute number, or a number preceded with
+-- 	'+' or '-', which is added to or subtracted from 'textwidth'. >
+vim.wo.colorcolumn = ""
+-- boolean	(default off)
+-- 			local to window
+-- 	When on spell checking will be done.  See |spell|.
+-- 	The languages are specified with 'spelllang'.
+vim.wo.spell = "false"
 -- number (default 0)
 -- 			global or local to window |global-local|
 -- 	The minimal number of screen columns to keep to the left and to the
@@ -450,27 +463,3 @@ vim.wo.arabic = "false"
 -- 		 in the following example to never allow the cursor to move
 -- 		 onto the "extends" character: >
 vim.wo.sidescrolloff = "0"
--- string	(default "search")
--- 			local to window
--- 	Each word in this option enables the command line editing to work in
--- 	right-to-left mode for a group of commands:
-vim.wo.rightleftcmd = "search"
--- string	(default: "tab:> ,trail:-,nbsp:+"
--- 				 Vi default: "eol:$")
--- 			global or local to window |global-local|
--- 	Strings to use in 'list' mode and for the |:list| command.  It is a
--- 	comma separated list of string settings.
-vim.wo.listchars = "tab:> ,trail:-,nbsp:+"
--- string	(default "")
--- 			local to window
--- 	'colorcolumn' is a comma separated list of screen columns that are
--- 	highlighted with ColorColumn |hl-ColorColumn|.  Useful to align
--- 	text.  Will make screen redrawing slower.
--- 	The screen column can be an absolute number, or a number preceded with
--- 	'+' or '-', which is added to or subtracted from 'textwidth'. >
-vim.wo.colorcolumn = ""
--- boolean	(default off)
--- 			local to window
--- 	When on spell checking will be done.  See |spell|.
--- 	The languages are specified with 'spelllang'.
-vim.wo.spell = "false"
