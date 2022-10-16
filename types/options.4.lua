@@ -3,11 +3,11 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- number	(default depends on the build)
--- 			global
--- 	Specifies the python version used for pyx* functions and commands
--- 	|python_x|.  The default value is as follows:
-vim.o.pyxversion = "3"
+-- string	(default "")
+-- 			global or local to window |global-local|
+-- 	Characters to fill the statuslines and vertical separators.
+-- 	It is a comma separated list of items:
+vim.o.fillchars = ""
 -- number	(default 1)
 -- 			global
 -- 	Minimal number of lines for the current window.  This is not a hard
@@ -263,6 +263,12 @@ vim.wo.conceallevel = "0"
 -- 	"zc" to close a fold, which is displayed open because it's smaller
 -- 	than 'foldminlines', a following "zc" may close a containing fold.
 vim.wo.foldminlines = "1"
+-- boolean	(default off)
+-- 			local to window
+-- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
+-- 	line.  Useful to see the difference between tabs and spaces and for
+-- 	trailing blanks.  Further changed by the 'listchars' option.
+vim.wo.list = "false"
 -- string	(default "")
 -- 			global or local to window |global-local|
 -- 	Characters to fill the statuslines and vertical separators.
@@ -302,12 +308,6 @@ vim.wo.breakindentopt = ""
 -- 	See |hl-LineNr|  and |hl-CursorLineNr| for the highlighting used for
 -- 	the number.
 vim.wo.relativenumber = "false"
--- boolean	(default off)
--- 			local to window
--- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
--- 	line.  Useful to see the difference between tabs and spaces and for
--- 	trailing blanks.  Further changed by the 'listchars' option.
-vim.wo.list = "false"
 -- boolean	(default off)
 -- 			local to window
 -- 	Keep the window height when windows are opened or closed and

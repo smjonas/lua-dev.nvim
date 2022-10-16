@@ -3,6 +3,26 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- boolean	(default off)
+-- 			global
+-- 			{only for Windows}
+-- 	Enable reading and writing from devices.  This may get Vim stuck on a
+-- 	device that can be opened but doesn't actually do the I/O.  Therefore
+-- 	it is off by default.
+-- 	Note that on Windows editing "aux.h", "lpt1.txt" and the like also
+-- 	result in editing a device.
+vim.o.opendevice = "false"
+-- string	(default "pum,tagfile")
+-- 			global
+-- 	List of words that change how |cmdline-completion| is done.
+-- 	  pum		Display the completion matches using the popupmenu
+-- 			in the same style as the |ins-completion-menu|.
+-- 	  tagfile	When using CTRL-D to list matching tags, the kind of
+-- 			tag and the file of the tag is listed.	Only one match
+-- 			is displayed per line.  Often used tag kinds are:
+-- 				d	#define
+-- 				f	function
+vim.o.wildoptions = "pum,tagfile"
 -- string	(default ""; with GTK+ GUI: "utf-8"; with
 -- 						    Macintosh GUI: "macroman")
 -- 			global
@@ -142,12 +162,36 @@ vim.o.aleph = "224"
 -- <
 -- 			*'shelltemp'* *'stmp'* *'noshelltemp'* *'nostmp'*
 vim.o.shellslash = "false"
--- boolean	(default off)
+-- string	(default "ver,jump")
 -- 			global
--- 	Round indent to multiple of 'shiftwidth'.  Applies to > and <
--- 	commands.  CTRL-T and CTRL-D in Insert mode always round the indent to
--- 	a multiple of 'shiftwidth' (this is Vi compatible).
-vim.o.shiftround = "false"
+-- 	This is a comma-separated list of words that specifies how
+-- 	'scrollbind' windows should behave.  'sbo' stands for ScrollBind
+-- 	Options.
+-- 	The following words are available:
+-- 	    ver		Bind vertical scrolling for 'scrollbind' windows
+-- 	    hor		Bind horizontal scrolling for 'scrollbind' windows
+-- 	    jump	Applies to the offset between two windows for vertical
+-- 			scrolling.  This offset is the difference in the first
+-- 			displayed line of the bound windows.  When moving
+-- 			around in a window, another 'scrollbind' window may
+-- 			reach a position before the start or after the end of
+-- 			the buffer.  The offset is not changed though, when
+-- 			moving back the 'scrollbind' window will try to scroll
+-- 			to the desired position when possible.
+-- 			When now making that window the current one, two
+-- 			things can be done with the relative offset:
+-- 			1. When "jump" is not included, the relative offset is
+-- 			   adjusted for the scroll position in the new current
+-- 			   window.  When going back to the other window, the
+-- 			   new relative offset will be used.
+-- 			2. When "jump" is included, the other windows are
+-- 			   scrolled to keep the same relative offset.  When
+-- 			   going back to the other window, it still uses the
+-- 			   same relative offset.
+-- 	Also see |scroll-binding|.
+-- 	When 'diff' mode is active there always is vertical scroll binding,
+-- 	even when "ver" isn't there.
+vim.o.scrollopt = "ver,jump"
 -- string	(default "")
 -- 			global
 -- 	String to put at the start of lines that have been wrapped.  Useful
@@ -177,10 +221,15 @@ vim.o.showbreak = ""
 vim.o.showtabline = "1"
 -- boolean (default off)
 -- 			global
--- 	When on, phonetic keyboard mapping is used.  'hkmap' must also be on.
--- 	This is useful if you have a non-Hebrew keyboard.
--- 	See |rileft.txt|.
-vim.o.hkmapp = "false"
+-- 	When completing a word in insert mode (see |ins-completion|) from the
+-- 	tags file, show both the tag name and a tidied-up form of the search
+-- 	pattern (if there is one) as possible matches.  Thus, if you have
+-- 	matched a C function, you can see a template for what arguments are
+-- 	required (coding style permitting).
+-- 	Note that this doesn't work well together with having "longest" in
+-- 	'completeopt', because the completion from the search pattern may not
+-- 	match the typed text.
+vim.o.showfulltag = "false"
 -- number	(default 500)
 -- 			global
 -- 	Defines the maximum time in msec between two mouse clicks for the
@@ -228,113 +277,29 @@ vim.o.redrawdebug = ""
 -- 	For Insert mode completion the buffer-local value is used.  For
 -- 	command line completion the global value is used.
 vim.o.completeslash = ""
--- boolean	(default on with |+writebackup| feature, off
--- 					otherwise)
+-- string	(default empty)
+-- 			global or local to window |global-local|
+-- 	When nonempty, this option determines the content of the status line.
+-- 	Also see |status-line|.
+vim.o.statusline = ""
+-- string	(Vim default "filnxtToOF", Vi default: "S")
 -- 			global
--- 	Make a backup before overwriting a file.  The backup is removed after
--- 	the file was successfully written, unless the 'backup' option is
--- 	also on.
--- 	WARNING: Switching this option off means that when Vim fails to write
--- 	your buffer correctly and then, for whatever reason, Vim exits, you
--- 	lose both the original file and what you were writing.  Only reset
--- 	this option if your file system is almost full and it makes the write
--- 	fail (and make sure not to exit Vim until the write was successful).
--- 	See |backup-table| for another explanation.
--- 	When the 'backupskip' pattern matches, a backup is not made anyway.
-vim.o.writebackup = "true"
--- string	(Vim default for
--- 				   Win32:  !,'100,<50,s10,h,rA:,rB:
--- 				   others: !,'100,<50,s10,h
--- 				 Vi default: "")
--- 			global
--- 	When non-empty, the shada file is read upon startup and written
--- 	when exiting Vim (see |shada-file|).  The string should be a comma
--- 	separated list of parameters, each consisting of a single character
--- 	identifying the particular parameter, followed by a number or string
--- 	which specifies the value of that parameter.  If a particular
--- 	character is left out, then the default value is used for that
--- 	parameter.  The following is a list of the identifying characters and
--- 	the effect of their value.
--- 	CHAR	VALUE	~
--- 							*shada-!*
--- 	!	When included, save and restore global variables that start
--- 		with an uppercase letter, and don't contain a lowercase
--- 		letter.  Thus "KEEPTHIS and "K_L_M" are stored, but "KeepThis"
--- 		and "_K_L_M" are not.  Nested List and Dict items may not be
--- 		read back correctly, you end up with an empty item.
--- 							*shada-quote*
--- 	"	Maximum number of lines saved for each register.  Old name of
--- 		the '<' item, with the disadvantage that you need to put a
--- 		backslash before the ", otherwise it will be recognized as the
--- 		start of a comment!
--- 							*shada-%*
--- 	%	When included, save and restore the buffer list.  If Vim is
--- 		started with a file name argument, the buffer list is not
--- 		restored.  If Vim is started without a file name argument, the
--- 		buffer list is restored from the shada file.  Quickfix
--- 		('buftype'), unlisted ('buflisted'), unnamed and buffers on
--- 		removable media (|shada-r|) are not saved.
--- 		When followed by a number, the number specifies the maximum
--- 		number of buffers that are stored.  Without a number all
--- 		buffers are stored.
--- 							*shada-'*
--- 	'	Maximum number of previously edited files for which the marks
--- 		are remembered.  This parameter must always be included when
--- 		'shada' is non-empty.
--- 		Including this item also means that the |jumplist| and the
--- 		|changelist| are stored in the shada file.
--- 							*shada-/*
--- 	/	Maximum number of items in the search pattern history to be
--- 		saved.  If non-zero, then the previous search and substitute
--- 		patterns are also saved.  When not included, the value of
--- 		'history' is used.
--- 							*shada-:*
--- 	:	Maximum number of items in the command-line history to be
--- 		saved.  When not included, the value of 'history' is used.
--- 							*shada-<*
--- 	<	Maximum number of lines saved for each register.  If zero then
--- 		registers are not saved.  When not included, all lines are
--- 		saved.  '"' is the old name for this item.
--- 		Also see the 's' item below: limit specified in KiB.
--- 							*shada-@*
--- 	@	Maximum number of items in the input-line history to be
--- 		saved.  When not included, the value of 'history' is used.
--- 							*shada-c*
--- 	c	Dummy option, kept for compatibility reasons.  Has no actual
--- 		effect: ShaDa always uses UTF-8 and 'encoding' value is fixed
--- 		to UTF-8 as well.
--- 							*shada-f*
--- 	f	Whether file marks need to be stored.  If zero, file marks ('0
--- 		to '9, 'A to 'Z) are not stored.  When not present or when
--- 		non-zero, they are all stored.  '0 is used for the current
--- 		cursor position (when exiting or when doing |:wshada|).
--- 							*shada-h*
--- 	h	Disable the effect of 'hlsearch' when loading the shada
--- 		file.  When not included, it depends on whether ":nohlsearch"
--- 		has been used since the last search command.
--- 							*shada-n*
--- 	n	Name of the shada file.  The name must immediately follow
--- 		the 'n'.  Must be at the end of the option!  If the
--- 		'shadafile' option is set, that file name overrides the one
--- 		given here with 'shada'.  Environment variables are
--- 		expanded when opening the file, not when setting the option.
--- 							*shada-r*
--- 	r	Removable media.  The argument is a string (up to the next
--- 		',').  This parameter can be given several times.  Each
--- 		specifies the start of a path for which no marks will be
--- 		stored.  This is to avoid removable media.  For Windows you
--- 		could use "ra:,rb:".  You can also use it for temp files,
--- 		e.g., for Unix: "r/tmp".  Case is ignored.
--- 							*shada-s*
--- 	s	Maximum size of an item contents in KiB.  If zero then nothing
--- 		is saved.  Unlike Vim this applies to all items, except for
--- 		the buffer list and header.  Full item size is off by three
--- 		unsigned integers: with `s10` maximum item size may be 1 byte
--- 		(type: 7-bit integer) + 9 bytes (timestamp: up to 64-bit
--- 		integer) + 3 bytes (item size: up to 16-bit integer because
--- 		2^8 < 10240 < 2^16) + 10240 bytes (requested maximum item
--- 		contents size) = 10253 bytes.
-vim.o.shada = "!,'100,<50,s10,h"
+-- 	This option helps to avoid all the |hit-enter| prompts caused by file
+-- 	messages, for example  with CTRL-G, and to avoid some other messages.
+-- 	It is a list of flags:
+-- 	 flag	meaning when present	~
+-- 	  f	use "(3 of 5)" instead of "(file 3 of 5)"
+-- 	  i	use "[noeol]" instead of "[Incomplete last line]"
+-- 	  l	use "999L, 888C" instead of "999 lines, 888 characters"
+-- 	  m	use "[+]" instead of "[Modified]"
+-- 	  n	use "[New]" instead of "[New File]"
+-- 	  r	use "[RO]" instead of "[readonly]"
+-- 	  w	use "[w]" instead of "written" for file write message
+-- 		and "[a]" instead of "appended" for ':w >> file' command
+-- 	  x	use "[dos]" instead of "[dos format]", "[unix]" instead of
+-- 		"[unix format]" and "[mac]" instead of "[mac format]".
+-- 	  a	all of the above abbreviations
+vim.o.shortmess = "filnxtToOF"
 -- boolean	(default on)
 -- 			global
 -- 	When on, a <Tab> in front of a line inserts blanks according to
@@ -726,20 +691,13 @@ vim.o.autoread = "true"
 -- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
 -- 	no lines are checked.  See |modeline|.
 vim.o.modelines = "5"
--- number	(default: 200)
+-- string	(default empty)
 -- 			global
--- 	After typing this many characters the swap file will be written to
--- 	disk.  When zero, no swap file will be created at all (see chapter on
--- 	recovery |crash-recovery|).  'updatecount' is set to zero by starting
--- 	Vim with the "-n" option, see |startup|.  When editing in readonly
--- 	mode this option will be initialized to 10000.
--- 	The swapfile can be disabled per buffer with |'swapfile'|.
--- 	When 'updatecount' is set from zero to non-zero, swap files are
--- 	created for all buffers that have 'swapfile' set.  When 'updatecount'
--- 	is set to zero, existing swap files are not deleted.
--- 	This option has no meaning in buffers where |'buftype'| is "nofile"
--- 	or "nowrite".
-vim.o.updatecount = "200"
+-- 	The name of the printer to be used for |:hardcopy|.
+-- 	See |pdev-option|.
+-- 	This option cannot be set from a |modeline| or in the |sandbox|, for
+-- 	security reasons.
+vim.o.printdevice = ""
 -- number	(default 15)
 -- 			global
 -- 	Minimum width for the popup menu (|ins-completion-menu|).  If the
@@ -751,15 +709,18 @@ vim.o.pumwidth = "15"
 -- 	The CJK character set to be used for CJK output from |:hardcopy|.
 -- 	See |pmbcs-option|.
 vim.o.printmbcharset = ""
--- string	(default: "")
+-- number	(default 1)
 -- 			global
--- 	When non-empty, overrides the file name used for |shada| (viminfo).
--- 	When equal to "NONE" no shada file will be read or written.
--- 	This option can be set with the |-i| command line flag.  The |--clean|
--- 	command line flag sets it to "NONE".
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.shadafile = ""
+-- 	The minimal height of a window, when it's not the current window.
+-- 	This is a hard minimum, windows will never become smaller.
+-- 	When set to zero, windows may be "squashed" to zero lines (i.e. just a
+-- 	status bar) if necessary.  They will return to at least one line when
+-- 	they become active (since the cursor has to have somewhere to go.)
+-- 	Use 'winheight' to set the minimal height of the current window.
+-- 	This option is only checked when making a window smaller.  Don't use a
+-- 	large number, it will cause errors when opening more than a few
+-- 	windows.  A value of 0 to 3 is reasonable.
+vim.o.winminheight = "1"
 -- boolean	(default on)
 -- 			global
 -- 	When on, the |tagstack| is used normally.  When off, a ":tag" or
@@ -1032,3 +993,54 @@ vim.o.paste = "false"
 -- 	start	allow backspacing over the start of insert; CTRL-W and CTRL-U
 -- 		stop once at the start of insert.
 vim.o.backspace = "indent,eol,start"
+-- string	(default "best")
+-- 			global
+-- 	Methods used for spelling suggestions.  Both for the |z=| command and
+-- 	the |spellsuggest()| function.  This is a comma-separated list of
+-- 	items:
+vim.o.spellsuggest = "best"
+-- number	(default 1)
+-- 			global
+-- 	The minimal number of columns to scroll horizontally.  Used only when
+-- 	the 'wrap' option is off and the cursor is moved off of the screen.
+-- 	When it is zero the cursor will be put in the middle of the screen.
+-- 	When using a slow terminal set it to a large number or 0.  Not used
+-- 	for "zh" and "zl" commands.
+vim.o.sidescroll = "1"
+-- string	(default "")
+-- 			global
+-- 	List of comma separated words, which enable special things that keys
+-- 	can do.  These values can be used:
+-- 	   startsel	Using a shifted special key starts selection (either
+-- 			Select mode or Visual mode, depending on "key" being
+-- 			present in 'selectmode').
+-- 	   stopsel	Using a not-shifted special key stops selection.
+-- 	Special keys in this context are the cursor keys, <End>, <Home>,
+-- 	<PageUp> and <PageDown>.
+-- 	The 'keymodel' option is set by the |:behave| command.
+vim.o.keymodel = ""
+-- boolean	(default off)
+-- 			global
+-- 	When this option is set, the screen will not be redrawn while
+-- 	executing macros, registers and other commands that have not been
+-- 	typed.  Also, updating the window title is postponed.  To force an
+-- 	update use |:redraw|.
+vim.o.lazyredraw = "false"
+-- string	(default "%f:%l:%m,%f:%l%m,%f  %l%m")
+-- 			global
+-- 	Format to recognize for the ":grep" command output.
+-- 	This is a scanf-like string that uses the same format as the
+-- 	'errorformat' option: see |errorformat|.
+vim.o.grepformat = "%f:%l:%m,%f:%l%m,%f  %l%m"
+-- boolean	(default on)			*E384* *E385*
+-- 			global
+-- 	Searches wrap around the end of the file.  Also applies to |]s| and
+-- 	|[s|, searching for spelling mistakes.
+vim.o.wrapscan = "true"
+-- boolean	(default off)
+-- 			global
+-- 	Makes the 'g' and 'c' flags of the ":substitute" command to be
+-- 	toggled each time the flag is given.  See |complex-change|.  See
+-- 	also 'gdefault' option.
+-- 	Switching this option on may break plugins!
+vim.o.edcompatible = "false"

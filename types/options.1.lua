@@ -509,45 +509,18 @@ vim.o.inccommand = "nosplit"
 -- 	Strings to use in 'list' mode and for the |:list| command.  It is a
 -- 	comma separated list of string settings.
 vim.o.listchars = "tab:> ,trail:-,nbsp:+"
--- string	(default: "blank,buffers,curdir,folds,
--- 					       help,tabpages,winsize"
--- 				 Vi default: "blank,buffers,curdir,folds,
--- 					       help,options,tabpages,winsize")
+-- number  (default screen height - 1)
 -- 			global
--- 	Changes the effect of the |:mksession| command.  It is a comma
--- 	separated list of words.  Each word enables saving and restoring
--- 	something:
--- 	   word		save and restore ~
--- 	   blank	empty windows
--- 	   buffers	hidden and unloaded buffers, not just those in windows
--- 	   curdir	the current directory
--- 	   folds	manually created folds, opened/closed folds and local
--- 			fold options
--- 	   globals	global variables that start with an uppercase letter
--- 			and contain at least one lowercase letter.  Only
--- 			String and Number types are stored.
--- 	   help		the help window
--- 	   localoptions	options and mappings local to a window or buffer (not
--- 			global values for local options)
--- 	   options	all options and mappings (also global values for local
--- 			options)
--- 	   resize	size of the Vim window: 'lines' and 'columns'
--- 	   sesdir	the directory in which the session file is located
--- 			will become the current directory (useful with
--- 			projects accessed over a network from different
--- 			systems)
--- 	   slash	backslashes in file names replaced with forward
--- 			slashes
--- 	   tabpages	all tab pages; without this only the current tab page
--- 			is restored, so that you can make a session for each
--- 			tab page separately
--- 	   terminal	include terminal windows where the command can be
--- 			restored
--- 	   unix		with Unix end-of-line format (single <NL>), even when
--- 			on Windows or DOS
--- 	   winpos	position of the whole Vim window
--- 	   winsize	window sizes
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal"
+-- 	Window height.  Do not confuse this with the height of the Vim window,
+-- 	use 'lines' for that.
+-- 	Used for |CTRL-F| and |CTRL-B| when there is only one window and the
+-- 	value is smaller than 'lines' minus one.  The screen will scroll
+-- 	'window' minus two lines, with a minimum of one.
+-- 	When 'window' is equal to 'lines' minus one CTRL-F and CTRL-B scroll
+-- 	in a much smarter way, taking care of wrapping lines.
+-- 	When resizing the Vim window, the value is smaller than 1 or more than
+-- 	or equal to 'lines' it will be set to 'lines' minus 1.
+vim.o.window = "23"
 -- string	(default "")
 -- 			global
 -- 	When non-empty the oldest version of a file is kept.  This can be used
@@ -618,11 +591,24 @@ vim.o.redrawtime = "2000"
 -- 	doesn't know where a file name starts or ends when doing completion.
 -- 	It most likely works better without a space in 'isfname'.
 vim.o.isfname = "@,48-57,/,.,-,_,+,,,#,$,%,~,="
--- string	(default empty, except for some systems)
+-- string	(default "menu")
 -- 			global
--- 	Sets the character encoding used when printing.
--- 	See |penc-option|.
-vim.o.printencoding = ""
+-- 			{only used in Win32}
+-- 	Some GUI versions allow the access to menu entries by using the ALT
+-- 	key in combination with a character that appears underlined in the
+-- 	menu.  This conflicts with the use of the ALT key for mappings and
+-- 	entering special characters.  This option tells what to do:
+-- 	  no	Don't use ALT keys for menus.  ALT key combinations can be
+-- 		mapped, but there is no automatic handling.
+-- 	  yes	ALT key handling is done by the windowing system.  ALT key
+-- 		combinations cannot be mapped.
+-- 	  menu	Using ALT in combination with a character that is a menu
+-- 		shortcut key, will be handled by the windowing system.  Other
+-- 		keys can be mapped.
+-- 	If the menu is disabled by excluding 'm' from 'guioptions', the ALT
+-- 	key is never used for the menu.
+-- 	This option is not used for <F10>; on Win32.
+vim.o.winaltkeys = "menu"
 -- boolean	(default on)
 -- 			global
 -- 	When there is a previous search pattern, highlight all its matches.
@@ -831,12 +817,12 @@ vim.o.undodir = "/home/runner/.local/state/nvim/undo//"
 -- 	"*" and "#" you can make 'smartcase' used by doing a "/" command,
 -- 	recalling the search pattern from history and hitting <Enter>.
 vim.o.smartcase = "false"
--- boolean	(default off)
+-- number	(default 5)
 -- 			global
--- 	When set: Add 's' flag to 'shortmess' option (this makes the message
--- 	for a search that hits the start or end of the file not being
--- 	displayed).  When reset: Remove 's' flag from 'shortmess' option.
-vim.o.terse = "false"
+-- 	Tenths of a second to show the matching paren, when 'showmatch' is
+-- 	set.  Note that this is not in milliseconds, like other options that
+-- 	set a time.  This is to be compatible with Nvi.
+vim.o.matchtime = "5"
 -- number	(default 2)
 -- 			global
 -- 	Threshold for reporting number of lines changed.  When the number of
@@ -845,8 +831,20 @@ vim.o.terse = "false"
 -- 	For the ":substitute" command the number of substitutions is used
 -- 	instead of the number of lines.
 vim.o.report = "2"
--- Removed. |vim-differences|
-vim.o.ttyfast = "true"
+-- string (default "")
+-- 			global or local to buffer |global-local|
+-- 	The name of an external program that will be used to format the lines
+-- 	selected with the |gq| operator.  The program must take the input on
+-- 	stdin and produce the output on stdout.  The Unix program "fmt" is
+-- 	such a program.
+-- 	If the 'formatexpr' option is not empty it will be used instead.
+-- 	Otherwise, if 'formatprg' option is an empty string, the internal
+-- 	format function will be used |C-indenting|.
+-- 	Environment variables are expanded |:set_env|.  See |option-backslash|
+-- 	about including spaces and backslashes.
+-- 	This option cannot be set from a |modeline| or in the |sandbox|, for
+-- 	security reasons.
+vim.o.formatprg = ""
 -- number	(default 0)
 -- 			global
 -- 	Maximum number of items to show in the popup menu
@@ -1031,28 +1029,15 @@ vim.o.mouseshape = ""
 vim.o.writedelay = "0"
 -- boolean	(default off)
 -- 			global
--- 	Like 'autowrite', but also used for commands ":edit", ":enew", ":quit",
--- 	":qall", ":exit", ":xit", ":recover" and closing the Vim window.
--- 	Setting this option also implies that Vim behaves like 'autowrite' has
--- 	been set.
-vim.o.autowriteall = "false"
--- boolean	(default off)
--- 			global
--- 			{only for Windows}
--- 	Enable reading and writing from devices.  This may get Vim stuck on a
--- 	device that can be opened but doesn't actually do the I/O.  Therefore
--- 	it is off by default.
--- 	Note that on Windows editing "aux.h", "lpt1.txt" and the like also
--- 	result in editing a device.
-vim.o.opendevice = "false"
--- string	(default "pum,tagfile")
--- 			global
--- 	List of words that change how |cmdline-completion| is done.
--- 	  pum		Display the completion matches using the popupmenu
--- 			in the same style as the |ins-completion-menu|.
--- 	  tagfile	When using CTRL-D to list matching tags, the kind of
--- 			tag and the file of the tag is listed.	Only one match
--- 			is displayed per line.  Often used tag kinds are:
--- 				d	#define
--- 				f	function
-vim.o.wildoptions = "pum,tagfile"
+-- 	When off a buffer is unloaded when it is |abandon|ed.  When on a
+-- 	buffer becomes hidden when it is |abandon|ed.  If the buffer is still
+-- 	displayed in another window, it does not become hidden, of course.
+-- 	The commands that move through the buffer list sometimes make a buffer
+-- 	hidden although the 'hidden' option is off: When the buffer is
+-- 	modified, 'autowrite' is off or writing is not possible, and the '!'
+-- 	flag was used.  See also |windows.txt|.
+-- 	To only make one buffer hidden use the 'bufhidden' option.
+-- 	This option is set for one command with ":hide {command}" |:hide|.
+-- 	WARNING: It's easy to forget that you have changes in hidden buffers.
+-- 	Think twice when using ":q!" or ":qa!".
+vim.o.hidden = "true"
