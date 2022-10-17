@@ -175,12 +175,13 @@ function vim.api.nvim_put(lines, type, after, follow) end
 --- @param special boolean #Replace |keycodes|, e.g. <CR> becomes a "\r" char.
 function vim.api.nvim_replace_termcodes(str, from_part, do_lt, special) end
 
--- Selects an item in the completion popupmenu.
+-- Selects an item in the completion popup menu.
 --- @param item integer #Index (zero-based) of the item to select. Value of -1
 ---               selects nothing and restores the original text.
---- @param insert boolean #Whether the selection should be inserted in the buffer.
---- @param finish boolean #Finish the completion and dismiss the popupmenu. Implies
----               `insert`.
+--- @param insert boolean #For |ins-completion|, whether the selection should be
+---               inserted in the buffer. Ignored for |cmdline-completion|.
+--- @param finish boolean #Finish the completion and dismiss the popup menu. Implies
+---               {insert}.
 --- @param opts dictionary #Optional parameters. Reserved for future use.
 function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 
