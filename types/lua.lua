@@ -119,7 +119,7 @@ function vim.find(names, opts) end
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
---- @param plain any #(boolean) If `true` use `sep` literally (passed to
+--- @param plain any #(boolean|nil) If `true` use `sep` literally (passed to
 ---              string.find)
 --- @return any #(function) Iterator over the split components
 function vim.gsplit(s, sep, plain) end
@@ -325,7 +325,8 @@ function vim.set(mode, lhs, rhs, opts) end
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
---- @param kwargs any #(table|nil) Keyword arguments:
+--- @param kwargs any #({plain: boolean, trimempty: boolean}|nil) Keyword
+---               arguments:
 ---               • plain: (boolean) If `true` use `sep` literally (passed to
 ---                 string.find)
 ---               • trimempty: (boolean) If `true` remove empty items from the
