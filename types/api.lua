@@ -545,7 +545,7 @@ function vim.api.nvim_create_augroup(name, opts) end
 ---              • group (string|integer) optional: the autocommand group name
 ---                or id to match against.
 ---              • pattern (string|array) optional: pattern or patterns to
----                match against |autocmd-pattern|.
+---                match literally against |autocmd-pattern|.
 ---              • buffer (integer) optional: buffer number for buffer local
 ---                autocommands |autocmd-buflocal|. Cannot be used with
 ---                {pattern}.
