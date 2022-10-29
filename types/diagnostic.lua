@@ -145,7 +145,7 @@ function vim.diagnostic.get_prev_pos(opts) end
 function vim.diagnostic.goto_next(opts) end
 
 -- Move to the previous diagnostic in the current buffer.
---- @param opts any #(table) See |vim.diagnostic.goto_next()|
+--- @param opts any #(table|nil) See |vim.diagnostic.goto_next()|
 function vim.diagnostic.goto_prev(opts) end
 
 -- Hide currently displayed diagnostics.
