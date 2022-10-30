@@ -3,55 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- number (default 12)
--- 			global
--- 	Default height for a preview window.  Used for |:ptag| and associated
--- 	commands.  Used for |CTRL-W_}| when no count is given.
-vim.o.previewheight = "12"
--- string	(default ".,$XDG_DATA_HOME/nvim/backup")
--- 			global
--- 	List of directories for the backup file, separated with commas.
--- 	- The backup file will be created in the first directory in the list
--- 	  where this is possible.  The directory must exist, Vim will not
--- 	  create it for you.
--- 	- Empty means that no backup file will be created ('patchmode' is
--- 	  impossible!).  Writing may fail because of this.
--- 	- A directory "." means to put the backup file in the same directory
--- 	  as the edited file.
--- 	- A directory starting with "./" (or ".\" for Windows) means to
--- 	  put the backup file relative to where the edited file is.  The
--- 	  leading "." is replaced with the path name of the edited file.
--- 	  ("." inside a directory name has no special meaning).
--- 	- Spaces after the comma are ignored, other spaces are considered part
--- 	  of the directory name.  To have a space at the start of a directory
--- 	  name, precede it with a backslash.
--- 	- To include a comma in a directory name precede it with a backslash.
--- 	- A directory name may end in an '/'.
--- 	- For Unix and Win32, if a directory ends in two path separators "//",
--- 	  the swap file name will be built from the complete path to the file
--- 	  with all path separators changed to percent '%' signs. This will
--- 	  ensure file name uniqueness in the backup directory.
--- 	  On Win32, it is also possible to end with "\\".  However, When a
--- 	  separating comma is following, you must use "//", since "\\" will
--- 	  include the comma in the file name. Therefore it is recommended to
--- 	  use '//', instead of '\\'.
--- 	- Environment variables are expanded |:set_env|.
--- 	- Careful with '\' characters, type one before a space, type two to
--- 	  get one in the option (see |option-backslash|), for example: >
--- 	    :set bdir=c:\\tmp,\ dir\\,with\\,commas,\\\ dir\ with\ spaces
--- <	- For backwards compatibility with Vim version 3.0 a '>' at the start
--- 	  of the option is removed.
--- 	See also 'backup' and 'writebackup' options.
--- 	If you want to hide your backup files on Unix, consider this value: >
--- 		:set backupdir=./.backup,~/.backup,.,/tmp
--- <	You must create a ".backup" directory in each directory and in your
--- 	home directory for this to work properly.
--- 	The use of |:set+=| and |:set-=| is preferred when adding or removing
--- 	directories from the list.  This avoids problems when a future version
--- 	uses another default.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.backupdir = ".,/home/runner/.local/state/nvim/backup//"
 -- boolean	(default on with |+writebackup| feature, off
 -- 					otherwise)
 -- 			global
@@ -1039,3 +990,60 @@ vim.o.modelineexpr = "false"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.shellcmdflag = "-c"
+-- string	(default "")
+-- 			global or local to window |global-local|
+-- 	Characters to fill the statuslines and vertical separators.
+-- 	It is a comma separated list of items:
+vim.o.fillchars = ""
+-- number	(default 1)
+-- 			global
+-- 	Minimal number of lines for the current window.  This is not a hard
+-- 	minimum, Vim will use fewer lines if there is not enough room.  If the
+-- 	focus goes to a window that is smaller, its size is increased, at the
+-- 	cost of the height of other windows.
+-- 	Set 'winheight' to a small number for normal editing.
+-- 	Set it to 999 to make the current window fill most of the screen.
+-- 	Other windows will be only 'winminheight' high.  This has the drawback
+-- 	that ":all" will create only two windows.  To avoid "vim -o 1 2 3 4"
+-- 	to create only two windows, set the option after startup is done,
+-- 	using the |VimEnter| event: >
+-- 		au VimEnter * set winheight=999
+-- <	Minimum value is 1.
+-- 	The height is not adjusted after one of the commands that change the
+-- 	height of the current window.
+-- 	'winheight' applies to the current window.  Use 'winminheight' to set
+-- 	the minimal height for other windows.
+vim.o.winheight = "1"
+-- boolean	(default on)
+-- 			global
+-- 	Allows for mappings to work recursively.  If you do not want this for
+-- 	a single entry, use the :noremap[!] command.
+-- 	NOTE: To avoid portability problems with Vim scripts, always keep
+-- 	this option at the default "on".  Only switch it off when working with
+-- 	old Vi scripts.
+vim.o.remap = "true"
+-- boolean (default off, on for some systems (SGI))
+-- 			global
+-- 	When set the Input Method is never used.  This is useful to disable
+-- 	the IM when it doesn't work properly.
+-- 	Currently this option is on by default for SGI/IRIX machines.  This
+-- 	may change in later releases.
+vim.o.imdisable = "false"
+-- boolean	(default off)
+-- 			local to window
+-- 	Join the current window in the group of windows that shows differences
+-- 	between files.  See |diff-mode|.
+vim.wo.diff = "false"
+-- string	(default empty)
+-- 			global or local to window |global-local|
+-- 	When nonempty, this option determines the content of the status line.
+-- 	Also see |status-line|.
+vim.wo.statusline = ""
+-- boolean	(default off)
+-- 			local to window
+-- 	Highlight the screen line of the cursor with CursorLine
+-- 	|hl-CursorLine|.  Useful to easily spot the cursor.  Will make screen
+-- 	redrawing slower.
+-- 	When Visual mode is active the highlighting isn't used to make it
+-- 	easier to see the selected text.
+vim.wo.cursorline = "false"

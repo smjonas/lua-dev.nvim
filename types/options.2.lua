@@ -3,15 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- boolean	(default off)
--- 			global
--- 			{only for Windows}
--- 	Enable reading and writing from devices.  This may get Vim stuck on a
--- 	device that can be opened but doesn't actually do the I/O.  Therefore
--- 	it is off by default.
--- 	Note that on Windows editing "aux.h", "lpt1.txt" and the like also
--- 	result in editing a device.
-vim.o.opendevice = "false"
 -- string	(default "pum,tagfile")
 -- 			global
 -- 	List of words that change how |cmdline-completion| is done.
@@ -1044,3 +1035,52 @@ vim.o.wrapscan = "true"
 -- 	also 'gdefault' option.
 -- 	Switching this option on may break plugins!
 vim.o.edcompatible = "false"
+-- number (default 12)
+-- 			global
+-- 	Default height for a preview window.  Used for |:ptag| and associated
+-- 	commands.  Used for |CTRL-W_}| when no count is given.
+vim.o.previewheight = "12"
+-- string	(default ".,$XDG_DATA_HOME/nvim/backup")
+-- 			global
+-- 	List of directories for the backup file, separated with commas.
+-- 	- The backup file will be created in the first directory in the list
+-- 	  where this is possible.  The directory must exist, Vim will not
+-- 	  create it for you.
+-- 	- Empty means that no backup file will be created ('patchmode' is
+-- 	  impossible!).  Writing may fail because of this.
+-- 	- A directory "." means to put the backup file in the same directory
+-- 	  as the edited file.
+-- 	- A directory starting with "./" (or ".\" for Windows) means to
+-- 	  put the backup file relative to where the edited file is.  The
+-- 	  leading "." is replaced with the path name of the edited file.
+-- 	  ("." inside a directory name has no special meaning).
+-- 	- Spaces after the comma are ignored, other spaces are considered part
+-- 	  of the directory name.  To have a space at the start of a directory
+-- 	  name, precede it with a backslash.
+-- 	- To include a comma in a directory name precede it with a backslash.
+-- 	- A directory name may end in an '/'.
+-- 	- For Unix and Win32, if a directory ends in two path separators "//",
+-- 	  the swap file name will be built from the complete path to the file
+-- 	  with all path separators changed to percent '%' signs. This will
+-- 	  ensure file name uniqueness in the backup directory.
+-- 	  On Win32, it is also possible to end with "\\".  However, When a
+-- 	  separating comma is following, you must use "//", since "\\" will
+-- 	  include the comma in the file name. Therefore it is recommended to
+-- 	  use '//', instead of '\\'.
+-- 	- Environment variables are expanded |:set_env|.
+-- 	- Careful with '\' characters, type one before a space, type two to
+-- 	  get one in the option (see |option-backslash|), for example: >
+-- 	    :set bdir=c:\\tmp,\ dir\\,with\\,commas,\\\ dir\ with\ spaces
+-- <	- For backwards compatibility with Vim version 3.0 a '>' at the start
+-- 	  of the option is removed.
+-- 	See also 'backup' and 'writebackup' options.
+-- 	If you want to hide your backup files on Unix, consider this value: >
+-- 		:set backupdir=./.backup,~/.backup,.,/tmp
+-- <	You must create a ".backup" directory in each directory and in your
+-- 	home directory for this to work properly.
+-- 	The use of |:set+=| and |:set-=| is preferred when adding or removing
+-- 	directories from the list.  This avoids problems when a future version
+-- 	uses another default.
+-- 	This option cannot be set from a |modeline| or in the |sandbox|, for
+-- 	security reasons.
+vim.o.backupdir = ".,/home/runner/.local/state/nvim/backup//"

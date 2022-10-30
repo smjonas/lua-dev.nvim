@@ -3,33 +3,29 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- boolean	(default on)
--- 			local to buffer
--- 	When off the buffer contents cannot be changed.  The 'fileformat' and
--- 	'fileencoding' options also can't be changed.
--- 	Can be reset on startup with the |-M| command line argument.
-vim.bo.modifiable = "true"
--- string	(default: empty)
--- 			local to buffer
--- 	This option specifies a function to be used to perform tag searches.
--- 	The function gets the tag pattern and should return a List of matching
--- 	tags.  See |tag-function| for an explanation of how to write the
--- 	function and an example.
-vim.bo.tagfunc = ""
--- boolean	(default on)
--- 			local to buffer
--- 	When writing a file and this option is off and the 'binary' option
--- 	is on, or 'fixeol' option is off, no <EOL> will be written for the
--- 	last line in the file.  This option is automatically set or reset when
--- 	starting to edit a new file, depending on whether file has an <EOL>
--- 	for the last line in the file.  Normally you don't have to set or
--- 	reset this option.
--- 	When 'binary' is off and 'fixeol' is on the value is not used when
--- 	writing the file.  When 'binary' is on or 'fixeol' is off it is used
--- 	to remember the presence of a <EOL> for the last line in the file, so
--- 	that when you write the file the situation from the original file can
--- 	be kept.  But you can change it if you want to.
-vim.bo.endofline = "true"
+-- string	(default "^\s*#\s*define")
+-- 			global or local to buffer |global-local|
+-- 	Pattern to be used to find a macro definition.  It is a search
+-- 	pattern, just like for the "/" command.  This option is used for the
+-- 	commands like "[i" and "[d" |include-search|.  The 'isident' option is
+-- 	used to recognize the defined name after the match:
+-- 		{match with 'define'}{non-ID chars}{defined name}{non-ID char}
+-- 	See |option-backslash| about inserting backslashes to include a space
+-- 	or backslash.
+-- 	The default value is for C programs.  For C++ this value would be
+-- 	useful, to include const type declarations: >
+-- 		^\(#\s*define\|[a-z]*\s*const\s*[a-z]*\)
+-- <	You can also use "\ze" just before the name and continue the pattern
+-- 	to check what is following.  E.g. for Javascript, if a function is
+-- 	defined with "func_name = function(args)": >
+-- 		^\s*\ze\i\+\s*=\s*function(
+-- <	If the function is defined with "func_name : function() {...": >
+-- 	        ^\s*\ze\i\+\s*[:]\s*(*function\s*(
+-- <	When using the ":set" command, you need to double the backslashes!
+-- 	To avoid that use `:let` with a single quote string: >
+-- 		let &l:define = '^\s*\ze\k\+\s*=\s*function('
+-- <
+vim.bo.define = "^\\s*#\\s*define"
 -- boolean	(default on)
 -- 			local to buffer
 -- 	Copy indent from current line when starting a new line (typing <CR>
@@ -1041,3 +1037,12 @@ vim.o.writedelay = "0"
 -- 	WARNING: It's easy to forget that you have changes in hidden buffers.
 -- 	Think twice when using ":q!" or ":qa!".
 vim.o.hidden = "true"
+-- boolean	(default off)
+-- 			global
+-- 			{only for Windows}
+-- 	Enable reading and writing from devices.  This may get Vim stuck on a
+-- 	device that can be opened but doesn't actually do the I/O.  Therefore
+-- 	it is off by default.
+-- 	Note that on Windows editing "aux.h", "lpt1.txt" and the like also
+-- 	result in editing a device.
+vim.o.opendevice = "false"
