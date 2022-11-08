@@ -136,7 +136,8 @@ function vim.gsplit(s, sep, plain) end
 ---                     highlighting user inputs.
 --- @param on_confirm any #(function) ((input|nil) -> ()) Called once the user
 ---                   confirms or abort the input. `input` is what the user
----                   typed. `nil` if the user aborted the dialog.
+---                   typed (it might be an empty string if nothing was
+---                   entered), or `nil` if the user aborted the dialog.
 function vim.input(opts, on_confirm) end
 
 -- Returns true if object `f` can be called as a function.
