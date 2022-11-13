@@ -325,7 +325,7 @@ vim.bo.fileformat = "unix"
 -- 	before a reload to be saved for undo.
 -- 	When 'undofile' is turned off the undo file is NOT deleted.
 vim.bo.undofile = "false"
-vim.bo.endoffile = "true"
+vim.bo.endoffile = "false"
 -- number	(default: 10000)
 -- 			local to buffer
 -- 	Maximum number of lines kept beyond the visible screen. Lines at the
