@@ -243,8 +243,9 @@ function vim.api.nvim_buf_get_keymap(buffer, mode) end
 --- @param start integer #First line index
 --- @param end_ integer #Last line index, exclusive
 --- @param strict_indexing boolean #Whether out-of-bounds should be an error.
+--- @param lstate lua_state *
 --- @return any #Array of lines, or empty array for unloaded buffer.
-function vim.api.nvim_buf_get_lines(buffer, start, end_, strict_indexing) end
+function vim.api.nvim_buf_get_lines(buffer, start, end_, strict_indexing, lstate) end
 
 -- Returns a tuple (row,col) representing the position of the named mark. See
 -- |mark-motions|.
@@ -278,8 +279,9 @@ function vim.api.nvim_buf_get_option(buffer, name) end
 --- @param end_row integer #Last line index, inclusive
 --- @param end_col integer #Ending column (byte offset) on last line, exclusive
 --- @param opts dictionary #Optional parameters. Currently unused.
+--- @param lstate lua_state *
 --- @return any #Array of lines, or empty array for unloaded buffer.
-function vim.api.nvim_buf_get_text(buffer, start_row, start_col, end_row, end_col, opts) end
+function vim.api.nvim_buf_get_text(buffer, start_row, start_col, end_row, end_col, opts, lstate) end
 
 -- Gets a buffer-scoped (b:) variable.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
