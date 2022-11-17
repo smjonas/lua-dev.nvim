@@ -248,6 +248,14 @@ function vim.pesc(s) end
 --- @return any #any # given arguments.
 function vim.pretty_print(...) end
 
+-- Attempt to read the file at {path} prompting the user if the file should
+-- be trusted. The user's choice is persisted in a trust database at
+-- $XDG_STATE_HOME/nvim/trust.
+--- @param path any #(string) Path to a file to read.
+--- @return any #(string|nil) The contents of the given file if it exists and is
+---     trusted, or nil otherwise.
+function vim.read(path) end
+
 -- Get a table of lines with start, end columns for a region marked by two
 -- points
 --- @param bufnr any #(number) of buffer
