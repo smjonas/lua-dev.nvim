@@ -215,6 +215,9 @@ function vim.diagnostic.match(str, pat, groups, severity_map, defaults) end
 ---               {prefix} is a string, it is prepended to each diagnostic in
 ---               the window with no highlight. Overrides the setting from
 ---               |vim.diagnostic.config()|.
+---             • suffix: Same as {prefix}, but appends the text to the
+---               diagnostic instead of prepending it. Overrides the setting
+---               from |vim.diagnostic.config()|.
 --- @return any #tuple ({float_bufnr}, {win_id})
 function vim.diagnostic.open_float(opts, ...) end
 
