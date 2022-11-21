@@ -28,6 +28,11 @@
 ---                      the beginning of the virtual text.
 ---                    • prefix: (string) Prepend diagnostic message with
 ---                      prefix.
+---                    • suffix: (string or function) Append diagnostic
+---                      message with suffix. If a function, it must have the
+---                      signature (diagnostic) -> string, where {diagnostic}
+---                      is of type |diagnostic-structure|. This can be used
+---                      to render an LSP diagnostic error code.
 ---                    • format: (function) A function that takes a diagnostic
 ---                      as input and returns a string. The return value is
 ---                      the text used to display the diagnostic. Example: >
