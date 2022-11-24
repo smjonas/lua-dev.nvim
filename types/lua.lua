@@ -97,11 +97,12 @@ function vim.endswith(s, suffix) end
 -- Find files or directories in the given path.
 --- @param names any #(string|table|fun(name: string): boolean) Names of the files
 ---              and directories to find. Must be base names, paths and globs
----              are not supported. If a function it is called per file and
----              dir within the traversed directories to test if they match.
+---              are not supported. The function is called per file and
+---              directory within the traversed directories to test if they
+---              match {names}.
 --- @param opts any #(table) Optional keyword arguments:
 ---              • path (string): Path to begin searching from. If omitted,
----                the current working directory is used.
+---                the |current-directory| is used.
 ---              • upward (boolean, default false): If true, search upward
 ---                through parent directories. Otherwise, search through child
 ---                directories (recursively).
@@ -109,11 +110,12 @@ function vim.endswith(s, suffix) end
 ---                reached. The directory itself is not searched.
 ---              • type (string): Find only files ("file") or directories
 ---                ("directory"). If omitted, both files and directories that
----                match {name} are included.
+---                match {names} are included.
 ---              • limit (number, default 1): Stop the search after finding
 ---                this many matches. Use `math.huge` to place no limit on the
 ---                number of matches.
---- @return any #(table) The paths of all matching files or directories
+--- @return any #(table) The normalized paths |vim.fs.normalize()| of all matching
+---     files or directories
 function vim.find(names, opts) end
 
 -- Splits a string at each instance of a separator.
