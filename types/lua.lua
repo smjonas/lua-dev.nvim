@@ -441,6 +441,21 @@ function vim.tbl_values(t) end
 --- @return any #(string) String with whitespace removed from its beginning and end
 function vim.trim(s) end
 
+-- Manage the trust database.
+--- @param opts any #(table)
+---             • action (string): "allow" to add a file to the trust database
+---               and trust it, "deny" to add a file to the trust database and
+---               deny it, "remove" to remove file from the trust database
+---             • path (string|nil): Path to a file to update. Mutually
+---               exclusive with {bufnr}. Cannot be used when {action} is
+---               "allow".
+---             • bufnr (number|nil): Buffer number to update. Mutually
+---               exclusive with {path}.
+--- @return any #(boolean, string) success, msg:
+---     • true and full path of target file if operation was successful
+---     • false and error message on failure
+function vim.trust(opts) end
+
 -- Validates a parameter specification (types and values).
 --- @param opt any #(table) Names of parameters to validate. Each key is a
 ---            parameter name; each value is a tuple in one of these forms:
