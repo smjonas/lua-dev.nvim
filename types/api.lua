@@ -755,7 +755,7 @@ function vim.api.nvim_exec_lua(code, args) end
 -- flags. This is a blocking call, unlike |nvim_input()|.
 --- @param keys string #to be typed
 --- @param mode string #behavior flags, see |feedkeys()|
---- @param escape_ks boolean #If true, escape K_SPECIAL bytes in `keys` This should be
+--- @param escape_ks boolean #If true, escape K_SPECIAL bytes in `keys`. This should be
 ---                  false if you already used |nvim_replace_termcodes()|, and
 ---                  true otherwise.
 function vim.api.nvim_feedkeys(keys, mode, escape_ks) end
