@@ -52,7 +52,7 @@ function vim.defaulttable(create) end
 --- @return any #(table) timer luv timer object
 function vim.defer_fn(fn, timeout) end
 
--- Remove an existing mapping. Examples: >
+-- Remove an existing mapping. Examples: >lua
 --
 --    vim.keymap.del('n', 'lhs')
 --
@@ -114,8 +114,8 @@ function vim.endswith(s, suffix) end
 ---              • limit (number, default 1): Stop the search after finding
 ---                this many matches. Use `math.huge` to place no limit on the
 ---                number of matches.
---- @return any #(table) The normalized paths |vim.fs.normalize()| of all matching
----     files or directories
+--- @return any #(table) Normalized paths |vim.fs.normalize()| of all matching files or
+---     directories
 function vim.find(names, opts) end
 
 -- Splits a string at each instance of a separator.
@@ -242,10 +242,9 @@ function vim.paste(lines, phase) end
 --- @return any #(string) %-escaped pattern string
 function vim.pesc(s) end
 
--- Prints given arguments in human-readable format. Example: >
+-- Prints given arguments in human-readable format. Example: >lua
 --   -- Print highlight group Normal and store it's contents in a variable.
 --   local hl_normal = vim.pretty_print(vim.api.nvim_get_hl_by_name("Normal", true))
---
 -- <
 --- @return any #any # given arguments.
 function vim.pretty_print(...) end
@@ -293,7 +292,7 @@ function vim.schedule_wrap(cb) end
 ---                  within `items`. `nil` if the user aborted the dialog.
 function vim.select(items, opts, on_choice) end
 
--- Add a new |mapping|. Examples: >
+-- Add a new |mapping|. Examples: >lua
 --
 --    -- Can add mapping to Lua functions
 --    vim.keymap.set('n', 'lhs', function() print("real lua function") end)

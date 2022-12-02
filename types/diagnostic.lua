@@ -35,14 +35,14 @@
 ---                      to render an LSP diagnostic error code.
 ---                    • format: (function) A function that takes a diagnostic
 ---                      as input and returns a string. The return value is
----                      the text used to display the diagnostic. Example: >
+---                      the text used to display the diagnostic. Example: >lua
 ---
----                        function(diagnostic)
----                          if diagnostic.severity == vim.diagnostic.severity.ERROR then
----                            return string.format("E: %s", diagnostic.message)
+---                          function(diagnostic)
+---                            if diagnostic.severity == vim.diagnostic.severity.ERROR then
+---                              return string.format("E: %s", diagnostic.message)
+---                            end
+---                            return diagnostic.message
 ---                          end
----                          return diagnostic.message
----                        end
 ---
 --- <
 ---
