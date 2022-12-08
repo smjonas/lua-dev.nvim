@@ -157,6 +157,10 @@ function vim.lsp.execute_command(command_params) end
 --- @return any #(table) List of completion items
 function vim.lsp.extract_completion_items(result) end
 
+-- Force a refresh of all semantic tokens
+--- @param bufnr any #(nil|number) default: current buffer
+function vim.lsp.force_refresh(bufnr) end
+
 -- Formats a buffer using the attached (and optionally filtered) language
 -- server clients.
 --- @param options any #table|nil Optional table which holds the following optional
@@ -501,6 +505,12 @@ function vim.lsp.show_document(location, offset_encoding, opts) end
 ---                 • Add borders to the floating window
 ---                 • See |nvim_open_win()|
 function vim.lsp.signature_help(_, result, ctx, config) end
+
+-- Stop the semantic token highlighting engine for the given buffer with the
+-- given client.
+--- @param bufnr any #(number)
+--- @param client_id any #(number)
+function vim.lsp.stop(bufnr, client_id) end
 
 -- Converts markdown into syntax highlighted regions by stripping the code
 -- blocks and converting them into highlighted code. This will by default
