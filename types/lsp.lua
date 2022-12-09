@@ -462,7 +462,7 @@ function vim.lsp.server_ready() end
 function vim.lsp.set_format_func(handle) end
 
 -- Sets the current log level.
---- @param level any #(string or number) One of `vim.lsp.log.levels`
+--- @param level any #(string|number) One of `vim.lsp.log.levels`
 function vim.lsp.set_level(level) end
 
 -- Replaces text in a range with new text.
