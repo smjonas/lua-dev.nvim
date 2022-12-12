@@ -248,7 +248,7 @@ function vim.api.nvim_set_current_tabpage(tabpage) end
 --- @param window window #Window handle
 function vim.api.nvim_set_current_win(window) end
 
--- Set or change decoration provider for a namespace
+-- Set or change decoration provider for a |namespace|
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()|
 --- @param opts dict(set_decoration_provider) * #Table of callbacks:
 ---              • on_start: called first on each screen redraw ["start",

@@ -138,7 +138,7 @@ function vim.api.nvim_buf_attach(buffer, send_buffer, opts) end
 ---     upvalues to send lua references in and out.
 function vim.api.nvim_buf_call(buffer, fun) end
 
--- Clears namespaced objects (highlights, extmarks, virtual text) from a
+-- Clears |namespace|d objects (highlights, |extmarks|, virtual text) from a
 -- region.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace to clear, or -1 to clear all namespaces.
@@ -154,7 +154,7 @@ function vim.api.nvim_buf_clear_namespace(buffer, ns_id, line_start, line_end) e
 --- @param opts dict(user_command) *
 function vim.api.nvim_buf_create_user_command(buffer, name, command, opts) end
 
--- Removes an extmark.
+-- Removes an |extmark|.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()|
 --- @param id integer #Extmark id
@@ -207,7 +207,7 @@ function vim.api.nvim_buf_get_changedtick(buffer) end
 --- @return any #Map of maps describing commands.
 function vim.api.nvim_buf_get_commands(buffer, opts) end
 
--- Gets the position (0-indexed) of an extmark.
+-- Gets the position (0-indexed) of an |extmark|.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()|
 --- @param id integer #Extmark id
@@ -216,7 +216,7 @@ function vim.api.nvim_buf_get_commands(buffer, opts) end
 --- @return any #0-indexed (row, col) tuple or empty list () if extmark id was absent
 function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 
--- Gets extmarks in "traversal order" from a |charwise| region defined by
+-- Gets |extmarks| in "traversal order" from a |charwise| region defined by
 -- buffer positions (inclusive, 0-indexed |api-indexing|).
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()|
@@ -305,7 +305,7 @@ function vim.api.nvim_buf_is_valid(buffer) end
 --- @return any #Line count, or 0 for unloaded buffer. |api-buffer|
 function vim.api.nvim_buf_line_count(buffer) end
 
--- Creates or updates an extmark.
+-- Creates or updates an |extmark|.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()|
 --- @param line integer #Line where to place the mark, 0-based. |api-indexing|
@@ -893,7 +893,7 @@ function vim.api.nvim_get_mark(name, opts) end
 --- @return any #Dictionary { "mode": String, "blocking": Boolean }
 function vim.api.nvim_get_mode() end
 
--- Gets existing, non-anonymous namespaces.
+-- Gets existing, non-anonymous |namespace|s.
 --- @return any #dict that maps from names to namespace ids.
 function vim.api.nvim_get_namespaces() end
 
