@@ -540,33 +540,31 @@ function vim.api.nvim_command(command) end
 --- @return any #Integer id of the created group.
 function vim.api.nvim_create_augroup(name, opts) end
 
--- Create an |autocommand|
---- @param event object #(string|array) The event or events to register this
----              autocommand
---- @param opts dict(create_autocmd) * #Dictionary of autocommand options:
----              • group (string|integer) optional: the autocommand group name
----                or id to match against.
----              • pattern (string|array) optional: pattern or patterns to
----                match literally against |autocmd-pattern|.
----              • buffer (integer) optional: buffer number for buffer local
+-- Creates an |autocommand| event handler, defined by `callback` (Lua function or Vimscript function name string) or `command` (Ex command string).
+--- @param event object #(string|array) Event(s) that will trigger the handler
+---              (`callback` or `command`).
+--- @param opts dict(create_autocmd) * #Options dict:
+---              • group (string|integer) optional: autocommand group name or
+---                id to match against.
+---              • pattern (string|array) optional: pattern(s) to match
+---                literally |autocmd-pattern|.
+---              • buffer (integer) optional: buffer number for buffer-local
 ---                autocommands |autocmd-buflocal|. Cannot be used with
 ---                {pattern}.
----              • desc (string) optional: description of the autocommand.
----              • callback (function|string) optional: if a string, the name
----                of a Vimscript function to call when this autocommand is
----                triggered. Otherwise, a Lua function which is called when
----                this autocommand is triggered. Cannot be used with
----                {command}. Lua callbacks can return true to delete the
----                autocommand; in addition, they accept a single table
----                argument with the following keys:
----                • id: (number) the autocommand id
----                • event: (string) the name of the event that triggered the
----                  autocommand |autocmd-events|
----                • group: (number|nil) the autocommand group id, if it
----                  exists
----                • match: (string) the expanded value of |<amatch>|
----                • buf: (number) the expanded value of |<abuf>|
----                • file: (string) the expanded value of |<afile>|
+---              • desc (string) optional: description (for documentation and
+---                troubleshooting).
+---              • callback (function|string) optional: Lua function (or
+---                Vimscript function name, if string) called when the
+---                event(s) is triggered. Lua callback can return true to
+---                delete the autocommand, and receives a table argument with
+---                these keys:
+---                • id: (number) autocommand id
+---                • event: (string) name of the triggered event
+---                  |autocmd-events|
+---                • group: (number|nil) autocommand group id, if any
+---                • match: (string) expanded value of |<amatch>|
+---                • buf: (number) expanded value of |<abuf>|
+---                • file: (string) expanded value of |<afile>|
 ---                • data: (any) arbitrary data passed to
 ---                  |nvim_exec_autocmds()|
 ---
@@ -576,7 +574,7 @@ function vim.api.nvim_create_augroup(name, opts) end
 ---                autocommand only once |autocmd-once|.
 ---              • nested (boolean) optional: defaults to false. Run nested
 ---                autocommands |autocmd-nested|.
---- @return any #Integer id of the created autocommand.
+--- @return any #Autocommand id (number)
 function vim.api.nvim_create_autocmd(event, opts) end
 
 -- Creates a new, empty, unnamed buffer.
