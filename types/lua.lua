@@ -142,6 +142,33 @@ function vim.gsplit(s, sep, plain) end
 ---                   entered), or `nil` if the user aborted the dialog.
 function vim.input(opts, on_confirm) end
 
+-- Get all the items at a given buffer position.
+--- @param bufnr any #(number|nil) defaults to the current buffer
+--- @param row any #(number|nil) row to inspect, 0-based. Defaults to the row of
+---               the current cursor
+--- @param col any #(number|nil) col to inspect, 0-based. Defaults to the col of
+---               the current cursor
+--- @param filter any #(table|nil) a table with key-value pairs to filter the items
+---               • syntax (boolean): include syntax based highlight groups
+---                 (defaults to true)
+---               • treesitter (boolean): include treesitter based highlight
+---                 groups (defaults to true)
+---               • extmarks (boolean|"all"): include extmarks. When `all`,
+---                 then extmarks without a `hl_group` will also be included
+---                 (defaults to true)
+---               • semantic_tokens (boolean): include semantic tokens
+---                 (defaults to true)
+--- @return any #(table) a table with the following key-value pairs. Items are in
+---     "traversal order":
+---     • treesitter: a list of treesitter captures
+---     • syntax: a list of syntax groups
+---     • semantic_tokens: a list of semantic tokens
+---     • extmarks: a list of extmarks
+---     • buffer: the buffer used to get the items
+---     • row: the row used to get the items
+---     • col: the col used to get the items
+function vim.inspect_pos(bufnr, row, col, filter) end
+
 -- Returns true if object `f` can be called as a function.
 --- @param f any #any Any object
 --- @return any #(boolean) `true` if `f` is callable, else `false`
@@ -331,6 +358,15 @@ function vim.select(items, opts, on_choice) end
 ---                 inverse of the "noremap" option from |nvim_set_keymap()|.
 ---                 Defaults to `false`.
 function vim.set(mode, lhs, rhs, opts) end
+
+-- Show all the items at a given buffer position.
+--- @param bufnr any #(number|nil) defaults to the current buffer
+--- @param row any #(number|nil) row to inspect, 0-based. Defaults to the row of
+---               the current cursor
+--- @param col any #(number|nil) col to inspect, 0-based. Defaults to the col of
+---               the current cursor
+--- @param filter any #(table|nil) see |vim.inspect_pos()|
+function vim.show_pos(bufnr, row, col, filter) end
 
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split

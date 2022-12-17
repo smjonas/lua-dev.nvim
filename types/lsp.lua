@@ -208,6 +208,14 @@ function vim.lsp.format_rpc_error() end
 --- @return any #(table) (`CodeLens[]`)
 function vim.lsp.get(bufnr) end
 
+-- Return the semantic token(s) at the given position. If called without
+-- arguments, returns the token under the cursor.
+--- @param bufnr any #(number|nil) Buffer number (0 for current buffer, default)
+--- @param row any #(number|nil) Position row (default cursor position)
+--- @param col any #(number|nil) Position column (default cursor position)
+--- @return any #(table|nil) List of tokens at position
+function vim.lsp.get_at_pos(bufnr, row, col) end
+
 -- Returns indentation size.
 --- @param bufnr any #(number|nil) Buffer handle, defaults to current
 --- @return any #(number) indentation size

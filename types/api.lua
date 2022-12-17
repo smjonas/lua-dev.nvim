@@ -585,7 +585,7 @@ function vim.api.nvim_create_autocmd(event, opts) end
 --- @return any #Buffer handle, or 0 on error
 function vim.api.nvim_create_buf(listed, scratch) end
 
--- Creates a new *namespace* or gets an existing one.
+-- Creates a new namespace or gets an existing one. *namespace*
 --- @param name string #Namespace name or empty string
 --- @return any #Namespace id
 function vim.api.nvim_create_namespace(name) end
