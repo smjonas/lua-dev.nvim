@@ -78,10 +78,15 @@ function vim.deprecate(name, alternative, version, plugin, backtrace) end
 --- @param path any #(string) An absolute or relative path to the directory to
 ---             iterate over. The path is first normalized
 ---             |vim.fs.normalize()|.
+--- @param opts any #table|nil Optional keyword arguments:
+---             • depth: integer|nil How deep the traverse (default 1)
+---             • skip: (fun(dir_name: string): boolean)|nil Predicate to
+---               control traversal. Return false to stop searching the
+---               current directory. Only useful when depth > 1
 --- @return any #Iterator over files and directories in {path}. Each iteration yields
 ---     two values: name and type. Each "name" is the basename of the file or
 ---     directory relative to {path}. Type is one of "file" or "directory".
-function vim.dir(path) end
+function vim.dir(path, opts) end
 
 -- Return the parent directory of the given file or directory
 --- @param file any #(string) File or directory
