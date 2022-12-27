@@ -3,113 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- string	(default "pum,tagfile")
--- 			global
--- 	List of words that change how |cmdline-completion| is done.
--- 	  pum		Display the completion matches using the popupmenu
--- 			in the same style as the |ins-completion-menu|.
--- 	  tagfile	When using CTRL-D to list matching tags, the kind of
--- 			tag and the file of the tag is listed.	Only one match
--- 			is displayed per line.  Often used tag kinds are:
--- 				d	#define
--- 				f	function
-vim.o.wildoptions = "pum,tagfile"
--- string	(default ""; with GTK+ GUI: "utf-8"; with
--- 						    Macintosh GUI: "macroman")
--- 			global
--- 	Encoding used for the terminal.  This specifies what character
--- 	encoding the keyboard produces and the display will understand.  For
--- 	the GUI it only applies to the keyboard ('encoding' is used for the
--- 	display).  Except for the Mac when 'macatsui' is off, then
--- 	'termencoding' should be "macroman".
--- 								*E617*
--- 	Note: This does not apply to the GTK+ GUI.  After the GUI has been
--- 	successfully initialized, 'termencoding' is forcibly set to "utf-8".
--- 	Any attempts to set a different value will be rejected, and an error
--- 	message is shown.
--- 	For the Win32 GUI and console versions 'termencoding' is not used,
--- 	because the Win32 system always passes Unicode characters.
--- 	When empty, the same encoding is used as for the 'encoding' option.
--- 	This is the normal value.
--- 	Not all combinations for 'termencoding' and 'encoding' are valid.  See
--- 	|encoding-table|.
--- 	The value for this option must be supported by internal conversions or
--- 	iconv().  When this is not possible no conversion will be done and you
--- 	will probably experience problems with non-ASCII characters.
--- 	Example: You are working with the locale set to euc-jp (Japanese) and
--- 	want to edit a UTF-8 file: >
--- 		:let &termencoding = &encoding
--- 		:set encoding=utf-8
--- <	You need to do this when your system has no locale support for UTF-8.
-vim.o.termencoding = ""
--- string	(default $SHELL or "sh",
--- 					Windows: "cmd.exe")
--- 			global
--- 	Name of the shell to use for ! and :! commands.  When changing the
--- 	value also check these options: 'shellpipe', 'shellslash'
--- 	'shellredir', 'shellquote', 'shellxquote' and 'shellcmdflag'.
--- 	It is allowed to give an argument to the command, e.g.  "csh -f".
--- 	See |option-backslash| about including spaces and backslashes.
--- 	Environment variables are expanded |:set_env|.
--- 	If the name of the shell contains a space, you might need to enclose
--- 	it in quotes.  Example: >
--- 		:set shell=\"c:\program\ files\unix\sh.exe\"\ -f
--- <	Note the backslash before each quote (to avoid starting a comment) and
--- 	each space (to avoid ending the option value), so better use |:let-&|
--- 	like this: >
--- 		:let &shell='"C:\Program Files\unix\sh.exe" -f'
--- <	Also note that the "-f" is not inside the quotes, because it is not
--- 	part of the command name.
--- 							*shell-unquoting*
--- 	Rules regarding quotes:
--- 	1. Option is split on space and tab characters that are not inside
--- 	   quotes: "abc def" runs shell named "abc" with additional argument
--- 	   "def", '"abc def"' runs shell named "abc def" with no additional
--- 	   arguments (here and below: additional means “additional to
--- 	   'shellcmdflag'”).
--- 	2. Quotes in option may be present in any position and any number:
--- 	   '"abc"', '"a"bc', 'a"b"c', 'ab"c"' and '"a"b"c"' are all equivalent
--- 	   to just "abc".
--- 	3. Inside quotes backslash preceding backslash means one backslash.
--- 	   Backslash preceding quote means one quote. Backslash preceding
--- 	   anything else means backslash and next character literally:
--- 	   '"a\\b"' is the same as "a\b", '"a\\"b"' runs shell named literally
--- 	   'a"b', '"a\b"' is the same as "a\b" again.
--- 	4. Outside of quotes backslash always means itself, it cannot be used
--- 	   to escape quote: 'a\"b"' is the same as "a\b".
--- 	Note that such processing is done after |:set| did its own round of
--- 	unescaping, so to keep yourself sane use |:let-&| like shown above.
--- 							*shell-powershell*
--- 	To use powershell: >
--- 		let &shell = has('win32') ? 'powershell' : 'pwsh'
--- 		set shellquote= shellpipe=\| shellxquote=
--- 		set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
--- 		set shellredir=\|\ Out-File\ -Encoding\ UTF8
-vim.o.shell = "sh"
--- string	(default "")
--- 			global
--- 	This option controls the behavior when switching between buffers.
--- 	Possible values (comma separated list):
--- 	   useopen	If included, jump to the first open window that
--- 			contains the specified buffer (if there is one).
--- 			Otherwise: Do not examine other windows.
--- 			This setting is checked with |quickfix| commands, when
--- 			jumping to errors (":cc", ":cn", "cp", etc.).  It is
--- 			also used in all buffer related split commands, for
--- 			example ":sbuffer", ":sbnext", or ":sbrewind".
--- 	   usetab	Like "useopen", but also consider windows in other tab
--- 			pages.
--- 	   split	If included, split the current window before loading
--- 			a buffer for a |quickfix| command that display errors.
--- 			Otherwise: do not split, use current window (when used
--- 			in the quickfix window: the previously used window or
--- 			split if there is no other window).
--- 	   vsplit	Just like "split" but split vertically.
--- 	   newtab	Like "split", but open a new tab page.  Overrules
--- 			"split" when both are present.
--- 	   uselast	If included, jump to the previously used window when
--- 			jumping to errors with |quickfix| commands.
-vim.o.switchbuf = "uselast"
 -- string	(default: equivalent to $CDPATH or ",,")
 -- 			global
 -- 	This is a list of directories which will be searched when using the
@@ -268,11 +161,21 @@ vim.o.redrawdebug = ""
 -- 	For Insert mode completion the buffer-local value is used.  For
 -- 	command line completion the global value is used.
 vim.o.completeslash = ""
--- string	(default empty)
--- 			global or local to window |global-local|
--- 	When nonempty, this option determines the content of the status line.
--- 	Also see |status-line|.
-vim.o.statusline = ""
+vim.o.showcmdloc = "last"
+-- boolean	(default on with |+writebackup| feature, off
+-- 					otherwise)
+-- 			global
+-- 	Make a backup before overwriting a file.  The backup is removed after
+-- 	the file was successfully written, unless the 'backup' option is
+-- 	also on.
+-- 	WARNING: Switching this option off means that when Vim fails to write
+-- 	your buffer correctly and then, for whatever reason, Vim exits, you
+-- 	lose both the original file and what you were writing.  Only reset
+-- 	this option if your file system is almost full and it makes the write
+-- 	fail (and make sure not to exit Vim until the write was successful).
+-- 	See |backup-table| for another explanation.
+-- 	When the 'backupskip' pattern matches, a backup is not made anyway.
+vim.o.writebackup = "true"
 -- string	(Vim default "filnxtToOF", Vi default: "S")
 -- 			global
 -- 	This option helps to avoid all the |hit-enter| prompts caused by file
@@ -682,13 +585,20 @@ vim.o.autoread = "true"
 -- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
 -- 	no lines are checked.  See |modeline|.
 vim.o.modelines = "5"
--- string	(default empty)
+-- number	(default: 200)
 -- 			global
--- 	The name of the printer to be used for |:hardcopy|.
--- 	See |pdev-option|.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.printdevice = ""
+-- 	After typing this many characters the swap file will be written to
+-- 	disk.  When zero, no swap file will be created at all (see chapter on
+-- 	recovery |crash-recovery|).  'updatecount' is set to zero by starting
+-- 	Vim with the "-n" option, see |startup|.  When editing in readonly
+-- 	mode this option will be initialized to 10000.
+-- 	The swapfile can be disabled per buffer with |'swapfile'|.
+-- 	When 'updatecount' is set from zero to non-zero, swap files are
+-- 	created for all buffers that have 'swapfile' set.  When 'updatecount'
+-- 	is set to zero, existing swap files are not deleted.
+-- 	This option has no meaning in buffers where |'buftype'| is "nofile"
+-- 	or "nowrite".
+vim.o.updatecount = "200"
 -- number	(default 15)
 -- 			global
 -- 	Minimum width for the popup menu (|ins-completion-menu|).  If the
@@ -1023,23 +933,36 @@ vim.o.lazyredraw = "false"
 -- 	This is a scanf-like string that uses the same format as the
 -- 	'errorformat' option: see |errorformat|.
 vim.o.grepformat = "%f:%l:%m,%f:%l%m,%f  %l%m"
--- boolean	(default on)			*E384* *E385*
+-- number	(default 1)
 -- 			global
--- 	Searches wrap around the end of the file.  Also applies to |]s| and
--- 	|[s|, searching for spelling mistakes.
-vim.o.wrapscan = "true"
--- boolean	(default off)
--- 			global
--- 	Makes the 'g' and 'c' flags of the ":substitute" command to be
--- 	toggled each time the flag is given.  See |complex-change|.  See
--- 	also 'gdefault' option.
--- 	Switching this option on may break plugins!
-vim.o.edcompatible = "false"
+-- 	Minimal number of lines for the current window.  This is not a hard
+-- 	minimum, Vim will use fewer lines if there is not enough room.  If the
+-- 	focus goes to a window that is smaller, its size is increased, at the
+-- 	cost of the height of other windows.
+-- 	Set 'winheight' to a small number for normal editing.
+-- 	Set it to 999 to make the current window fill most of the screen.
+-- 	Other windows will be only 'winminheight' high.  This has the drawback
+-- 	that ":all" will create only two windows.  To avoid "vim -o 1 2 3 4"
+-- 	to create only two windows, set the option after startup is done,
+-- 	using the |VimEnter| event: >
+-- 		au VimEnter * set winheight=999
+-- <	Minimum value is 1.
+-- 	The height is not adjusted after one of the commands that change the
+-- 	height of the current window.
+-- 	'winheight' applies to the current window.  Use 'winminheight' to set
+-- 	the minimal height for other windows.
+vim.o.winheight = "1"
+vim.o.mousemoveevent = "false"
 -- number (default 12)
 -- 			global
 -- 	Default height for a preview window.  Used for |:ptag| and associated
 -- 	commands.  Used for |CTRL-W_}| when no count is given.
 vim.o.previewheight = "12"
+-- boolean (default off)
+-- 			global
+-- 	Enables the reading of .vimrc, .exrc and .gvimrc in the current
+-- 	directory.
+vim.o.exrc = "false"
 -- string	(default ".,$XDG_DATA_HOME/nvim/backup")
 -- 			global
 -- 	List of directories for the backup file, separated with commas.
@@ -1084,3 +1007,34 @@ vim.o.previewheight = "12"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.backupdir = ".,/home/runner/.local/state/nvim/backup//"
+-- boolean	(default on)			*E384* *E385*
+-- 			global
+-- 	Searches wrap around the end of the file.  Also applies to |]s| and
+-- 	|[s|, searching for spelling mistakes.
+vim.o.wrapscan = "true"
+-- boolean	(Vim default: on, Vi default: off)
+-- 			global
+-- 	If in Insert, Replace or Visual mode put a message on the last line.
+-- 	The |hl-ModeMsg| highlight group determines the highlighting.
+vim.o.showmode = "true"
+-- number	(default 1000)
+-- 			global
+-- 	Time in milliseconds to wait for a mapped sequence to complete.
+vim.o.timeoutlen = "1000"
+-- string	(default "lastline,msgsep", Vi default: "")
+-- 			global
+-- 	Change the way text is displayed.  This is comma separated list of
+-- 	flags:
+-- 	lastline	When included, as much as possible of the last line
+-- 			in a window will be displayed.  "@@@" is put in the
+-- 			last columns of the last screen line to indicate the
+-- 			rest of the line is not displayed.
+-- 	truncate	Like "lastline", but "@@@" is displayed in the first
+-- 			column of the last screen line.  Overrules "lastline".
+-- 	uhex		Show unprintable characters hexadecimal as <xx>
+-- 			instead of using ^C and ~C.
+-- 	msgsep		When showing messages longer than 'cmdheight', only
+-- 			scroll the message lines, not the entire screen. The
+-- 			separator line is decorated by |hl-MsgSeparator| and
+-- 			the "msgsep" flag of 'fillchars'.
+vim.o.display = "lastline"
