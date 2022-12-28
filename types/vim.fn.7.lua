@@ -3,42 +3,46 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- position given with {expr}.  The accepted positions are:
--- 		    .	    the cursor position
--- 		    $	    the end of the cursor line (the result is the
--- 			    number of bytes in the cursor line plus one)
--- 		    'x	    position of mark x (if the mark is not set, 0 is
--- 			    returned)
--- 		    v       In Visual mode: the start of the Visual area (the
--- 			    cursor is the end).  When not in Visual mode
--- 			    returns the cursor position.  Differs from |'<| in
--- 			    that it's updated right away.
--- 		Additionally {expr} can be [lnum, col]: a |List| with the line
--- 		and column number. Most useful when the column is "$", to get
--- 		the last column of a specific line.  When "lnum" or "col" is
--- 		out of range then col() returns zero.
--- 		To get the line number use |line()|.  To get both use
--- 		|getpos()|.
--- 		For the screen column position use |virtcol()|.
--- 		Note that only marks in the current file can be used.
--- 		Examples: >
--- 			col(".")		column of cursor
--- 			col("$")		length of cursor line plus one
--- 			col("'t")		column of mark t
--- 			col("'" . markname)	column of mark markname
--- <		The first column is 1.  0 is returned for an error.
--- 		For an uppercase mark the column may actually be in another
--- 		buffer.
--- 		For the cursor position, when 'virtualedit' is active, the
--- 		column is one higher if the cursor is after the end of the
--- 		line.  This can be used to obtain the column in Insert mode: >
--- 			:imap <F2> <C-O>:let save_ve = &ve<CR>
--- 				\<C-O>:set ve=all<CR>
--- 				\<C-O>:echo col(".") . "\n" <Bar>
--- 				\let &ve = save_ve<CR>
--- <
---- @return number
-function vim.fn.col(expr) end
+-- The result is a copy of the String given, with all lowercase
+-- 		characters turned into uppercase (just like applying |gU| to
+-- 		the string).
+--- @return string
+function vim.fn.toupper(expr) end
+
+-- Set environment variable {name} to {val}.
+-- 		When {val} is |v:null| the environment variable is deleted.
+-- 		See also |expr-env|.
+--- @return none
+function vim.fn.setenv(name, val) end
+
+-- The result is a Dict, which is the tag stack of window {nr}.
+-- 		{nr} can be the window number or the |window-ID|.
+-- 		When {nr} is not specified, the current window is used.
+-- 		When window {nr} doesn't exist, an empty Dict is returned.
+--
+-- 		The returned dictionary contains the following entries:
+-- 			curidx		Current index in the stack. When at
+-- 					top of the stack, set to (length + 1).
+-- 					Index of bottom of the stack is 1.
+-- 			items		List of items in the stack. Each item
+-- 					is a dictionary containing the
+-- 					entries described below.
+-- 			length		Number of entries in the stack.
+--
+-- 		Each item in the stack is a dictionary with the following
+-- 		entries:
+-- 			bufnr		buffer number of the current jump
+-- 			from		cursor position before the tag jump.
+-- 					See |getpos()| for the format of the
+-- 					returned list.
+-- 			matchnr		current matching tag number. Used when
+-- 					multiple matching tags are found for a
+-- 					name.
+-- 			tagname		name of the tag
+--
+-- 		See |tagstack| for more information about the tag stack.
+--- @return dict
+function vim.fn.gettagstack(nr) end
 
 -- The opposite of `assert_equal()`: add an error message to
 -- 		|v:errors| when {expected} and {actual} are equal.
@@ -57,26 +61,57 @@ function vim.fn.assert_notequal(exp, act, msg) end
 --- @return string
 function vim.fn.winrestcmd() end
 
--- Get the virtual text (annotation) for a buffer line.
+-- Confirm() offers the user a dialog, from which a choice can be
+-- 		made.  It returns the number of the choice.  For the first
+-- 		choice this is 1.
 --
---                 The virtual text is returned as list of lists, whereas the
---                 inner lists have either one or two elements. The first element
---                 is the actual text, the optional second element is the
---                 highlight group.
+-- 		{msg} is displayed in a dialog with {choices} as the
+-- 		alternatives.  When {choices} is missing or empty, "&OK" is
+-- 		used (and translated).
+-- 		{msg} is a String, use '\n' to include a newline.  Only on
+-- 		some systems the string is wrapped when it doesn't fit.
 --
---                 The format is exactly the same as given to
---                 nvim_buf_set_virtual_text().
+-- 		{choices} is a String, with the individual choices separated
+-- 		by '\n', e.g. >
+-- 			confirm("Save changes?", "&Yes\n&No\n&Cancel")
+-- <		The letter after the '&' is the shortcut key for that choice.
+-- 		Thus you can type 'c' to select "Cancel".  The shortcut does
+-- 		not need to be the first letter: >
+-- 			confirm("file has been modified", "&Save\nSave &All")
+-- <		For the console, the first letter of each choice is used as
+-- 		the default shortcut key.
 --
---                 If there is no virtual text associated with the given line, an
---                 empty list is returned.
+-- 		The optional {default} argument is the number of the choice
+-- 		that is made if the user hits <CR>.  Use 1 to make the first
+-- 		choice the default one.  Use 0 to not set a default.  If
+-- 		{default} is omitted, 1 is used.
 --
---                 Parameters: ~
---                     {buffer}  Buffer handle, or 0 for current buffer
---                     {line}    Line to get the virtual text from (zero-indexed)
+-- 		The optional {type} argument gives the type of dialog.  This
+-- 		is only used for the icon of the Win32 GUI.  It can be one of
+-- 		these values: "Error", "Question", "Info", "Warning" or
+-- 		"Generic".  Only the first character is relevant.
+-- 		When {type} is omitted, "Generic" is used.
 --
---                 Return: ~
---                     List of virtual text chunks
-function vim.fn.nvim_buf_get_virtual_text(buffer, lnum) end
+-- 		If the user aborts the dialog by pressing <Esc>, CTRL-C,
+-- 		or another valid interrupt key, confirm() returns 0.
+--
+-- 		An example: >
+--    :let choice = confirm("What do you want?", "&Apples\n&Oranges\n&Bananas", 2)
+--    :if choice == 0
+--    :	echo "make up your mind!"
+--    :elseif choice == 3
+--    :	echo "tasteful"
+--    :else
+--    :	echo "I prefer bananas myself."
+--    :endif
+-- <		In a GUI dialog, buttons are used.  The layout of the buttons
+-- 		depends on the 'v' flag in 'guioptions'.  If it is included,
+-- 		the buttons are always put vertically.  Otherwise,  confirm()
+-- 		tries to put the buttons in one horizontal line.  If they
+-- 		don't fit, a vertical layout is used anyway.  For some systems
+-- 		the horizontal layout is always used.
+--- @return number
+function vim.fn.confirm(msg, choices, default, type) end
 
 -- Convert each number in {list} to a character string can
 -- 		concatenate them all.  Examples: >
@@ -133,6 +168,14 @@ function vim.fn.nvim_ui_try_resize(width, height) end
 --- @return string
 function vim.fn.getfontname(name) end
 
+-- Run {cmd} and add an error message to |v:errors| if it does
+-- 		NOT produce an error.  Also see |assert-return|.
+-- 		When {error} is given it must match in |v:errmsg|.
+-- 		Note that beeping is not considered an error, and some failing
+-- 		commands only beep.  Use |assert_beeps()| for those.
+--- @return number
+function vim.fn.assert_fails(cmd, error) end
+
 -- Without {end} the result is a String, which is line {lnum}
 -- 		from the current buffer.  Example: >
 -- 			getline(1)
@@ -167,20 +210,6 @@ function vim.fn.getline(lnum, _end) end
 --- @return number
 function vim.fn.strwidth(expr) end
 
--- includes an extra item in the list:
--- 		    [bufnum, lnum, col, off, curswant] ~
---  		The "curswant" number is the preferred column when moving the
--- 		cursor vertically.  Also see |getpos()|.
---
---  		This can be used to save and restore the cursor position: >
---  			let save_cursor = getcurpos()
---  			MoveTheCursorAround
---  			call setpos('.', save_cursor)
--- <		Note that this only works within the window.  See
--- 		|winrestview()| for restoring more state.
---- @return list
-function vim.fn.getcurpos() end
-
 -- Return the absolute value of {expr}.  When {expr} evaluates to
 -- 		a |Float| abs() returns a |Float|.  When {expr} can be
 -- 		converted to a |Number| abs() returns a |Number|.  Otherwise
@@ -195,62 +224,12 @@ function vim.fn.getcurpos() end
 --- @return float
 function vim.fn.abs(expr) end
 
--- Get information about buffers as a List of Dictionaries.
---
--- 		Without an argument information about all the buffers is
--- 		returned.
---
--- 		When the argument is a Dictionary only the buffers matching
--- 		the specified criteria are returned.  The following keys can
--- 		be specified in {dict}:
--- 			buflisted	include only listed buffers.
--- 			bufloaded	include only loaded buffers.
--- 			bufmodified	include only modified buffers.
---
--- 		Otherwise, {expr} specifies a particular buffer to return
--- 		information for.  For the use of {expr}, see |bufname()|
--- 		above.  If the buffer is found the returned List has one item.
--- 		Otherwise the result is an empty list.
---
--- 		Each returned List item is a dictionary with the following
--- 		entries:
--- 			bufnr		buffer number.
--- 			changed		TRUE if the buffer is modified.
--- 			changedtick	number of changes made to the buffer.
--- 			hidden		TRUE if the buffer is hidden.
--- 			listed		TRUE if the buffer is listed.
--- 			lnum		current line number in buffer.
--- 			linecount	number of lines in the buffer (only
--- 					valid when loaded)
--- 			loaded		TRUE if the buffer is loaded.
--- 			name		full path to the file in the buffer.
--- 			signs		list of signs placed in the buffer.
--- 					Each list item is a dictionary with
--- 					the following fields:
--- 					    id	  sign identifier
--- 					    lnum  line number
--- 					    name  sign name
--- 			variables	a reference to the dictionary with
--- 					buffer-local variables.
--- 			windows		list of |window-ID|s that display this
--- 					buffer
---
+-- Like |settabwinvar()| for the current tab page.
 -- 		Examples: >
--- 			for buf in getbufinfo()
--- 			    echo buf.name
--- 			endfor
--- 			for buf in getbufinfo({'buflisted':1})
--- 			    if buf.changed
--- 				....
--- 			    endif
--- 			endfor
--- <
--- 		To get buffer-local options use: >
--- 			getbufvar({bufnr}, '&option_name')
---
--- <
---- @return list
-function vim.fn.getbufinfo(expr) end
+-- 			:call setwinvar(1, "&list", 0)
+-- 			:call setwinvar(2, "myvar", "foobar")
+--- @return set
+function vim.fn.setwinvar(nr, varname, val) end
 
 -- The result is a Number, which is |TRUE| when {expr} is the
 -- 		name of a locked variable.
@@ -266,6 +245,16 @@ function vim.fn.getbufinfo(expr) end
 --- @return number
 function vim.fn.islocked(expr) end
 
+-- Wait for pending updates of {buf} to be handled.
+-- 		{buf} is used as with |term_getsize()|.
+-- 		{time} is how long to wait for updates to arrive in msec.  If
+-- 		not set then 10 msec will be used.
+--
+-- 		Can also be used as a |method|: >
+-- 			GetBufnr()->term_wait()
+--- @return number
+function vim.fn.term_wait(buf, time) end
+
 -- Deactivates buffer-update events on the channel.
 --
 --                 Parameters: ~
@@ -279,18 +268,6 @@ function vim.fn.islocked(expr) end
 --                     |nvim_buf_attach()|
 --                     |api-lua-detach| for detaching Lua callbacks
 function vim.fn.nvim_buf_detach(buffer) end
-
--- Tell Nvim to resize a grid. Triggers a grid_resize event with
---                 the requested grid size or the maximum size if it exceeds size
---                 limits.
---
---                 On invalid grid handle, fails with error.
---
---                 Parameters: ~
---                     {grid}    The handle of the grid to be changed.
---                     {width}   The new requested width.
---                     {height}  The new requested height.
-function vim.fn.nvim_ui_try_resize_grid(grid, width, height) end
 
 -- The result is a Number, which is 1 when a file with the
 -- 		name {file} exists, and can be written.  If {file} doesn't

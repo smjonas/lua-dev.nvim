@@ -327,17 +327,17 @@ function vim.fn.wildmenumode() end
 --- @return list
 function vim.fn.spellsuggest(word, max, capital) end
 
--- FileType event has been triggered at least once.  Can be used
--- 		to avoid triggering the FileType event again in the scripts
--- 		that detect the file type. |FileType|
--- 		Returns |FALSE| when `:setf FALLBACK` was used.
--- 		When editing another file, the counter is reset, thus this
--- 		really checks if the FileType event has been triggered for the
--- 		current buffer.  This allows an autocommand that starts
--- 		editing another buffer to set 'filetype' and load a syntax
--- 		file.
---- @return number
-function vim.fn.did_filetype() end
+-- Tell Nvim to resize a grid. Triggers a grid_resize event with
+--                 the requested grid size or the maximum size if it exceeds size
+--                 limits.
+--
+--                 On invalid grid handle, fails with error.
+--
+--                 Parameters: ~
+--                     {grid}    The handle of the grid to be changed.
+--                     {width}   The new requested width.
+--                     {height}  The new requested height.
+function vim.fn.nvim_ui_try_resize_grid(grid, width, height) end
 
 -- Returns a Dictionary with information about {job}:
 -- 		   "status"	what |job_status()| returns
@@ -1171,15 +1171,25 @@ function vim.fn.term_getline(buf, row) end
 --- @return float
 function vim.fn.acos(expr) end
 
--- Get the value of a tab-local variable {varname} in tab page
--- 		{tabnr}. |t:var|
--- 		Tabs are numbered starting with one.
--- 		When {varname} is empty a dictionary with all tab-local
--- 		variables is returned.
--- 		Note that the name without "t:" must be used.
--- 		When the tab or variable doesn't exist {def} or an empty
+-- The result is the value of option or local buffer variable
+-- 		{varname} in buffer {expr}.  Note that the name without "b:"
+-- 		must be used.
+-- 		When {varname} is empty returns a dictionary with all the
+-- 		buffer-local variables.
+-- 		When {varname} is equal to "&" returns a dictionary with all
+-- 		the buffer-local options.
+-- 		Otherwise, when {varname} starts with "&" returns the value of
+-- 		a buffer-local option.
+-- 		This also works for a global or buffer-local option, but it
+-- 		doesn't work for a global variable, window-local variable or
+-- 		window-local option.
+-- 		For the use of {expr}, see |bufname()| above.
+-- 		When the buffer or variable doesn't exist {def} or an empty
 -- 		string is returned, there is no error message.
-function vim.fn.gettabvar(nr, varname, def) end
+-- 		Examples: >
+-- 			:let bufmodified = getbufvar(1, "&mod")
+-- 			:echo "todo myvar = " . getbufvar("todo", "myvar")
+function vim.fn.getbufvar(expr, varname, def) end
 
 -- Return a list with the buffer numbers of all buffers for
 -- 		terminal windows.
@@ -1269,21 +1279,4 @@ function vim.fn.setline(lnum, line) end
 --   		The values are the same as in |v:event| during |CompleteChanged|.
 --- @return dict
 function vim.fn.pum_getpos() end
-
--- Without {flags} or with {flags} empty: Deletes the file by the
--- 		name {fname}.  This also works when {fname} is a symbolic link.
--- 		A symbolic link itself is deleted, not what it points to.
---
--- 		When {flags} is "d": Deletes the directory by the name
--- 		{fname}.  This fails when directory {fname} is not empty.
---
--- 		When {flags} is "rf": Deletes the directory by the name
--- 		{fname} and everything in it, recursively.  BE CAREFUL!
--- 		Note: on MS-Windows it is not possible to delete a directory
--- 		that is being used.
---
--- 		The result is a Number, which is 0 if the delete operation was
--- 		successful and -1 when the deletion failed or partly failed.
---- @return number
-function vim.fn.delete(fname, flags) end
 
