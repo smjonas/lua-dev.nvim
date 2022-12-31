@@ -46,6 +46,11 @@ function vim.lsp.buf_highlight_references(bufnr, references, offset_encoding) en
 ---     {row} column {col} in buffer {buf}
 function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 
+-- Clear the lenses
+--- @param client_id any #(number|nil) filter by client_id. All clients if nil
+--- @param bufnr any #(number|nil) filter by buffer. All buffers if nil
+function vim.lsp.clear(client_id, bufnr) end
+
 -- Removes document highlights from current buffer.
 function vim.lsp.clear_references() end
 
