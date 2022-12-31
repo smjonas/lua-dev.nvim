@@ -515,6 +515,9 @@ function vim.api.nvim_ui_pum_set_bounds(width, height, row, col) end
 --- @param height integer #Popupmenu height, must be greater than zero.
 function vim.api.nvim_ui_pum_set_height(height) end
 
+--- @param gained boolean
+function vim.api.nvim_ui_set_focus(gained) end
+
 --- @param name string
 --- @param value object
 function vim.api.nvim_ui_set_option(name, value) end
