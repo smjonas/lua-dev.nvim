@@ -298,8 +298,7 @@ function vim.read(path) end
 --- @param regtype any #(string) type of selection, see |setreg()|
 --- @param inclusive any #(boolean) indicating whether the selection is
 ---                  end-inclusive
---- @return any #table<integer, {}> region lua table of the form {linenr =
----     {startcol,endcol}}
+--- @return any #(table) region Table of the form `{linenr = {startcol,endcol}}`
 function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 
 -- Defers callback `cb` until the Nvim API is safe to call.
@@ -376,8 +375,7 @@ function vim.show_pos(bufnr, row, col, filter) end
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
---- @param kwargs any #({plain: boolean, trimempty: boolean}|nil) Keyword
----               arguments:
+--- @param kwargs any #(table|nil) Keyword arguments:
 ---               • plain: (boolean) If `true` use `sep` literally (passed to
 ---                 string.find)
 ---               • trimempty: (boolean) If `true` remove empty items from the

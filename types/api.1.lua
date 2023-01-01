@@ -89,8 +89,8 @@
 ---                   borders but not horizontal ones. By default,
 ---                   `FloatBorder` highlight is used, which links to
 ---                   `WinSeparator` when not defined. It could also be
----                   specified by character: [ {"+", "MyCorner"}, {"x",
----                   "MyBorder"} ].
+---                   specified by character: [ ["+", "MyCorner"], ["x",
+---                   "MyBorder"] ].
 ---
 ---               • title: Title (optional) in window border, String or list.
 ---                 List is [text, highlight] tuples. if is string the default
