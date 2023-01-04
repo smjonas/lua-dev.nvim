@@ -673,7 +673,7 @@ function vim.api.nvim_del_var(name) end
 --- @param opts dict(echo_opts) * #Optional parameters.
 ---                • verbose: Message was printed as a result of 'verbose'
 ---                  option if Nvim was invoked with -V3log_file, the message
----                  will be redirected to the log_file and surpressed from
+---                  will be redirected to the log_file and suppressed from
 ---                  direct output.
 function vim.api.nvim_echo(chunks, history, opts) end
 
