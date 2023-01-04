@@ -190,8 +190,8 @@ function vim.list_extend(dst, src, start, finish) end
 -- Creates a copy of a table containing only elements from start to end
 -- (inclusive)
 --- @param list any[] #(list) Table
---- @param start any #(number) Start range of slice
---- @param finish any #(number) End range of slice
+--- @param start any #(number|nil) Start range of slice
+--- @param finish any #(number|nil) End range of slice
 --- @return any #(list) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
 

@@ -272,7 +272,7 @@ function vim.lsp.incoming_calls() end
 -- Jumps to a location.
 --- @param location any #(table) (`Location`|`LocationLink`)
 --- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
---- @param reuse_win any #(boolean) Jump to existing window if buffer is
+--- @param reuse_win any #(boolean|nil) Jump to existing window if buffer is
 ---                        already open.
 --- @return any #(boolean) `true` if the jump succeeded
 function vim.lsp.jump_to_location(location, offset_encoding, reuse_win) end
@@ -335,7 +335,7 @@ function vim.lsp.make_given_range_params(start_pos, end_pos, bufnr, offset_encod
 -- cursor position.
 --- @param window any #(number|nil) window handle or 0 for current,
 ---                        defaults to current
---- @param offset_encoding any #(string) utf-8|utf-16|utf-32|nil defaults to
+--- @param offset_encoding any #(string|nil) utf-8|utf-16|utf-32|nil defaults to
 ---                        `offset_encoding` of first client of buffer of
 ---                        `window`
 --- @return any #`TextDocumentPositionParams` object
@@ -421,7 +421,7 @@ function vim.lsp.preview_location(location, opts) end
 
 -- Lists all the references to the symbol under the cursor in the quickfix
 -- window.
---- @param context any #(table) Context for the request
+--- @param context any #(table|nil) Context for the request
 --- @param options any #(table|nil) additional options
 ---                • on_list: (function) handler for list results. See
 ---                  |lsp-on-list-handler|
@@ -494,7 +494,7 @@ function vim.lsp.should_log(level) end
 -- Shows document and optionally jumps to the location.
 --- @param location any #(table) (`Location`|`LocationLink`)
 --- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
---- @param opts any #(table) options
+--- @param opts any #(table|nil) options
 ---                        • reuse_win (boolean) Jump to existing window if
 ---                          buffer is already open.
 ---                        • focus (boolean) Whether to focus/jump to location
