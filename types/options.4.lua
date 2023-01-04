@@ -3,44 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- string	(default "")
--- 			global or local to window |global-local|
--- 	Characters to fill the statuslines and vertical separators.
--- 	It is a comma separated list of items:
-vim.o.fillchars = ""
--- boolean	(default on)
--- 			global
--- 	Allows for mappings to work recursively.  If you do not want this for
--- 	a single entry, use the :noremap[!] command.
--- 	NOTE: To avoid portability problems with Vim scripts, always keep
--- 	this option at the default "on".  Only switch it off when working with
--- 	old Vi scripts.
-vim.o.remap = "true"
--- boolean (default off, on for some systems (SGI))
--- 			global
--- 	When set the Input Method is never used.  This is useful to disable
--- 	the IM when it doesn't work properly.
--- 	Currently this option is on by default for SGI/IRIX machines.  This
--- 	may change in later releases.
-vim.o.imdisable = "false"
--- boolean	(default off)
--- 			local to window
--- 	Join the current window in the group of windows that shows differences
--- 	between files.  See |diff-mode|.
-vim.wo.diff = "false"
--- string	(default empty)
--- 			global or local to window |global-local|
--- 	When nonempty, this option determines the content of the status line.
--- 	Also see |status-line|.
-vim.wo.statusline = ""
--- boolean	(default off)
--- 			local to window
--- 	Highlight the screen line of the cursor with CursorLine
--- 	|hl-CursorLine|.  Useful to easily spot the cursor.  Will make screen
--- 	redrawing slower.
--- 	When Visual mode is active the highlighting isn't used to make it
--- 	easier to see the selected text.
-vim.wo.cursorline = "false"
 -- string (default: "{{{,}}}")
 -- 			local to window
 -- 	The start and end marker used when 'foldmethod' is "marker".  There
@@ -151,12 +113,11 @@ vim.wo.listchars = "tab:> ,trail:-,nbsp:+"
 -- 	lines.  White space is skipped before checking for this character.
 -- 	The default "#" works well for C programs.  See |fold-indent|.
 vim.wo.foldignore = "#"
--- number (default: 20)
+-- string (default: "foldtext()")
 -- 			local to window
--- 	Sets the maximum nesting of folds for the "indent" and "syntax"
--- 	methods.  This avoids that too many folds will be created.  Using more
--- 	than 20 doesn't work, because the internal limit is 20.
-vim.wo.foldnestmax = "20"
+-- 	An expression which is used to specify the text displayed for a closed
+-- 	fold.  See |fold-foldtext|.
+vim.wo.foldtext = "foldtext()"
 -- boolean	(default on)
 -- 			local to window
 -- 	This option changes how text is displayed.  It doesn't change the text
@@ -402,16 +363,17 @@ vim.wo.foldenable = "true"
 -- 	  between typing English and Arabic key mapping.
 -- 	- Set the 'delcombine' option
 vim.wo.arabic = "false"
+-- number (default: 20)
+-- 			local to window
+-- 	Sets the maximum nesting of folds for the "indent" and "syntax"
+-- 	methods.  This avoids that too many folds will be created.  Using more
+-- 	than 20 doesn't work, because the internal limit is 20.
+vim.wo.foldnestmax = "20"
 -- string	(default "search")
 -- 			local to window
 -- 	Each word in this option enables the command line editing to work in
 -- 	right-to-left mode for a group of commands:
 vim.wo.rightleftcmd = "search"
--- string (default: "foldtext()")
--- 			local to window
--- 	An expression which is used to specify the text displayed for a closed
--- 	fold.  See |fold-foldtext|.
-vim.wo.foldtext = "foldtext()"
 -- string	(default "")
 -- 			local to window
 -- 	'colorcolumn' is a comma separated list of screen columns that are
