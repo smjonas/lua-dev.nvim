@@ -195,6 +195,12 @@ vim.wo.scroll = "0"
 -- 	Determine how text with the "conceal" syntax attribute |:syn-conceal|
 -- 	is shown:
 vim.wo.conceallevel = "0"
+-- boolean	(default off)
+-- 			local to window
+-- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
+-- 	line.  Useful to see the difference between tabs and spaces and for
+-- 	trailing blanks.  Further changed by the 'listchars' option.
+vim.wo.list = "false"
 -- number (default: 1)
 -- 			local to window
 -- 	Sets the number of screen lines above which a fold can be displayed
@@ -205,12 +211,6 @@ vim.wo.conceallevel = "0"
 -- 	"zc" to close a fold, which is displayed open because it's smaller
 -- 	than 'foldminlines', a following "zc" may close a containing fold.
 vim.wo.foldminlines = "1"
--- boolean	(default off)
--- 			local to window
--- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
--- 	line.  Useful to see the difference between tabs and spaces and for
--- 	trailing blanks.  Further changed by the 'listchars' option.
-vim.wo.list = "false"
 -- string	(default "")
 -- 			global or local to window |global-local|
 -- 	Characters to fill the statuslines and vertical separators.
@@ -270,6 +270,18 @@ vim.wo.winfixheight = "false"
 -- 	"number"	Highlight the line number of the cursor with
 -- 			CursorLineNr |hl-CursorLineNr|.
 vim.wo.cursorlineopt = "both"
+-- boolean	(default off)
+-- 			local to window
+-- 	When on, display orientation becomes right-to-left, i.e., characters
+-- 	that are stored in the file appear from the right to the left.
+-- 	Using this option, it is possible to edit files for languages that
+-- 	are written from the right to the left such as Hebrew and Arabic.
+-- 	This option is per window, so it is possible to edit mixed files
+-- 	simultaneously, or to view the same file in both ways (this is
+-- 	useful whenever you have a mixed text file with both right-to-left
+-- 	and left-to-right strings so that both sets are displayed properly
+-- 	in different windows).  Also see |rileft.txt|.
+vim.wo.rightleft = "false"
 -- number	(default 0)
 -- 			local to window
 -- 	Enables pseudo-transparency for a floating window. Valid values are in
@@ -331,18 +343,12 @@ vim.wo.signcolumn = "auto"
 -- 		setlocal scrolloff=-1
 -- <	For scrolling horizontally see 'sidescrolloff'.
 vim.wo.scrolloff = "0"
--- boolean	(default off)
+-- number (default: 20)
 -- 			local to window
--- 	When on, display orientation becomes right-to-left, i.e., characters
--- 	that are stored in the file appear from the right to the left.
--- 	Using this option, it is possible to edit files for languages that
--- 	are written from the right to the left such as Hebrew and Arabic.
--- 	This option is per window, so it is possible to edit mixed files
--- 	simultaneously, or to view the same file in both ways (this is
--- 	useful whenever you have a mixed text file with both right-to-left
--- 	and left-to-right strings so that both sets are displayed properly
--- 	in different windows).  Also see |rileft.txt|.
-vim.wo.rightleft = "false"
+-- 	Sets the maximum nesting of folds for the "indent" and "syntax"
+-- 	methods.  This avoids that too many folds will be created.  Using more
+-- 	than 20 doesn't work, because the internal limit is 20.
+vim.wo.foldnestmax = "20"
 -- boolean (default on)
 -- 			local to window
 -- 	When off, all folds are open.  This option can be used to quickly
@@ -363,30 +369,6 @@ vim.wo.foldenable = "true"
 -- 	  between typing English and Arabic key mapping.
 -- 	- Set the 'delcombine' option
 vim.wo.arabic = "false"
--- number (default: 20)
--- 			local to window
--- 	Sets the maximum nesting of folds for the "indent" and "syntax"
--- 	methods.  This avoids that too many folds will be created.  Using more
--- 	than 20 doesn't work, because the internal limit is 20.
-vim.wo.foldnestmax = "20"
--- string	(default "search")
--- 			local to window
--- 	Each word in this option enables the command line editing to work in
--- 	right-to-left mode for a group of commands:
-vim.wo.rightleftcmd = "search"
--- string	(default "")
--- 			local to window
--- 	'colorcolumn' is a comma separated list of screen columns that are
--- 	highlighted with ColorColumn |hl-ColorColumn|.  Useful to align
--- 	text.  Will make screen redrawing slower.
--- 	The screen column can be an absolute number, or a number preceded with
--- 	'+' or '-', which is added to or subtracted from 'textwidth'. >
-vim.wo.colorcolumn = ""
--- boolean	(default off)
--- 			local to window
--- 	When on spell checking will be done.  See |spell|.
--- 	The languages are specified with 'spelllang'.
-vim.wo.spell = "false"
 -- number (default 0)
 -- 			global or local to window |global-local|
 -- 	The minimal number of screen columns to keep to the left and to the
@@ -406,3 +388,22 @@ vim.wo.spell = "false"
 -- 		 in the following example to never allow the cursor to move
 -- 		 onto the "extends" character: >
 vim.wo.sidescrolloff = "0"
+-- string	(default "search")
+-- 			local to window
+-- 	Each word in this option enables the command line editing to work in
+-- 	right-to-left mode for a group of commands:
+vim.wo.rightleftcmd = "search"
+vim.wo.statuscolumn = ""
+-- string	(default "")
+-- 			local to window
+-- 	'colorcolumn' is a comma separated list of screen columns that are
+-- 	highlighted with ColorColumn |hl-ColorColumn|.  Useful to align
+-- 	text.  Will make screen redrawing slower.
+-- 	The screen column can be an absolute number, or a number preceded with
+-- 	'+' or '-', which is added to or subtracted from 'textwidth'. >
+vim.wo.colorcolumn = ""
+-- boolean	(default off)
+-- 			local to window
+-- 	When on spell checking will be done.  See |spell|.
+-- 	The languages are specified with 'spelllang'.
+vim.wo.spell = "false"
