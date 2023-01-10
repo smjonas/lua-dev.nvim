@@ -308,6 +308,7 @@ function vim.lsp.make_client_capabilities() end
 ---               • border (string or table) override `border`
 ---               • focusable (string or table) override `focusable`
 ---               • zindex (string or table) override `zindex`, defaults to 50
+---               • relative ("mouse"|"cursor") defaults to "cursor"
 --- @return any #(table) Options
 function vim.lsp.make_floating_popup_options(width, height, opts) end
 
