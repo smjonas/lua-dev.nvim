@@ -162,6 +162,14 @@ function vim.diagnostic.goto_prev(opts) end
 ---                  omitted, hide diagnostics in all buffers.
 function vim.diagnostic.hide(namespace, bufnr) end
 
+-- Check whether diagnostics are disabled in a given buffer.
+--- @param bufnr any #(number|nil) Buffer number, or 0 for current buffer.
+--- @param namespace any #(number|nil) Diagnostic namespace. When omitted, checks if all diagnostics are
+---                  disabled in {bufnr}. Otherwise, only checks if
+---                  diagnostics from {namespace} are disabled.
+--- @return any #(boolean)
+function vim.diagnostic.is_disabled(bufnr, namespace) end
+
 -- Parse a diagnostic from a string.
 --- @param str any #(string) String to parse diagnostics from.
 --- @param pat any #(string) Lua pattern with capture groups.
