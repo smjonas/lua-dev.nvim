@@ -99,8 +99,8 @@ function vim.lsp.connect(host, port) end
 -- window for `textDocument/hover`, for parsing the result of
 -- `textDocument/signatureHelp`, and potentially others.
 --- @param input any #(`MarkedString` | `MarkedString[]` | `MarkupContent`)
---- @param contents any #(table, optional, default `{}`) List of strings to extend
----                 with converted lines
+--- @param contents any #(table|nil) List of strings to extend with converted
+---                 lines. Defaults to {}.
 --- @return any #{contents}, extended with lines of converted markdown.
 function vim.lsp.convert_input_to_markdown_lines(input, contents) end
 
