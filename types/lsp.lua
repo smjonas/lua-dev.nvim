@@ -62,6 +62,8 @@ function vim.lsp.clear_references() end
 ---                  • only (table|nil): List of LSP `CodeActionKind`s used to
 ---                    filter the code actions. Most language servers support
 ---                    values like `refactor` or `quickfix`.
+---                  • triggerKind (number|nil): The reason why code actions
+---                    were requested.
 ---
 ---                • filter: (function|nil) Predicate taking an `CodeAction`
 ---                  and returning a boolean.
