@@ -372,6 +372,11 @@ function vim.set(mode, lhs, rhs, opts) end
 --- @param filter any #(table|nil) see |vim.inspect_pos()|
 function vim.show_pos(bufnr, row, col, filter) end
 
+-- Enumerate a table sorted by its keys.
+--- @param t any #(table) List-like table
+--- @return any #iterator over sorted keys and their values
+function vim.spairs(t) end
+
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
