@@ -48,7 +48,8 @@ function vim.defaulttable(create) end
 
 -- Defers calling `fn` until `timeout` ms passes.
 --- @param fn fun(...) #(function) Callback to call once `timeout` expires
---- @param timeout any #integer Number of milliseconds to wait before calling `fn`
+--- @param timeout any #(integer) Number of milliseconds to wait before calling
+---                `fn`
 --- @return any #(table) timer luv timer object
 function vim.defer_fn(fn, timeout) end
 
