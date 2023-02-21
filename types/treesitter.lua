@@ -116,6 +116,26 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
+-- Asserts that a parser for the language {lang} is installed.
+--- @param lang any #(string) Language the parser should parse (alphanumerical and
+---             `_` only)
+--- @param opts any #(table|nil) Options:
+---             • filetype (string|string[]) Filetype(s) that lang can be
+---               parsed with. Note this is not strictly the same as lang
+---               since a single lang can parse multiple filetypes. Defaults
+---               to lang.
+---             • path (string|nil) Optional path the parser is located at
+---             • symbol_name (string|nil) Internal symbol name for the
+---               language to load
+---             • silent (boolean|nil) Don't throw an error if language not
+---               found
+--- @return any #(boolean) If the specified language is installed
+function vim.treesitter.add(lang, opts) end
+
+--- @param filetype any #(string)
+--- @return any #(string|nil)
+function vim.treesitter.get_lang(filetype) end
+
 -- A |LanguageTree| holds the treesitter parser for a given language {lang}
 -- used to parse a buffer. As the buffer may contain injected languages, the LanguageTree needs to store parsers for these child languages as well (which in turn
 -- may contain child languages themselves, hence the name).
@@ -128,4 +148,9 @@ function vim.treesitter.TSHighlighter:destroy() end
 ---                 per language.
 --- @return any #|LanguageTree| parser object
 function vim.treesitter.new(source, lang, opts) end
+
+-- Register a lang to be used for a filetype (or list of filetypes).
+--- @param lang any #(string) Language to register
+--- @param filetype any #string|string[] Filetype(s) to associate with lang
+function vim.treesitter.register(lang, filetype) end
 
