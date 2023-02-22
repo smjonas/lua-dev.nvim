@@ -147,7 +147,7 @@ function vim.api.nvim_buf_call(buffer, fun) end
 ---                   clear to end of buffer.
 function vim.api.nvim_buf_clear_namespace(buffer, ns_id, line_start, line_end) end
 
--- Create a new user command |user-commands| in the given buffer.
+-- Creates a buffer-local command |user-commands|.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer.
 --- @param name string
 --- @param command object
@@ -590,7 +590,7 @@ function vim.api.nvim_create_buf(listed, scratch) end
 --- @return any #Namespace id
 function vim.api.nvim_create_namespace(name) end
 
--- Create a new user command |user-commands|
+-- Creates a global |user-commands| command.
 --- @param name string #Name of the new user command. Must begin with an uppercase
 ---                letter.
 --- @param command object #Replacement command to execute when this user command is
@@ -617,19 +617,20 @@ function vim.api.nvim_create_namespace(name) end
 ---                • smods: (table) Command modifiers in a structured format.
 ---                  Has the same structure as the "mods" key of
 ---                  |nvim_parse_cmd()|.
---- @param opts dict(user_command) * #Optional command attributes. See |command-attributes| for
----                more details. To use boolean attributes (such as
----                |:command-bang| or |:command-bar|) set the value to "true".
----                In addition to the string options listed in
----                |:command-complete|, the "complete" key also accepts a Lua
----                function which works like the "customlist" completion mode
----                |:command-completion-customlist|. Additional parameters:
----                • desc: (string) Used for listing the command when a Lua
----                  function is used for {command}.
----                • force: (boolean, default true) Override any previous
----                  definition.
----                • preview: (function) Preview callback for 'inccommand'
----                  |:command-preview|
+--- @param opts dict(user_command) * #Optional |command-attributes|.
+---                • Set boolean attributes such as |:command-bang| or
+---                  |:command-bar| to true (but not |:command-buffer|, use
+---                  |nvim_buf_create_user_command()| instead).
+---                • "complete" |:command-complete| also accepts a Lua
+---                  function which works like
+---                  |:command-completion-customlist|.
+---                • Other parameters:
+---                  • desc: (string) Used for listing the command when a Lua
+---                    function is used for {command}.
+---                  • force: (boolean, default true) Override any previous
+---                    definition.
+---                  • preview: (function) Preview callback for 'inccommand'
+---                    |:command-preview|
 function vim.api.nvim_create_user_command(name, command, opts) end
 
 -- Delete an autocommand group by id.

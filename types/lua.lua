@@ -132,7 +132,8 @@ function vim.find(names, opts) end
 --- @return any #(function) Iterator over the split components
 function vim.gsplit(s, sep, plain) end
 
--- Prompts the user for input
+-- Prompts the user for input, allowing arbitrary (potentially asynchronous)
+-- work until `on_confirm`.
 --- @param opts any #(table) Additional options. See |input()|
 ---                   • prompt (string|nil) Text of the prompt
 ---                   • default (string|nil) Default reply to the input
@@ -307,7 +308,8 @@ function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 --- @return any #(function)
 function vim.schedule_wrap(cb) end
 
--- Prompts the user to pick a single item from a collection of entries
+-- Prompts the user to pick from a list of items, allowing arbitrary
+-- (potentially asynchronous) work until `on_choice`.
 --- @param items any #(table) Arbitrary items
 --- @param opts any #(table) Additional options
 ---                  • prompt (string|nil) Text of the prompt. Defaults to
@@ -324,44 +326,37 @@ function vim.schedule_wrap(cb) end
 ---                  within `items`. `nil` if the user aborted the dialog.
 function vim.select(items, opts, on_choice) end
 
--- Add a new |mapping|. Examples: >lua
+-- Adds a new |mapping|. Examples: >lua
 --
---    -- Can add mapping to Lua functions
+--    -- Map to a Lua function:
 --    vim.keymap.set('n', 'lhs', function() print("real lua function") end)
---
---    -- Can use it to map multiple modes
+--    -- Map to multiple modes:
 --    vim.keymap.set({'n', 'v'}, '<leader>lr', vim.lsp.buf.references, { buffer=true })
---
---    -- Can add mapping for specific buffer
+--    -- Buffer-local mapping:
 --    vim.keymap.set('n', '<leader>w', "<cmd>w<cr>", { silent = true, buffer = 5 })
---
---    -- Expr mappings
+--    -- Expr mapping:
 --    vim.keymap.set('i', '<Tab>', function()
 --      return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>"
 --    end, { expr = true })
---    -- <Plug> mappings
+--    -- <Plug> mapping:
 --    vim.keymap.set('n', '[%', '<Plug>(MatchitNormalMultiBackward)')
 --
 -- <
---- @param mode any #string|table Same mode short names as |nvim_set_keymap()|. Can
+--- @param mode any #string|table Mode short-name, see |nvim_set_keymap()|. Can
 ---             also be list of modes to create mapping on multiple modes.
 --- @param lhs any #(string) Left-hand side |{lhs}| of the mapping.
---- @param rhs any #string|function Right-hand side |{rhs}| of the mapping. Can
----             also be a Lua function.
---- @param opts any #(table|nil) A table of |:map-arguments|.
----             • Accepts options accepted by the {opts} parameter in
----               |nvim_set_keymap()|, with the following notable differences:
----               • replace_keycodes: Defaults to `true` if "expr" is `true`.
----               • noremap: Always overridden with the inverse of "remap"
----                 (see below).
+--- @param rhs any #string|function Right-hand side |{rhs}| of the mapping, can be
+---             a Lua function.
+--- @param opts any #(table|nil) Table of |:map-arguments|.
+---             • Same as |nvim_set_keymap()| {opts}, except:
+---               • "replace_keycodes" defaults to `true` if "expr" is `true`.
+---               • "noremap": inverse of "remap" (see below).
 ---
----             • In addition to those options, the table accepts the
----               following keys:
----               • buffer: (number or boolean) Add a mapping to the given
----                 buffer. When `0` or `true`, use the current buffer.
----               • remap: (boolean) Make the mapping recursive. This is the
----                 inverse of the "noremap" option from |nvim_set_keymap()|.
----                 Defaults to `false`.
+---             • Also accepts:
+---               • "buffer" number|boolean Creates buffer-local mapping, `0`
+---                 or `true` for current buffer.
+---               • remap: (boolean) Make the mapping recursive. Inverses
+---                 "noremap". Defaults to `false`.
 function vim.set(mode, lhs, rhs, opts) end
 
 -- Show all the items at a given buffer position.
