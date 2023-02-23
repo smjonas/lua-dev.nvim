@@ -116,18 +116,6 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
--- Returns the smallest named node at the given position
---- @param opts any #(table|nil) Optional keyword arguments:
----             • bufnr integer|nil Buffer number (nil or 0 for current
----               buffer)
----             • pos table|nil 0-indexed (row, col) tuple. Defaults to cursor
----               position in the current window. Required if {bufnr} is not
----               the current buffer
----             • ignore_injections boolean Ignore injected languages (default
----               true)
---- @return any #|TSNode| | nil Node at the given position
-function vim.treesitter.get_node(opts) end
-
 -- A |LanguageTree| holds the treesitter parser for a given language {lang}
 -- used to parse a buffer. As the buffer may contain injected languages, the LanguageTree needs to store parsers for these child languages as well (which in turn
 -- may contain child languages themselves, hence the name).
