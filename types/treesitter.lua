@@ -50,7 +50,7 @@ function vim.treesitter.LanguageTree:language_for_range(range) end
 --- @param opts any #(table|nil) Optional keyword arguments:
 ---              • ignore_injections boolean Ignore injected languages
 ---                (default true)
---- @return any #|TSNode||nil Found node
+--- @return any #|TSNode| | nil Found node
 function vim.treesitter.LanguageTree:named_node_for_range(range, opts) end
 
 -- Parses all defined regions using a treesitter parser for the language this
