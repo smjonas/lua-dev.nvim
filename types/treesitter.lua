@@ -116,16 +116,6 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
--- Returns the fold level for {lnum} in the current buffer. Can be set
--- directly to 'foldexpr': >lua
---
---  vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
---
--- <
---- @param lnum any #(integer|nil) Line number to calculate fold level for
---- @return any #(string)
-function vim.treesitter.foldexpr(lnum) end
-
 -- A |LanguageTree| holds the treesitter parser for a given language {lang}
 -- used to parse a buffer. As the buffer may contain injected languages, the LanguageTree needs to store parsers for these child languages as well (which in turn
 -- may contain child languages themselves, hence the name).
