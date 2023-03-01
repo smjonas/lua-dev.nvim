@@ -101,11 +101,15 @@ function vim.dirname(file) end
 function vim.endswith(s, suffix) end
 
 -- Find files or directories in the given path.
---- @param names any #(string|table|fun(name: string): boolean) Names of the files
----              and directories to find. Must be base names, paths and globs
----              are not supported. The function is called per file and
----              directory within the traversed directories to test if they
----              match {names}.
+--- @param names any #(string|table|fun(name: string, path: string): boolean) Names
+---              of the files and directories to find. Must be base names,
+---              paths and globs are not supported when {names} is a string or
+---              a table. If {names} is a function, it is called for each
+---              traversed file and directory with args:
+---              • name: base name of the current item
+---              • path: full path of the current item The function should
+---                return `true` if the given file or directory is considered
+---                a match.
 --- @param opts any #(table) Optional keyword arguments:
 ---              • path (string): Path to begin searching from. If omitted,
 ---                the |current-directory| is used.
