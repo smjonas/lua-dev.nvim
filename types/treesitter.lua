@@ -116,22 +116,3 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
--- Open a window that displays a textual representation of the nodes in the
--- language tree.
---- @param opts any #(table|nil) Optional options table with the following possible
----             keys:
----             • lang (string|nil): The language of the source buffer. If
----               omitted, the filetype of the source buffer is used.
----             • bufnr (integer|nil): Buffer to draw the tree into. If
----               omitted, a new buffer is created.
----             • winid (integer|nil): Window id to display the tree buffer
----               in. If omitted, a new window is created with {command}.
----             • command (string|nil): Vimscript command to create the
----               window. Default value is "topleft 60vnew". Only used when
----               {winid} is nil.
----             • title (string|fun(bufnr:integer):string|nil): Title of the
----               window. If a function, it accepts the buffer number of the
----               source buffer as its only argument and should return a
----               string.
-function vim.treesitter.inspect_tree(opts) end
-
