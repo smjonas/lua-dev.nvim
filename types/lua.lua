@@ -188,16 +188,16 @@ function vim.is_callable(f) end
 -- Extends a list-like table with the values of another list-like table.
 --- @param dst any #(table) List which will be modified and appended to
 --- @param src any #(table) List from which values will be inserted
---- @param start any #(number|nil) Start index on src. Defaults to 1
---- @param finish any #(number|nil) Final index on src. Defaults to `#src`
+--- @param start any #(integer|nil) Start index on src. Defaults to 1
+--- @param finish any #(integer|nil) Final index on src. Defaults to `#src`
 --- @return any #(table) dst
 function vim.list_extend(dst, src, start, finish) end
 
 -- Creates a copy of a table containing only elements from start to end
 -- (inclusive)
 --- @param list any[] #(list) Table
---- @param start any #(number|nil) Start range of slice
---- @param finish any #(number|nil) End range of slice
+--- @param start any #(integer|nil) Start range of slice
+--- @param finish any #(integer|nil) End range of slice
 --- @return any #(list) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
 
@@ -232,13 +232,13 @@ function vim.normalize(path) end
 
 -- Display a notification to the user.
 --- @param msg any #(string) Content of the notification to show to the user.
---- @param level any #(number|nil) One of the values from |vim.log.levels|.
+--- @param level any #(integer|nil) One of the values from |vim.log.levels|.
 --- @param opts any #(table|nil) Optional parameters. Unused by default.
 function vim.notify(msg, level, opts) end
 
 -- Display a notification only one time.
 --- @param msg any #(string) Content of the notification to show to the user.
---- @param level any #(number|nil) One of the values from |vim.log.levels|.
+--- @param level any #(integer|nil) One of the values from |vim.log.levels|.
 --- @param opts any #(table|nil) Optional parameters. Unused by default.
 --- @return any #(boolean) true if message was displayed, else false
 function vim.notify_once(msg, level, opts) end
@@ -249,9 +249,9 @@ function vim.notify_once(msg, level, opts) end
 ---              argument. On each key press, Nvim passes the key char to
 ---              fn(). |i_CTRL-V| If {fn} is nil, it removes the callback for
 ---              the associated {ns_id}
---- @param ns_id any #number? Namespace ID. If nil or 0, generates and returns a
+--- @param ns_id any #integer? Namespace ID. If nil or 0, generates and returns a
 ---              new |nvim_create_namespace()| id.
---- @return any #(number) Namespace id associated with {fn}. Or count of all callbacks
+--- @return any #(integer) Namespace id associated with {fn}. Or count of all callbacks
 ---     if on_key() is called without arguments.
 --- @return any #
 --- Note:
@@ -297,7 +297,7 @@ function vim.read(path) end
 
 -- Get a table of lines with start, end columns for a region marked by two
 -- points
---- @param bufnr any #(number) of buffer
+--- @param bufnr any #(integer) number of buffer
 --- @param pos1 any #integer[] (line, column) tuple marking beginning of
 ---                  region
 --- @param pos2 any #integer[] (line, column) tuple marking end of region
@@ -408,7 +408,7 @@ function vim.tbl_contains(t, value) end
 
 -- Counts the number of non-nil values in table `t`.
 --- @param t any #(table) Table
---- @return any #(number) Number of non-nil values in table
+--- @return any #(integer) Number of non-nil values in table
 function vim.tbl_count(t) end
 
 -- Merges recursively two or more map-like tables.

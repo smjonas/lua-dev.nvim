@@ -66,21 +66,21 @@
 ---                    severities are displayed before lower severities (e.g.
 ---                    ERROR is displayed before WARN). Options:
 ---                    • reverse: (boolean) Reverse sort order
---- @param namespace any #(number|nil) Update the options for the given namespace.
+--- @param namespace any #(integer|nil) Update the options for the given namespace.
 ---                  When omitted, update the global diagnostic options.
 function vim.diagnostic.config(opts, namespace) end
 
 -- Disable diagnostics in the given buffer.
---- @param bufnr any #(number|nil) Buffer number, or 0 for current buffer. When
----                  omitted, disable diagnostics in all buffers.
---- @param namespace any #(number|nil) Only disable diagnostics for the given
+--- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
+---                  When omitted, disable diagnostics in all buffers.
+--- @param namespace any #(integer|nil) Only disable diagnostics for the given
 ---                  namespace.
 function vim.diagnostic.disable(bufnr, namespace) end
 
 -- Enable diagnostics in the given buffer.
---- @param bufnr any #(number|nil) Buffer number, or 0 for current buffer. When
----                  omitted, enable diagnostics in all buffers.
---- @param namespace any #(number|nil) Only enable diagnostics for the given
+--- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
+---                  When omitted, enable diagnostics in all buffers.
+--- @param namespace any #(integer|nil) Only enable diagnostics for the given
 ---                  namespace.
 function vim.diagnostic.enable(bufnr, namespace) end
 
@@ -91,8 +91,8 @@ function vim.diagnostic.enable(bufnr, namespace) end
 function vim.diagnostic.fromqflist(list) end
 
 -- Get current diagnostics.
---- @param bufnr any #(number|nil) Buffer number to get diagnostics from. Use 0 for
----              current buffer or nil for all buffers.
+--- @param bufnr any #(integer|nil) Buffer number to get diagnostics from. Use 0
+---              for current buffer or nil for all buffers.
 --- @param opts any #(table|nil) A table with the following keys:
 ---              • namespace: (number) Limit diagnostics to the given
 ---                namespace.
@@ -102,7 +102,7 @@ function vim.diagnostic.fromqflist(list) end
 function vim.diagnostic.get(bufnr, opts) end
 
 -- Get namespace metadata.
---- @param namespace any #(number) Diagnostic namespace
+--- @param namespace any #(integer) Diagnostic namespace
 --- @return any #(table) Namespace metadata
 function vim.diagnostic.get_namespace(namespace) end
 
@@ -156,15 +156,15 @@ function vim.diagnostic.goto_next(opts) end
 function vim.diagnostic.goto_prev(opts) end
 
 -- Hide currently displayed diagnostics.
---- @param namespace any #(number|nil) Diagnostic namespace. When omitted, hide diagnostics from all
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, hide diagnostics from all
 ---                  namespaces.
---- @param bufnr any #(number|nil) Buffer number, or 0 for current buffer. When
----                  omitted, hide diagnostics in all buffers.
+--- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
+---                  When omitted, hide diagnostics in all buffers.
 function vim.diagnostic.hide(namespace, bufnr) end
 
 -- Check whether diagnostics are disabled in a given buffer.
---- @param bufnr any #(number|nil) Buffer number, or 0 for current buffer.
---- @param namespace any #(number|nil) Diagnostic namespace. When omitted, checks if all diagnostics are
+--- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, checks if all diagnostics are
 ---                  disabled in {bufnr}. Otherwise, only checks if
 ---                  diagnostics from {namespace} are disabled.
 --- @return any #(boolean)
@@ -233,19 +233,19 @@ function vim.diagnostic.match(str, pat, groups, severity_map, defaults) end
 ---             • suffix: Same as {prefix}, but appends the text to the
 ---               diagnostic instead of prepending it. Overrides the setting
 ---               from |vim.diagnostic.config()|.
---- @return any #number|nil, number|nil: ({float_bufnr}, {win_id})
+--- @return any #integer|nil, integer|nil: ({float_bufnr}, {win_id})
 function vim.diagnostic.open_float(opts, ...) end
 
 -- Remove all diagnostics from the given namespace.
---- @param namespace any #(number|nil) Diagnostic namespace. When omitted, remove diagnostics from all
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, remove diagnostics from all
 ---                  namespaces.
---- @param bufnr any #(number|nil) Remove diagnostics for the given buffer.
+--- @param bufnr any #(integer|nil) Remove diagnostics for the given buffer.
 ---                  When omitted, diagnostics are removed for all buffers.
 function vim.diagnostic.reset(namespace, bufnr) end
 
 -- Set diagnostics for the given namespace and buffer.
---- @param namespace any #(number) The diagnostic namespace
---- @param bufnr any #(number) Buffer number
+--- @param namespace any #(integer) The diagnostic namespace
+--- @param bufnr any #(integer) Buffer number
 --- @param diagnostics any #(table) A list of diagnostic items
 ---                    |diagnostic-structure|
 --- @param opts any #(table|nil) Display options to pass to
@@ -277,9 +277,9 @@ function vim.diagnostic.setloclist(opts) end
 function vim.diagnostic.setqflist(opts) end
 
 -- Display diagnostics for the given namespace and buffer.
---- @param namespace any #(number|nil) Diagnostic namespace. When omitted, show diagnostics from all
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, show diagnostics from all
 ---                    namespaces.
---- @param bufnr any #(number|nil) Buffer number, or 0 for current buffer.
+--- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
 ---                    When omitted, show diagnostics in all buffers.
 --- @param diagnostics any #(table|nil) The diagnostics to display. When omitted,
 ---                    use the saved diagnostics for the given namespace and
