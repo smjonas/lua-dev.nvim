@@ -154,11 +154,11 @@ function vim.gsplit(s, sep, plain) end
 function vim.input(opts, on_confirm) end
 
 -- Get all the items at a given buffer position.
---- @param bufnr any #(number|nil) defaults to the current buffer
---- @param row any #(number|nil) row to inspect, 0-based. Defaults to the row of
----               the current cursor
---- @param col any #(number|nil) col to inspect, 0-based. Defaults to the col of
----               the current cursor
+--- @param bufnr any #(integer|nil) defaults to the current buffer
+--- @param row any #(integer|nil) row to inspect, 0-based. Defaults to the row
+---               of the current cursor
+--- @param col any #(integer|nil) col to inspect, 0-based. Defaults to the col
+---               of the current cursor
 --- @param filter any #(table|nil) a table with key-value pairs to filter the items
 ---               • syntax (boolean): include syntax based highlight groups
 ---                 (defaults to true)
@@ -364,11 +364,11 @@ function vim.select(items, opts, on_choice) end
 function vim.set(mode, lhs, rhs, opts) end
 
 -- Show all the items at a given buffer position.
---- @param bufnr any #(number|nil) defaults to the current buffer
---- @param row any #(number|nil) row to inspect, 0-based. Defaults to the row of
----               the current cursor
---- @param col any #(number|nil) col to inspect, 0-based. Defaults to the col of
----               the current cursor
+--- @param bufnr any #(integer|nil) defaults to the current buffer
+--- @param row any #(integer|nil) row to inspect, 0-based. Defaults to the row
+---               of the current cursor
+--- @param col any #(integer|nil) col to inspect, 0-based. Defaults to the col
+---               of the current cursor
 --- @param filter any #(table|nil) see |vim.inspect_pos()|
 function vim.show_pos(bufnr, row, col, filter) end
 

@@ -96,8 +96,8 @@ vim.treesitter.Query = {}
 --- @param node any #|TSNode| under which the search will occur
 --- @param source any #(integer|string) Source buffer or string to extract text
 ---               from
---- @param start any #(number) Starting line for the search
---- @param stop any #(number) Stopping line for the search (end-exclusive)
+--- @param start any #(integer) Starting line for the search
+--- @param stop any #(integer) Stopping line for the search (end-exclusive)
 --- @return any #(fun(): integer, TSNode, TSMetadata ): capture id, capture node, metadata
 function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 
