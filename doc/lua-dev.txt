@@ -1,4 +1,4 @@
-*lua-dev.txt*            For NVIM v0.8.0            Last change: 2023 March 03
+*lua-dev.txt*            For NVIM v0.8.0            Last change: 2023 March 04
 
 ==============================================================================
 Table of Contents                                  *lua-dev-table-of-contents*
