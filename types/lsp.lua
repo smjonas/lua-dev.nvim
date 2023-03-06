@@ -165,7 +165,8 @@ function vim.lsp.execute_command(command_params) end
 function vim.lsp.extract_completion_items(result) end
 
 -- Force a refresh of all semantic tokens
---- @param bufnr any #(nil|number) default: current buffer
+--- @param bufnr any #(number|nil) filter by buffer. All buffers if nil, current
+---              buffer if 0
 function vim.lsp.force_refresh(bufnr) end
 
 -- Formats a buffer using the attached (and optionally filtered) language
@@ -220,7 +221,14 @@ function vim.lsp.get(bufnr) end
 --- @param bufnr any #(number|nil) Buffer number (0 for current buffer, default)
 --- @param row any #(number|nil) Position row (default cursor position)
 --- @param col any #(number|nil) Position column (default cursor position)
---- @return any #(table|nil) List of tokens at position
+--- @return any #(table|nil) List of tokens at position. Each token has the following
+---     fields:
+---     • line (number) line number, 0-based
+---     • start_col (number) start column, 0-based
+---     • end_col (number) end column, 0-based
+---     • type (string) token type as string, e.g. "variable"
+---     • modifiers (table) token modifiers as a set. E.g., { static = true,
+---       readonly = true }
 function vim.lsp.get_at_pos(bufnr, row, col) end
 
 -- Returns indentation size.
@@ -240,6 +248,18 @@ function vim.lsp.get_level() end
 -- |vim.diagnostic|.
 --- @param client_id any #(number) The id of the LSP client
 function vim.lsp.get_namespace(client_id) end
+
+-- Highlight a semantic token.
+--- @param token any #(table) a semantic token, found as `args.data.token` in
+---                  |LspTokenUpdate|.
+--- @param bufnr any #(number) the buffer to highlight
+--- @param client_id any #(number) The ID of the |vim.lsp.client|
+--- @param hl_group any #(string) Highlight group name
+--- @param opts any #(table|nil) Optional parameters.
+---                  • priority: (number|nil) Priority for the applied
+---                    extmark. Defaults to
+---                    `vim.highlight.priorities.semantic_tokens + 3`
+function vim.lsp.highlight_token(token, bufnr, client_id, hl_group, opts) end
 
 -- |lsp-handler| for the method "textDocument/hover" >lua
 --
