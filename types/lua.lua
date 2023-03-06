@@ -22,6 +22,15 @@ function vim.basename(file) end
 ---                |nvim_cmd()| where `opts` is empty.
 function vim.cmd(command) end
 
+-- Compares two strings ( `v1` and `v2` ) in semver format.
+--- @param v1 any #(string) Version.
+--- @param v2 any #(string) Version to compare with v1.
+--- @param opts any #(table|nil) Optional keyword arguments:
+---             • strict (boolean): see `semver.parse` for details. Defaults
+---               to false.
+--- @return any #(integer) `-1` if `v1 < v2`, `0` if `v1 == v2`, `1` if `v1 > v2`.
+function vim.cmp(v1, v2, opts) end
+
 function vim.connection_failure_errmsg(consequence) end
 
 -- Deep compare values for equality
@@ -100,6 +109,12 @@ function vim.dirname(file) end
 --- @return any #(boolean) `true` if `suffix` is a suffix of `s`
 function vim.endswith(s, suffix) end
 
+-- Returns `true` if `v1` are `v2` are equal versions.
+--- @param v1 any #(string)
+--- @param v2 any #(string)
+--- @return any #(boolean)
+function vim.eq(v1, v2) end
+
 -- Find files or directories in the given path.
 --- @param names any #(string|table|fun(name: string, path: string): boolean) Names
 ---              of the files and directories to find. Must be base names,
@@ -135,6 +150,12 @@ function vim.find(names, opts) end
 ---              string.find)
 --- @return any #(function) Iterator over the split components
 function vim.gsplit(s, sep, plain) end
+
+-- Returns `true` if `v1` is greater than `v2` .
+--- @param v1 any #(string)
+--- @param v2 any #(string)
+--- @return any #(boolean)
+function vim.gt(v1, v2) end
 
 -- Prompts the user for input, allowing arbitrary (potentially asynchronous)
 -- work until `on_confirm`.
@@ -201,6 +222,12 @@ function vim.list_extend(dst, src, start, finish) end
 --- @return any #(list) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
 
+-- Returns `true` if `v1` is less than `v2` .
+--- @param v1 any #(string)
+--- @param v2 any #(string)
+--- @return any #(boolean)
+function vim.lt(v1, v2) end
+
 -- Perform filetype detection.
 --- @param args any[] #(table) Table specifying which matching strategy to use.
 ---             Accepted keys are:
@@ -262,6 +289,15 @@ function vim.on_key(fn, ns_id) end
 --- @param start any #(string) Initial file or directory.
 --- @return any #(function) Iterator
 function vim.parents(start) end
+
+-- Parses a semantic version string.
+--- @param version any #(string) Version string to be parsed.
+--- @param opts any #(table|nil) Optional keyword arguments:
+---                • strict (boolean): Default false. If `true` , no coercion is attempted on input not strictly
+---                  conforming to semver v2.0.0 ( https://semver.org/spec/v2.0.0.html ). E.g. `parse("v1.2")` returns nil.
+--- @return any #(table|nil) parsed_version Parsed version table or `nil` if `version`
+---     is invalid.
+function vim.parse(version, opts) end
 
 -- Paste handler, invoked by |nvim_paste()| when a conforming UI (such as the
 -- |TUI|) pastes text into the editor.
