@@ -228,6 +228,10 @@ function vim.list_slice(list, start, finish) end
 --- @return any #(boolean)
 function vim.lt(v1, v2) end
 
+-- Omnifunc for completing lua values from from the runtime lua interpreter,
+-- similar to the builtin completion for the `:lua` command.
+function vim.lua_omnifunc(find_start, _) end
+
 -- Perform filetype detection.
 --- @param args any[] #(table) Table specifying which matching strategy to use.
 ---             Accepted keys are:
