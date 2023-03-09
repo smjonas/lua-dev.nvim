@@ -28,6 +28,7 @@ function vim.treesitter.LanguageTree:for_each_child(fn, include_self) end
 function vim.treesitter.LanguageTree:for_each_tree(fn) end
 
 -- Gets the set of included regions
+--- @return any #integer[][]
 function vim.treesitter.LanguageTree:included_regions() end
 
 -- Invalidates this parser and all its children
@@ -35,7 +36,9 @@ function vim.treesitter.LanguageTree:included_regions() end
 function vim.treesitter.LanguageTree:invalidate(reload) end
 
 -- Determines whether this tree is valid. If the tree is invalid, call `parse()` . This will return the updated tree.
-function vim.treesitter.LanguageTree:is_valid() end
+--- @param exclude_children any #(boolean|nil)
+--- @return any #(boolean)
+function vim.treesitter.LanguageTree:is_valid(exclude_children) end
 
 -- Gets the language of this tree node.
 function vim.treesitter.LanguageTree:lang() end
