@@ -60,7 +60,6 @@ function vim.treesitter.LanguageTree:named_node_for_range(range, opts) end
 -- tree represents. This will run the injection query for this language to
 -- determine if any child languages should be created.
 --- @return any #TSTree[]
---- @return any #(table|nil) Change list
 function vim.treesitter.LanguageTree:parse() end
 
 -- Registers callbacks for the |LanguageTree|.
