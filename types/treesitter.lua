@@ -100,7 +100,8 @@ vim.treesitter.Query = {}
 ---               from
 --- @param start any #(integer) Starting line for the search
 --- @param stop any #(integer) Stopping line for the search (end-exclusive)
---- @return any #(fun(): integer, TSNode, TSMetadata ): capture id, capture node, metadata
+--- @return any #(fun(): integer, TSNode, TSMetadata): capture id, capture node,
+---     metadata
 function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 
 -- Iterates the matches of self on a given range.
@@ -117,4 +118,13 @@ vim.treesitter.TSHighlighter = {}
 
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
+
+-- Get the range of a |TSNode|. Can also supply {source} and {metadata} to
+-- get the range with directives applied.
+--- @param node any #|TSNode|
+--- @param source any #integer|string|nil Buffer or string from which the {node}
+---                 is extracted
+--- @param metadata any #TSMetadata|nil
+--- @return any #(table)
+function vim.treesitter.get_range(node, source, metadata) end
 
