@@ -119,12 +119,3 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
--- Get the range of a |TSNode|. Can also supply {source} and {metadata} to
--- get the range with directives applied.
---- @param node any #|TSNode|
---- @param source any #integer|string|nil Buffer or string from which the {node}
----                 is extracted
---- @param metadata any #TSMetadata|nil
---- @return any #(table)
-function vim.treesitter.get_range(node, source, metadata) end
-
