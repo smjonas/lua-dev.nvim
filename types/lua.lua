@@ -320,12 +320,9 @@ function vim.paste(lines, phase) end
 --- @return any #(string) %-escaped pattern string
 function vim.pesc(s) end
 
--- Prints given arguments in human-readable format. Example: >lua
---   -- Print highlight group Normal and store it's contents in a variable.
---   local hl_normal = vim.pretty_print(vim.api.nvim_get_hl_by_name("Normal", true))
--- <
+-- "Pretty prints" the given arguments and returns them unmodified.
 --- @return any #any # given arguments.
-function vim.pretty_print(...) end
+function vim.print(...) end
 
 -- Attempt to read the file at {path} prompting the user if the file should
 -- be trusted. The user's choice is persisted in a trust database at
