@@ -74,14 +74,15 @@ function vim.defer_fn(fn, timeout) end
 ---               buffer. When "true" or 0, use the current buffer.
 function vim.del(modes, lhs, opts) end
 
--- Display a deprecation notification to the user.
---- @param name any #string Deprecated function.
---- @param alternative any #(string|nil) Preferred alternative function.
---- @param version any #string Version in which the deprecated function will be
+-- Shows a deprecation message to the user.
+--- @param name any #string Deprecated feature (function, API, etc.).
+--- @param alternative any #(string|nil) Suggested alternative feature.
+--- @param version any #string Version when the deprecated function will be
 ---                    removed.
---- @param plugin any #string|nil Plugin name that the function will be
----                    removed from. Defaults to "Nvim".
+--- @param plugin any #string|nil Name of the plugin that owns the deprecated
+---                    feature. Defaults to "Nvim".
 --- @param backtrace any #boolean|nil Prints backtrace. Defaults to true.
+--- @return any #Deprecated message, or nil if no message was shown.
 function vim.deprecate(name, alternative, version, plugin, backtrace) end
 
 -- Return an iterator over the files and directories located in {path}
