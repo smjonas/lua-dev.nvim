@@ -367,6 +367,9 @@ function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 -- Sets a highlight group.
 --- @param ns_id integer #Namespace id for this highlight |nvim_create_namespace()|.
 ---              Use 0 to set a highlight group globally |:highlight|.
+---              Highlights from non-global namespaces are not active by
+---              default, use |nvim_set_hl_ns()| or |nvim_win_set_hl_ns()| to
+---              activate them.
 --- @param name string #Highlight group name, e.g. "ErrorMsg"
 --- @param val dict(highlight) * #Highlight definition map, accepts the following keys:
 ---              • fg (or foreground): color name or "#RRGGBB", see note.
@@ -394,12 +397,13 @@ function vim.api.nvim_set_decoration_provider(ns_id, opts) end
 ---                map documented above.
 function vim.api.nvim_set_hl(ns_id, name, val) end
 
--- Set active namespace for highlights. This can be set for a single window,
--- see |nvim_win_set_hl_ns()|.
+-- Set active namespace for highlights defined with |nvim_set_hl()|. This can
+-- be set for a single window, see |nvim_win_set_hl_ns()|.
 --- @param ns_id integer #the namespace to use
 function vim.api.nvim_set_hl_ns(ns_id) end
 
--- Set active namespace for highlights while redrawing.
+-- Set active namespace for highlights defined with |nvim_set_hl()| while
+-- redrawing.
 --- @param ns_id integer #the namespace to activate
 function vim.api.nvim_set_hl_ns_fast(ns_id) end
 
@@ -643,8 +647,9 @@ function vim.api.nvim_win_set_cursor(window, pos) end
 --- @param height integer #Height as a count of rows
 function vim.api.nvim_win_set_height(window, height) end
 
--- Set highlight namespace for a window. This will use highlights defined in
--- this namespace, but fall back to global highlights (ns=0) when missing.
+-- Set highlight namespace for a window. This will use highlights defined
+-- with |nvim_set_hl()| for this namespace, but fall back to global
+-- highlights (ns=0) when missing.
 --- @param window window
 --- @param ns_id integer #the namespace to use
 function vim.api.nvim_win_set_hl_ns(window, ns_id) end
