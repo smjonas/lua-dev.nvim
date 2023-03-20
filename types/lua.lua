@@ -144,6 +144,12 @@ function vim.eq(v1, v2) end
 ---     directories
 function vim.find(names, opts) end
 
+-- Get the default option value for a {filetype}.
+--- @param filetype any #string Filetype
+--- @param option any #string Option name
+--- @return any #string|boolean|integer: Option value
+function vim.get_option(filetype, option) end
+
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
