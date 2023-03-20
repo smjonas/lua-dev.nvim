@@ -22,14 +22,13 @@ function vim.basename(file) end
 ---                |nvim_cmd()| where `opts` is empty.
 function vim.cmd(command) end
 
--- Compares two strings ( `v1` and `v2` ) in semver format.
---- @param v1 any #(string) Version.
---- @param v2 any #(string) Version to compare with v1.
---- @param opts any #(table|nil) Optional keyword arguments:
----             • strict (boolean): see `semver.parse` for details. Defaults
----               to false.
---- @return any #(integer) `-1` if `v1 < v2`, `0` if `v1 == v2`, `1` if `v1 > v2`.
-function vim.cmp(v1, v2, opts) end
+-- Parses and compares two version version objects (the result of
+-- |vim.version.parse()|, or specified literally as a `{major, minor, patch}`
+-- tuple, e.g. `{1, 0, 3}`).
+--- @param v1 any #Version|number[] Version object.
+--- @param v2 any #Version|number[] Version to compare with `v1` .
+--- @return any #(integer) -1 if `v1 < v2`, 0 if `v1 == v2`, 1 if `v1 > v2`.
+function vim.cmp(v1, v2) end
 
 function vim.connection_failure_errmsg(consequence) end
 
@@ -77,8 +76,7 @@ function vim.del(modes, lhs, opts) end
 -- Shows a deprecation message to the user.
 --- @param name any #string Deprecated feature (function, API, etc.).
 --- @param alternative any #(string|nil) Suggested alternative feature.
---- @param version any #string Version when the deprecated function will be
----                    removed.
+--- @param version any #string Version when the deprecated function will be removed.
 --- @param plugin any #string|nil Name of the plugin that owns the deprecated
 ---                    feature. Defaults to "Nvim".
 --- @param backtrace any #boolean|nil Prints backtrace. Defaults to true.
@@ -110,9 +108,9 @@ function vim.dirname(file) end
 --- @return any #(boolean) `true` if `suffix` is a suffix of `s`
 function vim.endswith(s, suffix) end
 
--- Returns `true` if `v1` are `v2` are equal versions.
---- @param v1 any #(string)
---- @param v2 any #(string)
+-- Returns `true` if the given versions are equal.
+--- @param v1 any #Version|number[]
+--- @param v2 any #Version|number[]
 --- @return any #(boolean)
 function vim.eq(v1, v2) end
 
@@ -158,9 +156,9 @@ function vim.get_option(filetype, option) end
 --- @return any #(function) Iterator over the split components
 function vim.gsplit(s, sep, plain) end
 
--- Returns `true` if `v1` is greater than `v2` .
---- @param v1 any #(string)
---- @param v2 any #(string)
+-- Returns `true` if `v1 > v2` .
+--- @param v1 any #Version|number[]
+--- @param v2 any #Version|number[]
 --- @return any #(boolean)
 function vim.gt(v1, v2) end
 
@@ -213,6 +211,11 @@ function vim.inspect_pos(bufnr, row, col, filter) end
 --- @return any #(boolean) `true` if `f` is callable, else `false`
 function vim.is_callable(f) end
 
+-- TODO: generalize this, move to func.lua
+--- @param versions any #Version []
+--- @return any #Version ?|ni
+function vim.last(versions) end
+
 -- Extends a list-like table with the values of another list-like table.
 --- @param dst any #(table) List which will be modified and appended to
 --- @param src any #(table) List from which values will be inserted
@@ -229,9 +232,9 @@ function vim.list_extend(dst, src, start, finish) end
 --- @return any #(list) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
 
--- Returns `true` if `v1` is less than `v2` .
---- @param v1 any #(string)
---- @param v2 any #(string)
+-- Returns `true` if `v1 < v2` .
+--- @param v1 any #Version|number[]
+--- @param v2 any #Version|number[]
 --- @return any #(boolean)
 function vim.lt(v1, v2) end
 
@@ -301,13 +304,19 @@ function vim.on_key(fn, ns_id) end
 --- @return any #(function) Iterator
 function vim.parents(start) end
 
--- Parses a semantic version string.
---- @param version any #(string) Version string to be parsed.
+-- Parses a semantic version string and returns a version object which can be
+-- used with other `vim.version` functions. For example "1.0.1-rc1+build.2" returns: >
+--
+--    { major = 1, minor = 0, patch = 1, prerelease = "rc1", build = "build.2" }
+--
+-- <
+--- @param version any #(string) Version string to parse.
 --- @param opts any #(table|nil) Optional keyword arguments:
----                • strict (boolean): Default false. If `true` , no coercion is attempted on input not strictly
----                  conforming to semver v2.0.0 ( https://semver.org/spec/v2.0.0.html ). E.g. `parse("v1.2")` returns nil.
---- @return any #(table|nil) parsed_version Parsed version table or `nil` if `version`
----     is invalid.
+---                • strict (boolean): Default false. If `true`, no coercion
+---                  is attempted on input not conforming to semver v2.0.0. If
+---                  `false`, `parse()` attempts to coerce input such as
+---                  "1.0", "0-x", "tmux 3.2a" into valid versions.
+--- @return any #(table|nil) parsed_version Version object or `nil` if input is invalid.
 function vim.parse(version, opts) end
 
 -- Paste handler, invoked by |nvim_paste()| when a conforming UI (such as the
@@ -330,6 +339,18 @@ function vim.pesc(s) end
 -- "Pretty prints" the given arguments and returns them unmodified.
 --- @return any #any # given arguments.
 function vim.print(...) end
+
+-- Parses a semver |version-range| "spec" and returns a range object: >
+--
+--   {
+--     from: Version
+--     to: Version
+--     has(v: string|Version)
+--   }
+--
+-- <
+--- @param spec any #string Version range "spec"
+function vim.range(spec) end
 
 -- Attempt to read the file at {path} prompting the user if the file should
 -- be trusted. The user's choice is persisted in a trust database at
