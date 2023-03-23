@@ -108,7 +108,7 @@ function vim.dirname(file) end
 --- @return any #(boolean) `true` if `suffix` is a suffix of `s`
 function vim.endswith(s, suffix) end
 
--- Returns `true` if the given versions are equal.
+-- Returns `true` if the given versions are equal. See |vim.version.cmp()| for usage.
 --- @param v1 any #Version|number[]
 --- @param v2 any #Version|number[]
 --- @return any #(boolean)
@@ -149,14 +149,16 @@ function vim.find(names, opts) end
 function vim.get_option(filetype, option) end
 
 -- Splits a string at each instance of a separator.
---- @param s any #(string) String to split
---- @param sep any #(string) Separator or pattern
---- @param plain any #(boolean|nil) If `true` use `sep` literally (passed to
----              string.find)
+--- @param s any #string String to split
+--- @param sep any #string Separator or pattern
+--- @param opts any #(table|nil) Keyword arguments |kwargs|:
+---             • plain: (boolean) Use `sep` literally (as in string.find).
+---             • trimempty: (boolean) Discard empty segments at start and end
+---               of the sequence.
 --- @return any #(function) Iterator over the split components
-function vim.gsplit(s, sep, plain) end
+function vim.gsplit(s, sep, opts) end
 
--- Returns `true` if `v1 > v2` .
+-- Returns `true` if `v1 > v2` . See |vim.version.cmp()| for usage.
 --- @param v1 any #Version|number[]
 --- @param v2 any #Version|number[]
 --- @return any #(boolean)
@@ -232,7 +234,7 @@ function vim.list_extend(dst, src, start, finish) end
 --- @return any #(list) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
 
--- Returns `true` if `v1 < v2` .
+-- Returns `true` if `v1 < v2` . See |vim.version.cmp()| for usage.
 --- @param v1 any #Version|number[]
 --- @param v2 any #Version|number[]
 --- @return any #(boolean)
@@ -445,13 +447,10 @@ function vim.spairs(t) end
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
---- @param kwargs any #(table|nil) Keyword arguments:
----               • plain: (boolean) If `true` use `sep` literally (passed to
----                 string.find)
----               • trimempty: (boolean) If `true` remove empty items from the
----                 front and back of the list
+--- @param opts any #(table|nil) Keyword arguments |kwargs| accepted by
+---             |vim.gsplit()|
 --- @return any #string[] List of split components
-function vim.split(s, sep, kwargs) end
+function vim.split(s, sep, opts) end
 
 -- Tests if `s` starts with `prefix`.
 --- @param s any #(string) String
