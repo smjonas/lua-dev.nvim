@@ -119,3 +119,36 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
+-- Returns the runtime query {query_name} for {lang}.
+--- @param lang any #(string) Language to use for the query
+--- @param query_name any #(string) Name of the query (e.g. "highlights")
+--- @return any #Query|nil Parsed query
+function vim.treesitter.get(lang, query_name) end
+
+-- Gets the list of files used to make up a query
+--- @param lang any #(string) Language to get query for
+--- @param query_name any #(string) Name of the query to load (e.g., "highlights")
+--- @param is_included any #(boolean|nil) Internal parameter, most of the time left
+---                    as `nil`
+--- @return any #string[] query_files List of files to load for given query and
+---     language
+function vim.treesitter.get_files(lang, query_name, is_included) end
+
+-- Inspects the provided language.
+--- @param lang any #(string) Language
+--- @return any #(table)
+function vim.treesitter.inspect(lang) end
+
+-- Parse {query} as a string. (If the query is in a file, the caller should
+-- read the contents into a string before calling).
+--- @param lang any #(string) Language to use for the query
+--- @param query any #(string) Query in s-expr syntax
+--- @return any #Query Parsed query
+function vim.treesitter.parse(lang, query) end
+
+-- Sets the runtime query named {query_name} for {lang}
+--- @param lang any #(string) Language to use for the query
+--- @param query_name any #(string) Name of the query (e.g., "highlights")
+--- @param text any #(string) Query text (unparsed).
+function vim.treesitter.set(lang, query_name, text) end
+
