@@ -363,15 +363,17 @@ function vim.range(spec) end
 function vim.read(path) end
 
 -- Get a table of lines with start, end columns for a region marked by two
--- points
+-- points. Input and output positions are (0,0)-indexed and indicate byte
+-- positions.
 --- @param bufnr any #(integer) number of buffer
 --- @param pos1 any #integer[] (line, column) tuple marking beginning of
 ---                  region
 --- @param pos2 any #integer[] (line, column) tuple marking end of region
 --- @param regtype any #(string) type of selection, see |setreg()|
---- @param inclusive any #(boolean) indicating whether the selection is
----                  end-inclusive
---- @return any #(table) region Table of the form `{linenr = {startcol,endcol}}`
+--- @param inclusive any #(boolean) indicating whether column of pos2 is inclusive
+--- @return any #(table) region Table of the form `{linenr = {startcol,endcol}}`.
+---     `endcol` is exclusive, and whole lines are marked with
+---     `{startcol,endcol} = {0,-1}`.
 function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 
 -- Defers callback `cb` until the Nvim API is safe to call.
