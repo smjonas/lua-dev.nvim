@@ -119,6 +119,42 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
+-- Asserts that a parser for the language {lang} is installed.
+--- @param lang any #(string) Language the parser should parse (alphanumerical and
+---             `_` only)
+--- @param opts any #(table|nil) Options:
+---             • filetype (string|string[]) Filetype(s) that lang can be
+---               parsed with. Note this is not strictly the same as lang
+---               since a single lang can parse multiple filetypes. Defaults
+---               to lang.
+---             • path (string|nil) Optional path the parser is located at
+---             • symbol_name (string|nil) Internal symbol name for the
+---               language to load
+function vim.treesitter.add(lang, opts) end
+
+-- Adds a new directive to be used in queries
+--- @param name any #(string) Name of the directive, without leading #
+--- @param handler any #function(match:table<string,|TSNode|>, pattern:string,
+---                bufnr:integer, predicate:string[], metadata:table)
+---                • match: see |treesitter-query|
+---                  • node-level data are accessible via `match[capture_id]`
+---
+---                • pattern: see |treesitter-query|
+---                • predicate: list of strings containing the full directive
+---                  being called, e.g. `(node (#set! conceal "-"))` would get
+---                  the predicate `{ "#set!", "conceal", "-" }`
+--- @param force any #(boolean|nil)
+function vim.treesitter.add_directive(name, handler, force) end
+
+-- Adds a new predicate to be used in queries
+--- @param name any #(string) Name of the predicate, without leading #
+--- @param handler any #function(match:table<string,|TSNode|>, pattern:string,
+---                bufnr:integer, predicate:string[])
+---                • see |vim.treesitter.query.add_directive()| for argument
+---                  meanings
+--- @param force any #(boolean|nil)
+function vim.treesitter.add_predicate(name, handler, force) end
+
 -- Returns the runtime query {query_name} for {lang}.
 --- @param lang any #(string) Language to use for the query
 --- @param query_name any #(string) Name of the query (e.g. "highlights")
@@ -134,10 +170,22 @@ function vim.treesitter.get(lang, query_name) end
 ---     language
 function vim.treesitter.get_files(lang, query_name, is_included) end
 
+--- @param filetype any #(string)
+--- @return any #(string|nil)
+function vim.treesitter.get_lang(filetype) end
+
 -- Inspects the provided language.
 --- @param lang any #(string) Language
 --- @return any #(table)
 function vim.treesitter.inspect(lang) end
+
+-- Lists the currently available directives to use in queries.
+--- @return any #string[] List of supported directives.
+function vim.treesitter.list_directives() end
+
+-- Lists the currently available predicates to use in queries.
+--- @return any #string[] List of supported predicates.
+function vim.treesitter.list_predicates() end
 
 -- Parse {query} as a string. (If the query is in a file, the caller should
 -- read the contents into a string before calling).
@@ -145,6 +193,11 @@ function vim.treesitter.inspect(lang) end
 --- @param query any #(string) Query in s-expr syntax
 --- @return any #Query Parsed query
 function vim.treesitter.parse(lang, query) end
+
+-- Register a lang to be used for a filetype (or list of filetypes).
+--- @param lang any #(string) Language to register
+--- @param filetype any #string|string[] Filetype(s) to associate with lang
+function vim.treesitter.register(lang, filetype) end
 
 -- Sets the runtime query named {query_name} for {lang}
 --- @param lang any #(string) Language to use for the query
