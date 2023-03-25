@@ -3,6 +3,18 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Open a terminal instance in a buffer
+--- @param buffer buffer #the buffer to use (expected to be empty)
+--- @param opts table<string, luaref> #Optional parameters.
+---               • on_input: lua callback for input sent, i e keypresses in
+---                 terminal mode. Note: keypresses are sent raw as they would
+---                 be to the pty master end. For instance, a carriage return
+---                 is sent as a "\r", not as a "\n". |textlock| applies. It
+---                 is possible to call |nvim_chan_send()| directly in the
+---                 callback however. ["input", term, bufnr, data]
+--- @return any #Channel id, or 0 on error
+function vim.api.nvim_open_term(buffer, opts) end
+
 -- Open a new window.
 --- @param buffer buffer #Buffer to display, or 0 for current buffer
 --- @param enter boolean #Enter the window (make it the current window)

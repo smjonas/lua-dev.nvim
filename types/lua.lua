@@ -16,9 +16,9 @@ function vim.basename(file) end
 -- Execute Vim script commands.
 --- @param command any #string|table Command(s) to execute. If a string, executes
 ---                multiple lines of Vim script at once. In this case, it is
----                an alias to |nvim_exec()|, where `output` is set to false.
----                Thus it works identical to |:source|. If a table, executes
----                a single command. In this case, it is an alias to
+---                an alias to |nvim_exec2()|, where `opts.output` is set to
+---                false. Thus it works identical to |:source|. If a table,
+---                executes a single command. In this case, it is an alias to
 ---                |nvim_cmd()| where `opts` is empty.
 function vim.cmd(command) end
 

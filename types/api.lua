@@ -723,10 +723,12 @@ function vim.api.nvim_eval_statusline(str, opts) end
 -- Executes Vimscript (multiline block of Ex commands), like anonymous
 -- |:source|.
 --- @param src string #Vimscript code
---- @param output boolean #Capture and return all (non-error, non-shell |:!|) output
---- @return any #Output (non-error, non-shell |:!|) if `output` is true, else empty
----     string.
-function vim.api.nvim_exec(src, output) end
+--- @param opts dict(exec_opts) * #Optional parameters.
+---             • output: (boolean, default false) Whether to capture and
+---               return all (non-error, non-shell |:!|) output.
+--- @return any #Dictionary containing information about execution, with these keys:
+---     • output: (string|nil) Output if `opts.output` is true.
+function vim.api.nvim_exec2(src, opts) end
 
 -- Execute all autocommands for {event} that match the corresponding {opts}
 -- |autocmd-execute|.
@@ -1017,16 +1019,4 @@ function vim.api.nvim_load_context(dict) end
 --- @param log_level integer #The log level
 --- @param opts dictionary #Reserved for future use.
 function vim.api.nvim_notify(msg, log_level, opts) end
-
--- Open a terminal instance in a buffer
---- @param buffer buffer #the buffer to use (expected to be empty)
---- @param opts table<string, luaref> #Optional parameters.
----               • on_input: lua callback for input sent, i e keypresses in
----                 terminal mode. Note: keypresses are sent raw as they would
----                 be to the pty master end. For instance, a carriage return
----                 is sent as a "\r", not as a "\n". |textlock| applies. It
----                 is possible to call |nvim_chan_send()| directly in the
----                 callback however. ["input", term, bufnr, data]
---- @return any #Channel id, or 0 on error
-function vim.api.nvim_open_term(buffer, opts) end
 
