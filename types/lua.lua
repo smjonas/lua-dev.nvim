@@ -102,6 +102,18 @@ function vim.dir(path, opts) end
 --- @return any #(string) Parent directory of {file}
 function vim.dirname(file) end
 
+-- Disables the experimental Lua module loader:
+-- • removes the loaders
+-- • adds the default Neovim loader
+function vim.disable() end
+
+-- Enables the experimental Lua module loader:
+-- • overrides loadfile
+-- • adds the lua loader using the byte-compilation cache
+-- • adds the libs loader
+-- • removes the default Neovim loader
+function vim.enable() end
+
 -- Tests if `s` ends with `suffix`.
 --- @param s any #(string) String
 --- @param suffix any #(string) Suffix to match
@@ -114,33 +126,26 @@ function vim.endswith(s, suffix) end
 --- @return any #(boolean)
 function vim.eq(v1, v2) end
 
--- Find files or directories in the given path.
---- @param names any #(string|table|fun(name: string, path: string): boolean) Names
----              of the files and directories to find. Must be base names,
----              paths and globs are not supported when {names} is a string or
----              a table. If {names} is a function, it is called for each
----              traversed file and directory with args:
----              • name: base name of the current item
----              • path: full path of the current item The function should
----                return `true` if the given file or directory is considered
----                a match.
---- @param opts any #(table) Optional keyword arguments:
----              • path (string): Path to begin searching from. If omitted,
----                the |current-directory| is used.
----              • upward (boolean, default false): If true, search upward
----                through parent directories. Otherwise, search through child
----                directories (recursively).
----              • stop (string): Stop searching when this directory is
----                reached. The directory itself is not searched.
----              • type (string): Find only files ("file") or directories
----                ("directory"). If omitted, both files and directories that
----                match {names} are included.
----              • limit (number, default 1): Stop the search after finding
----                this many matches. Use `math.huge` to place no limit on the
----                number of matches.
---- @return any #(table) Normalized paths |vim.fs.normalize()| of all matching files or
----     directories
-function vim.find(names, opts) end
+-- Finds lua modules for the given module name.
+--- @param modname any #(string) Module name, or `"*"` to find the top-level
+---                modules instead
+--- @param opts any #(table|nil) Options for finding a module:
+---                • rtp: (boolean) Search for modname in the runtime path
+---                  (defaults to `true`)
+---                • paths: (string[]) Extra paths to search for modname
+---                  (defaults to `{}`)
+---                • patterns: (string[]) List of patterns to use when
+---                  searching for modules. A pattern is a string added to the
+---                  basename of the Lua module being searched. (defaults to
+---                  `{"/init.lua", ".lua"}`)
+---                • all: (boolean) Return all matches instead of just the
+---                  first one (defaults to `false`)
+--- @return any #(list) A list of results with the following properties:
+---     • modpath: (string) the path to the module
+---     • modname: (string) the name of the module
+---     • stat: (table|nil) the fs_stat of the module path. Won't be returned
+---       for `modname="*"`
+function vim.find(modname, opts) end
 
 -- Get the default option value for a {filetype}.
 --- @param filetype any #string Filetype
@@ -375,6 +380,10 @@ function vim.read(path) end
 ---     `endcol` is exclusive, and whole lines are marked with
 ---     `{startcol,endcol} = {0,-1}`.
 function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
+
+-- Resets the topmods cache for the path, or all the paths if path is nil.
+--- @param path any #string? path to reset
+function vim.reset(path) end
 
 -- Defers callback `cb` until the Nvim API is safe to call.
 --- @param cb any #(function)
