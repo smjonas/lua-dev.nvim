@@ -908,10 +908,16 @@ function vim.api.nvim_get_namespaces() end
 --- @return any #Option value (global)
 function vim.api.nvim_get_option(name) end
 
--- Gets the option information for one option
+-- Gets the option information for one option from arbitrary buffer or window
 --- @param name string #Option name
+--- @param opts dict(option) * #Optional parameters
+---             • scope: One of "global" or "local". Analogous to |:setglobal|
+---               and |:setlocal|, respectively.
+---             • win: |window-ID|. Used for getting window local options.
+---             • buf: Buffer number. Used for getting buffer local options.
+---               Implies {scope} is "local".
 --- @return any #Option Information
-function vim.api.nvim_get_option_info(name) end
+function vim.api.nvim_get_option_info2(name, opts) end
 
 -- Gets the value of an option. The behavior of this function matches that of
 -- |:set|: the local value of an option is returned if it exists; otherwise,
@@ -1009,14 +1015,4 @@ function vim.api.nvim_list_uis() end
 -- Gets the current list of window handles.
 --- @return any #List of window handles
 function vim.api.nvim_list_wins() end
-
--- Sets the current editor state from the given |context| map.
---- @param dict dictionary #|Context| map.
-function vim.api.nvim_load_context(dict) end
-
--- Notify the user with a message
---- @param msg string #Message to display to the user
---- @param log_level integer #The log level
---- @param opts dictionary #Reserved for future use.
-function vim.api.nvim_notify(msg, log_level, opts) end
 

@@ -3,6 +3,16 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Sets the current editor state from the given |context| map.
+--- @param dict dictionary #|Context| map.
+function vim.api.nvim_load_context(dict) end
+
+-- Notify the user with a message
+--- @param msg string #Message to display to the user
+--- @param log_level integer #The log level
+--- @param opts dictionary #Reserved for future use.
+function vim.api.nvim_notify(msg, log_level, opts) end
+
 -- Open a terminal instance in a buffer
 --- @param buffer buffer #the buffer to use (expected to be empty)
 --- @param opts table<string, luaref> #Optional parameters.
