@@ -275,8 +275,11 @@ function vim.match(args) end
 -- backslash (\) characters are converted to forward slashes (/). Environment
 -- variables are also expanded.
 --- @param path any #(string) Path to normalize
+--- @param opts any #(table|nil) Options:
+---             • expand_env: boolean Expand environment variables (default:
+---               true)
 --- @return any #(string) Normalized path
-function vim.normalize(path) end
+function vim.normalize(path, opts) end
 
 -- Display a notification to the user.
 --- @param msg any #(string) Content of the notification to show to the user.
