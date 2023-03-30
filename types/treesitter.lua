@@ -119,14 +119,11 @@ vim.treesitter.TSHighlighter = {}
 -- Removes all internal references to the highlighter
 function vim.treesitter.TSHighlighter:destroy() end
 
--- Asserts that a parser for the language {lang} is installed.
---- @param lang any #(string) Language the parser should parse (alphanumerical and
----             `_` only)
+-- Load parser with name {lang}
+--- @param lang any #(string) Name of the parser (alphanumerical and `_` only)
 --- @param opts any #(table|nil) Options:
----             • filetype (string|string[]) Filetype(s) that lang can be
----               parsed with. Note this is not strictly the same as lang
----               since a single lang can parse multiple filetypes. Defaults
----               to lang.
+---             • filetype (string|string[]) Default filetype the parser
+---               should be associated with. Defaults to {lang}.
 ---             • path (string|nil) Optional path the parser is located at
 ---             • symbol_name (string|nil) Internal symbol name for the
 ---               language to load
@@ -170,8 +167,13 @@ function vim.treesitter.get(lang, query_name) end
 ---     language
 function vim.treesitter.get_files(lang, query_name, is_included) end
 
---- @param filetype any #(string)
---- @return any #(string|nil)
+-- Get the filetypes associated with the parser named {lang}.
+--- @param lang any #string Name of parser
+--- @return any #string[] filetypes
+function vim.treesitter.get_filetypes(lang) end
+
+--- @param filetype any #string
+--- @return any #string|nil
 function vim.treesitter.get_lang(filetype) end
 
 -- Inspects the provided language.
@@ -194,8 +196,8 @@ function vim.treesitter.list_predicates() end
 --- @return any #Query Parsed query
 function vim.treesitter.parse(lang, query) end
 
--- Register a lang to be used for a filetype (or list of filetypes).
---- @param lang any #(string) Language to register
+-- Register a parser named {lang} to be used for {filetype}(s).
+--- @param lang any #string Name of parser
 --- @param filetype any #string|string[] Filetype(s) to associate with lang
 function vim.treesitter.register(lang, filetype) end
 
