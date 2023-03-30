@@ -58,7 +58,8 @@ function vim.lsp.clear_references() end
 --- @param options any #(table|nil) Optional table which holds the following
 ---                optional fields:
 ---                • context: (table|nil) Corresponds to `CodeActionContext` of the LSP specification:
----                  • diagnostics (table|nil): LSP`Diagnostic[]` . Inferred from the current position if not provided.
+---                  • diagnostics (table|nil): LSP `Diagnostic[]`. Inferred
+---                    from the current position if not provided.
 ---                  • only (table|nil): List of LSP `CodeActionKind`s used to
 ---                    filter the code actions. Most language servers support
 ---                    values like `refactor` or `quickfix`.
