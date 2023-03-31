@@ -384,7 +384,7 @@ function vim.read(path) end
 ---     `{startcol,endcol} = {0,-1}`.
 function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 
--- Resets the topmods cache for the path, or all the paths if path is nil.
+-- Resets the cache for the path, or all the paths if path is nil.
 --- @param path any #string? path to reset
 function vim.reset(path) end
 
