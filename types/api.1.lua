@@ -3,6 +3,10 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets the current list of window handles.
+--- @return any #List of window handles
+function vim.api.nvim_list_wins() end
+
 -- Sets the current editor state from the given |context| map.
 --- @param dict dictionary #|Context| map.
 function vim.api.nvim_load_context(dict) end

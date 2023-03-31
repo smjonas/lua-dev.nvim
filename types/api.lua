@@ -874,6 +874,10 @@ function vim.api.nvim_get_current_win() end
 --- @return any #Highlight groups as a map from group name to a highlight definition
 ---     map as in |nvim_set_hl()|, or only a single highlight definition map
 ---     if requested by name or id.
+--- @return any #
+--- Note:
+---     When the `link` attribute is defined in the highlight definition map,
+---     other attributes will not be taking effect (see |:hi-link|).
 function vim.api.nvim_get_hl(ns_id, opts) end
 
 -- Gets a highlight group by name
@@ -1011,8 +1015,4 @@ function vim.api.nvim_list_tabpages() end
 ---     • "ext_..." Requested UI extensions, see |ui-option|
 ---     • "chan" |channel-id| of remote UI
 function vim.api.nvim_list_uis() end
-
--- Gets the current list of window handles.
---- @return any #List of window handles
-function vim.api.nvim_list_wins() end
 
