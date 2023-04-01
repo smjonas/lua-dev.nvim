@@ -49,8 +49,8 @@ function vim.deepcopy(orig) end
 
 -- Creates a table whose members are automatically created when accessed, if
 -- they don't already exist.
---- @param create any #(function|nil) The function called to create a missing
----               value.
+--- @param create any #function?(key:any):any The function called to create a
+---               missing value.
 --- @return any #(table) Empty table with metamethod
 function vim.defaulttable(create) end
 
