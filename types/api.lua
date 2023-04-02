@@ -210,13 +210,16 @@ function vim.api.nvim_buf_get_commands(buffer, opts) end
 --- @param id integer #Extmark id
 --- @param opts dictionary #Optional parameters. Keys:
 ---               • details: Whether to include the details dict
+---               • hl_name: Whether to include highlight group name instead
+---                 of id, true if omitted
 --- @return any #0-indexed (row, col) tuple or empty list () if extmark id was absent
 function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 
 -- Gets |extmarks| in "traversal order" from a |charwise| region defined by
 -- buffer positions (inclusive, 0-indexed |api-indexing|).
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
---- @param ns_id integer #Namespace id from |nvim_create_namespace()|
+--- @param ns_id integer #Namespace id from |nvim_create_namespace()| or -1 for all
+---               namespaces
 --- @param start object #Start of range: a 0-indexed (row, col) or valid extmark id
 ---               (whose position defines the bound). |api-indexing|
 --- @param end_ object #End of range (inclusive): a 0-indexed (row, col) or valid
@@ -224,7 +227,11 @@ function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 ---               |api-indexing|
 --- @param opts dictionary #Optional parameters. Keys:
 ---               • limit: Maximum number of marks to return
----               • details Whether to include the details dict
+---               • details: Whether to include the details dict
+---               • hl_name: Whether to include highlight group name instead
+---                 of id, true if omitted
+---               • type: Filter marks by type: "highlight", "sign",
+---                 "virt_text" and "virt_lines"
 --- @return any #List of [extmark_id, row, col] tuples in "traversal order".
 function vim.api.nvim_buf_get_extmarks(buffer, ns_id, start, end_, opts) end
 
@@ -1006,13 +1013,4 @@ function vim.api.nvim_list_runtime_paths() end
 -- Gets the current list of tabpage handles.
 --- @return any #List of tabpage handles
 function vim.api.nvim_list_tabpages() end
-
--- Gets a list of dictionaries representing attached UIs.
---- @return any #Array of UI dictionaries, each with these keys:
----     • "height" Requested height of the UI
----     • "width" Requested width of the UI
----     • "rgb" true if the UI uses RGB colors (false implies |cterm-colors|)
----     • "ext_..." Requested UI extensions, see |ui-option|
----     • "chan" |channel-id| of remote UI
-function vim.api.nvim_list_uis() end
 
