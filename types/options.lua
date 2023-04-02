@@ -8,7 +8,7 @@
 -- 	A template for a comment.  The "%s" in the value is replaced with the
 -- 	comment text.  Currently only used to add markers for folding, see
 -- 	|fold-marker|.
-vim.bo.commentstring = "/*%s*/"
+vim.bo.commentstring = ""
 -- string	(default "if,else,while,do,for,switch")
 -- 			local to buffer
 -- 	These keywords start an extra indent in the next line when
