@@ -3,6 +3,10 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets the current list of tabpage handles.
+--- @return any #List of tabpage handles
+function vim.api.nvim_list_tabpages() end
+
 -- Gets a list of dictionaries representing attached UIs.
 --- @return any #Array of UI dictionaries, each with these keys:
 ---     • "height" Requested height of the UI

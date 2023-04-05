@@ -716,6 +716,8 @@ function vim.api.nvim_eval(expr) end
 ---             • use_tabline: (boolean) Evaluate tabline instead of
 ---               statusline. When true, {winid} is ignored. Mutually
 ---               exclusive with {use_winbar}.
+---             • use_statuscol: (boolean) Evaluate statuscolumn instead of
+---               statusline.
 --- @return any #Dictionary containing statusline information, with these keys:
 ---     • str: (string) Characters that will be displayed on the statusline.
 ---     • width: (number) Display width of the statusline.
@@ -1009,8 +1011,4 @@ function vim.api.nvim_list_chans() end
 -- Gets the paths contained in 'runtimepath'.
 --- @return any #List of paths
 function vim.api.nvim_list_runtime_paths() end
-
--- Gets the current list of tabpage handles.
---- @return any #List of tabpage handles
-function vim.api.nvim_list_tabpages() end
 
