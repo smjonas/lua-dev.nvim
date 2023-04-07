@@ -716,8 +716,8 @@ function vim.api.nvim_eval(expr) end
 ---             • use_tabline: (boolean) Evaluate tabline instead of
 ---               statusline. When true, {winid} is ignored. Mutually
 ---               exclusive with {use_winbar}.
----             • use_statuscol: (boolean) Evaluate statuscolumn instead of
----               statusline.
+---             • use_statuscol_lnum: (number) Evaluate statuscolumn for this
+---               line number instead of statusline.
 --- @return any #Dictionary containing statusline information, with these keys:
 ---     • str: (string) Characters that will be displayed on the statusline.
 ---     • width: (number) Display width of the statusline.
