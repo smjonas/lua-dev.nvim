@@ -92,8 +92,8 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---                   In general, values below 100 are recommended, unless
 ---                   there is a good reason to overshadow builtin elements.
 ---
----               • style: Configure the appearance of the window. Currently
----                 only takes one non-empty value:
+---               • style: (optional) Configure the appearance of the window.
+---                 Currently only supports one value:
 ---                 • "minimal" Nvim will display the window with many UI
 ---                   options disabled. This is useful when displaying a
 ---                   temporary float where the text should not be edited.
