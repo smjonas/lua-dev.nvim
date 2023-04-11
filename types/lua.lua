@@ -374,9 +374,10 @@ function vim.read(path) end
 -- points. Input and output positions are (0,0)-indexed and indicate byte
 -- positions.
 --- @param bufnr any #(integer) number of buffer
---- @param pos1 any #integer[] (line, column) tuple marking beginning of
----                  region
---- @param pos2 any #integer[] (line, column) tuple marking end of region
+--- @param pos1 any #integer[]|string start of region as a (line, column)
+---                  tuple or string accepted by |getpos()|
+--- @param pos2 any #integer[]|string end of region as a (line, column) tuple
+---                  or string accepted by |getpos()|
 --- @param regtype any #(string) type of selection, see |setreg()|
 --- @param inclusive any #(boolean) indicating whether column of pos2 is inclusive
 --- @return any #(table) region Table of the form `{linenr = {startcol,endcol}}`.
