@@ -223,6 +223,12 @@ function vim.is_callable(f) end
 --- @return any #Version ?|ni
 function vim.last(versions) end
 
+-- Checks if a list-like table (integer keys without gaps) contains `value`.
+--- @param t any #(table) Table to check (must be list-like, not validated)
+--- @param value any #any Value to compare
+--- @return any #(boolean) `true` if `t` contains `value`
+function vim.list_contains(t, value) end
+
 -- Extends a list-like table with the values of another list-like table.
 --- @param dst any #(table) List which will be modified and appended to
 --- @param src any #(table) List from which values will be inserted
@@ -479,11 +485,15 @@ function vim.startswith(s, prefix) end
 --- @return any #(table) o
 function vim.tbl_add_reverse_lookup(o) end
 
--- Checks if a list-like (vector) table contains `value`.
+-- Checks if a table contains a given value, specified either directly or via
+-- a predicate that is checked for each value.
 --- @param t any #(table) Table to check
---- @param value any #any Value to compare
+--- @param value any #any Value to compare or predicate function reference
+--- @param opts any #(table|nil) Keyword arguments |kwargs|:
+---              • predicate: (boolean) `value` is a function reference to be
+---                checked (default false)
 --- @return any #(boolean) `true` if `t` contains `value`
-function vim.tbl_contains(t, value) end
+function vim.tbl_contains(t, value, opts) end
 
 -- Counts the number of non-nil values in table `t`.
 --- @param t any #(table) Table
