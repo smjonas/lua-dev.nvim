@@ -540,14 +540,21 @@ function vim.tbl_flatten(t) end
 --- @return any #any Nested value indexed by key (if it exists), else nil
 function vim.tbl_get(o, ...) end
 
+-- Tests if a Lua table can be treated as an array (a table indexed by
+-- integers).
+--- @param t any #(table)
+--- @return any #(boolean) `true` if array-like table, else `false`.
+function vim.tbl_isarray(t) end
+
 -- Checks if a table is empty.
 --- @param t any #(table) Table to check
 --- @return any #(boolean) `true` if `t` is empty
 function vim.tbl_isempty(t) end
 
--- Tests if a Lua table can be treated as an array.
---- @param t any #(table) Table
---- @return any #(boolean) `true` if array-like table, else `false`
+-- Tests if a Lua table can be treated as a list (a table indexed by
+-- consecutive integers starting from 1).
+--- @param t any #(table)
+--- @return any #(boolean) `true` if list-like table, else `false`.
 function vim.tbl_islist(t) end
 
 -- Return a list of all keys used in a table. However, the order of the
