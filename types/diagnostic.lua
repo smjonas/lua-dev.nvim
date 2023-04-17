@@ -26,8 +26,11 @@
 ---                      always show the diagnostic source.
 ---                    • spacing: (number) Amount of empty spaces inserted at
 ---                      the beginning of the virtual text.
----                    • prefix: (string) Prepend diagnostic message with
----                      prefix.
+---                    • prefix: (string or function) prepend diagnostic
+---                      message with prefix. If a function, it must have the
+---                      signature (diagnostic) -> string, where {diagnostic}
+---                      is of type |diagnostic-structure|. This can be used
+---                      to render diagnostic symbols or error codes.
 ---                    • suffix: (string or function) Append diagnostic
 ---                      message with suffix. If a function, it must have the
 ---                      signature (diagnostic) -> string, where {diagnostic}
