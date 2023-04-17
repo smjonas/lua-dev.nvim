@@ -3,6 +3,116 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+--- @class vim.Iter
+vim.Iter = {}
+
+-- Return true if all of the items in the iterator match the given predicate.
+--- @param pred any #function(...):bool Predicate function. Takes all values
+---             returned from the previous stage in the pipeline as arguments
+---             and returns true if the predicate matches.
+function vim.Iter:all(pred) end
+
+-- Return true if any of the items in the iterator match the given predicate.
+--- @param pred any #function(...):bool Predicate function. Takes all values
+---             returned from the previous stage in the pipeline as arguments
+---             and returns true if the predicate matches.
+function vim.Iter:any(pred) end
+
+-- Call a function once for each item in the pipeline.
+--- @param f any #function(...) Function to execute for each item in the pipeline.
+---          Takes all of the values returned by the previous stage in the
+---          pipeline as arguments.
+function vim.Iter:each(f) end
+
+-- Add an iterator stage that returns the current iterator count as well as
+-- the iterator value.
+--- @return any #Iter
+function vim.Iter:enumerate() end
+
+-- Add a filter step to the iterator pipeline.
+--- @param f any #function(...):bool Takes all values returned from the previous
+---          stage in the pipeline and returns false or nil if the current
+---          iterator element should be removed.
+--- @return any #Iter
+function vim.Iter:filter(f) end
+
+-- Find the first value in the iterator that satisfies the given predicate.
+--- @return any #any
+function vim.Iter:find(f) end
+
+-- Fold an iterator or table into a single value.
+--- @param init any #any Initial value of the accumulator.
+--- @param f any #function(acc:any, ...):A Accumulation function.
+--- @return any #any
+function vim.Iter:fold(init, f) end
+
+-- Return the last item in the iterator.
+--- @return any #any
+function vim.Iter:last() end
+
+-- Add a map step to the iterator pipeline.
+--- @param f any #function(...):any Mapping function. Takes all values returned
+---          from the previous stage in the pipeline as arguments and returns
+---          one or more new values, which are used in the next pipeline
+---          stage. Nil return values returned are filtered from the output.
+--- @return any #Iter
+function vim.Iter:map(f) end
+
+-- Return the next value from the iterator.
+--- @return any #any
+function vim.Iter:next() end
+
+-- Return the next value from the end of the iterator.
+--- @return any #any
+function vim.Iter:nextback() end
+
+-- Return the nth value in the iterator.
+--- @param n any #(number) The index of the value to return.
+--- @return any #any
+function vim.Iter:nth(n) end
+
+-- Return the nth value from the end of the iterator.
+--- @param n any #(number) The index of the value to return.
+--- @return any #any
+function vim.Iter:nthback(n) end
+
+-- Peek at the next value in the iterator without consuming it.
+--- @return any #any
+function vim.Iter:peek() end
+
+-- Return the next value from the end of the iterator without consuming it.
+--- @return any #any
+function vim.Iter:peekback() end
+
+-- Reverse an iterator.
+--- @return any #Iter
+function vim.Iter:rev() end
+
+-- Find the first value in the iterator that satisfies the given predicate,
+-- starting from the end.
+--- @return any #any
+function vim.Iter:rfind(f) end
+
+-- Skip values in the iterator.
+--- @param n any #(number) Number of values to skip.
+--- @return any #Iter
+function vim.Iter:skip(n) end
+
+-- Skip values in the iterator starting from the end.
+--- @param n any #(number) Number of values to skip.
+--- @return any #Iter
+function vim.Iter:skipback(n) end
+
+-- Slice an iterator, changing its start and end positions.
+--- @param first any #(number)
+--- @param last any #(number)
+--- @return any #Iter
+function vim.Iter:slice(first, last) end
+
+-- Collect the iterator into a table.
+--- @return any #(table)
+function vim.Iter:totable() end
+
 -- Add new filetype mappings.
 --- @param filetypes any #(table) A table containing new filetype maps (see
 ---                  example).
@@ -126,6 +236,14 @@ function vim.endswith(s, suffix) end
 --- @return any #(boolean)
 function vim.eq(v1, v2) end
 
+-- Filter a table or iterator.
+--- @param f any #function(...):bool Filter function. Accepts the current
+---            iterator or table values as arguments and returns true if those
+---            values should be kept in the final table
+--- @param src any #table|function Table or iterator function to filter
+--- @return any #(table)
+function vim.filter(f, src, ...) end
+
 -- Finds lua modules for the given module name.
 --- @param modname any #(string) Module name, or `"*"` to find the top-level
 ---                modules instead
@@ -218,6 +336,11 @@ function vim.inspect_pos(bufnr, row, col, filter) end
 --- @return any #(boolean) `true` if `f` is callable, else `false`
 function vim.is_callable(f) end
 
+-- Create an Iter |lua-iter| object from a table or iterator.
+--- @param src any #table|function Table or iterator.
+--- @return any #Iter |lua-iter|
+function vim.iter(src, ...) end
+
 -- TODO: generalize this, move to func.lua
 --- @param versions any #Version []
 --- @return any #Version ?|ni
@@ -255,6 +378,14 @@ function vim.lt(v1, v2) end
 -- similar to the builtin completion for the `:lua` command.
 function vim.lua_omnifunc(find_start, _) end
 
+-- Map and filter a table or iterator.
+--- @param f any #function(...):?any Map function. Accepts the current iterator
+---            or table values as arguments and returns one or more new
+---            values. Nil values are removed from the final table.
+--- @param src any #table|function Table or iterator function to filter
+--- @return any #(table)
+function vim.map(f, src, ...) end
+
 -- Perform filetype detection.
 --- @param args any[] #(table) Table specifying which matching strategy to use.
 ---             Accepted keys are:
@@ -275,6 +406,13 @@ function vim.lua_omnifunc(find_start, _) end
 ---     example, to set some filetype specific buffer variables). The function
 ---     accepts a buffer number as its only argument.
 function vim.match(args) end
+
+-- Create a new Iter object from a table or iterator.
+--- @param src any #table|function Table or iterator to drain values from
+--- @return any #Iter
+function vim.new(src, ...) end
+
+function vim.next() end
 
 -- Normalize a path to a standard format. A tilde (~) character at the
 -- beginning of the path is expanded to the user's home directory and any
@@ -574,6 +712,11 @@ function vim.tbl_map(func, t) end
 --- @param t any #(table) Table
 --- @return any #(list) List of values
 function vim.tbl_values(t) end
+
+-- Collect an iterator into a table.
+--- @param f any #(function) Iterator function
+--- @return any #(table)
+function vim.totable(f, ...) end
 
 -- Trim whitespace (Lua pattern "%s") from both sides of a string.
 --- @param s any #(string) String to trim
