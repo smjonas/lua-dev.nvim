@@ -336,11 +336,6 @@ function vim.inspect_pos(bufnr, row, col, filter) end
 --- @return any #(boolean) `true` if `f` is callable, else `false`
 function vim.is_callable(f) end
 
--- Create an Iter |lua-iter| object from a table or iterator.
---- @param src any #table|function Table or iterator.
---- @return any #Iter |lua-iter|
-function vim.iter(src, ...) end
-
 -- Translate keycodes.
 --- @param str any #string String to be converted.
 --- @return any #string
@@ -411,13 +406,6 @@ function vim.map(f, src, ...) end
 ---     example, to set some filetype specific buffer variables). The function
 ---     accepts a buffer number as its only argument.
 function vim.match(args) end
-
--- Create a new Iter object from a table or iterator.
---- @param src any #table|function Table or iterator to drain values from
---- @return any #Iter
-function vim.new(src, ...) end
-
-function vim.next() end
 
 -- Normalize a path to a standard format. A tilde (~) character at the
 -- beginning of the path is expanded to the user's home directory and any
