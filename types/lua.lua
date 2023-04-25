@@ -341,6 +341,11 @@ function vim.is_callable(f) end
 --- @return any #Iter |lua-iter|
 function vim.iter(src, ...) end
 
+-- Translate keycodes.
+--- @param str any #string String to be converted.
+--- @return any #string
+function vim.keycode(str) end
+
 -- TODO: generalize this, move to func.lua
 --- @param versions any #Version []
 --- @return any #Version ?|ni
