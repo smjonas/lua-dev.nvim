@@ -181,6 +181,15 @@ function vim.treesitter.get_lang(filetype) end
 --- @return any #(table)
 function vim.treesitter.inspect(lang) end
 
+-- Lint treesitter queries using installed parser, or clear lint errors.
+--- @param buf any #(integer) Buffer handle
+--- @param opts any #(QueryLinterOpts|nil) Optional keyword arguments:
+---             • langs (string|string[]|nil) Language(s) to use for checking
+---               the query. If multiple languages are specified, queries are
+---               validated for all of them
+---             • clear (boolean) if `true`, just clear current lint errors
+function vim.treesitter.lint(buf, opts) end
+
 -- Lists the currently available directives to use in queries.
 --- @return any #string[] List of supported directives.
 function vim.treesitter.list_directives() end
