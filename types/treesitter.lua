@@ -63,18 +63,18 @@ function vim.treesitter.LanguageTree:named_node_for_range(range, opts) end
 function vim.treesitter.LanguageTree:parse() end
 
 -- Registers callbacks for the |LanguageTree|.
---- @param cbs any #(table) An |nvim_buf_attach()|-like table argument with the
----             following handlers:
----             • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
----             • `on_changedtree` : a callback that will be called every time
----               the tree has syntactical changes. It will only be passed one
----               argument, which is a table of the ranges (as node ranges)
----               that changed.
----             • `on_child_added` : emitted when a child is added to the
----               tree.
----             • `on_child_removed` : emitted when a child is removed from
----               the tree.
-function vim.treesitter.LanguageTree:register_cbs(cbs) end
+--- @param cbs any #(table) An |nvim_buf_attach()|-like table argument with
+---                   the following handlers:
+---                   • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
+---                   • `on_changedtree` : a callback that will be called
+---                     every time the tree has syntactical changes. It will
+---                     only be passed one argument, which is a table of the
+---                     ranges (as node ranges) that changed.
+---                   • `on_child_added` : emitted when a child is added to
+---                     the tree.
+---                   • `on_child_removed` : emitted when a child is removed
+---                     from the tree.
+function vim.treesitter.LanguageTree:register_cbs(cbs, recursive) end
 
 -- Returns the source content of the language tree (bufnr or string).
 function vim.treesitter.LanguageTree:source() end
