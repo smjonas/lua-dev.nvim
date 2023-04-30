@@ -198,6 +198,9 @@ function vim.treesitter.list_directives() end
 --- @return any #string[] List of supported predicates.
 function vim.treesitter.list_predicates() end
 
+-- Omnifunc for completing node names and predicates in treesitter queries.
+function vim.treesitter.omnifunc(findstart, base) end
+
 -- Parse {query} as a string. (If the query is in a file, the caller should
 -- read the contents into a string before calling).
 --- @param lang any #(string) Language to use for the query
