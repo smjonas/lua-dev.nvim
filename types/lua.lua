@@ -54,7 +54,7 @@ function vim.Iter:last() end
 --- @param f any #function(...):any Mapping function. Takes all values returned
 ---          from the previous stage in the pipeline as arguments and returns
 ---          one or more new values, which are used in the next pipeline
----          stage. Nil return values returned are filtered from the output.
+---          stage. Nil return values are filtered from the output.
 --- @return any #Iter
 function vim.Iter:map(f) end
 
