@@ -515,11 +515,11 @@ vim.bo.cinkeys = "0{,0},0),0],:,0#,!^F,o,O,e"
 -- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
 -- 	no lines are checked.  See |modeline|.
 vim.bo.modeline = "true"
--- string	(Vi default for Unix: "yes", otherwise: "auto")
+-- string	(default "")
 -- 			global or local to buffer |global-local|
--- 	When writing a file and a backup is made, this option tells how it's
--- 	done.  This is a comma separated list of words.
-vim.bo.backupcopy = "auto"
+-- 	List of file names, separated by commas, that are used to lookup words
+-- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
+vim.bo.thesaurus = ""
 -- boolean	(default off)
 -- 			local to buffer
 -- 	Copy the structure of the existing lines indent when autoindenting a
@@ -532,17 +532,7 @@ vim.bo.backupcopy = "auto"
 -- 	line, the remaining space is filled in the normal manner.
 -- 	See 'preserveindent'.
 vim.bo.copyindent = "false"
--- boolean	(default off)
--- 			local to buffer
--- 	When doing keyword completion in insert mode |ins-completion|, and
--- 	'ignorecase' is also on, the case of the match is adjusted depending
--- 	on the typed text.  If the typed text contains a lowercase letter
--- 	where the match has an upper case letter, the completed part is made
--- 	lowercase.  If the typed text has no lowercase letters and the match
--- 	has a lowercase letter where the typed text has an uppercase letter,
--- 	and there is a letter before it, the completed part is made uppercase.
--- 	With 'noinfercase' the match is used as-is.
-vim.bo.infercase = "false"
+vim.bo.thesaurusfunc = ""
 -- string	(default "make")
 -- 			global or local to buffer |global-local|
 -- 	Program to use for the ":make" command.  See |:make_makeprg|.
@@ -756,20 +746,20 @@ vim.bo.fileencoding = ""
 -- 	file names from the list.  This avoids problems when a future version
 -- 	uses another default.
 vim.bo.tags = "./tags;,tags"
--- boolean	(default on)
--- 			local to buffer
--- 	When writing a file and this option is off and the 'binary' option
--- 	is on, or 'fixeol' option is off, no <EOL> will be written for the
--- 	last line in the file.  This option is automatically set or reset when
--- 	starting to edit a new file, depending on whether file has an <EOL>
--- 	for the last line in the file.  Normally you don't have to set or
--- 	reset this option.
--- 	When 'binary' is off and 'fixeol' is on the value is not used when
--- 	writing the file.  When 'binary' is on or 'fixeol' is off it is used
--- 	to remember the presence of a <EOL> for the last line in the file, so
--- 	that when you write the file the situation from the original file can
--- 	be kept.  But you can change it if you want to.
-vim.bo.endofline = "true"
+-- string	(default "^\s*#\s*include")
+-- 			global or local to buffer |global-local|
+-- 	Pattern to be used to find an include command.  It is a search
+-- 	pattern, just like for the "/" command (See |pattern|).  The default
+-- 	value is for C programs.  This option is used for the commands "[i",
+-- 	"]I", "[d", etc.
+-- 	Normally the 'isfname' option is used to recognize the file name that
+-- 	comes after the matched pattern.  But if "\zs" appears in the pattern
+-- 	then the text matched from "\zs" to the end, or until "\ze" if it
+-- 	appears, is used as the file name.  Use this to include characters
+-- 	that are not in 'isfname', such as a space.  You can then use
+-- 	'includeexpr' to process the matched text.
+-- 	See |option-backslash| about including spaces and backslashes.
+vim.bo.include = "^\\s*#\\s*include"
 -- boolean	(default off)
 -- 			local to buffer
 -- 	This option should be set before editing a binary file.  You can also
@@ -853,11 +843,11 @@ vim.bo.modified = "false"
 -- 	See also 'formatoptions' and |ins-textwidth|.
 vim.bo.wrapmargin = "0"
 vim.bo.cinscopedecls = "public,protected,private"
--- string	(default "")
+-- string	(Vi default for Unix: "yes", otherwise: "auto")
 -- 			global or local to buffer |global-local|
--- 	List of file names, separated by commas, that are used to lookup words
--- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
-vim.bo.thesaurus = ""
+-- 	When writing a file and a backup is made, this option tells how it's
+-- 	done.  This is a comma separated list of words.
+vim.bo.backupcopy = "auto"
 -- number	(default 0)
 -- 			local to buffer
 -- 	Number of spaces that a <Tab> counts for while performing editing
@@ -993,17 +983,34 @@ vim.bo.path = ".,/usr/include,,"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.bo.spellfile = ""
--- string	(default "^\s*#\s*include")
--- 			global or local to buffer |global-local|
--- 	Pattern to be used to find an include command.  It is a search
--- 	pattern, just like for the "/" command (See |pattern|).  The default
--- 	value is for C programs.  This option is used for the commands "[i",
--- 	"]I", "[d", etc.
--- 	Normally the 'isfname' option is used to recognize the file name that
--- 	comes after the matched pattern.  But if "\zs" appears in the pattern
--- 	then the text matched from "\zs" to the end, or until "\ze" if it
--- 	appears, is used as the file name.  Use this to include characters
--- 	that are not in 'isfname', such as a space.  You can then use
--- 	'includeexpr' to process the matched text.
--- 	See |option-backslash| about including spaces and backslashes.
-vim.bo.include = "^\\s*#\\s*include"
+-- boolean	(default off)
+-- 			local to buffer
+-- 	When doing keyword completion in insert mode |ins-completion|, and
+-- 	'ignorecase' is also on, the case of the match is adjusted depending
+-- 	on the typed text.  If the typed text contains a lowercase letter
+-- 	where the match has an upper case letter, the completed part is made
+-- 	lowercase.  If the typed text has no lowercase letters and the match
+-- 	has a lowercase letter where the typed text has an uppercase letter,
+-- 	and there is a letter before it, the completed part is made uppercase.
+-- 	With 'noinfercase' the match is used as-is.
+vim.bo.infercase = "false"
+-- boolean	(default on)
+-- 			local to buffer
+-- 	When off the buffer contents cannot be changed.  The 'fileformat' and
+-- 	'fileencoding' options also can't be changed.
+-- 	Can be reset on startup with the |-M| command line argument.
+vim.bo.modifiable = "true"
+-- boolean	(default on)
+-- 			local to buffer
+-- 	When writing a file and this option is off and the 'binary' option
+-- 	is on, or 'fixeol' option is off, no <EOL> will be written for the
+-- 	last line in the file.  This option is automatically set or reset when
+-- 	starting to edit a new file, depending on whether file has an <EOL>
+-- 	for the last line in the file.  Normally you don't have to set or
+-- 	reset this option.
+-- 	When 'binary' is off and 'fixeol' is on the value is not used when
+-- 	writing the file.  When 'binary' is on or 'fixeol' is off it is used
+-- 	to remember the presence of a <EOL> for the last line in the file, so
+-- 	that when you write the file the situation from the original file can
+-- 	be kept.  But you can change it if you want to.
+vim.bo.endofline = "true"

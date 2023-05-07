@@ -3,93 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- string	(default "")
--- 			global
--- 	Expression which is evaluated to obtain a diff file (either ed-style
--- 	or unified-style) from two versions of a file.  See |diff-diffexpr|.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.diffexpr = ""
--- number	(default 50)
--- 			global
--- 	Maximum number of tab pages to be opened by the |-p| command line
--- 	argument or the ":tab all" command. |tabpage|
-vim.o.tabpagemax = "50"
--- boolean	(default on)
--- 			global or local to buffer |global-local|
--- 	When a file has been detected to have been changed outside of Vim and
--- 	it has not been changed inside of Vim, automatically read it again.
--- 	When the file has been deleted this is not done, so you have the text
--- 	from before it was deleted.  When it appears again then it is read.
--- 	|timestamp|
--- 	If this option has a local value, use this command to switch back to
--- 	using the global value: >
--- 		:set autoread<
--- <
--- 				 *'autowrite'* *'aw'* *'noautowrite'* *'noaw'*
-vim.o.autoread = "true"
--- number	(default 5)
--- 			global
--- 	If 'modeline' is on 'modelines' gives the number of lines that is
--- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
--- 	no lines are checked.  See |modeline|.
-vim.o.modelines = "5"
--- string	(default is very long)
--- 			global or local to buffer |global-local|
--- 	Comma separated list of words that influence the Lisp indenting.
--- 	|'lisp'|
-vim.o.lispwords = "defun,define,defmacro,set!,lambda,if,case,let,flet,let*,letrec,do,do*,define-syntax,let-syntax,letrec-syntax,destructuring-bind,defpackage,defparameter,defstruct,deftype,defvar,do-all-symbols,do-external-symbols,do-symbols,dolist,dotimes,ecase,etypecase,eval-when,labels,macrolet,multiple-value-bind,multiple-value-call,multiple-value-prog1,multiple-value-setq,prog1,progv,typecase,unless,unwind-protect,when,with-input-from-string,with-open-file,with-open-stream,with-output-to-string,with-package-iterator,define-condition,handler-bind,handler-case,restart-bind,restart-case,with-simple-restart,store-value,use-value,muffle-warning,abort,continue,with-slots,with-slots*,with-accessors,with-accessors*,defclass,defmethod,print-unreadable-object"
--- string	(default "~")
--- 			global
--- 	String which is appended to a file name to make the name of the
--- 	backup file.  The default is quite unusual, because this avoids
--- 	accidentally overwriting existing files with a backup file.  You might
--- 	prefer using ".bak", but make sure that you don't have files with
--- 	".bak" that you want to keep.
--- 	Only normal file name characters can be used, "/\*?[|<>" are illegal.
-vim.o.backupext = "~"
--- string	(default "")
--- 			global or local to window |global-local|
--- 	Characters to fill the statuslines and vertical separators.
--- 	It is a comma separated list of items:
-vim.o.fillchars = ""
--- string	(default "^\s*#\s*define")
--- 			global or local to buffer |global-local|
--- 	Pattern to be used to find a macro definition.  It is a search
--- 	pattern, just like for the "/" command.  This option is used for the
--- 	commands like "[i" and "[d" |include-search|.  The 'isident' option is
--- 	used to recognize the defined name after the match:
--- 		{match with 'define'}{non-ID chars}{defined name}{non-ID char}
--- 	See |option-backslash| about inserting backslashes to include a space
--- 	or backslash.
--- 	The default value is for C programs.  For C++ this value would be
--- 	useful, to include const type declarations: >
--- 		^\(#\s*define\|[a-z]*\s*const\s*[a-z]*\)
--- <	You can also use "\ze" just before the name and continue the pattern
--- 	to check what is following.  E.g. for Javascript, if a function is
--- 	defined with "func_name = function(args)": >
--- 		^\s*\ze\i\+\s*=\s*function(
--- <	If the function is defined with "func_name : function() {...": >
--- 	        ^\s*\ze\i\+\s*[:]\s*(*function\s*(
--- <	When using the ":set" command, you need to double the backslashes!
--- 	To avoid that use `:let` with a single quote string: >
--- 		let &l:define = '^\s*\ze\k\+\s*=\s*function('
--- <
-vim.o.define = "^\\s*#\\s*define"
--- number	(default: 200)
--- 			global
--- 	After typing this many characters the swap file will be written to
--- 	disk.  When zero, no swap file will be created at all (see chapter on
--- 	recovery |crash-recovery|).  'updatecount' is set to zero by starting
--- 	Vim with the "-n" option, see |startup|.  When editing in readonly
--- 	mode this option will be initialized to 10000.
--- 	The swapfile can be disabled per buffer with |'swapfile'|.
--- 	When 'updatecount' is set from zero to non-zero, swap files are
--- 	created for all buffers that have 'swapfile' set.  When 'updatecount'
--- 	is set to zero, existing swap files are not deleted.
--- 	This option has no meaning in buffers where |'buftype'| is "nofile"
--- 	or "nowrite".
-vim.o.updatecount = "200"
 -- number	(default 15)
 -- 			global
 -- 	Minimum width for the popup menu (|ins-completion-menu|).  If the
@@ -123,14 +36,11 @@ vim.o.errorbells = "false"
 -- 	large number, it will cause errors when opening more than a few
 -- 	windows.  A value of 0 to 3 is reasonable.
 vim.o.winminheight = "1"
--- string	(default "")
+-- boolean	(default off)
 -- 			global
--- 	A comma separated list of these words:
--- 	    block	Allow virtual editing in Visual block mode.
--- 	    insert	Allow virtual editing in Insert mode.
--- 	    all		Allow virtual editing in all modes.
--- 	    onemore	Allow the cursor to move just past the end of the line
-vim.o.virtualedit = ""
+-- 	Enable the entering of digraphs in Insert mode with {char1} <BS>
+-- 	{char2}.  See |digraphs|.
+vim.o.digraph = "false"
 -- boolean (default off)
 -- 			global
 -- 	When 'confirm' is on, certain operations that would normally
@@ -255,11 +165,11 @@ vim.o.viminfo = ""
 -- 	Strings to use in 'list' mode and for the |:list| command.  It is a
 -- 	comma separated list of string settings.
 vim.o.listchars = "tab:> ,trail:-,nbsp:+"
--- string	(default "")
+-- string	(Vi default for Unix: "yes", otherwise: "auto")
 -- 			global or local to buffer |global-local|
--- 	List of file names, separated by commas, that are used to lookup words
--- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
-vim.o.thesaurus = ""
+-- 	When writing a file and a backup is made, this option tells how it's
+-- 	done.  This is a comma separated list of words.
+vim.o.backupcopy = "auto"
 -- boolean	(default off)
 -- 			global
 -- 	Makes Vim work in a way that Insert mode is the default mode.  Useful
@@ -432,8 +342,11 @@ vim.o.casemap = "internal,keepascii"
 -- 	In case of buffer changing commands the cursor is placed at the column
 -- 	where it was the last time the buffer was edited.
 vim.o.startofline = "false"
--- Removed. |vim-differences|
-vim.o.ttyfast = "true"
+-- string	(default "")
+-- 			global
+-- 	When this option is not empty, it will be used for the title of the
+-- 	window.  This happens only when the 'title' option is on.
+vim.o.titlestring = ""
 -- boolean	(default off)
 -- 			global
 -- 	This option is obsolete; |bracketed-paste-mode| is built-in.
@@ -487,10 +400,7 @@ vim.o.runtimepath = "/home/runner/.config/nvim,/etc/xdg/nvim,/home/runner/.local
 -- <	|Nvi| also has this option, but it only uses the first character.
 -- 	See |cmdwin|.
 vim.o.cedit = "\6"
--- boolean	(default off)
--- 			global
--- 	When on: The tilde command "~" behaves like an operator.
-vim.o.tildeop = "false"
+vim.o.termpastefilter = "BS,HT,ESC,DEL"
 -- string	(default for Windows:
 -- 			     "@,48-57,/,\,.,-,_,+,,,#,$,%,{,},[,],:,@-@,!,~,="
 -- 			    otherwise: "@,48-57,/,.,-,_,+,,,#,$,%,~,=")
@@ -671,10 +581,11 @@ vim.o.titlelen = "85"
 -- 			global
 -- 	Number of screen lines to use for the command-line window. |cmdwin|
 vim.o.cmdwinheight = "7"
--- boolean	(default off)
--- 			global
--- 	Allows writing to any file with no need for "!" override.
-vim.o.writeany = "false"
+-- string	(default "")
+-- 			global or local to buffer |global-local|
+-- 	List of file names, separated by commas, that are used to lookup words
+-- 	for thesaurus completion commands |i_CTRL-X_CTRL-T|.
+vim.o.thesaurus = ""
 -- string	(default ".,$XDG_DATA_HOME/nvim/backup")
 -- 			global
 -- 	List of directories for the backup file, separated with commas.
@@ -899,11 +810,7 @@ vim.o.foldopen = "block,hor,mark,percent,quickfix,search,tag,undo"
 -- 	  file only, the option is not changed.
 -- 	When 'binary' is set, the value of 'fileformats' is not used.
 vim.o.fileformats = "unix,dos"
--- boolean	(default off)
--- 			global
--- 	Enable the entering of digraphs in Insert mode with {char1} <BS>
--- 	{char2}.  See |digraphs|.
-vim.o.digraph = "false"
+vim.o.mousescroll = "ver:3,hor:6"
 -- string	(default: messages language or empty)
 -- 			global
 -- 	Comma separated list of languages.  Vim will use the first language
@@ -1036,3 +943,90 @@ vim.o.charconvert = ""
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.shellpipe = "2>&1| tee"
+-- string	(default "$XDG_DATA_HOME/nvim/undo")
+-- 			global
+-- 	List of directory names for undo files, separated with commas.
+-- 	See |'backupdir'| for details of the format.
+-- 	"." means using the directory of the file.  The undo file name for
+-- 	"file.txt" is ".file.txt.un~".
+-- 	For other directories the file name is the full path of the edited
+-- 	file, with path separators replaced with "%".
+-- 	When writing: The first directory that exists is used.  "." always
+-- 	works, no directories after "." will be used for writing.  If none of
+-- 	the directories exist Neovim will attempt to create last directory in
+-- 	the list.
+-- 	When reading all entries are tried to find an undo file.  The first
+-- 	undo file that exists is used.  When it cannot be read an error is
+-- 	given, no further entry is used.
+-- 	See |undo-persistence|.
+-- 	This option cannot be set from a |modeline| or in the |sandbox|, for
+-- 	security reasons.
+vim.o.undodir = "/home/runner/.local/state/nvim/undo//"
+-- boolean	(Vim default on, Vi default off)
+-- 			global
+-- 	When on, use temp files for shell commands.  When off use a pipe.
+-- 	When using a pipe is not possible temp files are used anyway.
+-- 	The advantage of using a pipe is that nobody can read the temp file
+-- 	and the 'shell' command does not need to support redirection.
+-- 	The advantage of using a temp file is that the file type and encoding
+-- 	can be detected.
+-- 	The |FilterReadPre|, |FilterReadPost| and |FilterWritePre|,
+-- 	|FilterWritePost| autocommands event are not triggered when
+-- 	'shelltemp' is off.
+-- 	|system()| does not respect this option, it always uses pipes.
+vim.o.shelltemp = "true"
+-- string	(default "indent,eol,start")
+-- 			global
+-- 	Influences the working of <BS>, <Del>, CTRL-W and CTRL-U in Insert
+-- 	mode.  This is a list of items, separated by commas.  Each item allows
+-- 	a way to backspace over something:
+-- 	value	effect	~
+-- 	indent	allow backspacing over autoindent
+-- 	eol	allow backspacing over line breaks (join lines)
+-- 	start	allow backspacing over the start of insert; CTRL-W and CTRL-U
+-- 		stop once at the start of insert.
+vim.o.backspace = "indent,eol,start"
+-- string	(default "best")
+-- 			global
+-- 	Methods used for spelling suggestions.  Both for the |z=| command and
+-- 	the |spellsuggest()| function.  This is a comma-separated list of
+-- 	items:
+vim.o.spellsuggest = "best"
+-- number (default 0)
+-- 			global or local to window |global-local|
+-- 	The minimal number of screen columns to keep to the left and to the
+-- 	right of the cursor if 'nowrap' is set.  Setting this option to a
+-- 	value greater than 0 while having |'sidescroll'| also at a non-zero
+-- 	value makes some context visible in the line you are scrolling in
+-- 	horizontally (except at beginning of the line).  Setting this option
+-- 	to a large value (like 999) has the effect of keeping the cursor
+-- 	horizontally centered in the window, as long as one does not come too
+-- 	close to the beginning of the line.
+-- 	After using the local value, go back the global value with one of
+-- 	these two: >
+-- 		setlocal sidescrolloff<
+-- 		setlocal sidescrolloff=-1
+-- <
+-- 	Example: Try this together with 'sidescroll' and 'listchars' as
+-- 		 in the following example to never allow the cursor to move
+-- 		 onto the "extends" character: >
+vim.o.sidescrolloff = "0"
+-- boolean	(default off)
+-- 			global
+-- 	Round indent to multiple of 'shiftwidth'.  Applies to > and <
+-- 	commands.  CTRL-T and CTRL-D in Insert mode always round the indent to
+-- 	a multiple of 'shiftwidth' (this is Vi compatible).
+vim.o.shiftround = "false"
+-- string	(default: "menu,preview")
+-- 			global
+-- 	A comma separated list of options for Insert mode completion
+-- 	|ins-completion|.  The supported values are:
+vim.o.completeopt = "menu,preview"
+-- number	(default 1)
+-- 			global
+-- 	The minimal number of columns to scroll horizontally.  Used only when
+-- 	the 'wrap' option is off and the cursor is moved off of the screen.
+-- 	When it is zero the cursor will be put in the middle of the screen.
+-- 	When using a slow terminal set it to a large number or 0.  Not used
+-- 	for "zh" and "zl" commands.
+vim.o.sidescroll = "1"

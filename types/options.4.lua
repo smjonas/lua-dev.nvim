@@ -3,6 +3,24 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- boolean	(default off)
+-- 			local to window
+-- 	Join the current window in the group of windows that shows differences
+-- 	between files.  See |diff-mode|.
+vim.wo.diff = "false"
+-- string	(default empty)
+-- 			global or local to window |global-local|
+-- 	When nonempty, this option determines the content of the status line.
+-- 	Also see |status-line|.
+vim.wo.statusline = ""
+-- boolean	(default off)
+-- 			local to window
+-- 	Highlight the screen line of the cursor with CursorLine
+-- 	|hl-CursorLine|.  Useful to easily spot the cursor.  Will make screen
+-- 	redrawing slower.
+-- 	When Visual mode is active the highlighting isn't used to make it
+-- 	easier to see the selected text.
+vim.wo.cursorline = "false"
 -- string (default: "{{{,}}}")
 -- 			local to window
 -- 	The start and end marker used when 'foldmethod' is "marker".  There
@@ -182,6 +200,12 @@ vim.wo.previewwindow = "false"
 -- 	file.  This means that ":split | edit file" results in two windows
 -- 	with scroll-binding, but ":split file" does not.
 vim.wo.scrollbind = "false"
+-- boolean	(default off)
+-- 			local to window
+-- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
+-- 	line.  Useful to see the difference between tabs and spaces and for
+-- 	trailing blanks.  Further changed by the 'listchars' option.
+vim.wo.list = "false"
 -- number	(default: half the window height)
 -- 			local to window
 -- 	Number of lines to scroll with CTRL-U and CTRL-D commands.  Will be
@@ -195,12 +219,11 @@ vim.wo.scroll = "0"
 -- 	Determine how text with the "conceal" syntax attribute |:syn-conceal|
 -- 	is shown:
 vim.wo.conceallevel = "0"
--- boolean	(default off)
--- 			local to window
--- 	List mode: Show tabs as CTRL-I is displayed, display $ after end of
--- 	line.  Useful to see the difference between tabs and spaces and for
--- 	trailing blanks.  Further changed by the 'listchars' option.
-vim.wo.list = "false"
+-- string	(default "")
+-- 			global or local to window |global-local|
+-- 	Characters to fill the statuslines and vertical separators.
+-- 	It is a comma separated list of items:
+vim.wo.fillchars = ""
 -- number (default: 1)
 -- 			local to window
 -- 	Sets the number of screen lines above which a fold can be displayed
@@ -211,11 +234,6 @@ vim.wo.list = "false"
 -- 	"zc" to close a fold, which is displayed open because it's smaller
 -- 	than 'foldminlines', a following "zc" may close a containing fold.
 vim.wo.foldminlines = "1"
--- string	(default "")
--- 			global or local to window |global-local|
--- 	Characters to fill the statuslines and vertical separators.
--- 	It is a comma separated list of items:
-vim.wo.fillchars = ""
 -- string (default empty)
 -- 			local to window
 -- 	Settings for 'breakindent'. It can consist of the following optional
@@ -270,6 +288,12 @@ vim.wo.winfixheight = "false"
 -- 	"number"	Highlight the line number of the cursor with
 -- 			CursorLineNr |hl-CursorLineNr|.
 vim.wo.cursorlineopt = "both"
+-- number (default: 20)
+-- 			local to window
+-- 	Sets the maximum nesting of folds for the "indent" and "syntax"
+-- 	methods.  This avoids that too many folds will be created.  Using more
+-- 	than 20 doesn't work, because the internal limit is 20.
+vim.wo.foldnestmax = "20"
 -- boolean	(default off)
 -- 			local to window
 -- 	When on, display orientation becomes right-to-left, i.e., characters
@@ -343,12 +367,7 @@ vim.wo.signcolumn = "auto"
 -- 		setlocal scrolloff=-1
 -- <	For scrolling horizontally see 'sidescrolloff'.
 vim.wo.scrolloff = "0"
--- number (default: 20)
--- 			local to window
--- 	Sets the maximum nesting of folds for the "indent" and "syntax"
--- 	methods.  This avoids that too many folds will be created.  Using more
--- 	than 20 doesn't work, because the internal limit is 20.
-vim.wo.foldnestmax = "20"
+vim.wo.smoothscroll = "false"
 -- boolean (default on)
 -- 			local to window
 -- 	When off, all folds are open.  This option can be used to quickly

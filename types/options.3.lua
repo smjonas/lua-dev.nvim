@@ -3,93 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- string	(default "$XDG_DATA_HOME/nvim/undo")
--- 			global
--- 	List of directory names for undo files, separated with commas.
--- 	See |'backupdir'| for details of the format.
--- 	"." means using the directory of the file.  The undo file name for
--- 	"file.txt" is ".file.txt.un~".
--- 	For other directories the file name is the full path of the edited
--- 	file, with path separators replaced with "%".
--- 	When writing: The first directory that exists is used.  "." always
--- 	works, no directories after "." will be used for writing.  If none of
--- 	the directories exist Neovim will attempt to create last directory in
--- 	the list.
--- 	When reading all entries are tried to find an undo file.  The first
--- 	undo file that exists is used.  When it cannot be read an error is
--- 	given, no further entry is used.
--- 	See |undo-persistence|.
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.undodir = "/home/runner/.local/state/nvim/undo//"
--- boolean	(Vim default on, Vi default off)
--- 			global
--- 	When on, use temp files for shell commands.  When off use a pipe.
--- 	When using a pipe is not possible temp files are used anyway.
--- 	The advantage of using a pipe is that nobody can read the temp file
--- 	and the 'shell' command does not need to support redirection.
--- 	The advantage of using a temp file is that the file type and encoding
--- 	can be detected.
--- 	The |FilterReadPre|, |FilterReadPost| and |FilterWritePre|,
--- 	|FilterWritePost| autocommands event are not triggered when
--- 	'shelltemp' is off.
--- 	|system()| does not respect this option, it always uses pipes.
-vim.o.shelltemp = "true"
--- string	(default "indent,eol,start")
--- 			global
--- 	Influences the working of <BS>, <Del>, CTRL-W and CTRL-U in Insert
--- 	mode.  This is a list of items, separated by commas.  Each item allows
--- 	a way to backspace over something:
--- 	value	effect	~
--- 	indent	allow backspacing over autoindent
--- 	eol	allow backspacing over line breaks (join lines)
--- 	start	allow backspacing over the start of insert; CTRL-W and CTRL-U
--- 		stop once at the start of insert.
-vim.o.backspace = "indent,eol,start"
--- string	(default "best")
--- 			global
--- 	Methods used for spelling suggestions.  Both for the |z=| command and
--- 	the |spellsuggest()| function.  This is a comma-separated list of
--- 	items:
-vim.o.spellsuggest = "best"
--- string	(default: "menu,preview")
--- 			global
--- 	A comma separated list of options for Insert mode completion
--- 	|ins-completion|.  The supported values are:
-vim.o.completeopt = "menu,preview"
--- boolean	(default off)
--- 			global
--- 	Round indent to multiple of 'shiftwidth'.  Applies to > and <
--- 	commands.  CTRL-T and CTRL-D in Insert mode always round the indent to
--- 	a multiple of 'shiftwidth' (this is Vi compatible).
-vim.o.shiftround = "false"
--- number (default 0)
--- 			global or local to window |global-local|
--- 	The minimal number of screen columns to keep to the left and to the
--- 	right of the cursor if 'nowrap' is set.  Setting this option to a
--- 	value greater than 0 while having |'sidescroll'| also at a non-zero
--- 	value makes some context visible in the line you are scrolling in
--- 	horizontally (except at beginning of the line).  Setting this option
--- 	to a large value (like 999) has the effect of keeping the cursor
--- 	horizontally centered in the window, as long as one does not come too
--- 	close to the beginning of the line.
--- 	After using the local value, go back the global value with one of
--- 	these two: >
--- 		setlocal sidescrolloff<
--- 		setlocal sidescrolloff=-1
--- <
--- 	Example: Try this together with 'sidescroll' and 'listchars' as
--- 		 in the following example to never allow the cursor to move
--- 		 onto the "extends" character: >
-vim.o.sidescrolloff = "0"
--- number	(default 1)
--- 			global
--- 	The minimal number of columns to scroll horizontally.  Used only when
--- 	the 'wrap' option is off and the cursor is moved off of the screen.
--- 	When it is zero the cursor will be put in the middle of the screen.
--- 	When using a slow terminal set it to a large number or 0.  Not used
--- 	for "zh" and "zl" commands.
-vim.o.sidescroll = "1"
 -- string	(default "")
 -- 			global
 -- 	This option is a list of comma separated names.
@@ -399,16 +312,10 @@ vim.o.termguicolors = "false"
 -- 	for a search that hits the start or end of the file not being
 -- 	displayed).  When reset: Remove 's' flag from 'shortmess' option.
 vim.o.terse = "false"
--- string	(default "")
+-- boolean	(default off)
 -- 			global
--- 	When this option is not empty, it will be used for the icon text of
--- 	the window.  This happens only when the 'icon' option is on.
--- 	Only works if the terminal supports setting window icon text
--- 	When this option contains printf-style '%' items, they will be
--- 	expanded according to the rules used for 'statusline'.  See
--- 	'titlestring' for example settings.
--- 	This option cannot be set in a modeline when 'modelineexpr' is off.
-vim.o.iconstring = ""
+-- 	Allows writing to any file with no need for "!" override.
+vim.o.writeany = "false"
 -- boolean (default off)
 -- 			global
 -- 	The terminal is in charge of Bi-directionality of text (as specified
@@ -456,17 +363,16 @@ vim.o.cdhome = "false"
 -- 	pressed and 'timeout' is set, Nvim will wait 'timeoutlen' milliseconds
 -- 	for any key that can follow <c-f> in a mapping.
 vim.o.timeout = "true"
--- string	(default "")
--- 			global
--- 	When this option is not empty, it will be used for the title of the
--- 	window.  This happens only when the 'title' option is on.
-vim.o.titlestring = ""
 -- number	(default 4000)
 -- 			global
 -- 	If this many milliseconds nothing is typed the swap file will be
 -- 	written to disk (see |crash-recovery|).  Also used for the
 -- 	|CursorHold| autocommand event.
 vim.o.updatetime = "4000"
+-- boolean	(default off)
+-- 			global
+-- 	When on: The tilde command "~" behaves like an operator.
+vim.o.tildeop = "false"
 -- boolean	(default on, off when a |vimrc| or |gvimrc|
 -- 					file is found, reset in |defaults.vim|)
 -- 			global
@@ -496,7 +402,8 @@ vim.o.autochdir = "false"
 -- 	>= 14	Anything pending in a ":finally" clause.
 -- 	>= 15	Every executed Ex command (truncated at 200 characters).
 vim.o.verbose = "0"
-vim.o.termpastefilter = "BS,HT,ESC,DEL"
+-- Removed. |vim-differences|
+vim.o.ttyfast = "true"
 -- boolean	(default on for systems where case in file
 -- 				 names is normally ignored)
 -- 			global
@@ -577,23 +484,18 @@ vim.o.autowriteall = "false"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.viewdir = "/home/runner/.local/state/nvim/view//"
--- string	(default: "folds,options,cursor,curdir")
+-- string	(default: "$TMPDIR/*,$TMP/*,$TEMP/*"
+-- 				 Unix: "/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*"
+-- 				 Mac: "/private/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*")
 -- 			global
--- 	Changes the effect of the |:mkview| command.  It is a comma separated
--- 	list of words.  Each word enables saving and restoring something:
--- 	   word		save and restore ~
--- 	   cursor	cursor position in file and in window
--- 	   curdir	local current directory, if set with |:lcd|
--- 	   folds	manually created folds, opened/closed folds and local
--- 			fold options
--- 	   options	options and mappings local to a window or buffer (not
--- 			global values for local options)
--- 	   localoptions same as "options"
--- 	   slash	backslashes in file names replaced with forward
--- 			slashes
--- 	   unix		with Unix end-of-line format (single <NL>), even when
--- 			on Windows or DOS
-vim.o.viewoptions = "folds,cursor,curdir"
+-- 	A list of file patterns.  When one of the patterns matches with the
+-- 	name of the file which is written, no backup file is created.  Both
+-- 	the specified file name and the full path name of the file are used.
+-- 	The pattern is used like with |:autocmd|, see |autocmd-pattern|.
+-- 	Watch out for special characters, see |option-backslash|.
+-- 	When $TMPDIR, $TMP or $TEMP is not defined, it is not used for the
+-- 	default value.  "/tmp/*" is only used for Unix.
+vim.o.backupskip = "/tmp/*"
 -- boolean	(default off)
 -- 			global
 -- 			{only for Windows}
@@ -614,18 +516,23 @@ vim.o.opendevice = "false"
 -- 				d	#define
 -- 				f	function
 vim.o.wildoptions = "pum,tagfile"
--- string	(default: "$TMPDIR/*,$TMP/*,$TEMP/*"
--- 				 Unix: "/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*"
--- 				 Mac: "/private/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*")
+-- string	(default: "folds,options,cursor,curdir")
 -- 			global
--- 	A list of file patterns.  When one of the patterns matches with the
--- 	name of the file which is written, no backup file is created.  Both
--- 	the specified file name and the full path name of the file are used.
--- 	The pattern is used like with |:autocmd|, see |autocmd-pattern|.
--- 	Watch out for special characters, see |option-backslash|.
--- 	When $TMPDIR, $TMP or $TEMP is not defined, it is not used for the
--- 	default value.  "/tmp/*" is only used for Unix.
-vim.o.backupskip = "/tmp/*"
+-- 	Changes the effect of the |:mkview| command.  It is a comma separated
+-- 	list of words.  Each word enables saving and restoring something:
+-- 	   word		save and restore ~
+-- 	   cursor	cursor position in file and in window
+-- 	   curdir	local current directory, if set with |:lcd|
+-- 	   folds	manually created folds, opened/closed folds and local
+-- 			fold options
+-- 	   options	options and mappings local to a window or buffer (not
+-- 			global values for local options)
+-- 	   localoptions same as "options"
+-- 	   slash	backslashes in file names replaced with forward
+-- 			slashes
+-- 	   unix		with Unix end-of-line format (single <NL>), even when
+-- 			on Windows or DOS
+vim.o.viewoptions = "folds,cursor,curdir"
 -- string	(default "extend")
 -- 			global
 -- 	Sets the model to use for the mouse.  The name mostly specifies what
@@ -653,29 +560,9 @@ vim.o.backupskip = "/tmp/*"
 vim.o.mousemodel = "popup_setpos"
 -- boolean	(default on)
 -- 			global
--- 	Show the line and column number of the cursor position, separated by a
--- 	comma.  When there is room, the relative position of the displayed
--- 	text in the file is shown on the far right:
--- 		Top	first line is visible
--- 		Bot	last line is visible
--- 		All	first and last line are visible
--- 		45%	relative position in the file
--- 	If 'rulerformat' is set, it will determine the contents of the ruler.
--- 	Each window has its own ruler.  If a window has a status line, the
--- 	ruler is shown there.  Otherwise it is shown in the last line of the
--- 	screen.  If the statusline is given by 'statusline' (i.e. not empty),
--- 	this option takes precedence over 'ruler' and 'rulerformat'
--- 	If the number of characters displayed is different from the number of
--- 	bytes in the text (e.g., for a TAB or a multi-byte character), both
--- 	the text column (byte number) and the screen column are shown,
--- 	separated with a dash.
--- 	For an empty line "0-1" is shown.
--- 	For an empty buffer the line number will also be zero: "0,0-1".
--- 	This option is reset when 'paste' is set and restored when 'paste' is
--- 	reset.
--- 	If you don't want to see the ruler all the time but want to know where
--- 	you are, use "g CTRL-G" |g_CTRL-G|.
-vim.o.ruler = "true"
+-- 	Give a warning message when a shell command is used while the buffer
+-- 	has been changed.
+vim.o.warn = "true"
 -- string	(default "")
 -- 			global
 -- 	When non-empty, specifies the key sequence that toggles the 'paste'
@@ -778,11 +665,14 @@ vim.o.langremap = "false"
 -- 		set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 -- 		set shellredir=\|\ Out-File\ -Encoding\ UTF8
 vim.o.shell = "sh"
--- string	(Vi default for Unix: "yes", otherwise: "auto")
--- 			global or local to buffer |global-local|
--- 	When writing a file and a backup is made, this option tells how it's
--- 	done.  This is a comma separated list of words.
-vim.o.backupcopy = "auto"
+-- string	(default "")
+-- 			global
+-- 	A comma separated list of these words:
+-- 	    block	Allow virtual editing in Visual block mode.
+-- 	    insert	Allow virtual editing in Insert mode.
+-- 	    all		Allow virtual editing in all modes.
+-- 	    onemore	Allow the cursor to move just past the end of the line
+vim.o.virtualedit = ""
 -- string	(default "")
 -- 			global
 -- 	This option controls the behavior when switching between buffers.
@@ -807,7 +697,20 @@ vim.o.backupcopy = "auto"
 -- 	   uselast	If included, jump to the previously used window when
 -- 			jumping to errors with |quickfix| commands.
 vim.o.switchbuf = "uselast"
-vim.o.mousescroll = "ver:3,hor:6"
+-- string	(default "")
+-- 			global
+-- 	A list of file patterns.  A file that matches with one of these
+-- 	patterns is ignored when expanding |wildcards|, completing file or
+-- 	directory names, and influences the result of |expand()|, |glob()| and
+-- 	|globpath()| unless a flag is passed to disable this.
+-- 	The pattern is used like with |:autocmd|, see |autocmd-pattern|.
+-- 	Also see 'suffixes'.
+-- 	Example: >
+-- 		:set wildignore=*.o,*.obj
+-- <	The use of |:set+=| and |:set-=| is preferred when adding or removing
+-- 	a pattern from the list.  This avoids problems when a future version
+-- 	uses another default.
+vim.o.wildignore = ""
 -- boolean	(default off)
 -- 			global
 -- 	Inserting characters in Insert mode will work backwards.  See "typing
@@ -858,14 +761,53 @@ vim.o.aleph = "224"
 -- 	Slow on some systems: writing buffers, quitting Nvim, and other
 -- 	operations may sometimes take a few seconds.
 vim.o.fsync = "false"
--- string	(default "egmrLT"   (MS-Windows))
+-- string	(default "$XDG_DATA_HOME/nvim/swap//")
 -- 			global
--- 	This option only has an effect in the GUI version of Vim.  It is a
--- 	sequence of letters which describes what components and options of the
--- 	GUI should be used.
--- 	To avoid problems with flags that are added in the future, use the
--- 	"+=" and "-=" feature of ":set" |add-option-flags|.
-vim.o.guioptions = ""
+-- 	List of directory names for the swap file, separated with commas.
+-- 	- The swap file will be created in the first directory where this is
+-- 	  possible.  If it is not possible in any directory, but last
+-- 	  directory listed in the option does not exist, it is created.
+-- 	- Empty means that no swap file will be used (recovery is
+-- 	  impossible!) and no |E303| error will be given.
+-- 	- A directory "." means to put the swap file in the same directory as
+-- 	  the edited file.  On Unix, a dot is prepended to the file name, so
+-- 	  it doesn't show in a directory listing.  On MS-Windows the "hidden"
+-- 	  attribute is set and a dot prepended if possible.
+-- 	- A directory starting with "./" (or ".\" for Windows) means to
+-- 	  put the swap file relative to where the edited file is.  The leading
+-- 	  "." is replaced with the path name of the edited file.
+-- 	- For Unix and Win32, if a directory ends in two path separators "//",
+-- 	  the swap file name will be built from the complete path to the file
+-- 	  with all path separators substituted to percent '%' signs. This will
+-- 	  ensure file name uniqueness in the preserve directory.
+-- 	  On Win32, it is also possible to end with "\\".  However, When a
+-- 	  separating comma is following, you must use "//", since "\\" will
+-- 	  include the comma in the file name. Therefore it is recommended to
+-- 	  use '//', instead of '\\'.
+-- 	- Spaces after the comma are ignored, other spaces are considered part
+-- 	  of the directory name.  To have a space at the start of a directory
+-- 	  name, precede it with a backslash.
+-- 	- To include a comma in a directory name precede it with a backslash.
+-- 	- A directory name may end in an ':' or '/'.
+-- 	- Environment variables are expanded |:set_env|.
+-- 	- Careful with '\' characters, type one before a space, type two to
+-- 	  get one in the option (see |option-backslash|), for example: >
+-- 	    :set dir=c:\\tmp,\ dir\\,with\\,commas,\\\ dir\ with\ spaces
+-- <	- For backwards compatibility with Vim version 3.0 a '>' at the start
+-- 	  of the option is removed.
+-- 	Using "." first in the list is recommended.  This means that editing
+-- 	the same file twice will result in a warning.  Using "/tmp" on Unix is
+-- 	discouraged: When the system crashes you lose the swap file.
+-- 	"/var/tmp" is often not cleared when rebooting, thus is a better
+-- 	choice than "/tmp".  But it can contain a lot of files, your swap
+-- 	files get lost in the crowd.  That is why a "tmp" directory in your
+-- 	home directory is tried first.
+-- 	The use of |:set+=| and |:set-=| is preferred when adding or removing
+-- 	directories from the list.  This avoids problems when a future version
+-- 	uses another default.
+-- 	This option cannot be set from a |modeline| or in the |sandbox|, for
+-- 	security reasons.
+vim.o.directory = "/home/runner/.local/state/nvim/swap//"
 -- boolean	(default off)
 -- 			global
 -- 			{only for Windows}
@@ -885,12 +827,6 @@ vim.o.shellslash = "false"
 -- string	(default "")
 -- 			global
 vim.o.mouse = "nvi"
--- number	(default 0)
--- 			global
--- 	The number of milliseconds to wait for each character sent to the
--- 	screen.  When positive, characters are sent to the UI one by one.
--- 	See 'redrawdebug' for more options.  For debugging purposes.
-vim.o.writedelay = "0"
 -- string	(default "")
 -- 			global
 -- 	This is a list of fonts which will be used for the GUI version of Vim.
@@ -899,6 +835,23 @@ vim.o.writedelay = "0"
 -- 	font names a list can be specified, font names separated with commas.
 -- 	The first valid font is used.
 vim.o.guifont = ""
+-- string	(default "lastline,msgsep", Vi default: "")
+-- 			global
+-- 	Change the way text is displayed.  This is comma separated list of
+-- 	flags:
+-- 	lastline	When included, as much as possible of the last line
+-- 			in a window will be displayed.  "@@@" is put in the
+-- 			last columns of the last screen line to indicate the
+-- 			rest of the line is not displayed.
+-- 	truncate	Like "lastline", but "@@@" is displayed in the first
+-- 			column of the last screen line.  Overrules "lastline".
+-- 	uhex		Show unprintable characters hexadecimal as <xx>
+-- 			instead of using ^C and ~C.
+-- 	msgsep		When showing messages longer than 'cmdheight', only
+-- 			scroll the message lines, not the entire screen. The
+-- 			separator line is decorated by |hl-MsgSeparator| and
+-- 			the "msgsep" flag of 'fillchars'.
+vim.o.display = "lastline"
 -- string	(default "")
 -- 			global or local to buffer |global-local|
 -- 	List of file names, separated by commas, that are used to lookup words
@@ -931,22 +884,80 @@ vim.o.viminfofile = ""
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.helpfile = "/usr/share/nvim/runtime/doc/help.txt"
--- string	(default empty)
--- 			global or local to window |global-local|
--- 	When nonempty, this option determines the content of the status line.
--- 	Also see |status-line|.
-vim.o.statusline = ""
+-- string	(default "ver,jump")
+-- 			global
+-- 	This is a comma-separated list of words that specifies how
+-- 	'scrollbind' windows should behave.  'sbo' stands for ScrollBind
+-- 	Options.
+-- 	The following words are available:
+-- 	    ver		Bind vertical scrolling for 'scrollbind' windows
+-- 	    hor		Bind horizontal scrolling for 'scrollbind' windows
+-- 	    jump	Applies to the offset between two windows for vertical
+-- 			scrolling.  This offset is the difference in the first
+-- 			displayed line of the bound windows.  When moving
+-- 			around in a window, another 'scrollbind' window may
+-- 			reach a position before the start or after the end of
+-- 			the buffer.  The offset is not changed though, when
+-- 			moving back the 'scrollbind' window will try to scroll
+-- 			to the desired position when possible.
+-- 			When now making that window the current one, two
+-- 			things can be done with the relative offset:
+-- 			1. When "jump" is not included, the relative offset is
+-- 			   adjusted for the scroll position in the new current
+-- 			   window.  When going back to the other window, the
+-- 			   new relative offset will be used.
+-- 			2. When "jump" is included, the other windows are
+-- 			   scrolled to keep the same relative offset.  When
+-- 			   going back to the other window, it still uses the
+-- 			   same relative offset.
+-- 	Also see |scroll-binding|.
+-- 	When 'diff' mode is active there always is vertical scroll binding,
+-- 	even when "ver" isn't there.
+vim.o.scrollopt = "ver,jump"
 -- boolean	(default on)
 -- 			global
 -- 	Insert two spaces after a '.', '?' and '!' with a join command.
 -- 	Otherwise only one space is inserted.
 vim.o.joinspaces = "false"
--- string	(default empty)
+-- string	(default: "blank,buffers,curdir,folds,
+-- 					       help,tabpages,winsize"
+-- 				 Vi default: "blank,buffers,curdir,folds,
+-- 					       help,options,tabpages,winsize")
 -- 			global
--- 	When nonempty, this option determines the content of the tab pages
--- 	line at the top of the Vim window.  When empty Vim will use a default
--- 	tab pages line.  See |setting-tabline| for more info.
-vim.o.tabline = ""
+-- 	Changes the effect of the |:mksession| command.  It is a comma
+-- 	separated list of words.  Each word enables saving and restoring
+-- 	something:
+-- 	   word		save and restore ~
+-- 	   blank	empty windows
+-- 	   buffers	hidden and unloaded buffers, not just those in windows
+-- 	   curdir	the current directory
+-- 	   folds	manually created folds, opened/closed folds and local
+-- 			fold options
+-- 	   globals	global variables that start with an uppercase letter
+-- 			and contain at least one lowercase letter.  Only
+-- 			String and Number types are stored.
+-- 	   help		the help window
+-- 	   localoptions	options and mappings local to a window or buffer (not
+-- 			global values for local options)
+-- 	   options	all options and mappings (also global values for local
+-- 			options)
+-- 	   resize	size of the Vim window: 'lines' and 'columns'
+-- 	   sesdir	the directory in which the session file is located
+-- 			will become the current directory (useful with
+-- 			projects accessed over a network from different
+-- 			systems)
+-- 	   slash	backslashes in file names replaced with forward
+-- 			slashes
+-- 	   tabpages	all tab pages; without this only the current tab page
+-- 			is restored, so that you can make a session for each
+-- 			tab page separately
+-- 	   terminal	include terminal windows where the command can be
+-- 			restored
+-- 	   unix		with Unix end-of-line format (single <NL>), even when
+-- 			on Windows or DOS
+-- 	   winpos	position of the whole Vim window
+-- 	   winsize	window sizes
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal"
 vim.o.winbar = ""
 -- boolean	(default off)
 -- 			global
@@ -1013,23 +1024,21 @@ vim.o.mousetime = "500"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.makeef = ""
--- string	(default "lastline,msgsep", Vi default: "")
+-- number	(default 1000)
 -- 			global
--- 	Change the way text is displayed.  This is comma separated list of
--- 	flags:
--- 	lastline	When included, as much as possible of the last line
--- 			in a window will be displayed.  "@@@" is put in the
--- 			last columns of the last screen line to indicate the
--- 			rest of the line is not displayed.
--- 	truncate	Like "lastline", but "@@@" is displayed in the first
--- 			column of the last screen line.  Overrules "lastline".
--- 	uhex		Show unprintable characters hexadecimal as <xx>
--- 			instead of using ^C and ~C.
--- 	msgsep		When showing messages longer than 'cmdheight', only
--- 			scroll the message lines, not the entire screen. The
--- 			separator line is decorated by |hl-MsgSeparator| and
--- 			the "msgsep" flag of 'fillchars'.
-vim.o.display = "lastline"
+-- 	Maximum amount of memory (in Kbyte) to use for pattern matching.
+-- 	The maximum value is about 2000000.  Use this to work without a limit.
+-- 							*E363*
+-- 	When Vim runs into the limit it gives an error message and mostly
+-- 	behaves like CTRL-C was typed.
+-- 	Running into the limit often means that the pattern is very
+-- 	inefficient or too complex.  This may already happen with the pattern
+-- 	"\(.\)*" on a very long line.  ".*" works much better.
+-- 	Might also happen on redraw, when syntax rules try to match a complex
+-- 	text structure.
+-- 	Vim may run out of memory before hitting the 'maxmempattern' limit, in
+-- 	which case you get an "Out of memory" error instead.
+vim.o.maxmempattern = "1000"
 -- string	(default: "-c"; Windows: "/s /c")
 -- 			global
 -- 	Flag passed to the shell to execute "!" and ":!" commands; e.g.,
@@ -1074,21 +1083,3 @@ vim.o.remap = "true"
 -- 	Currently this option is on by default for SGI/IRIX machines.  This
 -- 	may change in later releases.
 vim.o.imdisable = "false"
--- boolean	(default off)
--- 			local to window
--- 	Join the current window in the group of windows that shows differences
--- 	between files.  See |diff-mode|.
-vim.wo.diff = "false"
--- string	(default empty)
--- 			global or local to window |global-local|
--- 	When nonempty, this option determines the content of the status line.
--- 	Also see |status-line|.
-vim.wo.statusline = ""
--- boolean	(default off)
--- 			local to window
--- 	Highlight the screen line of the cursor with CursorLine
--- 	|hl-CursorLine|.  Useful to easily spot the cursor.  Will make screen
--- 	redrawing slower.
--- 	When Visual mode is active the highlighting isn't used to make it
--- 	easier to see the selected text.
-vim.wo.cursorline = "false"
