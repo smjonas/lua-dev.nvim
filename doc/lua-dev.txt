@@ -22,7 +22,6 @@ and completion for the nvim lua API.
 
 FEATURES                                            *lua-dev-lua-dev-features*
 
-
 - Automatically configures **sumneko_lua** for your **Neovim** config and plugin directories
 - EmmyLua <https://github.com/sumneko/lua-language-server/wiki/EmmyLua-Annotations> library for the nvim lua API for:
     - completion
@@ -34,7 +33,6 @@ FEATURES                                            *lua-dev-lua-dev-features*
 
 
 REQUIREMENTS                                    *lua-dev-lua-dev-requirements*
-
 
 - Neovim >= 0.5.0
 - completion plugin like nvim-cmp <https://github.com/hrsh7th/nvim-cmp>
@@ -86,7 +84,6 @@ CONFIGURATION                                  *lua-dev-lua-dev-configuration*
 SETUP                                                  *lua-dev-lua-dev-setup*
 
 **lua-dev** will **ONLY** change the **sumneko_lua** settings for:
-
 
 - your Neovim config directory
 - any plugin directory (this is an lsp root_dir that contains a `/lua` directory)
@@ -145,13 +142,11 @@ make them available for the Sumneko LSP
 
 LIMITATIONS                                      *lua-dev-lua-dev-limitations*
 
-
 - `vim.fn` functions are currently not part of the EmmyLua library since no message pack files are generated. Implemented using vim-lsp
 - function return types are always `any`, since that information is missing
 
 
 ACKNOWLEDGMENT                                *lua-dev-lua-dev-acknowledgment*
-
 
 - docs for options and functions are based on the work of vim-lsp <https://github.com/prabirshrestha/vim-lsp>
 
