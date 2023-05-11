@@ -109,9 +109,14 @@ function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 --- @param source any #(integer|string) Source buffer or string to search
 --- @param start any #(integer) Starting line for the search
 --- @param stop any #(integer) Stopping line for the search (end-exclusive)
+--- @param opts any #(table|nil) Options:
+---               • max_start_depth (integer) if non-zero, sets the maximum
+---                 start depth for each match. This is used to prevent
+---                 traversing too deep into a tree. Requires treesitter >=
+---                 0.20.9.
 --- @return any #(fun(): integer, table<integer,TSNode>, table): pattern id, match,
 ---     metadata
-function vim.treesitter.Query:iter_matches(node, source, start, stop) end
+function vim.treesitter.Query:iter_matches(node, source, start, stop, opts) end
 
 --- @class vim.treesitter.TSHighlighter
 vim.treesitter.TSHighlighter = {}
