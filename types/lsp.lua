@@ -490,11 +490,6 @@ function vim.lsp.run() end
 --- @param client_id any #(integer)
 function vim.lsp.save(lenses, bufnr, client_id) end
 
--- Checks whether the language servers attached to the current buffer are
--- ready.
---- @return any #`true` if server responds.
-function vim.lsp.server_ready() end
-
 -- Sets formatting function used to format logs
 --- @param handle any #(function) function to apply to logging arguments, pass
 ---               vim.inspect for multi-line formatting
