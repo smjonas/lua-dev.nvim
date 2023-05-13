@@ -132,7 +132,7 @@ function vim.basename(file) end
 ---                |nvim_cmd()| where `opts` is empty.
 function vim.cmd(command) end
 
--- Parses and compares two version version objects (the result of
+-- Parses and compares two version objects (the result of
 -- |vim.version.parse()|, or specified literally as a `{major, minor, patch}`
 -- tuple, e.g. `{1, 0, 3}`).
 --- @param v1 any #Version|number[] Version object.
@@ -374,7 +374,7 @@ function vim.list_slice(list, start, finish) end
 --- @return any #(boolean)
 function vim.lt(v1, v2) end
 
--- Omnifunc for completing lua values from from the runtime lua interpreter,
+-- Omnifunc for completing lua values from the runtime lua interpreter,
 -- similar to the builtin completion for the `:lua` command.
 function vim.lua_omnifunc(find_start, _) end
 
@@ -631,23 +631,23 @@ function vim.tbl_contains(t, value, opts) end
 --- @return any #(integer) Number of non-nil values in table
 function vim.tbl_count(t) end
 
--- Merges recursively two or more map-like tables.
+-- Merges recursively two or more tables.
 --- @param behavior any #(string) Decides what to do if a key is found in more than
 ---                 one map:
 ---                 • "error": raise an error
 ---                 • "keep": use value from the leftmost map
 ---                 • "force": use value from the rightmost map
---- @vararg any #(table) Two or more map-like tables
+--- @vararg any #(table) Two or more tables
 --- @return any #(table) Merged table
 function vim.tbl_deep_extend(behavior, ...) end
 
--- Merges two or more map-like tables.
+-- Merges two or more tables.
 --- @param behavior any #(string) Decides what to do if a key is found in more than
 ---                 one map:
 ---                 • "error": raise an error
 ---                 • "keep": use value from the leftmost map
 ---                 • "force": use value from the rightmost map
---- @vararg any #(table) Two or more map-like tables
+--- @vararg any #(table) Two or more tables
 --- @return any #(table) Merged table
 function vim.tbl_extend(behavior, ...) end
 

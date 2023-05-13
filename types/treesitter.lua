@@ -68,12 +68,15 @@ function vim.treesitter.LanguageTree:parse() end
 ---                   • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
 ---                   • `on_changedtree` : a callback that will be called
 ---                     every time the tree has syntactical changes. It will
----                     only be passed one argument, which is a table of the
----                     ranges (as node ranges) that changed.
+---                     be passed two arguments: a table of the ranges (as
+---                     node ranges) that changed and the changed tree.
 ---                   • `on_child_added` : emitted when a child is added to
 ---                     the tree.
 ---                   • `on_child_removed` : emitted when a child is removed
 ---                     from the tree.
+---                   • `on_detach` : emitted when the buffer is detached, see
+---                     |nvim_buf_detach_event|. Takes one argument, the
+---                     number of the buffer.
 function vim.treesitter.LanguageTree:register_cbs(cbs, recursive) end
 
 -- Returns the source content of the language tree (bufnr or string).
