@@ -336,6 +336,12 @@ function vim.inspect_pos(bufnr, row, col, filter) end
 --- @return any #(boolean) `true` if `f` is callable, else `false`
 function vim.is_callable(f) end
 
+-- Concatenate directories and/or file into a single path with normalization
+-- (e.g., `"foo/"` and `"bar"` get joined to `"foo/bar"`)
+--- @vararg any #(string)
+--- @return any #(string)
+function vim.joinpath(...) end
+
 -- Translate keycodes.
 --- @param str any #string String to be converted.
 --- @return any #string
