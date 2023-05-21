@@ -3,23 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Gets the paths contained in 'runtimepath'.
---- @return any #List of paths
-function vim.api.nvim_list_runtime_paths() end
-
--- Gets the current list of tabpage handles.
---- @return any #List of tabpage handles
-function vim.api.nvim_list_tabpages() end
-
--- Gets a list of dictionaries representing attached UIs.
---- @return any #Array of UI dictionaries, each with these keys:
----     • "height" Requested height of the UI
----     • "width" Requested width of the UI
----     • "rgb" true if the UI uses RGB colors (false implies |cterm-colors|)
----     • "ext_..." Requested UI extensions, see |ui-option|
----     • "chan" |channel-id| of remote UI
-function vim.api.nvim_list_uis() end
-
 -- Gets the current list of window handles.
 --- @return any #List of window handles
 function vim.api.nvim_list_wins() end
@@ -466,11 +449,6 @@ function vim.api.nvim_set_hl_ns_fast(ns_id) end
 ---               "callback" is equivalent to returning an empty string.
 function vim.api.nvim_set_keymap(mode, lhs, rhs, opts) end
 
--- Sets the global value of an option.
---- @param name string #Option name
---- @param value object #New option value
-function vim.api.nvim_set_option(name, value) end
-
 -- Sets the value of an option. The behavior of this function matches that of
 -- |:set|: for global-local options, both the global and local value are set
 -- unless otherwise specified with {scope}.
@@ -631,12 +609,6 @@ function vim.api.nvim_win_get_height(window) end
 --- @return any #Window number
 function vim.api.nvim_win_get_number(window) end
 
--- Gets a window option value
---- @param window window #Window handle, or 0 for current window
---- @param name string #Option name
---- @return any #Option value
-function vim.api.nvim_win_get_option(window, name) end
-
 -- Gets the window position in display cells. First position is zero.
 --- @param window window #Window handle, or 0 for current window
 --- @return any #(row, col) tuple with the window position
@@ -696,13 +668,6 @@ function vim.api.nvim_win_set_height(window, height) end
 --- @param window window
 --- @param ns_id integer #the namespace to use
 function vim.api.nvim_win_set_hl_ns(window, ns_id) end
-
--- Sets a window option value. Passing `nil` as value deletes the option
--- (only works if there's a global fallback)
---- @param window window #Window handle, or 0 for current window
---- @param name string #Option name
---- @param value object #Option value
-function vim.api.nvim_win_set_option(window, name, value) end
 
 -- Sets a window-scoped (w:) variable
 --- @param window window #Window handle, or 0 for current window

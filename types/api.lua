@@ -270,12 +270,6 @@ function vim.api.nvim_buf_get_name(buffer) end
 --- @return any #Integer byte offset, or -1 for unloaded buffer.
 function vim.api.nvim_buf_get_offset(buffer, index) end
 
--- Gets a buffer option value
---- @param buffer buffer #Buffer handle, or 0 for current buffer
---- @param name string #Option name
---- @return any #Option value
-function vim.api.nvim_buf_get_option(buffer, name) end
-
 -- Gets a range from the buffer.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param start_row integer #First line index
@@ -439,13 +433,6 @@ function vim.api.nvim_buf_set_mark(buffer, name, line, col, opts) end
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param name string #Buffer name
 function vim.api.nvim_buf_set_name(buffer, name) end
-
--- Sets a buffer option value. Passing `nil` as value deletes the option
--- (only works if there's a global fallback)
---- @param buffer buffer #Buffer handle, or 0 for current buffer
---- @param name string #Option name
---- @param value object #Option value
-function vim.api.nvim_buf_set_option(buffer, name, value) end
 
 -- Sets (replaces) a range in the buffer
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
@@ -917,11 +904,6 @@ function vim.api.nvim_get_mode() end
 --- @return any #dict that maps from names to namespace ids.
 function vim.api.nvim_get_namespaces() end
 
--- Gets the global value of an option.
---- @param name string #Option name
---- @return any #Option value (global)
-function vim.api.nvim_get_option(name) end
-
 -- Gets the option information for one option from arbitrary buffer or window
 --- @param name string #Option name
 --- @param opts dict(option) * #Optional parameters
@@ -1008,4 +990,21 @@ function vim.api.nvim_list_bufs() end
 --- @return any #Array of Dictionaries, each describing a channel with the format
 ---     specified at |nvim_get_chan_info()|.
 function vim.api.nvim_list_chans() end
+
+-- Gets the paths contained in 'runtimepath'.
+--- @return any #List of paths
+function vim.api.nvim_list_runtime_paths() end
+
+-- Gets the current list of tabpage handles.
+--- @return any #List of tabpage handles
+function vim.api.nvim_list_tabpages() end
+
+-- Gets a list of dictionaries representing attached UIs.
+--- @return any #Array of UI dictionaries, each with these keys:
+---     • "height" Requested height of the UI
+---     • "width" Requested width of the UI
+---     • "rgb" true if the UI uses RGB colors (false implies |cterm-colors|)
+---     • "ext_..." Requested UI extensions, see |ui-option|
+---     • "chan" |channel-id| of remote UI
+function vim.api.nvim_list_uis() end
 
