@@ -64,7 +64,7 @@ vim.bo.equalprg = ""
 -- 			global or local to buffer |global-local|
 -- 	Scanf-like description of the format for the lines in the error file
 -- 	(see |errorformat|).
-vim.bo.errorformat = "%*[^\"]\"%f\"%*\\D%l: %m,\"%f\"%*\\D%l: %m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,\"%f\"\\, line %l%*\\D%c%*[^ ] %m,%D%*\\a[%*\\d]: Entering directory %*[`']%f',%X%*\\a[%*\\d]: Leaving directory %*[`']%f',%D%*\\a: Entering directory %*[`']%f',%X%*\\a: Leaving directory %*[`']%f',%DMaking %*\\a in %f,%f|%l| %m"
+vim.bo.errorformat = "%*[^\"]\"%f\"%*\\D%l: %m,\"%f\"%*\\D%l: %m,%-Gg%\\?make[%*\\d]: *** [%f:%l:%m,%-Gg%\\?make: *** [%f:%l:%m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,\"%f\"\\, line %l%*\\D%c%*[^ ] %m,%D%*\\a[%*\\d]: Entering directory %*[`']%f',%X%*\\a[%*\\d]: Leaving directory %*[`']%f',%D%*\\a: Entering directory %*[`']%f',%X%*\\a: Leaving directory %*[`']%f',%DMaking %*\\a in %f,%f|%l| %m"
 -- string	(default: ".,w,b,u,t")
 -- 			local to buffer
 -- 	This option specifies how keyword completion |ins-completion| works
@@ -759,7 +759,7 @@ vim.bo.tags = "./tags;,tags"
 -- 	that are not in 'isfname', such as a space.  You can then use
 -- 	'includeexpr' to process the matched text.
 -- 	See |option-backslash| about including spaces and backslashes.
-vim.bo.include = "^\\s*#\\s*include"
+vim.bo.include = ""
 -- boolean	(default off)
 -- 			local to buffer
 -- 	This option should be set before editing a binary file.  You can also
@@ -959,7 +959,7 @@ vim.bo.syntax = ""
 -- 		:let &path = &path . "," . substitute($INCL, ';', ',', 'g')
 -- <	Replace the ';' with a ':' or whatever separator is used.  Note that
 -- 	this doesn't work when $INCL contains a comma or white space.
-vim.bo.path = ".,/usr/include,,"
+vim.bo.path = ".,,"
 -- string	(default empty)
 -- 			local to buffer
 -- 	Name of the word list file where words are added for the |zg| and |zw|

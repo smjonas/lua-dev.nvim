@@ -25,7 +25,7 @@
 -- 	To avoid that use `:let` with a single quote string: >
 -- 		let &l:define = '^\s*\ze\k\+\s*=\s*function('
 -- <
-vim.bo.define = "^\\s*#\\s*define"
+vim.bo.define = ""
 -- boolean	(default on)
 -- 			local to buffer
 -- 	Copy indent from current line when starting a new line (typing <CR>
@@ -217,7 +217,7 @@ vim.o.loadplugins = "true"
 -- 			global or local to buffer |global-local|
 -- 	Scanf-like description of the format for the lines in the error file
 -- 	(see |errorformat|).
-vim.o.errorformat = "%*[^\"]\"%f\"%*\\D%l: %m,\"%f\"%*\\D%l: %m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,\"%f\"\\, line %l%*\\D%c%*[^ ] %m,%D%*\\a[%*\\d]: Entering directory %*[`']%f',%X%*\\a[%*\\d]: Leaving directory %*[`']%f',%D%*\\a: Entering directory %*[`']%f',%X%*\\a: Leaving directory %*[`']%f',%DMaking %*\\a in %f,%f|%l| %m"
+vim.o.errorformat = "%*[^\"]\"%f\"%*\\D%l: %m,\"%f\"%*\\D%l: %m,%-Gg%\\?make[%*\\d]: *** [%f:%l:%m,%-Gg%\\?make: *** [%f:%l:%m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,\"%f\"\\, line %l%*\\D%c%*[^ ] %m,%D%*\\a[%*\\d]: Entering directory %*[`']%f',%X%*\\a[%*\\d]: Leaving directory %*[`']%f',%D%*\\a: Entering directory %*[`']%f',%X%*\\a: Leaving directory %*[`']%f',%DMaking %*\\a in %f,%f|%l| %m"
 -- number	(default 1)
 -- 			global
 -- 	The minimal width of a window, when it's not the current window.
@@ -433,7 +433,7 @@ vim.o.ambiwidth = "single"
 -- 	that are not in 'isfname', such as a space.  You can then use
 -- 	'includeexpr' to process the matched text.
 -- 	See |option-backslash| about including spaces and backslashes.
-vim.o.include = "^\\s*#\\s*include"
+vim.o.include = ""
 -- string	(default "%f:%l:%m,%f:%l%m,%f  %l%m")
 -- 			global
 -- 	Format to recognize for the ":grep" command output.
@@ -988,7 +988,7 @@ vim.o.fillchars = ""
 -- 	To avoid that use `:let` with a single quote string: >
 -- 		let &l:define = '^\s*\ze\k\+\s*=\s*function('
 -- <
-vim.o.define = "^\\s*#\\s*define"
+vim.o.define = ""
 -- number	(default: 200)
 -- 			global
 -- 	After typing this many characters the swap file will be written to

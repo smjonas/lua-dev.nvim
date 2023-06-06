@@ -556,7 +556,7 @@ vim.o.emoji = "true"
 -- 		:let &path = &path . "," . substitute($INCL, ';', ',', 'g')
 -- <	Replace the ';' with a ':' or whatever separator is used.  Note that
 -- 	this doesn't work when $INCL contains a comma or white space.
-vim.o.path = ".,/usr/include,,"
+vim.o.path = ".,,"
 -- boolean	(default on)
 -- 			global
 -- 	Allows writing files.  When not set, writing a file is not allowed.
