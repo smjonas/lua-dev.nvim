@@ -320,6 +320,7 @@ function vim.lsp.lookup_section(settings, section) end
 
 -- Gets a new ClientCapabilities object describing the LSP client
 -- capabilities.
+--- @return any #lsp.ClientCapabilities
 function vim.lsp.make_client_capabilities() end
 
 -- Creates a table with sensible default options for a floating window. The
