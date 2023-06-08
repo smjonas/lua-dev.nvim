@@ -113,6 +113,23 @@ function vim.Iter:slice(first, last) end
 --- @return any #(table)
 function vim.Iter:totable() end
 
+--- @class vim.Ringbuf
+vim.Ringbuf = {}
+
+function vim.Ringbuf:clear() end
+
+-- Returns the first unread item without removing it
+--- @return any #any?|ni
+function vim.Ringbuf:peek() end
+
+-- Removes and returns the first unread item
+--- @return any #any?|ni
+function vim.Ringbuf:pop() end
+
+-- Adds an item, overriding the oldest item if the buffer is full.
+--- @param item any #any
+function vim.Ringbuf:push(item) end
+
 -- Add new filetype mappings.
 --- @param filetypes any #(table) A table containing new filetype maps (see
 ---                  example).
@@ -531,6 +548,12 @@ function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 -- Resets the cache for the path, or all the paths if path is nil.
 --- @param path any #string? path to reset
 function vim.reset(path) end
+
+-- Create a ring buffer limited to a maximal number of items. Once the buffer
+-- is full, adding a new entry overrides the oldest entry.
+--- @param size any #(integer)
+--- @return any #(table)
+function vim.ringbuf(size) end
 
 -- Defers callback `cb` until the Nvim API is safe to call.
 --- @param cb any #(function)
