@@ -541,11 +541,6 @@ function vim.lsp.show_document(location, offset_encoding, opts) end
 ---                 • See |nvim_open_win()|
 function vim.lsp.signature_help(_, result, ctx, config) end
 
--- Consumes the latest progress messages from all clients and formats them as
--- a string. Empty if there are no clients or if no new messages
---- @return any #(string)
-function vim.lsp.status() end
-
 -- Stop the semantic token highlighting engine for the given buffer with the
 -- given client.
 --- @param bufnr any #(integer)
