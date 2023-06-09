@@ -435,7 +435,9 @@ function vim.api.nvim_set_hl_ns_fast(ns_id) end
 
 -- Sets a global |mapping| for the given mode.
 --- @param mode string #Mode short-name (map command prefix: "n", "i", "v", "x", …) or
----             "!" for |:map!|, or empty string for |:map|.
+---             "!" for |:map!|, or empty string for |:map|. "ia", "ca" or
+---             "!a" for abbreviation in insert mode, cmdline mode, or both,
+---             respectively
 --- @param lhs string #Left-hand-side |{lhs}| of the mapping.
 --- @param rhs string #Right-hand-side |{rhs}| of the mapping.
 --- @param opts dict(keymap) * #Optional parameters map: Accepts all |:map-arguments| as keys
