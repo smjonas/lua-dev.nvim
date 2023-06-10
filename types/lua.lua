@@ -353,8 +353,8 @@ function vim.inspect_pos(bufnr, row, col, filter) end
 --- @return any #(boolean) `true` if `f` is callable, else `false`
 function vim.is_callable(f) end
 
--- Concatenate directories and/or file into a single path with normalization
--- (e.g., `"foo/"` and `"bar"` get joined to `"foo/bar"`)
+-- Concatenate directories and/or file paths into a single path with
+-- normalization (e.g., `"foo/"` and `"bar"` get joined to `"foo/bar"`)
 --- @vararg any #(string)
 --- @return any #(string)
 function vim.joinpath(...) end
@@ -583,7 +583,7 @@ function vim.select(items, opts, on_choice) end
 --    -- Map to a Lua function:
 --    vim.keymap.set('n', 'lhs', function() print("real lua function") end)
 --    -- Map to multiple modes:
---    vim.keymap.set({'n', 'v'}, '<leader>lr', vim.lsp.buf.references, { buffer=true })
+--    vim.keymap.set({'n', 'v'}, '<leader>lr', vim.lsp.buf.references, { buffer = true })
 --    -- Buffer-local mapping:
 --    vim.keymap.set('n', '<leader>w', "<cmd>w<cr>", { silent = true, buffer = 5 })
 --    -- Expr mapping:
