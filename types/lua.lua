@@ -744,8 +744,8 @@ function vim.tbl_flatten(t) end
 -- Index into a table (first argument) via string keys passed as subsequent
 -- arguments. Return `nil` if the key does not exist.
 --- @param o any #(table) Table to index
---- @vararg any #(string) Optional strings (0 or more, variadic) via which to
----            index the table
+--- @vararg any #any Optional keys (0 or more, variadic) via which to index the
+---            table
 --- @return any #any Nested value indexed by key (if it exists), else nil
 function vim.tbl_get(o, ...) end
 
