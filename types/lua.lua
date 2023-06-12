@@ -181,7 +181,7 @@ function vim.deepcopy(orig) end
 --- @return any #(table) Empty table with metamethod
 function vim.defaulttable(create) end
 
--- Defers calling `fn` until `timeout` ms passes.
+-- Defers calling {fn} until {timeout} ms passes.
 --- @param fn fun(...) #(function) Callback to call once `timeout` expires
 --- @param timeout any #(integer) Number of milliseconds to wait before calling
 ---                `fn`
@@ -196,8 +196,8 @@ function vim.defer_fn(fn, timeout) end
 --
 -- <
 --- @param opts any #(table|nil) A table of optional arguments:
----             • buffer: (number or boolean) Remove a mapping from the given
----               buffer. When "true" or 0, use the current buffer.
+---             • "buffer": (number|boolean) Remove a mapping from the given
+---               buffer. When `0` or `true`, use the current buffer.
 function vim.del(modes, lhs, opts) end
 
 -- Shows a deprecation message to the user.
@@ -605,9 +605,9 @@ function vim.select(items, opts, on_choice) end
 ---               • "noremap": inverse of "remap" (see below).
 ---
 ---             • Also accepts:
----               • "buffer" number|boolean Creates buffer-local mapping, `0`
----                 or `true` for current buffer.
----               • remap: (boolean) Make the mapping recursive. Inverses
+---               • "buffer": (number|boolean) Creates buffer-local mapping,
+---                 `0` or `true` for current buffer.
+---               • "remap": (boolean) Make the mapping recursive. Inverse of
 ---                 "noremap". Defaults to `false`.
 function vim.set(mode, lhs, rhs, opts) end
 
