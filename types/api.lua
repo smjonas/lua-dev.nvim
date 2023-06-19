@@ -994,7 +994,7 @@ function vim.api.nvim_list_bufs() end
 ---     specified at |nvim_get_chan_info()|.
 function vim.api.nvim_list_chans() end
 
--- Gets the paths contained in 'runtimepath'.
+-- Gets the paths contained in |runtime-search-path|.
 --- @return any #List of paths
 function vim.api.nvim_list_runtime_paths() end
 
