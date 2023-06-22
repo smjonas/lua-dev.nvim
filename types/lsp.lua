@@ -176,8 +176,7 @@ function vim.lsp.force_refresh(bufnr) end
 ---                fields:
 ---                • formatting_options (table|nil): Can be used to specify
 ---                  FormattingOptions. Some unspecified options will be
----                  automatically derived from the current Neovim options.
----                  See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
+---                  automatically derived from the current Nvim options. See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
 ---                • timeout_ms (integer|nil, default 1000): Time in
 ---                  milliseconds to block for formatting requests. No effect
 ---                  if async=true

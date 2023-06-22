@@ -20,7 +20,7 @@ function vim.api.nvim_notify(msg, log_level, opts) end
 -- Open a terminal instance in a buffer
 --- @param buffer buffer #the buffer to use (expected to be empty)
 --- @param opts table<string, luaref> #Optional parameters.
----               • on_input: lua callback for input sent, i e keypresses in
+---               • on_input: Lua callback for input sent, i e keypresses in
 ---                 terminal mode. Note: keypresses are sent raw as they would
 ---                 be to the pty master end. For instance, a carriage return
 ---                 is sent as a "\r", not as a "\n". |textlock| applies. It
@@ -197,7 +197,7 @@ function vim.api.nvim_out_write(str) end
 ---         • "botright": |:botright|.
 function vim.api.nvim_parse_cmd(str, opts) end
 
--- Parse a VimL expression.
+-- Parse a Vimscript expression.
 --- @param expr string #Expression to parse. Always treated as a single line.
 --- @param flags string #Flags:
 ---                  • "m" if multiple expressions in a row are allowed (only
@@ -566,10 +566,10 @@ function vim.api.nvim_unsubscribe(event) end
 
 -- Calls a function with window as temporary current window.
 --- @param window window #Window handle, or 0 for current window
---- @param fun luaref #Function to call inside the window (currently lua callable
+--- @param fun luaref #Function to call inside the window (currently Lua callable
 ---               only)
---- @return any #Return value of function. NB: will deepcopy lua values currently, use
----     upvalues to send lua references in and out.
+--- @return any #Return value of function. NB: will deepcopy Lua values currently, use
+---     upvalues to send Lua references in and out.
 function vim.api.nvim_win_call(window, fun) end
 
 -- Closes the window (like |:close| with a |window-ID|).

@@ -231,14 +231,14 @@ function vim.dirname(file) end
 
 -- Disables the experimental Lua module loader:
 -- • removes the loaders
--- • adds the default Neovim loader
+-- • adds the default Nvim loader
 function vim.disable() end
 
 -- Enables the experimental Lua module loader:
 -- • overrides loadfile
--- • adds the lua loader using the byte-compilation cache
+-- • adds the Lua loader using the byte-compilation cache
 -- • adds the libs loader
--- • removes the default Neovim loader
+-- • removes the default Nvim loader
 function vim.enable() end
 
 -- Tests if `s` ends with `suffix`.
@@ -261,7 +261,7 @@ function vim.eq(v1, v2) end
 --- @return any #(table)
 function vim.filter(f, src, ...) end
 
--- Finds lua modules for the given module name.
+-- Finds Lua modules for the given module name.
 --- @param modname any #(string) Module name, or `"*"` to find the top-level
 ---                modules instead
 --- @param opts any #(table|nil) Options for finding a module:
@@ -397,7 +397,7 @@ function vim.list_slice(list, start, finish) end
 --- @return any #(boolean)
 function vim.lt(v1, v2) end
 
--- Omnifunc for completing lua values from the runtime lua interpreter,
+-- Omnifunc for completing Lua values from the runtime Lua interpreter,
 -- similar to the builtin completion for the `:lua` command.
 function vim.lua_omnifunc(find_start, _) end
 

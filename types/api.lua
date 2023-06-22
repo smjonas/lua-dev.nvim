@@ -16,7 +16,7 @@ function vim.api.nvim__get_lib_dir() end
 -- Find files in runtime directories
 --- @param pat array #pattern of files to search for
 --- @param all boolean #whether to return all matches or only the first
---- @param opts dict(runtime) * #is_lua: only search lua subdirs
+--- @param opts dict(runtime) * #is_lua: only search Lua subdirs
 --- @return any #list of absolute paths to the found files
 function vim.api.nvim__get_runtime(pat, all, opts) end
 
@@ -87,7 +87,7 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 ---                      • deleted_codepoints (if `utf_sizes` is true)
 ---                      • deleted_codeunits (if `utf_sizes` is true)
 ---
----                    • on_bytes: lua callback invoked on change. This
+---                    • on_bytes: Lua callback invoked on change. This
 ---                      callback receives more granular information about the
 ---                      change compared to on_lines. Return `true` to detach. Args:
 ---                      • the string "bytes"
@@ -129,10 +129,10 @@ function vim.api.nvim_buf_attach(buffer, send_buffer, opts) end
 
 -- call a function with buffer as temporary current buffer
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
---- @param fun luaref #Function to call inside the buffer (currently lua callable
+--- @param fun luaref #Function to call inside the buffer (currently Lua callable
 ---               only)
---- @return any #Return value of function. NB: will deepcopy lua values currently, use
----     upvalues to send lua references in and out.
+--- @return any #Return value of function. NB: will deepcopy Lua values currently, use
+---     upvalues to send Lua references in and out.
 function vim.api.nvim_buf_call(buffer, fun) end
 
 -- Clears |namespace|d objects (highlights, |extmarks|, virtual text) from a
@@ -464,14 +464,14 @@ function vim.api.nvim_buf_set_var(buffer, name, value) end
 ---     returned.
 function vim.api.nvim_call_atomic(calls) end
 
--- Calls a VimL |Dictionary-function| with the given arguments.
---- @param dict object #Dictionary, or String evaluating to a VimL |self| dict
---- @param fn string #Name of the function defined on the VimL dict
+-- Calls a Vimscript |Dictionary-function| with the given arguments.
+--- @param dict object #Dictionary, or String evaluating to a Vimscript |self| dict
+--- @param fn string #Name of the function defined on the Vimscript dict
 --- @param args array #Function arguments packed in an Array
 --- @return any #Result of the function call
 function vim.api.nvim_call_dict_function(dict, fn, args) end
 
--- Calls a VimL function with the given arguments.
+-- Calls a Vimscript function with the given arguments.
 --- @param fn string #Function to call
 --- @param args array #Function arguments packed in an Array
 --- @return any #Result of the function call
@@ -687,9 +687,9 @@ function vim.api.nvim_err_writeln(str) end
 --- @param data string
 function vim.api.nvim_error_event(lvl, data) end
 
--- Evaluates a VimL |expression|. Dictionaries and Lists are recursively
+-- Evaluates a Vimscript |expression|. Dictionaries and Lists are recursively
 -- expanded.
---- @param expr string #VimL expression string
+--- @param expr string #Vimscript expression string
 --- @return any #Evaluation result or expanded object
 function vim.api.nvim_eval(expr) end
 
