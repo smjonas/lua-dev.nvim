@@ -343,9 +343,10 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 highlights of the text. Currently only affects virt_text
 ---                 highlights, but might affect `hl_group` in later versions.
 ---                 • "replace": only show the virt_text color. This is the
----                   default
----                 • "combine": combine with background text color
----                 • "blend": blend with background text color.
+---                   default.
+---                 • "combine": combine with background text color.
+---                 • "blend": blend with background text color. Not supported
+---                   for "inline" virt_text.
 ---
 ---               • virt_lines : virtual lines to add next to this mark This
 ---                 should be an array over lines, where each line in turn is
