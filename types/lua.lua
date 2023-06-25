@@ -40,7 +40,7 @@ function vim.Iter:filter(f) end
 --- @return any #any
 function vim.Iter:find(f) end
 
--- Fold an iterator or table into a single value.
+-- Fold ("reduce") an iterator or table into a single value.
 --- @param init any #any Initial value of the accumulator.
 --- @param f any #function(acc:any, ...):A Accumulation function.
 --- @return any #any

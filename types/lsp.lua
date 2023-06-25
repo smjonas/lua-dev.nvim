@@ -74,7 +74,7 @@ function vim.lsp.clear_references() end
 ---                • range: (table|nil) Range for which code actions should be
 ---                  requested. If in visual mode this defaults to the active
 ---                  selection. Table must contain `start` and `end` keys with
----                  {row, col} tuples using mark-like indexing. See
+---                  {row,col} tuples using mark-like indexing. See
 ---                  |api-indexing|
 function vim.lsp.code_action(options) end
 
@@ -201,7 +201,7 @@ function vim.lsp.force_refresh(bufnr) end
 ---                • name (string|nil): Restrict formatting to the client with
 ---                  name (client.name) matching this field.
 ---                • range (table|nil) Range to format. Table must contain
----                  `start` and `end` keys with {row, col} tuples using (1,0)
+---                  `start` and `end` keys with {row,col} tuples using (1,0)
 ---                  indexing. Defaults to current selection in visual mode
 ---                  Defaults to `nil` in other modes, formatting the full
 ---                  buffer
@@ -349,9 +349,9 @@ function vim.lsp.make_formatting_params(options) end
 
 -- Using the given range in the current buffer, creates an object that is
 -- similar to |vim.lsp.util.make_range_params()|.
---- @param start_pos any #integer[]|nil {row, col} mark-indexed position.
+--- @param start_pos any #integer[]|nil {row,col} mark-indexed position.
 ---                        Defaults to the start of the last visual selection.
---- @param end_pos any #integer[]|nil {row, col} mark-indexed position.
+--- @param end_pos any #integer[]|nil {row,col} mark-indexed position.
 ---                        Defaults to the end of the last visual selection.
 --- @param bufnr any #(integer|nil) buffer handle or 0 for current,
 ---                        defaults to current
@@ -506,8 +506,8 @@ function vim.lsp.set_level(level) end
 
 -- Replaces text in a range with new text.
 --- @param lines any #(table) Original list of strings
---- @param A any #(table) Start position; a 2-tuple of {line, col} numbers
---- @param B any #(table) End position; a 2-tuple of {line, col} numbers
+--- @param A any #(table) Start position; a 2-tuple of {line,col} numbers
+--- @param B any #(table) End position; a 2-tuple of {line,col} numbers
 --- @param new_lines any #A list of strings to replace the original
 --- @return any #(table) The modified {lines} object
 function vim.lsp.set_lines(lines, A, B, new_lines) end
