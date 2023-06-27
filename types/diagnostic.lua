@@ -101,7 +101,7 @@ function vim.diagnostic.fromqflist(list) end
 ---                namespace.
 ---              • lnum: (number) Limit diagnostics to the given line number.
 ---              • severity: See |diagnostic-severity|.
---- @return any #Diagnostic [] table A list of diagnostic items |diagnostic-structure|.
+--- @return any #Diagnostic [] table A list of diagnostic items |diagnostic-structure|. Keys `bufnr` , `end_lnum` , `end_col` , and `severity` are guaranteed to be present.
 function vim.diagnostic.get(bufnr, opts) end
 
 -- Get namespace metadata.
