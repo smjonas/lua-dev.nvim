@@ -292,11 +292,6 @@ function vim.lsp.implementation(options) end
 -- in the |inputlist()|.
 function vim.lsp.incoming_calls() end
 
--- Enable/disable/toggle inlay hints for a buffer
---- @param bufnr any #(integer) Buffer handle, or 0 for current
---- @param enable any #(boolean|nil) true/false to enable/disable, nil to toggle
-function vim.lsp.inlay_hint(bufnr, enable) end
-
 -- Jumps to a location.
 --- @param location any #(table) (`Location`|`LocationLink`)
 --- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
