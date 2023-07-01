@@ -40,10 +40,10 @@ function vim.lsp.buf_highlight_references(bufnr, references, offset_encoding) en
 --- @param buf any #(integer) buffer number (0 for current)
 --- @param row any #0-indexed line
 --- @param col any #0-indexed byte offset in line
---- @param offset_encoding any #(string) utf-8|utf-16|utf-32|nil defaults to
+--- @param offset_encoding any #(string) utf-8|utf-16|utf-32 defaults to
 ---                        `offset_encoding` of first client of `buf`
---- @return any #(integer, integer) `offset_encoding` index of the character in line
----     {row} column {col} in buffer {buf}
+--- @return any #(integer) `offset_encoding` index of the character in line {row}
+---     column {col} in buffer {buf}
 function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 
 -- Clear the lenses
@@ -52,7 +52,8 @@ function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 function vim.lsp.clear(client_id, bufnr) end
 
 -- Removes document highlights from current buffer.
-function vim.lsp.clear_references() end
+--- @param bufnr any #integer|nil
+function vim.lsp.clear_references(bufnr) end
 
 -- Selects a code action available at the current cursor position.
 --- @param options any #(table|nil) Optional table which holds the following
@@ -104,16 +105,17 @@ function vim.lsp.connect(host, port) end
 --- @param input any #(`MarkedString` | `MarkedString[]` | `MarkupContent`)
 --- @param contents any #(table|nil) List of strings to extend with converted
 ---                 lines. Defaults to {}.
---- @return any #{contents}, extended with lines of converted markdown.
+--- @return any #(table) {contents} extended with lines of converted markdown.
 function vim.lsp.convert_input_to_markdown_lines(input, contents) end
 
 -- Converts `textDocument/SignatureHelp` response to markdown lines.
---- @param signature_help any #Response of `textDocument/SignatureHelp`
---- @param ft any #optional filetype that will be use as the `lang` for
----                       the label markdown code block
---- @param triggers any #optional list of trigger characters from the lsp
+--- @param signature_help any #(table) Response of `textDocument/SignatureHelp`
+--- @param ft any #(string|nil) filetype that will be use as the `lang`
+---                       for the label markdown code block
+--- @param triggers any #(table|nil) list of trigger characters from the lsp
 ---                       server. used to better determine parameter offsets
---- @return any #(list) of lines of converted markdown.
+--- @return any #(table|nil) table list of lines of converted markdown.
+--- @return any #(table|nil) table of active hl
 function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, triggers) end
 
 -- Jumps to the declaration of the symbol under the cursor.
@@ -242,7 +244,7 @@ function vim.lsp.get_effective_tabstop(bufnr) end
 function vim.lsp.get_filename() end
 
 -- Gets the current log level.
---- @return any #(string) current log level
+--- @return any #(integer) current log level
 function vim.lsp.get_level() end
 
 -- Get the diagnostic namespace associated with an LSP client
@@ -294,7 +296,7 @@ function vim.lsp.incoming_calls() end
 
 -- Jumps to a location.
 --- @param location any #(table) (`Location`|`LocationLink`)
---- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
+--- @param offset_encoding any #(string|nil) utf-8|utf-16|utf-32
 --- @param reuse_win any #(boolean|nil) Jump to existing window if buffer is
 ---                        already open.
 --- @return any #(boolean) `true` if the jump succeeded
@@ -307,14 +309,15 @@ function vim.lsp.list_workspace_folders() end
 -- sorted order, for display in quickfix and location lists.
 --- @param locations any #(table) list of `Location`s or `LocationLink`s
 --- @param offset_encoding any #(string) offset_encoding for locations
----                        utf-8|utf-16|utf-32
+---                        utf-8|utf-16|utf-32 default to first client of
+---                        buffer
 --- @return any #(table) list of items
 function vim.lsp.locations_to_items(locations, offset_encoding) end
 
 -- Helper function to return nested values in language server settings
---- @param settings any #a table of language server settings
---- @param section any #a string indicating the field of the settings table
---- @return any #(table or string) The value of settings accessed via section
+--- @param settings any #(table) language server settings
+--- @param section any #string indicating the field of the settings table
+--- @return any #table|string The value of settings accessed via section
 function vim.lsp.lookup_section(settings, section) end
 
 -- Gets a new ClientCapabilities object describing the LSP client
@@ -326,7 +329,7 @@ function vim.lsp.make_client_capabilities() end
 -- table can be passed to |nvim_open_win()|.
 --- @param width any #(integer) window width (in character cells)
 --- @param height any #(integer) window height (in character cells)
---- @param opts any #(table, optional)
+--- @param opts any #(table) optional
 ---               • offset_x (integer) offset to add to `col`
 ---               • offset_y (integer) offset to add to `row`
 ---               • border (string or table) override `border`
@@ -352,8 +355,8 @@ function vim.lsp.make_formatting_params(options) end
 ---                        defaults to current
 --- @param offset_encoding any #"utf-8"|"utf-16"|"utf-32"|nil defaults to
 ---                        `offset_encoding` of first client of `bufnr`
---- @return any #{ textDocument = { uri = `current_file_uri` }, range = { start =
----     `start_position`, end = `end_position` } }
+--- @return any #(table) { textDocument = { uri = `current_file_uri` }, range = { start
+---     = `start_position`, end = `end_position` } }
 function vim.lsp.make_given_range_params(start_pos, end_pos, bufnr, offset_encoding) end
 
 -- Creates a `TextDocumentPositionParams` object for the current buffer and
@@ -363,7 +366,7 @@ function vim.lsp.make_given_range_params(start_pos, end_pos, bufnr, offset_encod
 --- @param offset_encoding any #(string|nil) utf-8|utf-16|utf-32|nil defaults to
 ---                        `offset_encoding` of first client of buffer of
 ---                        `window`
---- @return any #`TextDocumentPositionParams` object
+--- @return any #(table) `TextDocumentPositionParams` object
 function vim.lsp.make_position_params(window, offset_encoding) end
 
 -- Using the current position in the current buffer, creates an object that
@@ -375,18 +378,18 @@ function vim.lsp.make_position_params(window, offset_encoding) end
 --- @param offset_encoding any #"utf-8"|"utf-16"|"utf-32"|nil defaults to
 ---                        `offset_encoding` of first client of buffer of
 ---                        `window`
---- @return any #{ textDocument = { uri = `current_file_uri` }, range = { start =
----     `current_position`, end = `current_position` } }
+--- @return any #(table) { textDocument = { uri = `current_file_uri` }, range = { start
+---     = `current_position`, end = `current_position` } }
 function vim.lsp.make_range_params(window, offset_encoding) end
 
 -- Creates a `TextDocumentIdentifier` object for the current buffer.
 --- @param bufnr any #(integer|nil) Buffer handle, defaults to current
---- @return any #`TextDocumentIdentifier`
+--- @return any #(table) `TextDocumentIdentifier`
 function vim.lsp.make_text_document_params(bufnr) end
 
 -- Create the workspace params
---- @param added any #
---- @param removed any #
+--- @param added any #(table)
+--- @param removed any #(table)
 function vim.lsp.make_workspace_params(added, removed) end
 
 -- Sends a notification to the LSP server.
@@ -426,8 +429,8 @@ function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 ---                 • focus: (boolean, default true) If `true`, and if
 ---                   {focusable} is also `true`, focus an existing floating
 ---                   window with the same {focus_id}
---- @return any #bufnr,winnr buffer and window number of the newly created floating
----     preview window
+--- @return any #(integer) bufnr of newly created float window
+--- @return any #(integer) winid of newly created float window preview window
 function vim.lsp.open_floating_preview(contents, syntax, opts) end
 
 -- Lists all the items that are called by the symbol under the cursor in the
@@ -441,8 +444,9 @@ function vim.lsp.outgoing_calls() end
 function vim.lsp.parse_snippet(input) end
 
 -- Previews a location in a floating window
---- @param location any #a single `Location` or `LocationLink`
---- @return any #(bufnr,winnr) buffer and window number of floating window or nil
+--- @param location any #(table) a single `Location` or `LocationLink`
+--- @return any #(integer|nil) buffer id of float window
+--- @return any #(integer|nil) window id of float window
 function vim.lsp.preview_location(location, opts) end
 
 -- Lists all the references to the symbol under the cursor in the quickfix
@@ -478,7 +482,7 @@ function vim.lsp.request(method, params, callback, notify_reply_callback) end
 -- Creates a normalized object describing LSP server capabilities.
 --- @param server_capabilities any #(table) Table of capabilities supported by the
 ---                            server
---- @return any #(table) Normalized table of capabilities
+--- @return any #(table|nil) Normalized table of capabilities
 function vim.lsp.resolve_capabilities(server_capabilities) end
 
 -- Run the code lens in the current line
@@ -503,7 +507,7 @@ function vim.lsp.set_level(level) end
 --- @param lines any #(table) Original list of strings
 --- @param A any #(table) Start position; a 2-tuple of {line,col} numbers
 --- @param B any #(table) End position; a 2-tuple of {line,col} numbers
---- @param new_lines any #A list of strings to replace the original
+--- @param new_lines any #(table) list of strings to replace the original
 --- @return any #(table) The modified {lines} object
 function vim.lsp.set_lines(lines, A, B, new_lines) end
 
@@ -514,7 +518,7 @@ function vim.lsp.should_log(level) end
 
 -- Shows document and optionally jumps to the location.
 --- @param location any #(table) (`Location`|`LocationLink`)
---- @param offset_encoding any #"utf-8" | "utf-16" | "utf-32"
+--- @param offset_encoding any #(string|nil) utf-8|utf-16|utf-32
 --- @param opts any #(table|nil) options
 ---                        • reuse_win (boolean) Jump to existing window if
 ---                          buffer is already open.
@@ -551,7 +555,7 @@ function vim.lsp.stop(bufnr, client_id) end
 -- insert a blank line separator after those code block regions to improve
 -- readability.
 --- @param contents any #(table) of lines to show in window
---- @param opts any #dictionary with optional fields
+--- @param opts any #(table) with optional fields
 ---                 • height of floating window
 ---                 • width of floating window
 ---                 • wrap_at character to wrap at for computing height
@@ -560,20 +564,20 @@ function vim.lsp.stop(bufnr, client_id) end
 ---                 • pad_top number of lines to pad contents at top
 ---                 • pad_bottom number of lines to pad contents at bottom
 ---                 • separator insert separator after code block
---- @return any #width,height size of float
+--- @return any #(table) stripped content
 function vim.lsp.stylize_markdown(bufnr, contents, opts) end
 
 -- Converts symbols to quickfix list items.
---- @param symbols any #DocumentSymbol[] or SymbolInformation[]
+--- @param symbols any #(table) DocumentSymbol[] or SymbolInformation[]
 function vim.lsp.symbols_to_items(symbols, bufnr) end
 
 -- Turns the result of a `textDocument/completion` request into
 -- vim-compatible |complete-items|.
---- @param result any #The result of a `textDocument/completion` call, e.g. from
----               |vim.lsp.buf.completion()|, which may be one of
+--- @param result any #(table) The result of a `textDocument/completion` call, e.g.
+---               from |vim.lsp.buf.completion()|, which may be one of
 ---               `CompletionItem[]`, `CompletionList` or `null`
 --- @param prefix any #(string) the prefix to filter the completion items
---- @return any #{ matches = complete-items table, incomplete = bool }
+--- @return any #(table) { matches = complete-items table, incomplete = bool }
 function vim.lsp.text_document_completion_list_to_complete_items(result, prefix) end
 
 -- Removes empty lines from the beginning and end.
