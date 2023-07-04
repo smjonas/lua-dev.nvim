@@ -26,7 +26,7 @@ function vim.lsp.apply_text_edits(text_edits, bufnr, offset_encoding) end
 function vim.lsp.apply_workspace_edit(workspace_edit, offset_encoding) end
 
 -- Removes document highlights from a buffer.
---- @param bufnr any #(integer) Buffer id
+--- @param bufnr any #(integer|nil) Buffer id
 function vim.lsp.buf_clear_references(bufnr) end
 
 -- Shows a list of document highlights for a certain buffer.
@@ -51,9 +51,7 @@ function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 --- @param bufnr any #(integer|nil) filter by buffer. All buffers if nil
 function vim.lsp.clear(client_id, bufnr) end
 
--- Removes document highlights from current buffer.
---- @param bufnr any #integer|nil
-function vim.lsp.clear_references(bufnr) end
+function vim.lsp.clear_references() end
 
 -- Selects a code action available at the current cursor position.
 --- @param options any #(table|nil) Optional table which holds the following
