@@ -469,6 +469,14 @@ function vim.notify_once(msg, level, opts) end
 ---     {fn} will be removed if an error occurs while calling.
 function vim.on_key(fn, ns_id) end
 
+-- Opens `path` with the system default handler (macOS `open`, Windows
+-- `explorer.exe`, Linux `xdg-open`, …), or returns (but does not show) an
+-- error message on failure.
+--- @param path any #(string) Path or URL to open
+--- @return any #SystemCompleted|nil # Command result, or nil if not found.
+--- @return any #(string|nil) # Error message on failure
+function vim.open(path) end
+
 -- Iterate over all the parents of the given file or directory.
 --- @param start any #(string) Initial file or directory.
 --- @return any #(function) Iterator
