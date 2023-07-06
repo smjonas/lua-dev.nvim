@@ -207,7 +207,7 @@ function vim.del(modes, lhs, opts) end
 --- @param plugin any #string|nil Name of the plugin that owns the deprecated
 ---                    feature. Defaults to "Nvim".
 --- @param backtrace any #boolean|nil Prints backtrace. Defaults to true.
---- @return any #Deprecated message, or nil if no message was shown.
+--- @return any #(string|nil) # Deprecated message, or nil if no message was shown.
 function vim.deprecate(name, alternative, version, plugin, backtrace) end
 
 -- Return an iterator over the files and directories located in {path}
