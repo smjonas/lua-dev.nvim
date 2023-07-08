@@ -117,9 +117,6 @@ function vim.lsp.convert_input_to_markdown_lines(input, contents) end
 function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, triggers) end
 
 -- Jumps to the declaration of the symbol under the cursor.
--- Note:
---     Many servers do not implement this method. Generally, see
---     |vim.lsp.buf.definition()| instead.
 --- @param options any #(table|nil) additional options
 ---                • reuse_win: (boolean) Jump to existing window if buffer is
 ---                  already open.

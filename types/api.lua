@@ -251,7 +251,8 @@ function vim.api.nvim_buf_get_keymap(buffer, mode) end
 --- @return any #Array of lines, or empty array for unloaded buffer.
 function vim.api.nvim_buf_get_lines(buffer, start, end_, strict_indexing, lstate) end
 
--- Returns a tuple (row,col) representing the position of the named mark. See
+-- Returns a `(row,col)` tuple representing the position of the named mark.
+-- "End of line" column position is returned as |v:maxcol| (big number). See
 -- |mark-motions|.
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param name string #Mark name
@@ -875,10 +876,6 @@ function vim.api.nvim_get_current_win() end
 --- @return any #Highlight groups as a map from group name to a highlight definition
 ---     map as in |nvim_set_hl()|, or only a single highlight definition map
 ---     if requested by name or id.
---- @return any #
---- Note:
----     When the `link` attribute is defined in the highlight definition map,
----     other attributes will not be taking effect (see |:hi-link|).
 function vim.api.nvim_get_hl(ns_id, opts) end
 
 -- Gets a highlight group by name
@@ -891,8 +888,9 @@ function vim.api.nvim_get_hl_id_by_name(name) end
 ---     "buffer" key is always zero.
 function vim.api.nvim_get_keymap(mode) end
 
--- Return a tuple (row, col, buffer, buffername) representing the position of
--- the uppercase/file named mark. See |mark-motions|.
+-- Returns a `(row, col, buffer, buffername)` tuple representing the position
+-- of the uppercase/file named mark. "End of line" column position is
+-- returned as |v:maxcol| (big number). See |mark-motions|.
 --- @param name string #Mark name
 --- @param opts dictionary #Optional parameters. Reserved for future use.
 --- @return any #4-tuple (row, col, buffer, buffername), (0, 0, 0, '') if the mark is

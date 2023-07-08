@@ -456,17 +456,13 @@ function vim.notify_once(msg, level, opts) end
 
 -- Adds Lua function {fn} with namespace id {ns_id} as a listener to every,
 -- yes every, input key.
---- @param fn fun(...) #(function) Callback function. It should take one string
----              argument. On each key press, Nvim passes the key char to
----              fn(). |i_CTRL-V| If {fn} is nil, it removes the callback for
----              the associated {ns_id}
+--- @param fn fun(...) #fun(key: string) Function invoked on every key press.
+---              |i_CTRL-V| Returning nil removes the callback associated with
+---              namespace {ns_id}.
 --- @param ns_id any #integer? Namespace ID. If nil or 0, generates and returns a
 ---              new |nvim_create_namespace()| id.
 --- @return any #(integer) Namespace id associated with {fn}. Or count of all callbacks
 ---     if on_key() is called without arguments.
---- @return any #
---- Note:
----     {fn} will be removed if an error occurs while calling.
 function vim.on_key(fn, ns_id) end
 
 -- Opens `path` with the system default handler (macOS `open`, Windows
@@ -538,18 +534,18 @@ function vim.range(spec) end
 ---     trusted, or nil otherwise.
 function vim.read(path) end
 
--- Get a table of lines with start, end columns for a region marked by two
--- points. Input and output positions are (0,0)-indexed and indicate byte
--- positions.
---- @param bufnr any #(integer) number of buffer
---- @param pos1 any #integer[]|string start of region as a (line, column)
----                  tuple or string accepted by |getpos()|
---- @param pos2 any #integer[]|string end of region as a (line, column) tuple
----                  or string accepted by |getpos()|
---- @param regtype any #(string) type of selection, see |setreg()|
---- @param inclusive any #(boolean) indicating whether column of pos2 is inclusive
---- @return any #(table) region Table of the form `{linenr = {startcol,endcol}}`.
----     `endcol` is exclusive, and whole lines are marked with
+-- Gets a dict of line segment ("chunk") positions for the region from `pos1`
+-- to `pos2`.
+--- @param bufnr any #(integer) Buffer number, or 0 for current buffer
+--- @param pos1 any #integer[]|string Start of region as a (line, column)
+---                  tuple or |getpos()|-compatible string
+--- @param pos2 any #integer[]|string End of region as a (line, column) tuple
+---                  or |getpos()|-compatible string
+--- @param regtype any #(string) |setreg()|-style selection type
+--- @param inclusive any #(boolean) Controls whether `pos2` column is inclusive
+---                  (see also 'selection').
+--- @return any #(table) region Dict of the form `{linenr = {startcol,endcol}}`.
+---     `endcol` is exclusive, and whole lines are returned as
 ---     `{startcol,endcol} = {0,-1}`.
 function vim.region(bufnr, pos1, pos2, regtype, inclusive) end
 
