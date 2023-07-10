@@ -79,7 +79,7 @@ function vim.lsp.code_action(options) end
 
 -- Retrieves the completion items at the current cursor position. Can only be
 -- called in Insert mode.
---- @param context any #(context support not yet implemented) Additional
+--- @param context any #(table) (context support not yet implemented) Additional
 ---                information about the context in which a completion was
 ---                triggered (how it was triggered, and by which trigger
 ---                character, if applicable)
@@ -390,7 +390,7 @@ function vim.lsp.make_workspace_params(added, removed) end
 -- Sends a notification to the LSP server.
 --- @param method any #(string) The invoked LSP method
 --- @param params any #(table|nil) Parameters for the invoked LSP method
---- @return any #(bool) `true` if notification could be sent, `false` if not
+--- @return any #(boolean) `true` if notification could be sent, `false` if not
 function vim.lsp.notify(method, params) end
 
 -- |lsp-handler| for the method `textDocument/codeLens`
@@ -595,7 +595,7 @@ function vim.lsp.try_trim_markdown_code_blocks(lines) end
 function vim.lsp.type_definition(options) end
 
 -- Lists all symbols in the current workspace in the quickfix window.
---- @param query any #(string, optional)
+--- @param query any #(string|nil) optional
 --- @param options any #(table|nil) additional options
 ---                • on_list: (function) handler for list results. See
 ---                  |lsp-on-list-handler|

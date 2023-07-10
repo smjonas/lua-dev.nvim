@@ -137,7 +137,7 @@ function vim.add(filetypes) end
 
 -- Return the basename of the given file or directory
 --- @param file any #(string) File or directory
---- @return any #(string) Basename of {file}
+--- @return any #(string|nil) Basename of {file}
 function vim.basename(file) end
 
 -- Execute Vim script commands.
@@ -226,7 +226,7 @@ function vim.dir(path, opts) end
 
 -- Return the parent directory of the given file or directory
 --- @param file any #(string) File or directory
---- @return any #(string) Parent directory of {file}
+--- @return any #(string|nil) Parent directory of {file}
 function vim.dirname(file) end
 
 -- Disables the experimental Lua module loader:
@@ -502,7 +502,7 @@ function vim.parse(version, opts) end
 ---              • 1: starts the paste (exactly once)
 ---              • 2: continues the paste (zero or more times)
 ---              • 3: ends the paste (exactly once)
---- @return any #(boolean) # false if client should cancel the paste.
+--- @return any #(boolean) result false if client should cancel the paste.
 function vim.paste(lines, phase) end
 
 -- Escapes magic chars in |lua-patterns|.
