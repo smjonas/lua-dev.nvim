@@ -683,3 +683,20 @@ function vim.api.nvim_win_set_var(window, name, value) end
 --- @param width integer #Width as a count of columns
 function vim.api.nvim_win_set_width(window, width) end
 
+-- Computes the number of screen lines occupied by a range of text in a given
+-- window. Works for off-screen text and takes folds into account.
+--- @param window window #Window handle, or 0 for current window.
+--- @param opts dict(win_text_height) * #Optional parameters:
+---               • start_row: Starting line index, 0-based inclusive. When
+---                 omitted start at the very top.
+---               • end_row: Ending line index, 0-based inclusive. When
+---                 omitted end at the very bottom.
+---               • start_vcol: Starting virtual column index on "start_row",
+---                 0-based inclusive, rounded down to full screen lines. When
+---                 omitted include the whole line.
+---               • end_vcol: Ending virtual column index on "end_row",
+---                 0-based exclusive, rounded up to full screen lines. When
+---                 omitted include the whole line.
+--- @return any #The number of screen lines that the range of text occupy.
+function vim.api.nvim_win_text_height(window, opts) end
+
