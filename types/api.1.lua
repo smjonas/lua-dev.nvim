@@ -697,6 +697,8 @@ function vim.api.nvim_win_set_width(window, width) end
 ---               • end_vcol: Ending virtual column index on "end_row",
 ---                 0-based exclusive, rounded up to full screen lines. When
 ---                 omitted include the whole line.
---- @return any #The number of screen lines that the range of text occupy.
+--- @return any #Dictionary containing text height information, with these keys:
+---     • all: The total number of screen lines occupied by the range.
+---     • fill: The number of diff filler or virtual lines among them.
 function vim.api.nvim_win_text_height(window, opts) end
 
