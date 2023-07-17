@@ -113,6 +113,26 @@ function vim.Iter:slice(first, last) end
 --- @return any #(table)
 function vim.Iter:totable() end
 
+--- @class vim.Option
+vim.Option = {}
+
+-- Append a value to string-style options. See |:set+=|
+--- @param value any #(string) Value to append
+function vim.Option:append(value) end
+
+-- Returns a Lua-representation of the option. Boolean, number and string
+-- values will be returned in exactly the same fashion.
+--- @return any #string|integer|boolean|nil value of option
+function vim.Option:get() end
+
+-- Prepend a value to string-style options. See |:set^=|
+--- @param value any #(string) Value to prepend
+function vim.Option:prepend(value) end
+
+-- Remove a value from string-style options. See |:set-=|
+--- @param value any #(string) Value to remove
+function vim.Option:remove(value) end
+
 --- @class vim.Ringbuf
 vim.Ringbuf = {}
 
@@ -140,6 +160,17 @@ function vim.add(filetypes) end
 --- @return any #(string|nil) Basename of {file}
 function vim.basename(file) end
 
+-- Check {str} for spelling errors. Similar to the Vimscript function
+-- |spellbadword()|.
+--- @param str any #(string)
+--- @return any #`{[1]: string, [2]: string, [3]: string}[]` List of tuples with three items:
+---     • The badly spelled word.
+---     • The type of the spelling error: "bad" spelling mistake "rare" rare
+---       word "local" word only valid in another region "caps" word should
+---       start with Capital
+---     • The position in {str} where the word begins.
+function vim.check(str) end
+
 -- Execute Vim script commands.
 --- @param command any #string|table Command(s) to execute. If a string, executes
 ---                multiple lines of Vim script at once. In this case, it is
@@ -158,6 +189,10 @@ function vim.cmd(command) end
 function vim.cmp(v1, v2) end
 
 function vim.connection_failure_errmsg(consequence) end
+
+-- Decodes (or "unpacks") the msgpack-encoded {str} to a Lua object.
+--- @param str any #(string)
+function vim.decode(str) end
 
 -- Deep compare values for equality
 --- @param a any #any First value
@@ -210,11 +245,56 @@ function vim.del(modes, lhs, opts) end
 --- @return any #(string|nil) # Deprecated message, or nil if no message was shown.
 function vim.deprecate(name, alternative, version, plugin, backtrace) end
 
+-- Run diff on strings {a} and {b}. Any indices returned by this function,
+-- either directly or via callback arguments, are 1-based.
+--- @param a any #(string) First string to compare
+--- @param b any #(string) Second string to compare
+--- @param opts any #table<string,any> Optional parameters:
+---             • `on_hunk` (callback): Invoked for each hunk in the diff. Return a
+---               negative number to cancel the callback for any remaining
+---               hunks. Args:
+---               • `start_a` (integer): Start line of hunk in {a}.
+---               • `count_a` (integer): Hunk size in {a}.
+---               • `start_b` (integer): Start line of hunk in {b}.
+---               • `count_b` (integer): Hunk size in {b}.
+---
+---             • `result_type` (string): Form of the returned diff:
+---               • "unified": (default) String in unified format.
+---               • "indices": Array of hunk locations. Note: This option is
+---                 ignored if `on_hunk` is used.
+---
+---             • `linematch` (boolean|integer): Run linematch on the
+---               resulting hunks from xdiff. When integer, only hunks upto
+---               this size in lines are run through linematch. Requires
+---               `result_type = indices`, ignored otherwise.
+---             • `algorithm` (string): Diff algorithm to use. Values:
+---               • "myers" the default algorithm
+---               • "minimal" spend extra time to generate the smallest
+---                 possible diff
+---               • "patience" patience diff algorithm
+---               • "histogram" histogram diff algorithm
+---
+---             • `ctxlen` (integer): Context length
+---             • `interhunkctxlen` (integer): Inter hunk context length
+---             • `ignore_whitespace` (boolean): Ignore whitespace
+---             • `ignore_whitespace_change` (boolean): Ignore whitespace
+---               change
+---             • `ignore_whitespace_change_at_eol` (boolean) Ignore
+---               whitespace change at end-of-line.
+---             • `ignore_cr_at_eol` (boolean) Ignore carriage return at
+---               end-of-line
+---             • `ignore_blank_lines` (boolean) Ignore blank lines
+---             • `indent_heuristic` (boolean): Use the indent heuristic for
+---               the internal diff library.
+--- @return any #string|table|nil See {opts.result_type}. `nil` if {opts.on_hunk} is
+---     given.
+function vim.diff(a, b, opts) end
+
 -- Return an iterator over the files and directories located in {path}
 --- @param path any #(string) An absolute or relative path to the directory to
 ---             iterate over. The path is first normalized
 ---             |vim.fs.normalize()|.
---- @param opts any #table|nil Optional keyword arguments:
+--- @param opts any #(table|nil) Optional keyword arguments:
 ---             • depth: integer|nil How deep the traverse (default 1)
 ---             • skip: (fun(dir_name: string): boolean)|nil Predicate to
 ---               control traversal. Return false to stop searching the
@@ -234,12 +314,20 @@ function vim.dirname(file) end
 -- • adds the default Nvim loader
 function vim.disable() end
 
+-- Creates a special empty table (marked with a metatable), which Nvim to an
+-- empty dictionary when translating Lua values to Vimscript or API types.
+-- Nvim by default converts an empty table `{}` without this metatable to an
+-- list/array.
+function vim.empty_dict() end
+
 -- Enables the experimental Lua module loader:
 -- • overrides loadfile
 -- • adds the Lua loader using the byte-compilation cache
 -- • adds the libs loader
 -- • removes the default Nvim loader
 function vim.enable() end
+
+function vim.encode(obj) end
 
 -- Tests if `s` ends with `suffix`.
 --- @param s any #(string) String
@@ -283,14 +371,14 @@ function vim.filter(f, src, ...) end
 function vim.find(modname, opts) end
 
 -- Get the default option value for a {filetype}.
---- @param filetype any #string Filetype
---- @param option any #string Option name
+--- @param filetype any #(string) Filetype
+--- @param option any #(string) Option name
 --- @return any #string|boolean|integer: Option value
 function vim.get_option(filetype, option) end
 
 -- Splits a string at each instance of a separator.
---- @param s any #string String to split
---- @param sep any #string Separator or pattern
+--- @param s any #(string) String to split
+--- @param sep any #(string) Separator or pattern
 --- @param opts any #(table|nil) Keyword arguments |kwargs|:
 ---             • plain: (boolean) Use `sep` literally (as in string.find).
 ---             • trimempty: (boolean) Discard empty segments at start and end
@@ -303,6 +391,25 @@ function vim.gsplit(s, sep, opts) end
 --- @param v2 any #Version|number[]
 --- @return any #(boolean)
 function vim.gt(v1, v2) end
+
+-- The result is a String, which is the text {str} converted from encoding
+-- {from} to encoding {to}. When the conversion fails `nil` is returned. When
+-- some characters could not be converted they are replaced with "?". The
+-- encoding names are whatever the iconv() library function can accept, see
+-- ":Man 3 iconv".
+--- @param str any #(string) Text to convert
+--- @param from any #(number) Encoding of {str}
+--- @param to any #(number) Target encoding
+--- @param opts any #table<string,any>|nil
+--- @return any #(string|nil) Converted string if conversion succeeds, `nil` otherwise.
+function vim.iconv(str, from, to, opts) end
+
+-- Returns true if the code is executing as part of a "fast" event handler,
+-- where most of the API is disabled. These are low-level events (e.g.
+-- |lua-loop-callbacks|) which can be invoked whenever Nvim polls for input.
+-- When this is `false` most API functions are callable (but may be subject
+-- to other restrictions such as |textlock|).
+function vim.in_fast_event() end
 
 -- Prompts the user for input, allowing arbitrary (potentially asynchronous)
 -- work until `on_confirm`.
@@ -360,8 +467,8 @@ function vim.is_callable(f) end
 function vim.joinpath(...) end
 
 -- Translate keycodes.
---- @param str any #string String to be converted.
---- @return any #string
+--- @param str any #(string) String to be converted.
+--- @return any #(string)
 function vim.keycode(str) end
 
 -- TODO: generalize this, move to func.lua
@@ -465,6 +572,19 @@ function vim.notify_once(msg, level, opts) end
 ---     if on_key() is called without arguments.
 function vim.on_key(fn, ns_id) end
 
+-- Highlight the yanked text
+--- @param opts any #(table|nil) Optional parameters
+---             • higroup highlight group for yanked region (default
+---               "IncSearch")
+---             • timeout time in ms before highlight is cleared (default 150)
+---             • on_macro highlight when executing macro (default false)
+---             • on_visual highlight when yanking visual selection (default
+---               true)
+---             • event event structure (default vim.v.event)
+---             • priority integer priority (default
+---               |vim.highlight.priorities|`.user`)
+function vim.on_yank(opts) end
+
 -- Opens `path` with the system default handler (macOS `open`, Windows
 -- `explorer.exe`, Linux `xdg-open`, …), or returns (but does not show) an
 -- error message on failure.
@@ -516,14 +636,14 @@ function vim.print(...) end
 
 -- Parses a semver |version-range| "spec" and returns a range object: >
 --
---   {
---     from: Version
---     to: Version
---     has(v: string|Version)
---   }
+--    {
+--      from: Version
+--      to: Version
+--      has(v: string|Version)
+--    }
 --
 -- <
---- @param spec any #string Version range "spec"
+--- @param spec any #(string) Version range "spec"
 function vim.range(spec) end
 
 -- Attempt to read the file at {path} prompting the user if the file should
@@ -533,6 +653,32 @@ function vim.range(spec) end
 --- @return any #(string|nil) The contents of the given file if it exists and is
 ---     trusted, or nil otherwise.
 function vim.read(path) end
+
+-- Parse the Vim regex {re} and return a regex object. Regexes are "magic"
+-- and case-sensitive by default, regardless of 'magic' and 'ignorecase'.
+-- They can be controlled with flags, see |/magic| and |/ignorecase|.
+--- @param re any #(string)
+--- @return any #vim.regex
+function vim.regex(re) end
+
+--- @class vim.regex
+vim.regex = {}
+
+-- Match line {line_idx} (zero-based) in buffer {bufnr}. If {start} and {end}
+-- are supplied, match only this byte index range. Otherwise see
+-- |regex:match_str()|. If {start} is used, then the returned byte indices
+-- will be relative {start}.
+--- @param bufnr any #(integer)
+--- @param line_idx any #(integer)
+--- @param start any #(integer|nil)
+--- @param end_ any #(integer|nil)
+function vim.regex:match_line(bufnr, line_idx, start, end_) end
+
+-- Match the string against the regex. If the string should match the regex
+-- precisely, surround the regex with `^` and `$` . If the was a match, the byte indices for the beginning and end of the
+-- match is returned. When there is no match, `nil` is returned. As any integer is truth-y, `regex:match()` can be directly used as a condition in an if-statement.
+--- @param str any #(string)
+function vim.regex:match_str(str) end
 
 -- Gets a dict of line segment ("chunk") positions for the region from `pos1`
 -- to `pos2`.
@@ -558,6 +704,27 @@ function vim.reset(path) end
 --- @param size any #(integer)
 --- @return any #(table)
 function vim.ringbuf(size) end
+
+-- Sends {event} to {channel} via |RPC| and returns immediately. If {channel}
+-- is 0, the event is broadcast to all channels.
+--- @param channel any #(integer)
+--- @param method any #(string)
+--- @param args any[] #any[]|nil
+--- @vararg any #any|nil
+function vim.rpcnotify(channel, method, args, ...) end
+
+-- Sends a request to {channel} to invoke {method} via |RPC| and blocks until
+-- a response is received.
+--- @param channel any #(integer)
+--- @param method any #(string)
+--- @param args any[] #any[]|nil
+--- @vararg any #any|nil
+function vim.rpcrequest(channel, method, args, ...) end
+
+-- Schedules {callback} to be invoked soon by the main event-loop. Useful to
+-- avoid |textlock| or other temporary restrictions.
+--- @param callback any #fun()
+function vim.schedule(callback) end
 
 -- Defers callback `cb` until the Nvim API is safe to call.
 --- @param cb any #(function)
@@ -642,6 +809,28 @@ function vim.split(s, sep, opts) end
 --- @param prefix any #(string) Prefix to match
 --- @return any #(boolean) `true` if `prefix` is a prefix of `s`
 function vim.startswith(s, prefix) end
+
+-- Convert UTF-32 or UTF-16 {index} to byte index. If {use_utf16} is not
+-- supplied, it defaults to false (use UTF-32). Returns the byte index.
+--- @param str any #(string)
+--- @param index any #(number)
+--- @param use_utf16 any #any|nil
+function vim.str_byteindex(str, index, use_utf16) end
+
+-- Convert byte index to UTF-32 and UTF-16 indices. If {index} is not
+-- supplied, the length of the string is used. All indices are zero-based.
+--- @param str any #(string)
+--- @param index any #(number|nil)
+--- @return any #(integer) UTF-32 index
+--- @return any #(integer) UTF-16 index
+function vim.str_utfindex(str, index) end
+
+-- Compares strings case-insensitively.
+--- @param a any #(string)
+--- @param b any #(string)
+--- @return any #0|1|-1 if strings are equal, {a} is greater than {b} or {a} is lesser
+---     than {b}, respectively.
+function vim.stricmp(a, b) end
 
 -- Run a system command
 --- @param cmd any #(string[]) Command to execute
@@ -813,6 +1002,19 @@ function vim.trim(s) end
 ---     • false and error message on failure
 function vim.trust(opts) end
 
+-- Attach to ui events, similar to |nvim_ui_attach()| but receive events as
+-- Lua callback. Can be used to implement screen elements like popupmenu or
+-- message handling in Lua.
+--- @param ns any #(integer)
+--- @param options any #table<string, any>
+--- @param callback any #fun()
+function vim.ui_attach(ns, options, callback) end
+
+-- Detach a callback previously attached with |vim.ui_attach()| for the given
+-- namespace {ns}.
+--- @param ns any #(integer)
+function vim.ui_detach(ns) end
+
 -- Validates a parameter specification (types and values).
 --- @param opt any #(table) Names of parameters to validate. Each key is a
 ---            parameter name; each value is a tuple in one of these forms:
@@ -831,4 +1033,20 @@ function vim.trust(opts) end
 ---                 returned value.
 ---               • msg: (optional) error string if validation fails
 function vim.validate(opt) end
+
+-- Wait for {time} in milliseconds until {callback} returns `true`.
+--- @param time any #(integer) Number of milliseconds to wait
+--- @param callback any #fun():|nil boolean Optional callback. Waits until
+---                  {callback} returns true
+--- @param interval any #(integer|nil) (Approximate) number of milliseconds to
+---                  wait between polls
+--- @param fast_only any #(boolean|nil) If true, only |api-fast| events will be
+---                  processed. If called from while in an |api-fast| event,
+---                  will automatically be set to `true`.
+--- @return any #boolean, nil|-1|-2
+---     • If {callback} returns `true` during the {time}: `true, nil`
+---     • If {callback} never returns `true` during the {time}: `false, -1`
+---     • If {callback} is interrupted during the {time}: `false, -2`
+---     • If {callback} errors, the error is raised.
+function vim.wait(time, callback, interval, fast_only) end
 

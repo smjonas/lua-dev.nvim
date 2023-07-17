@@ -169,8 +169,8 @@ function vim.lsp.force_refresh(bufnr) end
 
 -- Formats a buffer using the attached (and optionally filtered) language
 -- server clients.
---- @param options any #table|nil Optional table which holds the following optional
----                fields:
+--- @param options any #(table|nil) Optional table which holds the following
+---                optional fields:
 ---                • formatting_options (table|nil): Can be used to specify
 ---                  FormattingOptions. Some unspecified options will be
 ---                  automatically derived from the current Nvim options. See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
@@ -184,10 +184,10 @@ function vim.lsp.force_refresh(bufnr) end
 ---                  Receives a client as argument and must return a boolean.
 ---                  Clients matching the predicate are included. Example:               • >lua
 ---
----           -- Never request typescript-language-server for formatting
----           vim.lsp.buf.format {
----             filter = function(client) return client.name ~= "tsserver" end
----           }
+---            -- Never request typescript-language-server for formatting
+---            vim.lsp.buf.format {
+---              filter = function(client) return client.name ~= "tsserver" end
+---            }
 ---
 --- <
 ---                • async boolean|nil If true the method won't block.
@@ -228,6 +228,18 @@ function vim.lsp.get(bufnr) end
 ---     • modifiers (table) token modifiers as a set. E.g., { static = true,
 ---       readonly = true }
 function vim.lsp.get_at_pos(bufnr, row, col) end
+
+-- Get active clients.
+--- @param filter any #(table|nil) A table with key-value pairs used to filter the
+---               returned clients. The available keys are:
+---               • id (number): Only return clients with the given id
+---               • bufnr (number): Only return clients attached to this
+---                 buffer
+---               • name (string): Only return clients with the given name
+---               • method (string): Only return clients supporting the given
+---                 method
+--- @return any #lsp.Client []: List of |vim.lsp.client| objects
+function vim.lsp.get_clients(filter) end
 
 -- Returns indentation size.
 --- @param bufnr any #(integer|nil) Buffer handle, defaults to current

@@ -64,19 +64,22 @@ function vim.treesitter.LanguageTree:parse() end
 
 -- Registers callbacks for the |LanguageTree|.
 --- @param cbs any #(table) An |nvim_buf_attach()|-like table argument with
----                   the following handlers:
----                   • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
----                   • `on_changedtree` : a callback that will be called
----                     every time the tree has syntactical changes. It will
----                     be passed two arguments: a table of the ranges (as
----                     node ranges) that changed and the changed tree.
----                   • `on_child_added` : emitted when a child is added to
----                     the tree.
----                   • `on_child_removed` : emitted when a child is removed
----                     from the tree.
----                   • `on_detach` : emitted when the buffer is detached, see
----                     |nvim_buf_detach_event|. Takes one argument, the
----                     number of the buffer.
+---                  the following handlers:
+---                  • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
+---                  • `on_changedtree` : a callback that will be called every
+---                    time the tree has syntactical changes. It will be
+---                    passed two arguments: a table of the ranges (as node
+---                    ranges) that changed and the changed tree.
+---                  • `on_child_added` : emitted when a child is added to the
+---                    tree.
+---                  • `on_child_removed` : emitted when a child is removed
+---                    from the tree.
+---                  • `on_detach` : emitted when the buffer is detached, see
+---                    |nvim_buf_detach_event|. Takes one argument, the number
+---                    of the buffer.
+--- @param recursive any #(boolean|nil) Apply callbacks recursively for all
+---                  children. Any new children will also inherit the
+---                  callbacks.
 function vim.treesitter.LanguageTree:register_cbs(cbs, recursive) end
 
 -- Returns the source content of the language tree (bufnr or string).
@@ -176,12 +179,12 @@ function vim.treesitter.get(lang, query_name) end
 function vim.treesitter.get_files(lang, query_name, is_included) end
 
 -- Get the filetypes associated with the parser named {lang}.
---- @param lang any #string Name of parser
+--- @param lang any #(string) Name of parser
 --- @return any #string[] filetypes
 function vim.treesitter.get_filetypes(lang) end
 
---- @param filetype any #string
---- @return any #string|nil
+--- @param filetype any #(string)
+--- @return any #(string|nil)
 function vim.treesitter.get_lang(filetype) end
 
 -- Inspects the provided language.
@@ -217,7 +220,7 @@ function vim.treesitter.omnifunc(findstart, base) end
 function vim.treesitter.parse(lang, query) end
 
 -- Register a parser named {lang} to be used for {filetype}(s).
---- @param lang any #string Name of parser
+--- @param lang any #(string) Name of parser
 --- @param filetype any #string|string[] Filetype(s) to associate with lang
 function vim.treesitter.register(lang, filetype) end
 
