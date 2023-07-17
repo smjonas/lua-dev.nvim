@@ -229,18 +229,6 @@ function vim.lsp.get(bufnr) end
 ---       readonly = true }
 function vim.lsp.get_at_pos(bufnr, row, col) end
 
--- Get active clients.
---- @param filter any #(table|nil) A table with key-value pairs used to filter the
----               returned clients. The available keys are:
----               • id (number): Only return clients with the given id
----               • bufnr (number): Only return clients attached to this
----                 buffer
----               • name (string): Only return clients with the given name
----               • method (string): Only return clients supporting the given
----                 method
---- @return any #lsp.Client []: List of |vim.lsp.client| objects
-function vim.lsp.get_clients(filter) end
-
 -- Returns indentation size.
 --- @param bufnr any #(integer|nil) Buffer handle, defaults to current
 --- @return any #(integer) indentation size
