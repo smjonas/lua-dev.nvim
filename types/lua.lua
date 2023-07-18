@@ -160,6 +160,11 @@ function vim.add(filetypes) end
 --- @return any #(string|nil) Basename of {file}
 function vim.basename(file) end
 
+-- Get or set buffer-scoped |options| for the buffer with number {bufnr}.
+-- Like `:set` and `:setlocal`. If [{bufnr}] is omitted then the current
+-- buffer is used. Invalid {bufnr} or key is an error.
+function vim.bo() end
+
 -- Check {str} for spelling errors. Similar to the Vimscript function
 -- |spellbadword()|.
 --- @param str any #(string)
@@ -172,13 +177,7 @@ function vim.basename(file) end
 function vim.check(str) end
 
 -- Execute Vim script commands.
---- @param command any #string|table Command(s) to execute. If a string, executes
----                multiple lines of Vim script at once. In this case, it is
----                an alias to |nvim_exec2()|, where `opts.output` is set to
----                false. Thus it works identical to |:source|. If a table,
----                executes a single command. In this case, it is an alias to
----                |nvim_cmd()| where `opts` is empty.
-function vim.cmd(command) end
+function vim.cmd() end
 
 -- Parses and compares two version objects (the result of
 -- |vim.version.parse()|, or specified literally as a `{major, minor, patch}`
@@ -187,8 +186,6 @@ function vim.cmd(command) end
 --- @param v2 any #Version|number[] Version to compare with `v1` .
 --- @return any #(integer) -1 if `v1 < v2`, 0 if `v1 == v2`, 1 if `v1 > v2`.
 function vim.cmp(v1, v2) end
-
-function vim.connection_failure_errmsg(consequence) end
 
 -- Decodes (or "unpacks") the msgpack-encoded {str} to a Lua object.
 --- @param str any #(string)
@@ -335,6 +332,14 @@ function vim.encode(obj) end
 --- @return any #(boolean) `true` if `suffix` is a suffix of `s`
 function vim.endswith(s, suffix) end
 
+-- Environment variables defined in the editor session. See |expand-env| and
+-- |:let-environment| for the Vimscript behavior. Invalid or unset key
+-- returns `nil` . Example: >lua
+--     vim.env.FOO = 'bar'
+--     print(vim.env.TERM)
+-- <
+function vim.env() end
+
 -- Returns `true` if the given versions are equal. See |vim.version.cmp()| for usage.
 --- @param v1 any #Version|number[]
 --- @param v2 any #Version|number[]
@@ -375,6 +380,9 @@ function vim.find(modname, opts) end
 --- @param option any #(string) Option name
 --- @return any #string|boolean|integer: Option value
 function vim.get_option(filetype, option) end
+
+-- Get or set global |options|. Like `:setglobal`. Invalid key is an error.
+function vim.go() end
 
 -- Splits a string at each instance of a separator.
 --- @param s any #(string) String to split
@@ -561,6 +569,9 @@ function vim.notify(msg, level, opts) end
 --- @return any #(boolean) true if message was displayed, else false
 function vim.notify_once(msg, level, opts) end
 
+-- Get or set |options|. Like `:set`. Invalid key is an error.
+function vim.o() end
+
 -- Adds Lua function {fn} with namespace id {ns_id} as a listener to every,
 -- yes every, input key.
 --- @param fn fun(...) #fun(key: string) Function invoked on every key press.
@@ -633,6 +644,15 @@ function vim.pesc(s) end
 -- "Pretty prints" the given arguments and returns them unmodified.
 --- @return any #any # given arguments.
 function vim.print(...) end
+
+-- Table with default priorities used for highlighting:
+-- • `syntax`: `50`, used for standard syntax highlighting
+-- • `treesitter`: `100`, used for tree-sitter-based highlighting
+-- • `semantic_tokens`: `125`, used for LSP semantic token highlighting
+-- • `diagnostics`: `150`, used for code analysis such as diagnostics
+-- • `user`: `200`, used for user-triggered highlights such as LSP document
+--   symbols or `on_yank` autocommands
+function vim.priorities() end
 
 -- Parses a semver |version-range| "spec" and returns a range object: >
 --
@@ -1049,4 +1069,10 @@ function vim.validate(opt) end
 ---     • If {callback} is interrupted during the {time}: `false, -2`
 ---     • If {callback} errors, the error is raised.
 function vim.wait(time, callback, interval, fast_only) end
+
+-- Get or set window-scoped |options| for the window with handle {winid} and
+-- buffer with number {bufnr}. Like `:setlocal` if {bufnr} is provided, like
+-- `:set` otherwise. If [{winid}] is omitted then the current window is used.
+-- Invalid {winid}, {bufnr} or key is an error.
+function vim.wo() end
 
