@@ -139,11 +139,11 @@ vim.Ringbuf = {}
 function vim.Ringbuf:clear() end
 
 -- Returns the first unread item without removing it
---- @return any #any?|ni
+--- @return any #any?|nil
 function vim.Ringbuf:peek() end
 
 -- Removes and returns the first unread item
---- @return any #any?|ni
+--- @return any #any?|nil
 function vim.Ringbuf:pop() end
 
 -- Adds an item, overriding the oldest item if the buffer is full.
@@ -473,7 +473,7 @@ function vim.keycode(str) end
 
 -- TODO: generalize this, move to func.lua
 --- @param versions any #Version []
---- @return any #Version ?|ni
+--- @return any #Version ?|nil
 function vim.last(versions) end
 
 -- Checks if a list-like table (integer keys without gaps) contains `value`.
