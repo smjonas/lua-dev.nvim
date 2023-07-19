@@ -155,8 +155,8 @@ function vim.Ringbuf:push(item) end
 ---                  example).
 function vim.add(filetypes) end
 
--- Return the basename of the given file or directory
---- @param file any #(string) File or directory
+-- Return the basename of the given path
+--- @param file any #(string) Path
 --- @return any #(string|nil) Basename of {file}
 function vim.basename(file) end
 
@@ -287,7 +287,7 @@ function vim.deprecate(name, alternative, version, plugin, backtrace) end
 ---     given.
 function vim.diff(a, b, opts) end
 
--- Return an iterator over the files and directories located in {path}
+-- Return an iterator over the items located in {path}
 --- @param path any #(string) An absolute or relative path to the directory to
 ---             iterate over. The path is first normalized
 ---             |vim.fs.normalize()|.
@@ -296,13 +296,14 @@ function vim.diff(a, b, opts) end
 ---             • skip: (fun(dir_name: string): boolean)|nil Predicate to
 ---               control traversal. Return false to stop searching the
 ---               current directory. Only useful when depth > 1
---- @return any #Iterator over files and directories in {path}. Each iteration yields
----     two values: name and type. Each "name" is the basename of the file or
----     directory relative to {path}. Type is one of "file" or "directory".
+--- @return any #Iterator over items in {path}. Each iteration yields two values:
+---     "name" and "type". "name" is the basename of the item relative to
+---     {path}. "type" is one of the following: "file", "directory", "link",
+---     "fifo", "socket", "char", "block", "unknown".
 function vim.dir(path, opts) end
 
--- Return the parent directory of the given file or directory
---- @param file any #(string) File or directory
+-- Return the parent directory of the given path
+--- @param file any #(string) Path
 --- @return any #(string|nil) Parent directory of {file}
 function vim.dirname(file) end
 
@@ -604,8 +605,8 @@ function vim.on_yank(opts) end
 --- @return any #(string|nil) # Error message on failure
 function vim.open(path) end
 
--- Iterate over all the parents of the given file or directory.
---- @param start any #(string) Initial file or directory.
+-- Iterate over all the parents of the given path.
+--- @param start any #(string) Initial path.
 --- @return any #(function) Iterator
 function vim.parents(start) end
 
