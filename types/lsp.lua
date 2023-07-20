@@ -243,9 +243,11 @@ function vim.lsp.get_filename() end
 function vim.lsp.get_level() end
 
 -- Get the diagnostic namespace associated with an LSP client
--- |vim.diagnostic|.
+-- |vim.diagnostic| for diagnostics
 --- @param client_id any #(integer) The id of the LSP client
-function vim.lsp.get_namespace(client_id) end
+--- @param is_pull any #(boolean) Whether the namespace is for a pull or push
+---                  client
+function vim.lsp.get_namespace(client_id, is_pull) end
 
 -- Highlight a semantic token.
 --- @param token any #(table) a semantic token, found as `args.data.token` in
@@ -395,6 +397,10 @@ function vim.lsp.notify(method, params) end
 
 -- |lsp-handler| for the method `textDocument/codeLens`
 function vim.lsp.on_codelens(err, result, ctx, _) end
+
+-- |lsp-handler| for the method "textDocument/diagnostic"
+--- @param config any #(table) Configuration table (see |vim.diagnostic.config()|).
+function vim.lsp.on_diagnostic(_, result, ctx, config) end
 
 -- |lsp-handler| for the method "textDocument/publishDiagnostics"
 --- @param config any #(table) Configuration table (see |vim.diagnostic.config()|).
