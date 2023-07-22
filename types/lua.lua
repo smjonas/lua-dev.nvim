@@ -312,10 +312,10 @@ function vim.dirname(file) end
 -- • adds the default Nvim loader
 function vim.disable() end
 
--- Creates a special empty table (marked with a metatable), which Nvim to an
--- empty dictionary when translating Lua values to Vimscript or API types.
--- Nvim by default converts an empty table `{}` without this metatable to an
--- list/array.
+-- Creates a special empty table (marked with a metatable), which Nvim
+-- converts to an empty dictionary when translating Lua values to Vimscript
+-- or API types. Nvim by default converts an empty table `{}` without this
+-- metatable to an list/array.
 function vim.empty_dict() end
 
 -- Enables the experimental Lua module loader:
