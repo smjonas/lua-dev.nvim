@@ -838,6 +838,26 @@ function vim.startswith(s, prefix) end
 --- @param use_utf16 any #any|nil
 function vim.str_byteindex(str, index, use_utf16) end
 
+-- Gets the distance (in bytes) from the last byte of the codepoint
+-- (character) that {index} points to.
+--- @param str any #(string)
+--- @param index any #(number)
+--- @return any #(number)
+function vim.str_utf_end(str, index) end
+
+-- Gets a list of the starting byte positions of each UTF-8 codepoint in the
+-- given string.
+--- @param str any #(string)
+--- @return any #(table)
+function vim.str_utf_pos(str) end
+
+-- Gets the distance (in bytes) from the starting byte of the codepoint
+-- (character) that {index} points to.
+--- @param str any #(string)
+--- @param index any #(number)
+--- @return any #(number)
+function vim.str_utf_start(str, index) end
+
 -- Convert byte index to UTF-32 and UTF-16 indices. If {index} is not
 -- supplied, the length of the string is used. All indices are zero-based.
 --- @param str any #(string)
