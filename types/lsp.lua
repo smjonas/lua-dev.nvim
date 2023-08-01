@@ -3,6 +3,9 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- LSP method names.
+function vim.lsp.Methods() end
+
 -- Add the folder at path to the workspace folders. If {path} is not
 -- provided, the user will be prompted for a path using |input()|.
 function vim.lsp.add_workspace_folder(workspace_folder) end
