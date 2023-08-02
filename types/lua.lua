@@ -1056,17 +1056,6 @@ function vim.ui_attach(ns, options, callback) end
 --- @param ns any #(integer)
 function vim.ui_detach(ns) end
 
--- URI-decodes a string containing percent escapes.
---- @param str any #(string) string to decode
---- @return any #(string) decoded string
-function vim.uri_decode(str) end
-
--- URI-encodes a string using percent escapes.
---- @param str any #(string) string to encode
---- @param rfc any #"rfc2396" | "rfc2732" | "rfc3986" | nil
---- @return any #(string) encoded string
-function vim.uri_encode(str, rfc) end
-
 -- Validates a parameter specification (types and values).
 --- @param opt any #(table) Names of parameters to validate. Each key is a
 ---            parameter name; each value is a tuple in one of these forms:
