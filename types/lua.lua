@@ -239,7 +239,7 @@ function vim.del(modes, lhs, opts) end
 --- @param plugin any #string|nil Name of the plugin that owns the deprecated
 ---                    feature. Defaults to "Nvim".
 --- @param backtrace any #boolean|nil Prints backtrace. Defaults to true.
---- @return any #(string|nil) # Deprecated message, or nil if no message was shown.
+--- @return any #(string|nil) Deprecated message, or nil if no message was shown.
 function vim.deprecate(name, alternative, version, plugin, backtrace) end
 
 -- Run diff on strings {a} and {b}. Any indices returned by this function,
@@ -385,7 +385,8 @@ function vim.get_option(filetype, option) end
 -- Get or set global |options|. Like `:setglobal`. Invalid key is an error.
 function vim.go() end
 
--- Splits a string at each instance of a separator.
+-- Gets an |iterator| that splits a string at each instance of a separator,
+-- in "lazy" fashion (as opposed to |vim.split()| which is "eager").
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
 --- @param opts any #(table|nil) Keyword arguments |kwargs|:
@@ -601,8 +602,8 @@ function vim.on_yank(opts) end
 -- `explorer.exe`, Linux `xdg-open`, …), or returns (but does not show) an
 -- error message on failure.
 --- @param path any #(string) Path or URL to open
---- @return any #SystemCompleted|nil # Command result, or nil if not found.
---- @return any #(string|nil) # Error message on failure
+--- @return any #SystemCompleted|nil Command result, or nil if not found.
+--- @return any #(string|nil) Error message on failure
 function vim.open(path) end
 
 -- Iterate over all the parents of the given path.
@@ -643,7 +644,7 @@ function vim.paste(lines, phase) end
 function vim.pesc(s) end
 
 -- "Pretty prints" the given arguments and returns them unmodified.
---- @return any #any # given arguments.
+--- @return any #any given arguments.
 function vim.print(...) end
 
 -- Table with default priorities used for highlighting:
@@ -813,11 +814,12 @@ function vim.set(mode, lhs, rhs, opts) end
 function vim.show_pos(bufnr, row, col, filter) end
 
 -- Enumerate a table sorted by its keys.
---- @param t any #(table) List-like table
+--- @param t any #(table) Dict-like table
 --- @return any #iterator over sorted keys and their values
 function vim.spairs(t) end
 
--- Splits a string at each instance of a separator.
+-- Splits a string at each instance of a separator and returns the result as
+-- a table (unlike |vim.gsplit()|).
 --- @param s any #(string) String to split
 --- @param sep any #(string) Separator or pattern
 --- @param opts any #(table|nil) Keyword arguments |kwargs| accepted by
