@@ -271,7 +271,7 @@ vim.bo.comments = "s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-"
 -- 	including spaces and backslashes.
 -- 	To set this option automatically depending on the language, see
 -- 	|set-spc-auto|.
-vim.bo.spellcapcheck = "[.?!]\\_[\\])'\"\9 ]\\+"
+vim.bo.spellcapcheck = "[.?!]\\_[\\])'\"\\t ]\\+"
 -- string	(default "")
 -- 			global or local to buffer |global-local|
 -- 	Encoding used for reading the output of external commands.  When empty,
