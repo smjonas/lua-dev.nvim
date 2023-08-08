@@ -608,7 +608,9 @@ function vim.open(path) end
 
 -- Iterate over all the parents of the given path.
 --- @param start any #(string) Initial path.
---- @return any #(function) Iterator
+--- @return any #fun(_, dir: string): string? Iterator
+--- @return any #nil
+--- @return any #(string|nil)
 function vim.parents(start) end
 
 -- Parses a semantic version string and returns a version object which can be
