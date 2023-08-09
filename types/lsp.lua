@@ -476,7 +476,8 @@ function vim.lsp.rename(old_fname, new_fname, opts) end
 --- @param method any #(string) The invoked LSP method
 --- @param params any #(table|nil) Parameters for the invoked LSP
 ---                              method
---- @param callback any #fun(err: lsp.ResponseError | nil, result: any) Callback to invoke
+--- @param callback any #fun(err: lsp.ResponseError | nil, result:
+---                              any) Callback to invoke
 --- @param notify_reply_callback any #(function|nil) Callback to invoke as soon as
 ---                              a request is no longer pending
 --- @return any #(boolean) success, integer|nil request_id true, message_id if request

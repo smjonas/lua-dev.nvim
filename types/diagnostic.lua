@@ -88,7 +88,7 @@ function vim.diagnostic.disable(bufnr, namespace) end
 function vim.diagnostic.enable(bufnr, namespace) end
 
 -- Convert a list of quickfix items to a list of diagnostics.
---- @param list any[] #(table) A list of quickfix items from |getqflist()| or
+--- @param list any[] #table[] List of quickfix items from |getqflist()| or
 ---             |getloclist()|.
 --- @return any #Diagnostic [] array of |diagnostic-structure|
 function vim.diagnostic.fromqflist(list) end

@@ -817,7 +817,7 @@ function vim.show_pos(bufnr, row, col, filter) end
 
 -- Enumerate a table sorted by its keys.
 --- @param t any #(table) Dict-like table
---- @return any #iterator over sorted keys and their values
+--- @return any #(function) iterator over sorted keys and their values
 function vim.spairs(t) end
 
 -- Splits a string at each instance of a separator and returns the result as
@@ -1042,9 +1042,8 @@ function vim.trim(s) end
 ---               "allow".
 ---             • bufnr (number|nil): Buffer number to update. Mutually
 ---               exclusive with {path}.
---- @return any #(boolean, string) success, msg:
----     • true and full path of target file if operation was successful
----     • false and error message on failure
+--- @return any #(boolean) success true if operation was successful
+--- @return any #(string) msg full path if operation was successful, else error message
 function vim.trust(opts) end
 
 -- Attach to ui events, similar to |nvim_ui_attach()| but receive events as
