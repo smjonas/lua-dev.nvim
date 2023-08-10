@@ -259,7 +259,7 @@ vim.bo.formatprg = ""
 -- 	A comma separated list of strings that can start a comment line.  See
 -- 	|format-comments|.  See |option-backslash| about using backslashes to
 -- 	insert a space.
-vim.bo.comments = "s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-"
+vim.bo.comments = "s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-,fb:•"
 -- string	(default "[.?!]\_[\])'" \t]\+")
 -- 			local to buffer
 -- 	Pattern to locate the end of a sentence.  The following word will be
