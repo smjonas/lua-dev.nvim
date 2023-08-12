@@ -27,7 +27,7 @@ function vim.treesitter.LanguageTree:for_each_child(fn, include_self) end
 function vim.treesitter.LanguageTree:for_each_tree(fn) end
 
 -- Gets the set of included regions
---- @return any #integer[][]
+--- @return any #Range6[][]
 function vim.treesitter.LanguageTree:included_regions() end
 
 -- Invalidates this parser and all its children
@@ -54,11 +54,17 @@ function vim.treesitter.LanguageTree:language_for_range(range) end
 --- @return any #|TSNode| | nil Found node
 function vim.treesitter.LanguageTree:named_node_for_range(range, opts) end
 
--- Parses all defined regions using a treesitter parser for the language this
--- tree represents. This will run the injection query for this language to
--- determine if any child languages should be created.
+-- Recursively parse all regions in the language tree using
+-- |treesitter-parsers| for the corresponding languages and run injection
+-- queries on the parsed trees to determine whether child trees should be
+-- created and parsed.
+--- @param range any #boolean|Range|nil: Parse this range in the parser's source.
+---              Set to `true` to run a complete parse of the source (Note:
+---              Can be slow!) Set to `false|nil` to only parse regions with
+---              empty ranges (typically only the root tree without
+---              injections).
 --- @return any #TSTree[]
-function vim.treesitter.LanguageTree:parse() end
+function vim.treesitter.LanguageTree:parse(range) end
 
 -- Registers callbacks for the |LanguageTree|.
 --- @param cbs any #(table) An |nvim_buf_attach()|-like table argument with
@@ -120,11 +126,6 @@ function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 --- @return any #(fun(): integer, table<integer,TSNode>, table): pattern id, match,
 ---     metadata
 function vim.treesitter.Query:iter_matches(node, source, start, stop, opts) end
-
---- @class vim.treesitter.TSHighlighter
-vim.treesitter.TSHighlighter = {}
-
-function vim.treesitter.TSHighlighter:destroy() end
 
 -- Load parser with name {lang}
 --- @param lang any #(string) Name of the parser (alphanumerical and `_` only)
