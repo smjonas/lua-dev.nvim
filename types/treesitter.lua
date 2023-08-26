@@ -216,9 +216,6 @@ function vim.treesitter.omnifunc(findstart, base) end
 --- @return any #Query Parsed query
 function vim.treesitter.parse(lang, query) end
 
--- Open a window for live editing of a treesitter query.
-function vim.treesitter.preview_query() end
-
 -- Register a parser named {lang} to be used for {filetype}(s).
 --- @param lang any #(string) Name of parser
 --- @param filetype any #string|string[] Filetype(s) to associate with lang
