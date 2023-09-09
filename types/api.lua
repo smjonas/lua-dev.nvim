@@ -874,6 +874,8 @@ function vim.api.nvim_get_current_win() end
 ---              • id: (integer) Get a highlight definition by id.
 ---              • link: (boolean, default true) Show linked group name
 ---                instead of effective definition |:hi-link|.
+---              • create: (boolean, default true) When highlight group
+---                doesn't exist create it.
 --- @return any #Highlight groups as a map from group name to a highlight definition
 ---     map as in |nvim_set_hl()|, or only a single highlight definition map
 ---     if requested by name or id.
@@ -1001,13 +1003,4 @@ function vim.api.nvim_list_runtime_paths() end
 -- Gets the current list of tabpage handles.
 --- @return any #List of tabpage handles
 function vim.api.nvim_list_tabpages() end
-
--- Gets a list of dictionaries representing attached UIs.
---- @return any #Array of UI dictionaries, each with these keys:
----     • "height" Requested height of the UI
----     • "width" Requested width of the UI
----     • "rgb" true if the UI uses RGB colors (false implies |cterm-colors|)
----     • "ext_..." Requested UI extensions, see |ui-option|
----     • "chan" |channel-id| of remote UI
-function vim.api.nvim_list_uis() end
 
