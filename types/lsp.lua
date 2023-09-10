@@ -279,7 +279,8 @@ function vim.lsp.highlight_token(token, bufnr, client_id, hl_group, opts) end
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window
----                 • See |nvim_open_win()|
+---                 • See |vim.lsp.util.open_floating_preview()| for more
+---                   options.
 function vim.lsp.hover(_, result, ctx, config) end
 
 -- Lists all the implementations for the symbol under the cursor in the
@@ -336,6 +337,13 @@ function vim.lsp.make_client_capabilities() end
 ---               • focusable (string or table) override `focusable`
 ---               • zindex (string or table) override `zindex`, defaults to 50
 ---               • relative ("mouse"|"cursor") defaults to "cursor"
+---               • anchor_bias ("auto"|"above"|"below") defaults to "auto"
+---                 • "auto": place window based on which side of the cursor
+---                   has more lines
+---                 • "above": place the window above the cursor unless there
+---                   are not enough lines to display the full window height.
+---                 • "below": place the window below the cursor unless there
+---                   are not enough lines to display the full window height.
 --- @return any #(table) Options
 function vim.lsp.make_floating_popup_options(width, height, opts) end
 
@@ -412,8 +420,9 @@ function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 -- Shows contents in a floating window.
 --- @param contents any #(table) of lines to show in window
 --- @param syntax any #(string) of syntax to set for opened buffer
---- @param opts any #(table) with optional fields (additional keys are passed
----                 on to |nvim_open_win()|)
+--- @param opts any #(table) with optional fields (additional keys are filtered
+---                 with |vim.lsp.util.make_floating_popup_options()| before
+---                 they are passed on to |nvim_open_win()|)
 ---                 • height: (integer) height of floating window
 ---                 • width: (integer) width of floating window
 ---                 • wrap: (boolean, default true) wrap long lines
@@ -546,7 +555,8 @@ function vim.lsp.show_document(location, offset_encoding, opts) end
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window
----                 • See |nvim_open_win()|
+---                 • See |vim.lsp.util.open_floating_preview()| for more
+---                   options
 function vim.lsp.signature_help(_, result, ctx, config) end
 
 -- Stop the semantic token highlighting engine for the given buffer with the
