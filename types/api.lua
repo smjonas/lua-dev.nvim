@@ -4,6 +4,11 @@
 ---@diagnostic disable: unused-local
 
 --- @param buffer buffer
+--- @param keys boolean
+--- @param dot boolean
+function vim.api.nvim__buf_debug_extmarks(buffer, keys, dot) end
+
+--- @param buffer buffer
 --- @param first integer
 --- @param last integer
 function vim.api.nvim__buf_redraw_range(buffer, first, last) end
@@ -225,11 +230,13 @@ function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 --- @param end_ object #End of range (inclusive): a 0-indexed (row, col) or valid
 ---               extmark id (whose position defines the bound).
 ---               |api-indexing|
---- @param opts dictionary #Optional parameters. Keys:
+--- @param opts dict(get_extmarks) * #Optional parameters. Keys:
 ---               • limit: Maximum number of marks to return
 ---               • details: Whether to include the details dict
 ---               • hl_name: Whether to include highlight group name instead
 ---                 of id, true if omitted
+---               • overlap: Also include marks which overlap the range, even
+---                 if their start position is less than `start`
 ---               • type: Filter marks by type: "highlight", "sign",
 ---                 "virt_text" and "virt_lines"
 --- @return any #List of [extmark_id, row, col] tuples in "traversal order".
@@ -995,12 +1002,4 @@ function vim.api.nvim_list_bufs() end
 --- @return any #Array of Dictionaries, each describing a channel with the format
 ---     specified at |nvim_get_chan_info()|.
 function vim.api.nvim_list_chans() end
-
--- Gets the paths contained in |runtime-search-path|.
---- @return any #List of paths
-function vim.api.nvim_list_runtime_paths() end
-
--- Gets the current list of tabpage handles.
---- @return any #List of tabpage handles
-function vim.api.nvim_list_tabpages() end
 
