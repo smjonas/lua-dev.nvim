@@ -16,12 +16,6 @@ function vim.treesitter.LanguageTree:contains(range) end
 -- Destroys this |LanguageTree| and all its children.
 function vim.treesitter.LanguageTree:destroy() end
 
--- Invokes the callback for each |LanguageTree| and its children recursively
---- @param fn fun(...) #fun(tree: LanguageTree, lang: string)
---- @param include_self any #(boolean|nil) Whether to include the invoking tree in
----                     the results
-function vim.treesitter.LanguageTree:for_each_child(fn, include_self) end
-
 -- Invokes the callback for each |LanguageTree| recursively.
 --- @param fn fun(...) #fun(tree: TSTree, ltree: LanguageTree)
 function vim.treesitter.LanguageTree:for_each_tree(fn) end
