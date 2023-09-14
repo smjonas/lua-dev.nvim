@@ -700,7 +700,7 @@ function vim.regex:match_line(bufnr, line_idx, start, end_) end
 
 -- Match the string against the regex. If the string should match the regex
 -- precisely, surround the regex with `^` and `$` . If there was a match, the byte indices for the beginning and end of the
--- match are returned. When there is no match, `nil` is returned. Because any integer is "truthy", `regex:match()` can be directly used as a condition in an if-statement.
+-- match are returned. When there is no match, `nil` is returned. Because any integer is "truthy", `regex:match_str()` can be directly used as a condition in an if-statement.
 --- @param str any #(string)
 function vim.regex:match_str(str) end
 
@@ -894,7 +894,7 @@ function vim.stricmp(a, b) end
 ---                • stdout: (boolean|function) Handle output from stdout.
 ---                  When passed as a function must have the signature
 ---                  `fun(err: string, data: string)`. Defaults to `true`
----                • stderr: (boolean|function) Handle output from stdout.
+---                • stderr: (boolean|function) Handle output from stderr.
 ---                  When passed as a function must have the signature
 ---                  `fun(err: string, data: string)`. Defaults to `true`.
 ---                • text: (boolean) Handle stdout and stderr as text.
