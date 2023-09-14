@@ -143,11 +143,7 @@ function vim.lsp.display(lenses, bufnr, client_id) end
 
 -- Send request to the server to resolve document highlights for the current
 -- text document position. This request can be triggered by a key mapping or
--- by events such as `CursorHold` , e.g.: >vim
---   autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
---   autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
---   autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
--- <
+-- by events such as `CursorHold`, e.g.:
 function vim.lsp.document_highlight() end
 
 -- Lists all symbols in the current buffer in the quickfix window.
@@ -185,12 +181,12 @@ function vim.lsp.force_refresh(bufnr) end
 ---                  buffer (0).
 ---                • filter (function|nil): Predicate used to filter clients.
 ---                  Receives a client as argument and must return a boolean.
----                  Clients matching the predicate are included. Example:               • >lua
+---                  Clients matching the predicate are included. Example: >lua
 ---
----            -- Never request typescript-language-server for formatting
----            vim.lsp.buf.format {
----              filter = function(client) return client.name ~= "tsserver" end
----            }
+---                      -- Never request typescript-language-server for formatting
+---                      vim.lsp.buf.format {
+---                        filter = function(client) return client.name ~= "tsserver" end
+---                      }
 ---
 --- <
 ---                • async boolean|nil If true the method won't block.
@@ -264,18 +260,7 @@ function vim.lsp.get_namespace(client_id, is_pull) end
 ---                    `vim.highlight.priorities.semantic_tokens + 3`
 function vim.lsp.highlight_token(token, bufnr, client_id, hl_group, opts) end
 
--- |lsp-handler| for the method "textDocument/hover" >lua
---
---    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
---      vim.lsp.handlers.hover, {
---        -- Use a sharp border with `FloatBorder` highlights
---        border = "single",
---        -- add the title in hover float window
---        title = "hover"
---      }
---    )
---
--- <
+-- |lsp-handler| for the method "textDocument/hover"
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window
@@ -541,17 +526,9 @@ function vim.lsp.should_log(level) end
 --- @return any #(boolean) `true` if succeeded
 function vim.lsp.show_document(location, offset_encoding, opts) end
 
--- |lsp-handler| for the method "textDocument/signatureHelp". The active
--- parameter is highlighted with |hl-LspSignatureActiveParameter|. >lua
---
---    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
---      vim.lsp.handlers.signature_help, {
---        -- Use a sharp border with `FloatBorder` highlights
---        border = "single"
---      }
---    )
---
--- <
+-- |lsp-handler| for the method "textDocument/signatureHelp".
+--- @param result any #(table) Response from the language server
+--- @param ctx any #(table) Client context
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window

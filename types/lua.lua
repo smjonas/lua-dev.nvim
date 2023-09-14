@@ -220,13 +220,7 @@ function vim.defaulttable(create) end
 --- @return any #(table) timer luv timer object
 function vim.defer_fn(fn, timeout) end
 
--- Remove an existing mapping. Examples: >lua
---
---    vim.keymap.del('n', 'lhs')
---
---    vim.keymap.del({'n', 'i', 'v'}, '<leader>w', { buffer = 5 })
---
--- <
+-- Remove an existing mapping. Examples:
 --- @param opts any #(table|nil) A table of optional arguments:
 ---             • "buffer": (number|boolean) Remove a mapping from the given
 ---               buffer. When `0` or `true`, use the current buffer.
@@ -335,10 +329,7 @@ function vim.endswith(s, suffix) end
 
 -- Environment variables defined in the editor session. See |expand-env| and
 -- |:let-environment| for the Vimscript behavior. Invalid or unset key
--- returns `nil` . Example: >lua
---     vim.env.FOO = 'bar'
---     print(vim.env.TERM)
--- <
+-- returns `nil`.
 function vim.env() end
 
 -- Returns `true` if the given versions are equal. See |vim.version.cmp()| for usage.
@@ -614,11 +605,8 @@ function vim.open(path) end
 function vim.parents(start) end
 
 -- Parses a semantic version string and returns a version object which can be
--- used with other `vim.version` functions. For example "1.0.1-rc1+build.2" returns: >
---
---    { major = 1, minor = 0, patch = 1, prerelease = "rc1", build = "build.2" }
---
--- <
+-- used with other `vim.version` functions. For example "1.0.1-rc1+build.2"
+-- returns:
 --- @param version any #(string) Version string to parse.
 --- @param opts any #(table|nil) Optional keyword arguments:
 ---                • strict (boolean): Default false. If `true`, no coercion
@@ -658,15 +646,7 @@ function vim.print(...) end
 --   symbols or `on_yank` autocommands
 function vim.priorities() end
 
--- Parses a semver |version-range| "spec" and returns a range object: >
---
---    {
---      from: Version
---      to: Version
---      has(v: string|Version)
---    }
---
--- <
+-- Parses a semver |version-range| "spec" and returns a range object:
 --- @param spec any #(string) Version range "spec"
 function vim.range(spec) end
 
@@ -773,22 +753,7 @@ function vim.schedule_wrap(cb) end
 ---                  within `items`. `nil` if the user aborted the dialog.
 function vim.select(items, opts, on_choice) end
 
--- Adds a new |mapping|. Examples: >lua
---
---    -- Map to a Lua function:
---    vim.keymap.set('n', 'lhs', function() print("real lua function") end)
---    -- Map to multiple modes:
---    vim.keymap.set({'n', 'v'}, '<leader>lr', vim.lsp.buf.references, { buffer = true })
---    -- Buffer-local mapping:
---    vim.keymap.set('n', '<leader>w', "<cmd>w<cr>", { silent = true, buffer = 5 })
---    -- Expr mapping:
---    vim.keymap.set('i', '<Tab>', function()
---      return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>"
---    end, { expr = true })
---    -- <Plug> mapping:
---    vim.keymap.set('n', '[%', '<Plug>(MatchitNormalMultiBackward)')
---
--- <
+-- Adds a new |mapping|. Examples:
 --- @param mode any #string|table Mode short-name, see |nvim_set_keymap()|. Can
 ---             also be list of modes to create mapping on multiple modes.
 --- @param lhs any #(string) Left-hand side |{lhs}| of the mapping.
