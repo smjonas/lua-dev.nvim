@@ -103,8 +103,8 @@ vim.treesitter.Query = {}
 ---               from
 --- @param start any #(integer) Starting line for the search
 --- @param stop any #(integer) Stopping line for the search (end-exclusive)
---- @return any #(fun(): integer, TSNode, TSMetadata): capture id, capture node,
----     metadata
+--- @return any #(fun(end_line: integer|nil): integer, TSNode, TSMetadata): capture id,
+---     capture node, metadata
 function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 
 -- Iterates the matches of self on a given range.
