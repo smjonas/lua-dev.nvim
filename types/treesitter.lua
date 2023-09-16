@@ -155,7 +155,9 @@ function vim.treesitter.add_directive(name, handler, force) end
 function vim.treesitter.add_predicate(name, handler, force) end
 
 -- Open a window for live editing of a treesitter query.
-function vim.treesitter.edit() end
+--- @param lang any #(string|nil) language to open the query editor for. If
+---             omitted, inferred from the current buffer's filetype.
+function vim.treesitter.edit(lang) end
 
 -- Returns the runtime query {query_name} for {lang}.
 --- @param lang any #(string) Language to use for the query
