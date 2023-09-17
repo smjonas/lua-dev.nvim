@@ -20,16 +20,20 @@ function vim.treesitter.LanguageTree:destroy() end
 --- @param fn fun(...) #fun(tree: TSTree, ltree: LanguageTree)
 function vim.treesitter.LanguageTree:for_each_tree(fn) end
 
--- Gets the set of included regions
---- @return any #Range6[][]
+-- Gets the set of included regions managed by this LanguageTree . This can be different from the regions set by injection query, because a
+-- partial |LanguageTree:parse()| drops the regions outside the requested
+-- range.
+--- @return any #table<integer, Range6[]>
 function vim.treesitter.LanguageTree:included_regions() end
 
 -- Invalidates this parser and all its children
 --- @param reload any #(boolean|nil)
 function vim.treesitter.LanguageTree:invalidate(reload) end
 
--- Determines whether this tree is valid. If the tree is invalid, call `parse()` . This will return the updated tree.
---- @param exclude_children any #(boolean|nil)
+-- Returns whether this LanguageTree is valid, i.e., |LanguageTree:trees()| reflects the latest state of the
+-- source. If invalid, user should call |LanguageTree:parse()|.
+--- @param exclude_children any #(boolean|nil) whether to ignore the validity of
+---                         children (default `false`)
 --- @return any #(boolean)
 function vim.treesitter.LanguageTree:is_valid(exclude_children) end
 
@@ -57,7 +61,7 @@ function vim.treesitter.LanguageTree:named_node_for_range(range, opts) end
 ---              Can be slow!) Set to `false|nil` to only parse regions with
 ---              empty ranges (typically only the root tree without
 ---              injections).
---- @return any #TSTree[]
+--- @return any #table<integer, TSTree>
 function vim.treesitter.LanguageTree:parse(range) end
 
 -- Registers callbacks for the |LanguageTree|.
@@ -90,8 +94,11 @@ function vim.treesitter.LanguageTree:source() end
 --- @return any #TSTree|nil
 function vim.treesitter.LanguageTree:tree_for_range(range, opts) end
 
--- Returns all trees this language tree contains. Does not include child
--- languages.
+-- Returns all trees of the regions parsed by this parser. Does not include
+-- child languages. The result is list-like if
+-- • this LanguageTree is the root, in which case the result is empty or a singleton list; or
+-- • the root LanguageTree is fully parsed.
+--- @return any #table<integer, TSTree>
 function vim.treesitter.LanguageTree:trees() end
 
 --- @class vim.treesitter.Query
