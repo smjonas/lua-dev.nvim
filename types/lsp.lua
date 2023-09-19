@@ -106,10 +106,10 @@ function vim.lsp.connect(host, port) end
 --- @param input any #(`MarkedString` | `MarkedString[]` | `MarkupContent`)
 --- @param contents any #(table|nil) List of strings to extend with converted
 ---                 lines. Defaults to {}.
---- @return any #(table) {contents} extended with lines of converted markdown.
+--- @return any #string[] extended with lines of converted markdown.
 function vim.lsp.convert_input_to_markdown_lines(input, contents) end
 
--- Converts `textDocument/SignatureHelp` response to markdown lines.
+-- Converts `textDocument/signatureHelp` response to markdown lines.
 --- @param signature_help any #(table) Response of `textDocument/SignatureHelp`
 --- @param ft any #(string|nil) filetype that will be use as the `lang`
 ---                       for the label markdown code block
@@ -415,10 +415,6 @@ function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 ---                   height when wrap is enabled
 ---                 • max_width: (integer) maximal width of floating window
 ---                 • max_height: (integer) maximal height of floating window
----                 • pad_top: (integer) number of lines to pad contents at
----                   top
----                 • pad_bottom: (integer) number of lines to pad contents at
----                   bottom
 ---                 • focus_id: (string) if a popup with this id is opened,
 ---                   then focus it
 ---                 • close_events: (table) list of events that closes the
@@ -553,8 +549,6 @@ function vim.lsp.stop(bufnr, client_id) end
 ---                 • wrap_at character to wrap at for computing height
 ---                 • max_width maximal width of floating window
 ---                 • max_height maximal height of floating window
----                 • pad_top number of lines to pad contents at top
----                 • pad_bottom number of lines to pad contents at bottom
 ---                 • separator insert separator after code block
 --- @return any #(table) stripped content
 function vim.lsp.stylize_markdown(bufnr, contents, opts) end
@@ -571,11 +565,6 @@ function vim.lsp.symbols_to_items(symbols, bufnr) end
 --- @param prefix any #(string) the prefix to filter the completion items
 --- @return any #(table) { matches = complete-items table, incomplete = bool }
 function vim.lsp.text_document_completion_list_to_complete_items(result, prefix) end
-
--- Removes empty lines from the beginning and end.
---- @param lines any #(table) list of lines to trim
---- @return any #(table) trimmed list of lines
-function vim.lsp.trim_empty_lines(lines) end
 
 -- Accepts markdown lines and tries to reduce them to a filetype if they
 -- comprise just a single code block.
