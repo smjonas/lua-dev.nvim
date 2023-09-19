@@ -50,6 +50,8 @@ function vim.api.nvim__id_float(flt) end
 --- @param col integer
 function vim.api.nvim__inspect_cell(grid, row, col) end
 
+function vim.api.nvim__invalidate_glyph_cache() end
+
 function vim.api.nvim__runtime_inspect() end
 
 --- @param path string
