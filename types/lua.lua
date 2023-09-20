@@ -206,12 +206,12 @@ function vim.deep_equal(a, b) end
 --- @return any #(table) Table of copied keys and (nested) values.
 function vim.deepcopy(orig) end
 
--- Creates a table whose members are automatically created when accessed, if
--- they don't already exist.
---- @param create any #function?(key:any):any The function called to create a
----               missing value.
---- @return any #(table) Empty table with metamethod
-function vim.defaulttable(create) end
+-- Creates a table whose missing keys are provided by {createfn} (like
+-- Python's "defaultdict").
+--- @param createfn any #function?(key:any):any Provides the value for a missing
+---                 `key`.
+--- @return any #(table) Empty table with `__index` metamethod.
+function vim.defaulttable(createfn) end
 
 -- Defers calling {fn} until {timeout} ms passes.
 --- @param fn fun(...) #(function) Callback to call once `timeout` expires
@@ -780,9 +780,9 @@ function vim.set(mode, lhs, rhs, opts) end
 --- @param filter any #(table|nil) see |vim.inspect_pos()|
 function vim.show_pos(bufnr, row, col, filter) end
 
--- Enumerate a table sorted by its keys.
+-- Enumerates key-value pairs of a table, ordered by key.
 --- @param t any #(table) Dict-like table
---- @return any #(function) iterator over sorted keys and their values
+--- @return any #(function) |for-in| iterator over sorted keys and their values
 function vim.spairs(t) end
 
 -- Splits a string at each instance of a separator and returns the result as
@@ -956,8 +956,7 @@ function vim.tbl_flatten(t) end
 --- @return any #any Nested value indexed by key (if it exists), else nil
 function vim.tbl_get(o, ...) end
 
--- Tests if a Lua table can be treated as an array (a table indexed by
--- integers).
+-- Tests if `t` is an "array": a table indexed only by integers (potentially non-contiguous).
 --- @param t any #(table)
 --- @return any #(boolean) `true` if array-like table, else `false`.
 function vim.tbl_isarray(t) end
@@ -967,8 +966,8 @@ function vim.tbl_isarray(t) end
 --- @return any #(boolean) `true` if `t` is empty
 function vim.tbl_isempty(t) end
 
--- Tests if a Lua table can be treated as a list (a table indexed by
--- consecutive integers starting from 1).
+-- Tests if `t` is a "list": a table indexed only by contiguous integers starting from 1 (what |lua-length| calls a "regular
+-- array").
 --- @param t any #(table)
 --- @return any #(boolean) `true` if list-like table, else `false`.
 function vim.tbl_islist(t) end

@@ -161,7 +161,7 @@ function vim.treesitter.add_directive(name, handler, force) end
 --- @param force any #(boolean|nil)
 function vim.treesitter.add_predicate(name, handler, force) end
 
--- Open a window for live editing of a treesitter query.
+-- Opens a live editor to query the buffer you started from.
 --- @param lang any #(string|nil) language to open the query editor for. If
 ---             omitted, inferred from the current buffer's filetype.
 function vim.treesitter.edit(lang) end
