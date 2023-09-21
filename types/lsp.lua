@@ -136,7 +136,7 @@ function vim.lsp.declaration(options) end
 function vim.lsp.definition(options) end
 
 -- Display the lenses using virtual text
---- @param lenses any #(table) of lenses to display (`CodeLens[] | null`)
+--- @param lenses any #lsp.CodeLens[]|nil lenses to display
 --- @param bufnr any #(integer)
 --- @param client_id any #(integer)
 function vim.lsp.display(lenses, bufnr, client_id) end
@@ -210,7 +210,7 @@ function vim.lsp.format_rpc_error() end
 -- Return all lenses for the given buffer
 --- @param bufnr any #(integer) Buffer number. 0 can be used for the current
 ---              buffer.
---- @return any #(table) (`CodeLens[]`)
+--- @return any #lsp.CodeLens[]
 function vim.lsp.get(bufnr) end
 
 -- Return the semantic token(s) at the given position. If called without
@@ -484,7 +484,7 @@ function vim.lsp.resolve_capabilities(server_capabilities) end
 function vim.lsp.run() end
 
 -- Store lenses for a specific buffer and client
---- @param lenses any #(table) of lenses to store (`CodeLens[] | null`)
+--- @param lenses any #lsp.CodeLens[]|nil lenses to store
 --- @param bufnr any #(integer)
 --- @param client_id any #(integer)
 function vim.lsp.save(lenses, bufnr, client_id) end
