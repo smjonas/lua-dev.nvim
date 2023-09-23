@@ -725,15 +725,15 @@ function vim.rpcnotify(channel, method, args, ...) end
 --- @vararg any #any|nil
 function vim.rpcrequest(channel, method, args, ...) end
 
--- Schedules {callback} to be invoked soon by the main event-loop. Useful to
--- avoid |textlock| or other temporary restrictions.
---- @param callback any #fun()
-function vim.schedule(callback) end
+-- Schedules {fn} to be invoked soon by the main event-loop. Useful to avoid
+-- |textlock| or other temporary restrictions.
+--- @param fn fun(...) #(function)
+function vim.schedule(fn) end
 
--- Defers callback `cb` until the Nvim API is safe to call.
---- @param cb any #(function)
+-- Returns a function which calls {fn} via |vim.schedule()|.
+--- @param fn fun(...) #(function)
 --- @return any #(function)
-function vim.schedule_wrap(cb) end
+function vim.schedule_wrap(fn) end
 
 -- Prompts the user to pick from a list of items, allowing arbitrary
 -- (potentially asynchronous) work until `on_choice`.
