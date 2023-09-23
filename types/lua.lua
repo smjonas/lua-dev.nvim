@@ -222,7 +222,7 @@ function vim.defer_fn(fn, timeout) end
 
 -- Remove an existing mapping. Examples:
 --- @param opts any #(table|nil) A table of optional arguments:
----             • "buffer": (number|boolean) Remove a mapping from the given
+---             • "buffer": (integer|boolean) Remove a mapping from the given
 ---               buffer. When `0` or `true`, use the current buffer.
 function vim.del(modes, lhs, opts) end
 
@@ -765,7 +765,7 @@ function vim.select(items, opts, on_choice) end
 ---               • "noremap": inverse of "remap" (see below).
 ---
 ---             • Also accepts:
----               • "buffer": (number|boolean) Creates buffer-local mapping,
+---               • "buffer": (integer|boolean) Creates buffer-local mapping,
 ---                 `0` or `true` for current buffer.
 ---               • "remap": (boolean) Make the mapping recursive. Inverse of
 ---                 "noremap". Defaults to `false`.
