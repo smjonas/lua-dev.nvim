@@ -168,7 +168,7 @@ vim.o.icon = "false"
 -- 	  x	use "[dos]" instead of "[dos format]", "[unix]" instead of
 -- 		"[unix format]" and "[mac]" instead of "[mac format]".
 -- 	  a	all of the above abbreviations
-vim.o.shortmess = "filnxtToOCF"
+vim.o.shortmess = "ilnxtToOCF"
 -- number	(default 2)
 -- 			global
 -- 	The value of this option influences when the last window will have a
