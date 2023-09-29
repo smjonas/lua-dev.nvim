@@ -498,14 +498,6 @@ function vim.lsp.set_format_func(handle) end
 --- @param level any #(string|integer) One of `vim.lsp.log.levels`
 function vim.lsp.set_level(level) end
 
--- Replaces text in a range with new text.
---- @param lines any #(table) Original list of strings
---- @param A any #(table) Start position; a 2-tuple of {line,col} numbers
---- @param B any #(table) End position; a 2-tuple of {line,col} numbers
---- @param new_lines any #(table) list of strings to replace the original
---- @return any #(table) The modified {lines} object
-function vim.lsp.set_lines(lines, A, B, new_lines) end
-
 -- Checks whether the level is sufficient for logging.
 --- @param level any #(integer) log level
 --- @return any #(bool) true if would log, false if not
@@ -565,12 +557,6 @@ function vim.lsp.symbols_to_items(symbols, bufnr) end
 --- @param prefix any #(string) the prefix to filter the completion items
 --- @return any #(table) { matches = complete-items table, incomplete = bool }
 function vim.lsp.text_document_completion_list_to_complete_items(result, prefix) end
-
--- Accepts markdown lines and tries to reduce them to a filetype if they
--- comprise just a single code block.
---- @param lines any #(table) list of lines
---- @return any #(string) filetype or "markdown" if it was unchanged.
-function vim.lsp.try_trim_markdown_code_blocks(lines) end
 
 -- Jumps to the definition of the type of the symbol under the cursor.
 --- @param options any #(table|nil) additional options
