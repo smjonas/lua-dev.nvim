@@ -3,6 +3,15 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets the current list of buffer handles
+--- @return any #List of buffer handles
+function vim.api.nvim_list_bufs() end
+
+-- Get information about all open channels.
+--- @return any #Array of Dictionaries, each describing a channel with the format
+---     specified at |nvim_get_chan_info()|.
+function vim.api.nvim_list_chans() end
+
 -- Gets the paths contained in |runtime-search-path|.
 --- @return any #List of paths
 function vim.api.nvim_list_runtime_paths() end

@@ -894,6 +894,15 @@ function vim.api.nvim_get_hl(ns_id, opts) end
 --- @param name string
 function vim.api.nvim_get_hl_id_by_name(name) end
 
+-- Gets the active highlight namespace.
+--- @param opts dict(get_ns) * #Optional parameters
+---             • winid: (number) |window-ID| for retrieving a window's
+---               highlight namespace. A value of -1 is returned when
+---               |nvim_win_set_hl_ns()| has not been called for the window
+---               (or was called with a namespace of -1).
+--- @return any #Namespace id, or -1
+function vim.api.nvim_get_hl_ns(opts) end
+
 -- Gets a list of global (non-buffer-local) |mapping| definitions.
 --- @param mode string #Mode short-name ("n", "i", "v", ...)
 --- @return any #Array of |maparg()|-like dictionaries describing mappings. The
@@ -995,13 +1004,4 @@ function vim.api.nvim_input(keys) end
 --- @param row integer #Mouse row-position (zero-based, like redraw events)
 --- @param col integer #Mouse column-position (zero-based, like redraw events)
 function vim.api.nvim_input_mouse(button, action, modifier, grid, row, col) end
-
--- Gets the current list of buffer handles
---- @return any #List of buffer handles
-function vim.api.nvim_list_bufs() end
-
--- Get information about all open channels.
---- @return any #Array of Dictionaries, each describing a channel with the format
----     specified at |nvim_get_chan_info()|.
-function vim.api.nvim_list_chans() end
 
