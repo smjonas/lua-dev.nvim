@@ -166,12 +166,6 @@ function vim.treesitter.add_predicate(name, handler, force) end
 ---             omitted, inferred from the current buffer's filetype.
 function vim.treesitter.edit(lang) end
 
--- Returns the highlighted content of the first line of the fold or falls
--- back to |foldtext()| if no treesitter parser is found. Can be set directly
--- to 'foldtext':
---- @return any #`{ [1]: string, [2]: string[] }[]` | string
-function vim.treesitter.foldtext() end
-
 -- Returns the runtime query {query_name} for {lang}.
 --- @param lang any #(string) Language to use for the query
 --- @param query_name any #(string) Name of the query (e.g. "highlights")
