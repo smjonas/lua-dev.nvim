@@ -89,7 +89,7 @@ function vim.lsp.code_action(options) end
 function vim.lsp.completion(context) end
 
 -- Returns the range table for the difference between prev and curr lines
---- @return any #(table) TextDocumentContentChangeEvent see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentContentChangeEvent
+--- @return any #(table) TextDocumentContentChangeEvent see https://microsoft.github.io/language-server-protocol/specification/#textDocumentContentChangeEvent
 function vim.lsp.compute_diff(___MissingCloseParenHere___) end
 
 -- Create a LSP RPC client factory that connects via TCP to the given host
@@ -172,7 +172,7 @@ function vim.lsp.force_refresh(bufnr) end
 ---                optional fields:
 ---                • formatting_options (table|nil): Can be used to specify
 ---                  FormattingOptions. Some unspecified options will be
----                  automatically derived from the current Nvim options. See https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#formattingOptions
+---                  automatically derived from the current Nvim options. See https://microsoft.github.io/language-server-protocol/specification/#formattingOptions
 ---                • timeout_ms (integer|nil, default 1000): Time in
 ---                  milliseconds to block for formatting requests. No effect
 ---                  if async=true
