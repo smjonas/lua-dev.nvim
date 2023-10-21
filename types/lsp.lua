@@ -156,11 +156,6 @@ function vim.lsp.document_symbol(options) end
 --- @param command_params any #(table) A valid `ExecuteCommandParams` object
 function vim.lsp.execute_command(command_params) end
 
--- Can be used to extract the completion items from a `textDocument/completion` request, which may return one of `CompletionItem[]` , `CompletionList` or null.
---- @param result any #(table) The result of a `textDocument/completion` request
---- @return any #(table) List of completion items
-function vim.lsp.extract_completion_items(result) end
-
 -- Force a refresh of all semantic tokens
 --- @param bufnr any #(integer|nil) filter by buffer. All buffers if nil, current
 ---              buffer if 0
@@ -432,11 +427,6 @@ function vim.lsp.open_floating_preview(contents, syntax, opts) end
 -- can pick one in the |inputlist()|.
 function vim.lsp.outgoing_calls() end
 
--- Parses snippets in a completion entry.
---- @param input any #(string) unparsed snippet
---- @return any #(string) parsed snippet
-function vim.lsp.parse_snippet(input) end
-
 -- Previews a location in a floating window
 --- @param location any #(table) a single `Location` or `LocationLink`
 --- @return any #(integer|nil) buffer id of float window
@@ -548,15 +538,6 @@ function vim.lsp.stylize_markdown(bufnr, contents, opts) end
 -- Converts symbols to quickfix list items.
 --- @param symbols any #(table) DocumentSymbol[] or SymbolInformation[]
 function vim.lsp.symbols_to_items(symbols, bufnr) end
-
--- Turns the result of a `textDocument/completion` request into
--- vim-compatible |complete-items|.
---- @param result any #(table) The result of a `textDocument/completion` call, e.g.
----               from |vim.lsp.buf.completion()|, which may be one of
----               `CompletionItem[]`, `CompletionList` or `null`
---- @param prefix any #(string) the prefix to filter the completion items
---- @return any #(table) { matches = complete-items table, incomplete = bool }
-function vim.lsp.text_document_completion_list_to_complete_items(result, prefix) end
 
 -- Jumps to the definition of the type of the symbol under the cursor.
 --- @param options any #(table|nil) additional options
