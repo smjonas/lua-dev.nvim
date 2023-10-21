@@ -150,6 +150,10 @@ function vim.Ringbuf:pop() end
 --- @param item any #any
 function vim.Ringbuf:push(item) end
 
+-- Returns `true` if there's an active snippet in the current buffer.
+--- @return any #(boolean)
+function vim.active() end
+
 -- Add new filetype mappings.
 --- @param filetypes any #(table) A table containing new filetype maps (see
 ---                  example).
@@ -338,6 +342,12 @@ function vim.env() end
 --- @return any #(boolean)
 function vim.eq(v1, v2) end
 
+function vim.exit() end
+
+-- Expands the given snippet text. Refer to https://microsoft.github.io/language-server-protocol/specification/#snippet_syntax for the specification of valid input.
+--- @param input any #(string)
+function vim.expand(input) end
+
 -- Filter a table or iterator.
 --- @param f any #function(...):bool Filter function. Accepts the current
 ---            iterator or table values as arguments and returns true if those
@@ -466,6 +476,20 @@ function vim.is_callable(f) end
 --- @vararg any #(string)
 --- @return any #(string)
 function vim.joinpath(...) end
+
+-- Jumps within the active snippet in the given direction. If the jump isn't
+-- possible, the function call does nothing.
+--- @param direction any #(vim.snippet.Direction) Navigation direction. -1 for
+---                  previous, 1 for next.
+function vim.jump(direction) end
+
+-- Returns `true` if there is an active snippet which can be jumped in the
+-- given direction. You can use this function to navigate a snippet as
+-- follows:
+--- @param direction any #(vim.snippet.Direction) Navigation direction. -1 for
+---                  previous, 1 for next.
+--- @return any #(boolean)
+function vim.jumpable(direction) end
 
 -- Translate keycodes.
 --- @param str any #(string) String to be converted.
