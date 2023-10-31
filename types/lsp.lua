@@ -123,16 +123,16 @@ function vim.lsp.convert_signature_help_to_markdown_lines(signature_help, ft, tr
 --- @param options any #(table|nil) additional options
 ---                • reuse_win: (boolean) Jump to existing window if buffer is
 ---                  already open.
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---                • on_list: (function) |lsp-on-list-handler| replacing the
+---                  default handler. Called for any non-empty result.
 function vim.lsp.declaration(options) end
 
 -- Jumps to the definition of the symbol under the cursor.
 --- @param options any #(table|nil) additional options
 ---                • reuse_win: (boolean) Jump to existing window if buffer is
 ---                  already open.
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---                • on_list: (function) |lsp-on-list-handler| replacing the
+---                  default handler. Called for any non-empty result.
 function vim.lsp.definition(options) end
 
 -- Display the lenses using virtual text
@@ -266,8 +266,8 @@ function vim.lsp.hover(_, result, ctx, config) end
 -- Lists all the implementations for the symbol under the cursor in the
 -- quickfix window.
 --- @param options any #(table|nil) additional options
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---                • on_list: (function) |lsp-on-list-handler| replacing the
+---                  default handler. Called for any non-empty result.
 function vim.lsp.implementation(options) end
 
 -- Lists all the call sites of the symbol under the cursor in the |quickfix|
@@ -543,8 +543,8 @@ function vim.lsp.symbols_to_items(symbols, bufnr) end
 --- @param options any #(table|nil) additional options
 ---                • reuse_win: (boolean) Jump to existing window if buffer is
 ---                  already open.
----                • on_list: (function) handler for list results. See
----                  |lsp-on-list-handler|
+---                • on_list: (function) |lsp-on-list-handler| replacing the
+---                  default handler. Called for any non-empty result.
 function vim.lsp.type_definition(options) end
 
 -- Lists all symbols in the current workspace in the quickfix window.
