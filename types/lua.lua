@@ -180,7 +180,7 @@ function vim.bo() end
 ---     • The position in {str} where the word begins.
 function vim.check(str) end
 
--- Execute Vim script commands.
+-- Executes Vim script commands.
 function vim.cmd() end
 
 -- Parses and compares two version objects (the result of
@@ -491,7 +491,7 @@ function vim.jump(direction) end
 --- @return any #(boolean)
 function vim.jumpable(direction) end
 
--- Translate keycodes.
+-- Translates keycodes.
 --- @param str any #(string) String to be converted.
 --- @return any #(string)
 function vim.keycode(str) end
@@ -573,13 +573,13 @@ function vim.match(args) end
 --- @return any #(string) Normalized path
 function vim.normalize(path, opts) end
 
--- Display a notification to the user.
+-- Displays a notification to the user.
 --- @param msg any #(string) Content of the notification to show to the user.
 --- @param level any #(integer|nil) One of the values from |vim.log.levels|.
 --- @param opts any #(table|nil) Optional parameters. Unused by default.
 function vim.notify(msg, level, opts) end
 
--- Display a notification only one time.
+-- Displays a notification only one time.
 --- @param msg any #(string) Content of the notification to show to the user.
 --- @param level any #(integer|nil) One of the values from |vim.log.levels|.
 --- @param opts any #(table|nil) Optional parameters. Unused by default.
@@ -866,7 +866,7 @@ function vim.str_utfindex(str, index) end
 ---     than {b}, respectively.
 function vim.stricmp(a, b) end
 
--- Run a system command
+-- Runs a system command or throws an error if {cmd} cannot be run.
 --- @param cmd any #(string[]) Command to execute
 --- @param opts any #(SystemOpts|nil) Options:
 ---                • cwd: (string) Set the current working directory for the
