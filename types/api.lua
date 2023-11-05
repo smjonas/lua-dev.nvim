@@ -382,6 +382,9 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 the extmark end position (if it exists) will be shifted in
 ---                 when new text is inserted (true for right, false for
 ---                 left). Defaults to false.
+---               • undo_restore : Restore the exact position of the mark if
+---                 text around the mark was deleted and then restored by
+---                 undo. Defaults to true.
 ---               • priority: a priority value for the highlight group or sign
 ---                 attribute. For example treesitter highlighting uses a
 ---                 value of 100.
