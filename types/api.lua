@@ -385,6 +385,9 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---               • undo_restore : Restore the exact position of the mark if
 ---                 text around the mark was deleted and then restored by
 ---                 undo. Defaults to true.
+---               • invalidate : boolean that indicates whether to hide the
+---                 extmark if the entirety of its range is deleted. If
+---                 "undo_restore" is false, the extmark is deleted instead.
 ---               • priority: a priority value for the highlight group or sign
 ---                 attribute. For example treesitter highlighting uses a
 ---                 value of 100.
