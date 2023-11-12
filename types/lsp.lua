@@ -152,6 +152,11 @@ function vim.lsp.document_highlight() end
 ---                  |lsp-on-list-handler|
 function vim.lsp.document_symbol(options) end
 
+-- Enable/disable/toggle inlay hints for a buffer
+--- @param bufnr any #(integer|nil) Buffer handle, or 0 or nil for current
+--- @param enable any #(boolean|nil) true/nil to enable, false to disable
+function vim.lsp.enable(bufnr, enable) end
+
 -- Executes an LSP server command.
 --- @param command_params any #(table) A valid `ExecuteCommandParams` object
 function vim.lsp.execute_command(command_params) end
@@ -202,11 +207,16 @@ function vim.lsp.format(options) end
 --- @return any #(string) The formatted error message
 function vim.lsp.format_rpc_error() end
 
--- Return all lenses for the given buffer
---- @param bufnr any #(integer) Buffer number. 0 can be used for the current
----              buffer.
---- @return any #lsp.CodeLens[]
-function vim.lsp.get(bufnr) end
+-- Get the list of inlay hints, (optionally) restricted by buffer, client, or
+-- range.
+--- @param filter any #vim.lsp.inlay_hint.get.filter ? Optional filters |kwargs|:
+---               • bufnr (integer?): 0 for current buffer
+---               • range (lsp.Range?)
+--- @return any #vim.lsp.inlay_hint.get.ret [] Each list item is a table with the following fields:
+---     • bufnr (integer)
+---     • client_id (integer)
+---     • inlay_hint (lsp.InlayHint)
+function vim.lsp.get(filter) end
 
 -- Return the semantic token(s) at the given position. If called without
 -- arguments, returns the token under the cursor.
@@ -274,6 +284,10 @@ function vim.lsp.implementation(options) end
 -- window. If the symbol can resolve to multiple items, the user can pick one
 -- in the |inputlist()|.
 function vim.lsp.incoming_calls() end
+
+--- @param bufnr any #(integer|nil) Buffer handle, or 0 or nil for current
+--- @return any #(boolean)
+function vim.lsp.is_enabled(bufnr) end
 
 -- Jumps to a location.
 --- @param location any #(table) (`Location`|`LocationLink`)
