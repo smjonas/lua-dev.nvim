@@ -172,21 +172,7 @@ vim.o.visualbell = "false"
 -- 		setlocal ul=-1
 -- <	This helps when you run out of memory for a single change.
 vim.o.undolevels = "1000"
--- boolean	(default on)
--- 			global
--- 	When on, a <Tab> in front of a line inserts blanks according to
--- 	'shiftwidth'.  'tabstop' or 'softtabstop' is used in other places.  A
--- 	<BS> will delete a 'shiftwidth' worth of space at the start of the
--- 	line.
--- 	When off, a <Tab> always inserts blanks according to 'tabstop' or
--- 	'softtabstop'.  'shiftwidth' is only used for shifting text left or
--- 	right |shift-left-right|.
--- 	What gets inserted (a <Tab> or spaces) depends on the 'expandtab'
--- 	option.  Also see |ins-expandtab|.  When 'expandtab' is not set, the
--- 	number of spaces is minimized by using <Tab>s.
--- 	This option is reset when 'paste' is set and restored when 'paste' is
--- 	reset.
-vim.o.smarttab = "true"
+vim.o.termsync = "true"
 -- string	(default "")
 -- 			global or local to buffer |global-local|
 -- 	External program to use for "=" command.  When this option is empty
@@ -207,12 +193,9 @@ vim.o.equalprg = ""
 vim.o.eadirection = "both"
 -- boolean	(default on)
 -- 			global
--- 	When on the plugin scripts are loaded when starting up |load-plugins|.
--- 	This option can be reset in your |vimrc| file to disable the loading
--- 	of plugins.
--- 	Note that using the "-u NONE" and "--noplugin" command line arguments
--- 	reset this option. |-u| |--noplugin|
-vim.o.loadplugins = "true"
+-- 	Give a warning message when a shell command is used while the buffer
+-- 	has been changed.
+vim.o.warn = "true"
 -- string	(default is very long)
 -- 			global or local to buffer |global-local|
 -- 	Scanf-like description of the format for the lines in the error file
@@ -231,6 +214,16 @@ vim.o.errorformat = "%*[^\"]\"%f\"%*\\D%l: %m,\"%f\"%*\\D%l: %m,%-Gg%\\?make[%*\
 -- 	large number, it will cause errors when opening more than a few
 -- 	windows.  A value of 0 to 12 is reasonable.
 vim.o.winminwidth = "1"
+-- boolean	(default on)
+-- 			global
+-- 	When searching for a tag (e.g., for the |:ta| command), Vim can either
+-- 	use a binary search or a linear search in a tags file.  Binary
+-- 	searching makes searching for a tag a LOT faster, but a linear search
+-- 	will find more tags if the tags file wasn't properly sorted.
+-- 	Vim normally assumes that your tags files are sorted, or indicate that
+-- 	they are not sorted.  Only when this is not the case does the
+-- 	'tagbsearch' option need to be switched off.
+vim.o.tagbsearch = "true"
 -- number	(default 80 or terminal width)
 -- 			global
 -- 	Number of columns of the screen.  Normally this is set by the terminal
@@ -279,23 +272,29 @@ vim.o.maxfuncdepth = "100"
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.shellxquote = ""
--- boolean	(default on)			*E384* *E385*
+-- string	(default "lastline,msgsep", Vi default: "")
 -- 			global
--- 	Searches wrap around the end of the file.  Also applies to |]s| and
--- 	|[s|, searching for spelling mistakes.
-vim.o.wrapscan = "true"
+-- 	Change the way text is displayed.  This is comma separated list of
+-- 	flags:
+-- 	lastline	When included, as much as possible of the last line
+-- 			in a window will be displayed.  "@@@" is put in the
+-- 			last columns of the last screen line to indicate the
+-- 			rest of the line is not displayed.
+-- 	truncate	Like "lastline", but "@@@" is displayed in the first
+-- 			column of the last screen line.  Overrules "lastline".
+-- 	uhex		Show unprintable characters hexadecimal as <xx>
+-- 			instead of using ^C and ~C.
+-- 	msgsep		When showing messages longer than 'cmdheight', only
+-- 			scroll the message lines, not the entire screen. The
+-- 			separator line is decorated by |hl-MsgSeparator| and
+-- 			the "msgsep" flag of 'fillchars'.
+vim.o.display = "lastline"
 -- string	(default "SHNHH HUnhsh")
 -- 			global
 -- 	Specifies the nroff macros that separate sections.  These are pairs of
 -- 	two letters (See |object-motions|).  The default makes a section start
 -- 	at the nroff macros ".SH", ".NH", ".H", ".HU", ".nh" and ".sh".
 vim.o.sections = "SHNHH HUnhsh"
--- number	(default 0)
--- 			global
--- 	The number of milliseconds to wait for each character sent to the
--- 	screen.  When positive, characters are sent to the UI one by one.
--- 	See 'redrawdebug' for more options.  For debugging purposes.
-vim.o.writedelay = "0"
 -- string	(default "make")
 -- 			global or local to buffer |global-local|
 -- 	Program to use for the ":make" command.  See |:make_makeprg|.
@@ -314,6 +313,21 @@ vim.o.writedelay = "0"
 -- <	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.makeprg = "make"
+-- boolean	(default on)
+-- 			global
+-- 	When on, a <Tab> in front of a line inserts blanks according to
+-- 	'shiftwidth'.  'tabstop' or 'softtabstop' is used in other places.  A
+-- 	<BS> will delete a 'shiftwidth' worth of space at the start of the
+-- 	line.
+-- 	When off, a <Tab> always inserts blanks according to 'tabstop' or
+-- 	'softtabstop'.  'shiftwidth' is only used for shifting text left or
+-- 	right |shift-left-right|.
+-- 	What gets inserted (a <Tab> or spaces) depends on the 'expandtab'
+-- 	option.  Also see |ins-expandtab|.  When 'expandtab' is not set, the
+-- 	number of spaces is minimized by using <Tab>s.
+-- 	This option is reset when 'paste' is set and restored when 'paste' is
+-- 	reset.
+vim.o.smarttab = "true"
 -- boolean	(default on)
 -- 			global
 -- 	While typing a search command, show where the pattern, as it was typed
@@ -389,31 +403,12 @@ vim.o.title = "false"
 -- <
 -- 				 *'expandtab'* *'et'* *'noexpandtab'* *'noet'*
 vim.o.eventignore = ""
--- boolean	(default on)
+-- string	(default "%f:%l:%m,%f:%l%m,%f  %l%m")
 -- 			global
--- 	Show the line and column number of the cursor position, separated by a
--- 	comma.  When there is room, the relative position of the displayed
--- 	text in the file is shown on the far right:
--- 		Top	first line is visible
--- 		Bot	last line is visible
--- 		All	first and last line are visible
--- 		45%	relative position in the file
--- 	If 'rulerformat' is set, it will determine the contents of the ruler.
--- 	Each window has its own ruler.  If a window has a status line, the
--- 	ruler is shown there.  Otherwise it is shown in the last line of the
--- 	screen.  If the statusline is given by 'statusline' (i.e. not empty),
--- 	this option takes precedence over 'ruler' and 'rulerformat'
--- 	If the number of characters displayed is different from the number of
--- 	bytes in the text (e.g., for a TAB or a multi-byte character), both
--- 	the text column (byte number) and the screen column are shown,
--- 	separated with a dash.
--- 	For an empty line "0-1" is shown.
--- 	For an empty buffer the line number will also be zero: "0,0-1".
--- 	This option is reset when 'paste' is set and restored when 'paste' is
--- 	reset.
--- 	If you don't want to see the ruler all the time but want to know where
--- 	you are, use "g CTRL-G" |g_CTRL-G|.
-vim.o.ruler = "true"
+-- 	Format to recognize for the ":grep" command output.
+-- 	This is a scanf-like string that uses the same format as the
+-- 	'errorformat' option: see |errorformat|.
+vim.o.grepformat = "%f:%l:%m,%f:%l%m,%f  %l%m"
 -- string (default: "single")
 -- 			global
 -- 	Tells Vim what to do with characters with East Asian Width Class
@@ -434,12 +429,45 @@ vim.o.ambiwidth = "single"
 -- 	'includeexpr' to process the matched text.
 -- 	See |option-backslash| about including spaces and backslashes.
 vim.o.include = ""
--- string	(default "%f:%l:%m,%f:%l%m,%f  %l%m")
+-- string	(default: "blank,buffers,curdir,folds,
+-- 					       help,tabpages,winsize"
+-- 				 Vi default: "blank,buffers,curdir,folds,
+-- 					       help,options,tabpages,winsize")
 -- 			global
--- 	Format to recognize for the ":grep" command output.
--- 	This is a scanf-like string that uses the same format as the
--- 	'errorformat' option: see |errorformat|.
-vim.o.grepformat = "%f:%l:%m,%f:%l%m,%f  %l%m"
+-- 	Changes the effect of the |:mksession| command.  It is a comma
+-- 	separated list of words.  Each word enables saving and restoring
+-- 	something:
+-- 	   word		save and restore ~
+-- 	   blank	empty windows
+-- 	   buffers	hidden and unloaded buffers, not just those in windows
+-- 	   curdir	the current directory
+-- 	   folds	manually created folds, opened/closed folds and local
+-- 			fold options
+-- 	   globals	global variables that start with an uppercase letter
+-- 			and contain at least one lowercase letter.  Only
+-- 			String and Number types are stored.
+-- 	   help		the help window
+-- 	   localoptions	options and mappings local to a window or buffer (not
+-- 			global values for local options)
+-- 	   options	all options and mappings (also global values for local
+-- 			options)
+-- 	   resize	size of the Vim window: 'lines' and 'columns'
+-- 	   sesdir	the directory in which the session file is located
+-- 			will become the current directory (useful with
+-- 			projects accessed over a network from different
+-- 			systems)
+-- 	   slash	backslashes in file names replaced with forward
+-- 			slashes
+-- 	   tabpages	all tab pages; without this only the current tab page
+-- 			is restored, so that you can make a session for each
+-- 			tab page separately
+-- 	   terminal	include terminal windows where the command can be
+-- 			restored
+-- 	   unix		with Unix end-of-line format (single <NL>), even when
+-- 			on Windows or DOS
+-- 	   winpos	position of the whole Vim window
+-- 	   winsize	window sizes
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal"
 -- string	(default empty)
 -- 			global
 -- 	When nonempty describes the text to use in a tooltip for the GUI tab
@@ -471,11 +499,14 @@ vim.o.rulerformat = ""
 -- 	This option cannot be set from a |modeline| or in the |sandbox|, for
 -- 	security reasons.
 vim.o.langmap = ""
--- string	(default empty)
--- 			global or local to window |global-local|
--- 	When nonempty, this option determines the content of the status line.
--- 	Also see |status-line|.
-vim.o.statusline = ""
+-- string	(default "")
+-- 			global
+-- 	When not empty, specifies a comma-separated list of fonts to be used
+-- 	for double-width characters.  The first font that can be loaded is
+-- 	used.
+-- 	Note: The size of these fonts must be exactly twice as wide as the one
+-- 	specified with 'guifont' and the same height.
+vim.o.guifontwide = ""
 -- string	(default ":Man", Windows: ":help")
 -- 			global or local to buffer |global-local|
 -- 	Program to use for the |K| command.  Environment variables are
@@ -499,14 +530,6 @@ vim.o.keywordprg = ":Man"
 -- 	that background type.  The |TUI| or other UI sets this on startup
 -- 	(triggering |OptionSet|) if it can detect the background color.
 vim.o.background = "dark"
--- string	(default "")
--- 			global
--- 	When not empty, specifies a comma-separated list of fonts to be used
--- 	for double-width characters.  The first font that can be loaded is
--- 	used.
--- 	Note: The size of these fonts must be exactly twice as wide as the one
--- 	specified with 'guifont' and the same height.
-vim.o.guifontwide = ""
 -- boolean	(default on)
 -- 			global
 -- 	Enables "enhanced mode" of command-line completion. When user hits
@@ -520,6 +543,12 @@ vim.o.guifontwide = ""
 -- 	The menu is canceled when a key is hit that is not used for selecting
 -- 	a completion.
 vim.o.wildmenu = "true"
+-- string	(default empty)
+-- 			global
+-- 	When nonempty describes the text to use in a label of the GUI tab
+-- 	pages line.  When empty and when the result is empty Vim will use a
+-- 	default label.  See |setting-guitablabel| for more info.
+vim.o.guitablabel = ""
 -- number (default: -1)
 -- 			global
 -- 	Sets 'foldlevel' when starting to edit another buffer in a window.
@@ -534,10 +563,10 @@ vim.o.wildmenu = "true"
 vim.o.foldlevelstart = "-1"
 -- string	(default empty)
 -- 			global
--- 	When nonempty describes the text to use in a label of the GUI tab
--- 	pages line.  When empty and when the result is empty Vim will use a
--- 	default label.  See |setting-guitablabel| for more info.
-vim.o.guitablabel = ""
+-- 	When nonempty, this option determines the content of the tab pages
+-- 	line at the top of the Vim window.  When empty Vim will use a default
+-- 	tab pages line.  See |setting-tabline| for more info.
+vim.o.tabline = ""
 -- string	(default "followic")
 -- 			global or local to buffer |global-local|
 -- 	This option specifies how case is handled when searching the tags
@@ -548,16 +577,21 @@ vim.o.guitablabel = ""
 -- 	   match	Match case
 -- 	   smart	Ignore case unless an upper case letter is used
 vim.o.tagcase = "followic"
--- boolean	(default on)
+-- number	(default 1000)
 -- 			global
--- 	When searching for a tag (e.g., for the |:ta| command), Vim can either
--- 	use a binary search or a linear search in a tags file.  Binary
--- 	searching makes searching for a tag a LOT faster, but a linear search
--- 	will find more tags if the tags file wasn't properly sorted.
--- 	Vim normally assumes that your tags files are sorted, or indicate that
--- 	they are not sorted.  Only when this is not the case does the
--- 	'tagbsearch' option need to be switched off.
-vim.o.tagbsearch = "true"
+-- 	Maximum amount of memory (in Kbyte) to use for pattern matching.
+-- 	The maximum value is about 2000000.  Use this to work without a limit.
+-- 							*E363*
+-- 	When Vim runs into the limit it gives an error message and mostly
+-- 	behaves like CTRL-C was typed.
+-- 	Running into the limit often means that the pattern is very
+-- 	inefficient or too complex.  This may already happen with the pattern
+-- 	"\(.\)*" on a very long line.  ".*" works much better.
+-- 	Might also happen on redraw, when syntax rules try to match a complex
+-- 	text structure.
+-- 	Vim may run out of memory before hitting the 'maxmempattern' limit, in
+-- 	which case you get an "Out of memory" error instead.
+vim.o.maxmempattern = "1000"
 -- string	(default "")
 -- 			global
 -- 	If not empty, this option will be used to set the window title when
@@ -665,12 +699,20 @@ vim.o.shellquote = ""
 -- 	When 'patchmode' is set, the backup may be renamed to become the
 -- 	oldest version of a file.
 vim.o.backup = "false"
--- string	(default empty)
+-- boolean	(default off)
 -- 			global
--- 	When nonempty, this option determines the content of the tab pages
--- 	line at the top of the Vim window.  When empty Vim will use a default
--- 	tab pages line.  See |setting-tabline| for more info.
-vim.o.tabline = ""
+-- 	When off a buffer is unloaded when it is |abandon|ed.  When on a
+-- 	buffer becomes hidden when it is |abandon|ed.  If the buffer is still
+-- 	displayed in another window, it does not become hidden, of course.
+-- 	The commands that move through the buffer list sometimes make a buffer
+-- 	hidden although the 'hidden' option is off: When the buffer is
+-- 	modified, 'autowrite' is off or writing is not possible, and the '!'
+-- 	flag was used.  See also |windows.txt|.
+-- 	To only make one buffer hidden use the 'bufhidden' option.
+-- 	This option is set for one command with ":hide {command}" |:hide|.
+-- 	WARNING: It's easy to forget that you have changes in hidden buffers.
+-- 	Think twice when using ":q!" or ":qa!".
+vim.o.hidden = "true"
 -- string (default: "ucs-bom,utf-8,default,latin1")
 -- 			global
 -- 	This is a list of character encodings considered when starting to edit
@@ -741,18 +783,24 @@ vim.o.fileencodings = "ucs-bom,utf-8,default,latin1"
 vim.o.winheight = "1"
 -- boolean	(default off)
 -- 			global
--- 	When off a buffer is unloaded when it is |abandon|ed.  When on a
--- 	buffer becomes hidden when it is |abandon|ed.  If the buffer is still
--- 	displayed in another window, it does not become hidden, of course.
--- 	The commands that move through the buffer list sometimes make a buffer
--- 	hidden although the 'hidden' option is off: When the buffer is
--- 	modified, 'autowrite' is off or writing is not possible, and the '!'
--- 	flag was used.  See also |windows.txt|.
--- 	To only make one buffer hidden use the 'bufhidden' option.
--- 	This option is set for one command with ":hide {command}" |:hide|.
--- 	WARNING: It's easy to forget that you have changes in hidden buffers.
--- 	Think twice when using ":q!" or ":qa!".
-vim.o.hidden = "true"
+-- 	When a bracket is inserted, briefly jump to the matching one.  The
+-- 	jump is only done if the match can be seen on the screen.  The time to
+-- 	show the match can be set with 'matchtime'.
+-- 	A Beep is given if there is no match (no matter if the match can be
+-- 	seen or not).
+-- 	This option is reset when 'paste' is set and restored when 'paste' is
+-- 	reset.
+-- 	When the 'm' flag is not included in 'cpoptions', typing a character
+-- 	will immediately move the cursor back to where it belongs.
+-- 	See the "sm" field in 'guicursor' for setting the cursor shape and
+-- 	blinking when showing the match.
+-- 	The 'matchpairs' option can be used to specify the characters to show
+-- 	matches for.  'rightleft' and 'revins' are used to look for opposite
+-- 	matches.
+-- 	Also see the matchparen plugin for highlighting the match when moving
+-- 	around |pi_paren.txt|.
+-- 	Note: Use of the short form is rated PG.
+vim.o.showmatch = "false"
 -- number	(default 0)
 -- 			global
 -- 			{only in the GUI}
@@ -772,24 +820,12 @@ vim.o.linespace = "0"
 vim.o.hkmap = "false"
 -- boolean	(default off)
 -- 			global
--- 	When a bracket is inserted, briefly jump to the matching one.  The
--- 	jump is only done if the match can be seen on the screen.  The time to
--- 	show the match can be set with 'matchtime'.
--- 	A Beep is given if there is no match (no matter if the match can be
--- 	seen or not).
--- 	This option is reset when 'paste' is set and restored when 'paste' is
--- 	reset.
--- 	When the 'm' flag is not included in 'cpoptions', typing a character
--- 	will immediately move the cursor back to where it belongs.
--- 	See the "sm" field in 'guicursor' for setting the cursor shape and
--- 	blinking when showing the match.
--- 	The 'matchpairs' option can be used to specify the characters to show
--- 	matches for.  'rightleft' and 'revins' are used to look for opposite
--- 	matches.
--- 	Also see the matchparen plugin for highlighting the match when moving
--- 	around |pi_paren.txt|.
--- 	Note: Use of the short form is rated PG.
-vim.o.showmatch = "false"
+-- 	Ignore case in search patterns.  Also used when searching in the tags
+-- 	file.
+-- 	Also see 'smartcase' and 'tagcase'.
+-- 	Can be overruled by using "\c" or "\C" in the pattern, see
+-- 	|/ignorecase|.
+vim.o.ignorecase = "false"
 -- boolean	(default off)
 -- 			global
 -- 	Write the contents of the file, if it has been modified, on each
@@ -801,14 +837,11 @@ vim.o.showmatch = "false"
 -- 	Some buffers will not be written, specifically when 'buftype' is
 -- 	"nowrite", "nofile", "terminal" or "prompt".
 vim.o.autowrite = "false"
--- boolean	(default off)
+-- boolean	(default on)			*E384* *E385*
 -- 			global
--- 	Ignore case in search patterns.  Also used when searching in the tags
--- 	file.
--- 	Also see 'smartcase' and 'tagcase'.
--- 	Can be overruled by using "\c" or "\C" in the pattern, see
--- 	|/ignorecase|.
-vim.o.ignorecase = "false"
+-- 	Searches wrap around the end of the file.  Also applies to |]s| and
+-- 	|[s|, searching for spelling mistakes.
+vim.o.wrapscan = "true"
 -- string	(default "")
 -- 			global
 -- 	When this option is not empty, it will be used for the icon text of
@@ -819,17 +852,6 @@ vim.o.ignorecase = "false"
 -- 	'titlestring' for example settings.
 -- 	This option cannot be set in a modeline when 'modelineexpr' is off.
 vim.o.iconstring = ""
--- string	(default: empty)
--- 			global
--- 	This option specifies a function to be called by the |g@| operator.
--- 	See |:map-operator| for more info and an example.
-vim.o.operatorfunc = ""
--- number	(default 25)
--- 			global
--- 	Maximum number of items to use in a menu.  Used for menus that are
--- 	generated from a list of items, e.g., the Buffers menu.  Changing this
--- 	option has no direct effect, the menu must be refreshed first.
-vim.o.menuitems = "25"
 -- number	(default 0)
 -- 			global
 -- 	This selects the default regexp engine. |two-engines|
@@ -845,6 +867,26 @@ vim.o.menuitems = "25"
 -- 	many states.  This should prevent Vim from hanging on a combination of
 -- 	a complex pattern with long text.
 vim.o.regexpengine = "0"
+-- number	(default 25)
+-- 			global
+-- 	Maximum number of items to use in a menu.  Used for menus that are
+-- 	generated from a list of items, e.g., the Buffers menu.  Changing this
+-- 	option has no direct effect, the menu must be refreshed first.
+vim.o.menuitems = "25"
+-- number	(default: 200)
+-- 			global
+-- 	After typing this many characters the swap file will be written to
+-- 	disk.  When zero, no swap file will be created at all (see chapter on
+-- 	recovery |crash-recovery|).  'updatecount' is set to zero by starting
+-- 	Vim with the "-n" option, see |startup|.  When editing in readonly
+-- 	mode this option will be initialized to 10000.
+-- 	The swapfile can be disabled per buffer with |'swapfile'|.
+-- 	When 'updatecount' is set from zero to non-zero, swap files are
+-- 	created for all buffers that have 'swapfile' set.  When 'updatecount'
+-- 	is set to zero, existing swap files are not deleted.
+-- 	This option has no meaning in buffers where |'buftype'| is "nofile"
+-- 	or "nowrite".
+vim.o.updatecount = "200"
 -- string	(default: see 'runtimepath')
 -- 	Directories used to find packages.  See |packages|.
 vim.o.packpath = "/home/runner/.config/nvim,/etc/xdg/nvim,/home/runner/.local/share/nvim/site,/usr/local/share/nvim/site,/usr/share/nvim/site,/usr/share/nvim/runtime,/usr/lib/x86_64-linux-gnu/nvim,/usr/share/nvim/site/after,/usr/local/share/nvim/site/after,/home/runner/.local/share/nvim/site/after,/etc/xdg/nvim/after,/home/runner/.config/nvim/after"
@@ -856,14 +898,6 @@ vim.o.packpath = "/home/runner/.config/nvim,/etc/xdg/nvim,/home/runner/.local/sh
 -- 	even when they are not included in 'isprint' or excluded.  See
 -- 	'isfname' for a description of the format of this option.
 vim.o.isprint = "@,161-255"
--- string	(default "egmrLT"   (MS-Windows))
--- 			global
--- 	This option only has an effect in the GUI version of Vim.  It is a
--- 	sequence of letters which describes what components and options of the
--- 	GUI should be used.
--- 	To avoid problems with flags that are added in the future, use the
--- 	"+=" and "-=" feature of ":set" |add-option-flags|.
-vim.o.guioptions = ""
 -- string	(default "")
 -- 			global
 -- 	List of words that change the behavior of the |jumplist|.
@@ -881,14 +915,6 @@ vim.o.jumpoptions = ""
 -- 	is given to a ":substitute" command, this will toggle the substitution
 -- 	of all or one match.  See |complex-change|.
 vim.o.gdefault = "false"
--- boolean (default off, set in |defaults.vim|)
--- 			global
--- 			{only available when compiled with the |+langmap|
--- 			feature}
--- 	This is just like 'langremap' but with the value inverted.  It only
--- 	exists for backwards compatibility.  When setting 'langremap' then
--- 	'langnoremap' is set to the inverted value, and the other way around.
-vim.o.langnoremap = "true"
 -- number	(default 24 or terminal height)
 -- 			global
 -- 	Number of lines of the Vim window.
@@ -902,20 +928,31 @@ vim.o.langnoremap = "true"
 -- 		:set lines=999
 -- <	Minimum value is 2, maximum value is 1000.
 vim.o.lines = "24"
+-- boolean (default off, set in |defaults.vim|)
+-- 			global
+-- 			{only available when compiled with the |+langmap|
+-- 			feature}
+-- 	This is just like 'langremap' but with the value inverted.  It only
+-- 	exists for backwards compatibility.  When setting 'langremap' then
+-- 	'langnoremap' is set to the inverted value, and the other way around.
+vim.o.langnoremap = "true"
+-- boolean	(default off)
+-- 			global
+-- 	When set case is ignored when completing file names and directories.
+-- 	Has no effect when 'fileignorecase' is set.
+-- 	Does not apply when the shell is used to expand wildcards, which
+-- 	happens when there are special characters.
+vim.o.wildignorecase = "false"
 -- boolean	(default off)
 -- 			global
 -- 	When on, splitting a window will put the new window below the current
 -- 	one. |:split|
 vim.o.splitbelow = "false"
--- string	(default: "")
--- 			global
--- 	When non-empty, overrides the file name used for |shada| (viminfo).
--- 	When equal to "NONE" no shada file will be read or written.
--- 	This option can be set with the |-i| command line flag.  The |--clean|
--- 	command line flag sets it to "NONE".
--- 	This option cannot be set from a |modeline| or in the |sandbox|, for
--- 	security reasons.
-vim.o.shadafile = ""
+-- string	(default is very long)
+-- 			global or local to buffer |global-local|
+-- 	Comma separated list of words that influence the Lisp indenting.
+-- 	|'lisp'|
+vim.o.lispwords = "defun,define,defmacro,set!,lambda,if,case,let,flet,let*,letrec,do,do*,define-syntax,let-syntax,letrec-syntax,destructuring-bind,defpackage,defparameter,defstruct,deftype,defvar,do-all-symbols,do-external-symbols,do-symbols,dolist,dotimes,ecase,etypecase,eval-when,labels,macrolet,multiple-value-bind,multiple-value-call,multiple-value-prog1,multiple-value-setq,prog1,progv,typecase,unless,unwind-protect,when,with-input-from-string,with-open-file,with-open-stream,with-output-to-string,with-package-iterator,define-condition,handler-bind,handler-case,restart-bind,restart-case,with-simple-restart,store-value,use-value,muffle-warning,abort,continue,with-slots,with-slots*,with-accessors,with-accessors*,defclass,defmethod,print-unreadable-object"
 -- string	(default "")
 -- 			global
 -- 	Expression which is evaluated to obtain a diff file (either ed-style
@@ -947,11 +984,11 @@ vim.o.autoread = "true"
 -- 	checked for set commands.  If 'modeline' is off or 'modelines' is zero
 -- 	no lines are checked.  See |modeline|.
 vim.o.modelines = "5"
--- string	(default is very long)
--- 			global or local to buffer |global-local|
--- 	Comma separated list of words that influence the Lisp indenting.
--- 	|'lisp'|
-vim.o.lispwords = "defun,define,defmacro,set!,lambda,if,case,let,flet,let*,letrec,do,do*,define-syntax,let-syntax,letrec-syntax,destructuring-bind,defpackage,defparameter,defstruct,deftype,defvar,do-all-symbols,do-external-symbols,do-symbols,dolist,dotimes,ecase,etypecase,eval-when,labels,macrolet,multiple-value-bind,multiple-value-call,multiple-value-prog1,multiple-value-setq,prog1,progv,typecase,unless,unwind-protect,when,with-input-from-string,with-open-file,with-open-stream,with-output-to-string,with-package-iterator,define-condition,handler-bind,handler-case,restart-bind,restart-case,with-simple-restart,store-value,use-value,muffle-warning,abort,continue,with-slots,with-slots*,with-accessors,with-accessors*,defclass,defmethod,print-unreadable-object"
+-- string	(default "")
+-- 			global or local to window |global-local|
+-- 	Characters to fill the statuslines and vertical separators.
+-- 	It is a comma separated list of items:
+vim.o.fillchars = ""
 -- string	(default "~")
 -- 			global
 -- 	String which is appended to a file name to make the name of the
@@ -961,11 +998,12 @@ vim.o.lispwords = "defun,define,defmacro,set!,lambda,if,case,let,flet,let*,letre
 -- 	".bak" that you want to keep.
 -- 	Only normal file name characters can be used, "/\*?[|<>" are illegal.
 vim.o.backupext = "~"
--- string	(default "")
--- 			global or local to window |global-local|
--- 	Characters to fill the statuslines and vertical separators.
--- 	It is a comma separated list of items:
-vim.o.fillchars = ""
+-- string (default "")
+-- 			global
+-- 	When set to "all", a fold is closed when the cursor isn't in it and
+-- 	its level is higher than 'foldlevel'.  Useful if you want folds to
+-- 	automatically close when moving out of them.
+vim.o.foldclose = ""
 -- string	(default "^\s*#\s*define")
 -- 			global or local to buffer |global-local|
 -- 	Pattern to be used to find a macro definition.  It is a search
@@ -989,17 +1027,3 @@ vim.o.fillchars = ""
 -- 		let &l:define = '^\s*\ze\k\+\s*=\s*function('
 -- <
 vim.o.define = ""
--- number	(default: 200)
--- 			global
--- 	After typing this many characters the swap file will be written to
--- 	disk.  When zero, no swap file will be created at all (see chapter on
--- 	recovery |crash-recovery|).  'updatecount' is set to zero by starting
--- 	Vim with the "-n" option, see |startup|.  When editing in readonly
--- 	mode this option will be initialized to 10000.
--- 	The swapfile can be disabled per buffer with |'swapfile'|.
--- 	When 'updatecount' is set from zero to non-zero, swap files are
--- 	created for all buffers that have 'swapfile' set.  When 'updatecount'
--- 	is set to zero, existing swap files are not deleted.
--- 	This option has no meaning in buffers where |'buftype'| is "nofile"
--- 	or "nowrite".
-vim.o.updatecount = "200"
