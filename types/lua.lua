@@ -403,6 +403,16 @@ function vim.gsplit(s, sep, opts) end
 --- @return any #(boolean)
 function vim.gt(v1, v2) end
 
+-- Hex decode a string.
+--- @param enc any #(string) String to decode
+--- @return any #(string) Decoded string
+function vim.hexdecode(enc) end
+
+-- Hex encode a string.
+--- @param str any #(string) String to encode
+--- @return any #(string) Hex encoded string
+function vim.hexencode(str) end
+
 -- The result is a String, which is the text {str} converted from encoding
 -- {from} to encoding {to}. When the conversion fails `nil` is returned. When
 -- some characters could not be converted they are replaced with "?". The

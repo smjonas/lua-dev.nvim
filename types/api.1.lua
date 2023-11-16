@@ -593,8 +593,7 @@ function vim.api.nvim_ui_set_focus(gained) end
 --- @param value object
 function vim.api.nvim_ui_set_option(name, value) end
 
--- Tells Nvim when a terminal event has occurred: sets |v:termresponse| and
--- fires |TermResponse|.
+-- Tells Nvim when a terminal event has occurred
 --- @param event string #Event name
 --- @param value object
 function vim.api.nvim_ui_term_event(event, value) end
