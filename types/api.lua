@@ -222,8 +222,8 @@ function vim.api.nvim_buf_get_commands(buffer, opts) end
 --- @return any #0-indexed (row, col) tuple or empty list () if extmark id was absent
 function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 
--- Gets |extmarks| in "traversal order" from a |charwise| region defined by
--- buffer positions (inclusive, 0-indexed |api-indexing|).
+-- Gets |extmarks| (including |signs|) in "traversal order" from a |charwise|
+-- region defined by buffer positions (inclusive, 0-indexed |api-indexing|).
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()| or -1 for all
 ---               namespaces
