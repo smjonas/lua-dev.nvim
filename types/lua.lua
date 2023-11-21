@@ -726,7 +726,7 @@ function vim.regex:match_str(str) end
 --- @param pos2 any #integer[]|string End of region as a (line, column) tuple
 ---                  or |getpos()|-compatible string
 --- @param regtype any #(string) |setreg()|-style selection type
---- @param inclusive any #(boolean) Controls whether `pos2` column is inclusive
+--- @param inclusive any #(boolean) Controls whether the ending column is inclusive
 ---                  (see also 'selection').
 --- @return any #(table) region Dict of the form `{linenr = {startcol,endcol}}`.
 ---     `endcol` is exclusive, and whole lines are returned as
