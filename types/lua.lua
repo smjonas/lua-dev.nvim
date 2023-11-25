@@ -6,30 +6,32 @@
 --- @class vim.Iter
 vim.Iter = {}
 
--- Return true if all of the items in the iterator match the given predicate.
+-- Returns true if all items in the iterator match the given predicate.
 --- @param pred any #function(...):bool Predicate function. Takes all values
 ---             returned from the previous stage in the pipeline as arguments
 ---             and returns true if the predicate matches.
 function vim.Iter:all(pred) end
 
--- Return true if any of the items in the iterator match the given predicate.
+-- Returns true if any of the items in the iterator match the given
+-- predicate.
 --- @param pred any #function(...):bool Predicate function. Takes all values
 ---             returned from the previous stage in the pipeline as arguments
 ---             and returns true if the predicate matches.
 function vim.Iter:any(pred) end
 
--- Call a function once for each item in the pipeline.
+-- Calls a function once for each item in the pipeline, draining the
+-- iterator.
 --- @param f any #function(...) Function to execute for each item in the pipeline.
 ---          Takes all of the values returned by the previous stage in the
 ---          pipeline as arguments.
 function vim.Iter:each(f) end
 
--- Add an iterator stage that returns the current iterator count as well as
--- the iterator value.
+-- Yields the item index (count) and value for each item of an iterator
+-- pipeline.
 --- @return any #Iter
 function vim.Iter:enumerate() end
 
--- Add a filter step to the iterator pipeline.
+-- Filters an iterator pipeline.
 --- @param f any #function(...):bool Takes all values returned from the previous
 ---          stage in the pipeline and returns false or nil if the current
 ---          iterator element should be removed.
@@ -40,17 +42,17 @@ function vim.Iter:filter(f) end
 --- @return any #any
 function vim.Iter:find(f) end
 
--- Fold ("reduce") an iterator or table into a single value.
+-- Folds ("reduces") an iterator into a single value.
 --- @param init any #any Initial value of the accumulator.
 --- @param f any #function(acc:any, ...):A Accumulation function.
 --- @return any #any
 function vim.Iter:fold(init, f) end
 
--- Return the last item in the iterator.
+-- Drains the iterator and returns the last item.
 --- @return any #any
 function vim.Iter:last() end
 
--- Add a map step to the iterator pipeline.
+-- Maps the items of an iterator pipeline to the values returned by `f`.
 --- @param f any #function(...):any Mapping function. Takes all values returned
 ---          from the previous stage in the pipeline as arguments and returns
 ---          one or more new values, which are used in the next pipeline
@@ -58,52 +60,53 @@ function vim.Iter:last() end
 --- @return any #Iter
 function vim.Iter:map(f) end
 
--- Return the next value from the iterator.
+-- Gets the next value from the iterator.
 --- @return any #any
 function vim.Iter:next() end
 
--- Return the next value from the end of the iterator.
+-- "Pops" a value from a |list-iterator| (gets the last value and decrements
+-- the tail).
 --- @return any #any
 function vim.Iter:nextback() end
 
--- Return the nth value in the iterator.
+-- Gets the nth value of an iterator (and advances to it).
 --- @param n any #(number) The index of the value to return.
 --- @return any #any
 function vim.Iter:nth(n) end
 
--- Return the nth value from the end of the iterator.
+-- Gets the nth value from the end of a |list-iterator| (and advances to it).
 --- @param n any #(number) The index of the value to return.
 --- @return any #any
 function vim.Iter:nthback(n) end
 
--- Peek at the next value in the iterator without consuming it.
+-- Gets the next value in a |list-iterator| without consuming it.
 --- @return any #any
 function vim.Iter:peek() end
 
--- Return the next value from the end of the iterator without consuming it.
+-- Gets the last value of a |list-iterator| without consuming it.
 --- @return any #any
 function vim.Iter:peekback() end
 
--- Reverse an iterator.
+-- Reverses a |list-iterator| pipeline.
 --- @return any #Iter
 function vim.Iter:rev() end
 
--- Find the first value in the iterator that satisfies the given predicate,
+-- Gets the first value in a |list-iterator| that satisfies a predicate,
 -- starting from the end.
 --- @return any #any
 function vim.Iter:rfind(f) end
 
--- Skip values in the iterator.
+-- Skips `n` values of an iterator pipeline.
 --- @param n any #(number) Number of values to skip.
 --- @return any #Iter
 function vim.Iter:skip(n) end
 
--- Skip values in the iterator starting from the end.
+-- Skips `n` values backwards from the end of a |list-iterator| pipeline.
 --- @param n any #(number) Number of values to skip.
 --- @return any #Iter
 function vim.Iter:skipback(n) end
 
--- Slice an iterator, changing its start and end positions.
+-- Sets the start and end of a |list-iterator| pipeline.
 --- @param first any #(number)
 --- @param last any #(number)
 --- @return any #Iter
@@ -348,7 +351,7 @@ function vim.exit() end
 --- @param input any #(string)
 function vim.expand(input) end
 
--- Filter a table or iterator.
+-- Filters a table or other |iterable|.
 --- @param f any #function(...):bool Filter function. Accepts the current
 ---            iterator or table values as arguments and returns true if those
 ---            values should be kept in the final table
@@ -543,7 +546,7 @@ function vim.lt(v1, v2) end
 -- similar to the builtin completion for the `:lua` command.
 function vim.lua_omnifunc(find_start, _) end
 
--- Map and filter a table or iterator.
+-- Maps a table or other |iterable|.
 --- @param f any #function(...):?any Map function. Accepts the current iterator
 ---            or table values as arguments and returns one or more new
 ---            values. Nil values are removed from the final table.
@@ -1024,7 +1027,7 @@ function vim.tbl_map(func, t) end
 --- @return any #(list) List of values
 function vim.tbl_values(t) end
 
--- Collect an iterator into a table.
+-- Collects an |iterable| into a table.
 --- @param f any #(function) Iterator function
 --- @return any #(table)
 function vim.totable(f, ...) end
