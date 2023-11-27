@@ -207,8 +207,7 @@ function vim.lsp.format(options) end
 --- @return any #(string) The formatted error message
 function vim.lsp.format_rpc_error() end
 
--- Get the list of inlay hints, (optionally) restricted by buffer, client, or
--- range.
+-- Get the list of inlay hints, (optionally) restricted by buffer or range.
 --- @param filter any #vim.lsp.inlay_hint.get.filter ? Optional filters |kwargs|:
 ---               • bufnr (integer?): 0 for current buffer
 ---               • range (lsp.Range?)
