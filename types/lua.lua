@@ -918,7 +918,8 @@ function vim.stricmp(a, b) end
 ---     • pid (integer) Process ID
 ---     • wait (fun(timeout: integer|nil): SystemCompleted) Wait for the
 ---       process to complete. Upon timeout the process is sent the KILL
----       signal (9) and the exit code is set to 124.
+---       signal (9) and the exit code is set to 124. Cannot be called in
+---       |api-fast|.
 ---       • SystemCompleted is an object with the fields:
 ---         • code: (integer)
 ---         • signal: (integer)
@@ -1090,8 +1091,7 @@ function vim.validate(opt) end
 --- @param interval any #(integer|nil) (Approximate) number of milliseconds to
 ---                  wait between polls
 --- @param fast_only any #(boolean|nil) If true, only |api-fast| events will be
----                  processed. If called from while in an |api-fast| event,
----                  will automatically be set to `true`.
+---                  processed.
 --- @return any #boolean, nil|-1|-2
 ---     • If {callback} returns `true` during the {time}: `true, nil`
 ---     • If {callback} never returns `true` during the {time}: `false, -1`
