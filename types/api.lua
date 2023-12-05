@@ -84,7 +84,7 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 ---                    `nvim_buf_lines_event`. Else the first notification
 ---                    will be `nvim_buf_changedtick_event`. Not for Lua
 ---                    callbacks.
---- @param opts table<string, luaref> #Optional parameters.
+--- @param opts dict(buf_attach) * #Optional parameters.
 ---                    • on_lines: Lua callback invoked on change. Return `true` to detach. Args:
 ---                      • the string "lines"
 ---                      • buffer handle
@@ -191,7 +191,7 @@ function vim.api.nvim_buf_del_var(buffer, name) end
 
 -- Deletes the buffer. See |:bwipeout|
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
---- @param opts dictionary #Optional parameters. Keys:
+--- @param opts dict(buf_delete) * #Optional parameters. Keys:
 ---               • force: Force deletion and ignore unsaved changes.
 ---               • unload: Unloaded only, do not delete. See |:bunload|
 function vim.api.nvim_buf_delete(buffer, opts) end
@@ -217,7 +217,7 @@ function vim.api.nvim_buf_get_commands(buffer, opts) end
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()|
 --- @param id integer #Extmark id
---- @param opts dictionary #Optional parameters. Keys:
+--- @param opts dict(get_extmark) * #Optional parameters. Keys:
 ---               • details: Whether to include the details dict
 ---               • hl_name: Whether to include highlight group name instead
 ---                 of id, true if omitted
@@ -288,7 +288,7 @@ function vim.api.nvim_buf_get_offset(buffer, index) end
 --- @param start_col integer #Starting column (byte offset) on first line
 --- @param end_row integer #Last line index, inclusive
 --- @param end_col integer #Ending column (byte offset) on last line, exclusive
---- @param opts dictionary #Optional parameters. Currently unused.
+--- @param opts dict(empty) * #Optional parameters. Currently unused.
 --- @param lstate lua_state *
 --- @return any #Array of lines, or empty array for unloaded buffer.
 function vim.api.nvim_buf_get_text(buffer, start_row, start_col, end_row, end_col, opts, lstate) end
@@ -448,7 +448,7 @@ function vim.api.nvim_buf_set_lines(buffer, start, end_, strict_indexing, replac
 --- @param name string #Mark name
 --- @param line integer #Line number
 --- @param col integer #Column/row number
---- @param opts dictionary #Optional parameters. Reserved for future use.
+--- @param opts dict(empty) * #Optional parameters. Reserved for future use.
 --- @return any #true if the mark was set, else false.
 function vim.api.nvim_buf_set_mark(buffer, name, line, col, opts) end
 
@@ -921,7 +921,7 @@ function vim.api.nvim_get_keymap(mode) end
 -- of the uppercase/file named mark. "End of line" column position is
 -- returned as |v:maxcol| (big number). See |mark-motions|.
 --- @param name string #Mark name
---- @param opts dictionary #Optional parameters. Reserved for future use.
+--- @param opts dict(empty) * #Optional parameters. Reserved for future use.
 --- @return any #4-tuple (row, col, buffer, buffername), (0, 0, 0, '') if the mark is
 ---     not set.
 function vim.api.nvim_get_mark(name, opts) end

@@ -45,7 +45,7 @@ function vim.api.nvim_notify(msg, log_level, opts) end
 
 -- Open a terminal instance in a buffer
 --- @param buffer buffer #the buffer to use (expected to be empty)
---- @param opts table<string, luaref> #Optional parameters.
+--- @param opts dict(open_term) * #Optional parameters.
 ---               • on_input: Lua callback for input sent, i e keypresses in
 ---                 terminal mode. Note: keypresses are sent raw as they would
 ---                 be to the pty master end. For instance, a carriage return
@@ -173,7 +173,7 @@ function vim.api.nvim_out_write(str) end
 
 -- Parse command line.
 --- @param str string #Command line string to parse. Cannot contain "\n".
---- @param opts dictionary #Optional parameters. Reserved for future use.
+--- @param opts dict(empty) * #Optional parameters. Reserved for future use.
 --- @return any #Dictionary containing command information, with these keys:
 ---     • cmd: (string) Command name.
 ---     • range: (array) (optional) Command range (|<line1>| |<line2>|).
@@ -346,7 +346,7 @@ function vim.api.nvim_replace_termcodes(str, from_part, do_lt, special) end
 ---               inserted in the buffer. Ignored for |cmdline-completion|.
 --- @param finish boolean #Finish the completion and dismiss the popup menu. Implies
 ---               {insert}.
---- @param opts dictionary #Optional parameters. Reserved for future use.
+--- @param opts dict(empty) * #Optional parameters. Reserved for future use.
 function vim.api.nvim_select_popupmenu_item(item, insert, finish, opts) end
 
 -- Self-identifies the client.
