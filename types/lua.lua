@@ -48,6 +48,11 @@ function vim.Iter:find(f) end
 --- @return any #any
 function vim.Iter:fold(init, f) end
 
+-- Collect the iterator into a delimited string.
+--- @param delim any #(string) Delimiter
+--- @return any #(string)
+function vim.Iter:join(delim) end
+
 -- Drains the iterator and returns the last item.
 --- @return any #any
 function vim.Iter:last() end
