@@ -169,13 +169,20 @@ vim.bo.keymap = ""
 -- 	  prompt	buffer where only the last line can be edited, meant
 -- 			to be used by a plugin, see |prompt-buffer|
 vim.bo.buftype = ""
--- string	(default: empty)
--- 			local to buffer
--- 	This option specifies a function to be used to perform tag searches.
--- 	The function gets the tag pattern and should return a List of matching
--- 	tags.  See |tag-function| for an explanation of how to write the
--- 	function and an example.
-vim.bo.tagfunc = ""
+-- string	(default "^\s*#\s*include")
+-- 			global or local to buffer |global-local|
+-- 	Pattern to be used to find an include command.  It is a search
+-- 	pattern, just like for the "/" command (See |pattern|).  The default
+-- 	value is for C programs.  This option is used for the commands "[i",
+-- 	"]I", "[d", etc.
+-- 	Normally the 'isfname' option is used to recognize the file name that
+-- 	comes after the matched pattern.  But if "\zs" appears in the pattern
+-- 	then the text matched from "\zs" to the end, or until "\ze" if it
+-- 	appears, is used as the file name.  Use this to include characters
+-- 	that are not in 'isfname', such as a space.  You can then use
+-- 	'includeexpr' to process the matched text.
+-- 	See |option-backslash| about including spaces and backslashes.
+vim.bo.include = ""
 -- number	(default 0)
 -- 			local to buffer
 -- 	Maximum width of text that is being inserted.  A longer line will be
@@ -746,20 +753,13 @@ vim.bo.fileencoding = ""
 -- 	file names from the list.  This avoids problems when a future version
 -- 	uses another default.
 vim.bo.tags = "./tags;,tags"
--- string	(default "^\s*#\s*include")
--- 			global or local to buffer |global-local|
--- 	Pattern to be used to find an include command.  It is a search
--- 	pattern, just like for the "/" command (See |pattern|).  The default
--- 	value is for C programs.  This option is used for the commands "[i",
--- 	"]I", "[d", etc.
--- 	Normally the 'isfname' option is used to recognize the file name that
--- 	comes after the matched pattern.  But if "\zs" appears in the pattern
--- 	then the text matched from "\zs" to the end, or until "\ze" if it
--- 	appears, is used as the file name.  Use this to include characters
--- 	that are not in 'isfname', such as a space.  You can then use
--- 	'includeexpr' to process the matched text.
--- 	See |option-backslash| about including spaces and backslashes.
-vim.bo.include = ""
+-- string	(default: empty)
+-- 			local to buffer
+-- 	This option specifies a function to be used to perform tag searches.
+-- 	The function gets the tag pattern and should return a List of matching
+-- 	tags.  See |tag-function| for an explanation of how to write the
+-- 	function and an example.
+vim.bo.tagfunc = ""
 -- boolean	(default off)
 -- 			local to buffer
 -- 	This option should be set before editing a binary file.  You can also
