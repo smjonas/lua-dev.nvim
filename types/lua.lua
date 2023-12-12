@@ -117,6 +117,11 @@ function vim.Iter:skipback(n) end
 --- @return any #Iter
 function vim.Iter:slice(first, last) end
 
+-- Transforms an iterator to yield only the first n values.
+--- @param n any #(integer)
+--- @return any #Iter
+function vim.Iter:take(n) end
+
 -- Collect the iterator into a table.
 --- @return any #(table)
 function vim.Iter:totable() end
