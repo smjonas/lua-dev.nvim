@@ -230,6 +230,7 @@ function vim.lsp.get(filter) end
 ---     • type (string) token type as string, e.g. "variable"
 ---     • modifiers (table) token modifiers as a set. E.g., { static = true,
 ---       readonly = true }
+---     • client_id (integer)
 function vim.lsp.get_at_pos(bufnr, row, col) end
 
 -- Returns indentation size.
@@ -265,6 +266,7 @@ function vim.lsp.get_namespace(client_id, is_pull) end
 function vim.lsp.highlight_token(token, bufnr, client_id, hl_group, opts) end
 
 -- |lsp-handler| for the method "textDocument/hover"
+--- @param ctx any #lsp.HandlerContext
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window
@@ -343,7 +345,7 @@ function vim.lsp.make_floating_popup_options(width, height, opts) end
 -- Creates a `DocumentFormattingParams` object for the current buffer and
 -- cursor position.
 --- @param options any #(table|nil) with valid `FormattingOptions` entries
---- @return any #`DocumentFormattingParams` object
+--- @return any #lsp.DocumentFormattingParams object
 function vim.lsp.make_formatting_params(options) end
 
 -- Using the given range in the current buffer, creates an object that is
@@ -400,13 +402,16 @@ function vim.lsp.make_workspace_params(added, removed) end
 function vim.lsp.notify(method, params) end
 
 -- |lsp-handler| for the method `textDocument/codeLens`
+--- @param ctx any #lsp.HandlerContext
 function vim.lsp.on_codelens(err, result, ctx, _) end
 
 -- |lsp-handler| for the method "textDocument/diagnostic"
+--- @param ctx any #lsp.HandlerContext
 --- @param config any #(table) Configuration table (see |vim.diagnostic.config()|).
 function vim.lsp.on_diagnostic(_, result, ctx, config) end
 
 -- |lsp-handler| for the method "textDocument/publishDiagnostics"
+--- @param ctx any #lsp.HandlerContext
 --- @param config any #(table) Configuration table (see |vim.diagnostic.config()|).
 function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 
@@ -480,7 +485,7 @@ function vim.lsp.request(method, params, callback, notify_reply_callback) end
 -- Creates a normalized object describing LSP server capabilities.
 --- @param server_capabilities any #(table) Table of capabilities supported by the
 ---                            server
---- @return any #(table|nil) Normalized table of capabilities
+--- @return any #lsp.ServerCapabilities|nil Normalized table of capabilities
 function vim.lsp.resolve_capabilities(server_capabilities) end
 
 -- Run the code lens in the current line
@@ -519,7 +524,7 @@ function vim.lsp.show_document(location, offset_encoding, opts) end
 
 -- |lsp-handler| for the method "textDocument/signatureHelp".
 --- @param result any #(table) Response from the language server
---- @param ctx any #(table) Client context
+--- @param ctx any #lsp.HandlerContext Client context
 --- @param config any #(table) Configuration table.
 ---               • border: (default=nil)
 ---                 • Add borders to the floating window
