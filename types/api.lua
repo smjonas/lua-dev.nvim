@@ -546,6 +546,17 @@ function vim.api.nvim_cmd(cmd, opts) end
 --- @param command string #Ex command string
 function vim.api.nvim_command(command) end
 
+-- Set info for the completion candidate index. if the info was shown in a
+-- window, then the window and buffer ids are returned for further
+-- customization. If the text was not shown, an empty dict is returned.
+--- @param index integer #the completion candidate index
+--- @param opts dict(complete_set) * #Optional parameters.
+---              • info: (string) info text.
+--- @return any #Dictionary containing these keys:
+---     • winid: (number) floating window id
+---     • bufnr: (number) buffer id in floating window
+function vim.api.nvim_complete_set(index, opts) end
+
 -- Create or get an autocommand group |autocmd-groups|.
 --- @param name string #String: The name of the group
 --- @param opts dict(create_augroup) * #Dictionary Parameters
@@ -989,27 +1000,4 @@ function vim.api.nvim_get_var(name) end
 --- @param name string #Variable name
 --- @return any #Variable value
 function vim.api.nvim_get_vvar(name) end
-
--- Queues raw user-input. Unlike |nvim_feedkeys()|, this uses a low-level
--- input buffer and the call is non-blocking (input is processed
--- asynchronously by the eventloop).
---- @param keys string #to be typed
---- @return any #Number of bytes actually written (can be fewer than requested if the
----     buffer becomes full).
-function vim.api.nvim_input(keys) end
-
--- Send mouse event from GUI.
---- @param button string #Mouse button: one of "left", "right", "middle", "wheel",
----                 "move".
---- @param action string #For ordinary buttons, one of "press", "drag", "release".
----                 For the wheel, one of "up", "down", "left", "right".
----                 Ignored for "move".
---- @param modifier string #String of modifiers each represented by a single char. The
----                 same specifiers are used as for a key press, except that
----                 the "-" separator is optional, so "C-A-", "c-a" and "CA"
----                 can all be used to specify Ctrl+Alt+click.
---- @param grid integer #Grid number if the client uses |ui-multigrid|, else 0.
---- @param row integer #Mouse row-position (zero-based, like redraw events)
---- @param col integer #Mouse column-position (zero-based, like redraw events)
-function vim.api.nvim_input_mouse(button, action, modifier, grid, row, col) end
 

@@ -3,6 +3,29 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Queues raw user-input. Unlike |nvim_feedkeys()|, this uses a low-level
+-- input buffer and the call is non-blocking (input is processed
+-- asynchronously by the eventloop).
+--- @param keys string #to be typed
+--- @return any #Number of bytes actually written (can be fewer than requested if the
+---     buffer becomes full).
+function vim.api.nvim_input(keys) end
+
+-- Send mouse event from GUI.
+--- @param button string #Mouse button: one of "left", "right", "middle", "wheel",
+---                 "move".
+--- @param action string #For ordinary buttons, one of "press", "drag", "release".
+---                 For the wheel, one of "up", "down", "left", "right".
+---                 Ignored for "move".
+--- @param modifier string #String of modifiers each represented by a single char. The
+---                 same specifiers are used as for a key press, except that
+---                 the "-" separator is optional, so "C-A-", "c-a" and "CA"
+---                 can all be used to specify Ctrl+Alt+click.
+--- @param grid integer #Grid number if the client uses |ui-multigrid|, else 0.
+--- @param row integer #Mouse row-position (zero-based, like redraw events)
+--- @param col integer #Mouse column-position (zero-based, like redraw events)
+function vim.api.nvim_input_mouse(button, action, modifier, grid, row, col) end
+
 -- Gets the current list of buffer handles
 --- @return any #List of buffer handles
 function vim.api.nvim_list_bufs() end
