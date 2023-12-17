@@ -89,7 +89,7 @@ function vim.lsp.code_action(options) end
 function vim.lsp.completion(context) end
 
 -- Returns the range table for the difference between prev and curr lines
---- @return any #(table) TextDocumentContentChangeEvent see https://microsoft.github.io/language-server-protocol/specification/#textDocumentContentChangeEvent
+--- @return any #lsp.TextDocumentContentChangeEvent : see https://microsoft.github.io/language-server-protocol/specification/#textDocumentContentChangeEvent
 function vim.lsp.compute_diff(___MissingCloseParenHere___) end
 
 -- Create a LSP RPC client factory that connects via TCP to the given host
