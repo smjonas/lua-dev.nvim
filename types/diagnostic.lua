@@ -94,6 +94,7 @@
 ---                    • reverse: (boolean) Reverse sort order
 --- @param namespace any #(integer|nil) Update the options for the given namespace.
 ---                  When omitted, update the global diagnostic options.
+--- @return any #(table|nil) table of current diagnostic config if `opts` is omitted.
 function vim.diagnostic.config(opts, namespace) end
 
 -- Disable diagnostics in the given buffer.
