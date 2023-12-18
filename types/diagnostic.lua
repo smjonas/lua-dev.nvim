@@ -55,8 +55,8 @@
 ---
 --- <
 ---
----                  • signs: (default true) Use signs for diagnostics.
----                    Options:
+---                  • signs: (default true) Use signs for diagnostics
+---                    |diagnostic-signs|. Options:
 ---                    • severity: Only show signs for diagnostics matching
 ---                      the given severity |diagnostic-severity|
 ---                    • priority: (number, default 10) Base priority to use
