@@ -303,11 +303,11 @@ function vim.lsp.list_workspace_folders() end
 
 -- Returns the items with the byte position calculated correctly and in
 -- sorted order, for display in quickfix and location lists.
---- @param locations any #(table) list of `Location`s or `LocationLink`s
+--- @param locations any #lsp.Location[]|lsp.LocationLink[]
 --- @param offset_encoding any #(string) offset_encoding for locations
 ---                        utf-8|utf-16|utf-32 default to first client of
 ---                        buffer
---- @return any #(table) list of items
+--- @return any #vim.lsp.util.LocationItem [] list of items
 function vim.lsp.locations_to_items(locations, offset_encoding) end
 
 -- Helper function to return nested values in language server settings
