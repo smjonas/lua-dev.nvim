@@ -3,6 +3,11 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets a v: variable.
+--- @param name string #Variable name
+--- @return any #Variable value
+function vim.api.nvim_get_vvar(name) end
+
 -- Queues raw user-input. Unlike |nvim_feedkeys()|, this uses a low-level
 -- input buffer and the call is non-blocking (input is processed
 -- asynchronously by the eventloop).
