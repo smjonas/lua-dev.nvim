@@ -97,6 +97,18 @@
 --- @return any #(table|nil) table of current diagnostic config if `opts` is omitted.
 function vim.diagnostic.config(opts, namespace) end
 
+-- Get current diagnostics count.
+--- @param bufnr any #(integer|nil) Buffer number to get diagnostics from. Use 0
+---              for current buffer or nil for all buffers.
+--- @param opts any #(table|nil) A table with the following keys:
+---              • namespace: (number) Limit diagnostics to the given
+---                namespace.
+---              • lnum: (number) Limit diagnostics to the given line number.
+---              • severity: See |diagnostic-severity|.
+--- @return any #(table) A table with actually present severity values as keys (see
+---     |diagnostic-severity|) and integer counts as values.
+function vim.diagnostic.count(bufnr, opts) end
+
 -- Disable diagnostics in the given buffer.
 --- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
 ---                  When omitted, disable diagnostics in all buffers.
