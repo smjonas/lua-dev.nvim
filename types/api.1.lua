@@ -3,6 +3,11 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets a global (g:) variable.
+--- @param name string #Variable name
+--- @return any #Variable value
+function vim.api.nvim_get_var(name) end
+
 -- Gets a v: variable.
 --- @param name string #Variable name
 --- @return any #Variable value
