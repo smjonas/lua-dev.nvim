@@ -94,9 +94,10 @@ function vim.lsp.compute_diff(___MissingCloseParenHere___) end
 
 -- Create a LSP RPC client factory that connects via TCP to the given host
 -- and port
---- @param host any #(string)
---- @param port any #(integer)
---- @return any #(function)
+--- @param host any #(string) host to connect to
+--- @param port any #(integer) port to connect to
+--- @return any #fun(dispatchers: vim.lsp.rpc.Dispatchers ): vim.lsp.rpc.PublicClient function intended to be passed to |vim.lsp.start_client()| or
+---     |vim.lsp.start()| on the field cmd
 function vim.lsp.connect(host, port) end
 
 -- Converts any of `MarkedString` | `MarkedString[]` | `MarkupContent` into a
@@ -152,6 +153,15 @@ function vim.lsp.document_highlight() end
 ---                  |lsp-on-list-handler|
 function vim.lsp.document_symbol(options) end
 
+-- Create a LSP RPC client factory that connects via named pipes (Windows) or
+-- unix domain sockets (Unix) to the given pipe_path (file path on Unix and
+-- name on Windows)
+--- @param pipe_path any #(string) file path of the domain socket (Unix) or name of
+---                  the named pipe (Windows) to connect to
+--- @return any #fun(dispatchers: vim.lsp.rpc.Dispatchers ): vim.lsp.rpc.PublicClient::function intended to be passed to
+---     |vim.lsp.start_client()| or |vim.lsp.start()| on the field cmd
+function vim.lsp.domain_socket_connect(pipe_path) end
+
 -- Enable/disable/toggle inlay hints for a buffer
 --- @param bufnr any #(integer|nil) Buffer handle, or 0 or nil for current
 --- @param enable any #(boolean|nil) true/nil to enable, false to disable
@@ -204,7 +214,7 @@ function vim.lsp.force_refresh(bufnr) end
 function vim.lsp.format(options) end
 
 -- Constructs an error message from an LSP error object.
---- @return any #(string) The formatted error message
+--- @return any #string::The formatted error message
 function vim.lsp.format_rpc_error() end
 
 -- Get the list of inlay hints, (optionally) restricted by buffer or range.
@@ -397,7 +407,7 @@ function vim.lsp.make_workspace_params(added, removed) end
 
 -- Sends a notification to the LSP server.
 --- @param method any #(string) The invoked LSP method
---- @param params any #(table|nil) Parameters for the invoked LSP method
+--- @param params any #(table?) Parameters for the invoked LSP method
 --- @return any #(boolean) `true` if notification could be sent, `false` if not
 function vim.lsp.notify(method, params) end
 
@@ -472,12 +482,12 @@ function vim.lsp.rename(old_fname, new_fname, opts) end
 
 -- Sends a request to the LSP server and runs {callback} upon response.
 --- @param method any #(string) The invoked LSP method
---- @param params any #(table|nil) Parameters for the invoked LSP
+--- @param params any #(table?) Parameters for the invoked LSP
 ---                              method
 --- @param callback any #fun(err: lsp.ResponseError | nil, result:
 ---                              any) Callback to invoke
---- @param notify_reply_callback any #(function|nil) Callback to invoke as soon as
----                              a request is no longer pending
+--- @param notify_reply_callback any #(function?) Callback to invoke as soon as a
+---                              request is no longer pending
 --- @return any #(boolean) success, integer|nil request_id true, message_id if request
 ---     could be sent, `false` if not
 function vim.lsp.request(method, params, callback, notify_reply_callback) end
