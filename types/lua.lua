@@ -1038,6 +1038,11 @@ function vim.tbl_map(func, t) end
 --- @return any #(list) List of values
 function vim.tbl_values(t) end
 
+-- Parses a raw glob into an |lua-lpeg| pattern.
+--- @param pattern any #(string) The raw glob pattern
+--- @return any #vim.lpeg.Pattern pattern An |lua-lpeg| representation of the pattern
+function vim.to_lpeg(pattern) end
+
 -- Collects an |iterable| into a table.
 --- @param f any #(function) Iterator function
 --- @return any #(table)
