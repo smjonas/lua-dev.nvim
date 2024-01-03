@@ -220,8 +220,13 @@ function vim.deep_equal(a, b) end
 -- the same functions as those in the input table. Userdata and threads are
 -- not copied and will throw an error.
 --- @param orig any #(table) Table to copy
+--- @param noref any #(boolean|nil) When `false` (default) a contained table is
+---              only copied once and all references point to this single
+---              copy. When `true` every occurrence of a table results in a
+---              new copy. This also means that a cyclic reference can cause
+---              `deepcopy()` to fail.
 --- @return any #(table) Table of copied keys and (nested) values.
-function vim.deepcopy(orig) end
+function vim.deepcopy(orig, noref) end
 
 -- Creates a table whose missing keys are provided by {createfn} (like
 -- Python's "defaultdict").
@@ -1113,10 +1118,4 @@ function vim.validate(opt) end
 ---     • If {callback} is interrupted during the {time}: `false, -2`
 ---     • If {callback} errors, the error is raised.
 function vim.wait(time, callback, interval, fast_only) end
-
--- Get or set window-scoped |options| for the window with handle {winid} and
--- buffer with number {bufnr}. Like `:setlocal` if {bufnr} is provided, like
--- `:set` otherwise. If [{winid}] is omitted then the current window is used.
--- Invalid {winid}, {bufnr} or key is an error.
-function vim.wo() end
 
