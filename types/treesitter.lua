@@ -6,6 +6,7 @@
 --- @class vim.treesitter.LanguageTree
 vim.treesitter.LanguageTree = {}
 
+-- Returns a map of language to child tree.
 function vim.treesitter.LanguageTree:children() end
 
 -- Determines whether {range} is contained in the |LanguageTree|.
@@ -37,6 +38,7 @@ function vim.treesitter.LanguageTree:invalidate(reload) end
 --- @return any #(boolean)
 function vim.treesitter.LanguageTree:is_valid(exclude_children) end
 
+-- Gets the language of this tree node.
 function vim.treesitter.LanguageTree:lang() end
 
 -- Gets the appropriate language that contains {range}.
@@ -84,6 +86,7 @@ function vim.treesitter.LanguageTree:parse(range) end
 ---                  callbacks.
 function vim.treesitter.LanguageTree:register_cbs(cbs, recursive) end
 
+-- Returns the source content of the language tree (bufnr or string).
 function vim.treesitter.LanguageTree:source() end
 
 -- Gets the tree that contains {range}.

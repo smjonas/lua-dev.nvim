@@ -149,6 +149,7 @@ function vim.Option:remove(value) end
 --- @class vim.Ringbuf
 vim.Ringbuf = {}
 
+-- Clear all items.
 function vim.Ringbuf:clear() end
 
 -- Returns the first unread item without removing it
@@ -341,6 +342,7 @@ function vim.empty_dict() end
 -- • removes the default Nvim loader
 function vim.enable() end
 
+-- Encodes (or "packs") Lua object {obj} as msgpack in a Lua string.
 function vim.encode(obj) end
 
 -- Tests if `s` ends with `suffix`.
@@ -360,6 +362,7 @@ function vim.env() end
 --- @return any #(boolean)
 function vim.eq(v1, v2) end
 
+-- Exits the current snippet.
 function vim.exit() end
 
 -- Expands the given snippet text. Refer to https://microsoft.github.io/language-server-protocol/specification/#snippet_syntax for the specification of valid input.

@@ -45,6 +45,8 @@ function vim.api.nvim__id_dictionary(dct) end
 --- @return any #its argument.
 function vim.api.nvim__id_float(flt) end
 
+-- NB: if your UI doesn't use hlstate, this will not return hlstate first
+-- time.
 --- @param grid integer
 --- @param row integer
 --- @param col integer
@@ -990,10 +992,4 @@ function vim.api.nvim_get_proc(pid) end
 --- @param pid integer
 --- @return any #Array of child process ids, empty if process not found.
 function vim.api.nvim_get_proc_children(pid) end
-
--- Find files in runtime directories
---- @param name string #pattern of files to search for
---- @param all boolean #whether to return all matches or only the first
---- @return any #list of absolute paths to the found files
-function vim.api.nvim_get_runtime_file(name, all) end
 

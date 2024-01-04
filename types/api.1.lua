@@ -3,6 +3,12 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Find files in runtime directories
+--- @param name string #pattern of files to search for
+--- @param all boolean #whether to return all matches or only the first
+--- @return any #list of absolute paths to the found files
+function vim.api.nvim_get_runtime_file(name, all) end
+
 -- Gets a global (g:) variable.
 --- @param name string #Variable name
 --- @return any #Variable value
@@ -458,9 +464,7 @@ function vim.api.nvim_set_current_win(window) end
 ---              • on_buf: called for each buffer being redrawn (before window
 ---                callbacks) ["buf", bufnr, tick]
 ---              • on_win: called when starting to redraw a specific window.
----                botline_guess is an approximation that does not exceed the
----                last line number. ["win", winid, bufnr, topline,
----                botline_guess]
+---                ["win", winid, bufnr, topline, botline]
 ---              • on_line: called for each buffer line being redrawn. (The
 ---                interaction with fold lines is subject to change) ["win",
 ---                winid, bufnr, row]
@@ -621,6 +625,7 @@ function vim.api.nvim_ui_pum_set_bounds(width, height, row, col) end
 --- @param height integer #Popupmenu height, must be greater than zero.
 function vim.api.nvim_ui_pum_set_height(height) end
 
+-- Tells the nvim server if focus was gained or lost by the GUI.
 --- @param gained boolean
 function vim.api.nvim_ui_set_focus(gained) end
 
