@@ -186,7 +186,8 @@ function vim.bo() end
 -- Check {str} for spelling errors. Similar to the Vimscript function
 -- |spellbadword()|.
 --- @param str any #(string)
---- @return any #`{[1]: string, [2]: string, [3]: string}[]` List of tuples with three items:
+--- @return any #`{[1]: string, [2]: string, [3]: string}[]` List of tuples with three
+---     items:
 ---     • The badly spelled word.
 ---     • The type of the spelling error: "bad" spelling mistake "rare" rare
 ---       word "local" word only valid in another region "caps" word should
@@ -252,7 +253,8 @@ function vim.del(modes, lhs, opts) end
 -- Shows a deprecation message to the user.
 --- @param name any #string Deprecated feature (function, API, etc.).
 --- @param alternative any #(string|nil) Suggested alternative feature.
---- @param version any #string Version when the deprecated function will be removed.
+--- @param version any #string Version when the deprecated function will be
+---                    removed.
 --- @param plugin any #string|nil Name of the plugin that owns the deprecated
 ---                    feature. Defaults to "Nvim".
 --- @param backtrace any #boolean|nil Prints backtrace. Defaults to true.
@@ -264,9 +266,9 @@ function vim.deprecate(name, alternative, version, plugin, backtrace) end
 --- @param a any #(string) First string to compare
 --- @param b any #(string) Second string to compare
 --- @param opts any #table<string,any> Optional parameters:
----             • `on_hunk` (callback): Invoked for each hunk in the diff. Return a
----               negative number to cancel the callback for any remaining
----               hunks. Args:
+---             • `on_hunk` (callback): Invoked for each hunk in the diff.
+---               Return a negative number to cancel the callback for any
+---               remaining hunks. Args:
 ---               • `start_a` (integer): Start line of hunk in {a}.
 ---               • `count_a` (integer): Hunk size in {a}.
 ---               • `start_b` (integer): Start line of hunk in {b}.
@@ -356,7 +358,8 @@ function vim.endswith(s, suffix) end
 -- returns `nil`.
 function vim.env() end
 
--- Returns `true` if the given versions are equal. See |vim.version.cmp()| for usage.
+-- Returns `true` if the given versions are equal. See |vim.version.cmp()|
+-- for usage.
 --- @param v1 any #Version|number[]
 --- @param v2 any #Version|number[]
 --- @return any #(boolean)
@@ -365,7 +368,8 @@ function vim.eq(v1, v2) end
 -- Exits the current snippet.
 function vim.exit() end
 
--- Expands the given snippet text. Refer to https://microsoft.github.io/language-server-protocol/specification/#snippet_syntax for the specification of valid input.
+-- Expands the given snippet text. Refer to https://microsoft.github.io/language-server-protocol/specification/#snippet_syntax for
+-- the specification of valid input.
 --- @param input any #(string)
 function vim.expand(input) end
 
@@ -668,7 +672,8 @@ function vim.parents(start) end
 ---                  is attempted on input not conforming to semver v2.0.0. If
 ---                  `false`, `parse()` attempts to coerce input such as
 ---                  "1.0", "0-x", "tmux 3.2a" into valid versions.
---- @return any #(table|nil) parsed_version Version object or `nil` if input is invalid.
+--- @return any #(table|nil) parsed_version Version object or `nil` if input is
+---     invalid.
 function vim.parse(version, opts) end
 
 -- Paste handler, invoked by |nvim_paste()| when a conforming UI (such as the
@@ -676,7 +681,8 @@ function vim.parse(version, opts) end
 --- @param lines any #string[] # |readfile()|-style list of lines to paste.
 ---              |channel-lines|
 --- @param phase any #paste_phase -1: "non-streaming" paste: the call contains all
----              lines. If paste is "streamed", `phase` indicates the stream state:
+---              lines. If paste is "streamed", `phase` indicates
+---              the stream state:
 ---              • 1: starts the paste (exactly once)
 ---              • 2: continues the paste (zero or more times)
 ---              • 3: ends the paste (exactly once)
@@ -734,8 +740,10 @@ vim.regex = {}
 function vim.regex:match_line(bufnr, line_idx, start, end_) end
 
 -- Match the string against the regex. If the string should match the regex
--- precisely, surround the regex with `^` and `$` . If there was a match, the byte indices for the beginning and end of the
--- match are returned. When there is no match, `nil` is returned. Because any integer is "truthy", `regex:match_str()` can be directly used as a condition in an if-statement.
+-- precisely, surround the regex with `^` and `$` . If there was a match, the
+-- byte indices for the beginning and end of the match are returned. When
+-- there is no match, `nil` is returned. Because any integer is "truthy", `regex:match_str()` can
+-- be directly used as a condition in an if-statement.
 --- @param str any #(string)
 function vim.regex:match_str(str) end
 
@@ -1012,7 +1020,8 @@ function vim.tbl_flatten(t) end
 --- @return any #any Nested value indexed by key (if it exists), else nil
 function vim.tbl_get(o, ...) end
 
--- Tests if `t` is an "array": a table indexed only by integers (potentially non-contiguous).
+-- Tests if `t` is an "array": a table indexed only by integers (potentially
+-- non-contiguous).
 --- @param t any #(table)
 --- @return any #(boolean) `true` if array-like table, else `false`.
 function vim.tbl_isarray(t) end
@@ -1022,8 +1031,8 @@ function vim.tbl_isarray(t) end
 --- @return any #(boolean) `true` if `t` is empty
 function vim.tbl_isempty(t) end
 
--- Tests if `t` is a "list": a table indexed only by contiguous integers starting from 1 (what |lua-length| calls a "regular
--- array").
+-- Tests if `t` is a "list": a table indexed only by contiguous integers
+-- starting from 1 (what |lua-length| calls a "regular array").
 --- @param t any #(table)
 --- @return any #(boolean) `true` if list-like table, else `false`.
 function vim.tbl_islist(t) end

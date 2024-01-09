@@ -137,7 +137,9 @@ function vim.diagnostic.fromqflist(list) end
 ---                namespace.
 ---              • lnum: (number) Limit diagnostics to the given line number.
 ---              • severity: See |diagnostic-severity|.
---- @return any #Diagnostic [] table A list of diagnostic items |diagnostic-structure|. Keys `bufnr` , `end_lnum` , `end_col` , and `severity` are guaranteed to be present.
+--- @return any #Diagnostic [] table A list of diagnostic items |diagnostic-structure|.
+---     Keys `bufnr` , `end_lnum` , `end_col` , and `severity` are
+---     guaranteed to be present.
 function vim.diagnostic.get(bufnr, opts) end
 
 -- Get namespace metadata.
@@ -195,17 +197,17 @@ function vim.diagnostic.goto_next(opts) end
 function vim.diagnostic.goto_prev(opts) end
 
 -- Hide currently displayed diagnostics.
---- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, hide diagnostics from all
----                  namespaces.
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, hide
+---                  diagnostics from all namespaces.
 --- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
 ---                  When omitted, hide diagnostics in all buffers.
 function vim.diagnostic.hide(namespace, bufnr) end
 
 -- Check whether diagnostics are disabled in a given buffer.
 --- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
---- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, checks if all diagnostics are
----                  disabled in {bufnr}. Otherwise, only checks if
----                  diagnostics from {namespace} are disabled.
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, checks
+---                  if all diagnostics are disabled in {bufnr}. Otherwise,
+---                  only checks if diagnostics from {namespace} are disabled.
 --- @return any #(boolean)
 function vim.diagnostic.is_disabled(bufnr, namespace) end
 
@@ -276,8 +278,8 @@ function vim.diagnostic.match(str, pat, groups, severity_map, defaults) end
 function vim.diagnostic.open_float(opts, ...) end
 
 -- Remove all diagnostics from the given namespace.
---- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, remove diagnostics from all
----                  namespaces.
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, remove
+---                  diagnostics from all namespaces.
 --- @param bufnr any #(integer|nil) Remove diagnostics for the given buffer.
 ---                  When omitted, diagnostics are removed for all buffers.
 function vim.diagnostic.reset(namespace, bufnr) end
@@ -316,8 +318,8 @@ function vim.diagnostic.setloclist(opts) end
 function vim.diagnostic.setqflist(opts) end
 
 -- Display diagnostics for the given namespace and buffer.
---- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, show diagnostics from all
----                    namespaces.
+--- @param namespace any #(integer|nil) Diagnostic namespace. When omitted, show
+---                    diagnostics from all namespaces.
 --- @param bufnr any #(integer|nil) Buffer number, or 0 for current buffer.
 ---                    When omitted, show diagnostics in all buffers.
 --- @param diagnostics any #(table|nil) The diagnostics to display. When omitted,

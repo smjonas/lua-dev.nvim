@@ -21,9 +21,9 @@ function vim.treesitter.LanguageTree:destroy() end
 --- @param fn fun(...) #fun(tree: TSTree, ltree: LanguageTree)
 function vim.treesitter.LanguageTree:for_each_tree(fn) end
 
--- Gets the set of included regions managed by this LanguageTree . This can be different from the regions set by injection query, because a
--- partial |LanguageTree:parse()| drops the regions outside the requested
--- range.
+-- Gets the set of included regions managed by this LanguageTree . This can
+-- be different from the regions set by injection query, because a partial
+-- |LanguageTree:parse()| drops the regions outside the requested range.
 --- @return any #table<integer, Range6[]>
 function vim.treesitter.LanguageTree:included_regions() end
 
@@ -31,8 +31,9 @@ function vim.treesitter.LanguageTree:included_regions() end
 --- @param reload any #(boolean|nil)
 function vim.treesitter.LanguageTree:invalidate(reload) end
 
--- Returns whether this LanguageTree is valid, i.e., |LanguageTree:trees()| reflects the latest state of the
--- source. If invalid, user should call |LanguageTree:parse()|.
+-- Returns whether this LanguageTree is valid, i.e., |LanguageTree:trees()|
+-- reflects the latest state of the source. If invalid, user should call
+-- |LanguageTree:parse()|.
 --- @param exclude_children any #(boolean|nil) whether to ignore the validity of
 ---                         children (default `false`)
 --- @return any #(boolean)
@@ -69,7 +70,8 @@ function vim.treesitter.LanguageTree:parse(range) end
 -- Registers callbacks for the |LanguageTree|.
 --- @param cbs any #(table) An |nvim_buf_attach()|-like table argument with
 ---                  the following handlers:
----                  • `on_bytes` : see |nvim_buf_attach()|, but this will be called after the parsers callback.
+---                  • `on_bytes` : see |nvim_buf_attach()|, but this will be
+---                    called after the parsers callback.
 ---                  • `on_changedtree` : a callback that will be called every
 ---                    time the tree has syntactical changes. It will be
 ---                    passed two arguments: a table of the ranges (as node
@@ -99,7 +101,8 @@ function vim.treesitter.LanguageTree:tree_for_range(range, opts) end
 
 -- Returns all trees of the regions parsed by this parser. Does not include
 -- child languages. The result is list-like if
--- • this LanguageTree is the root, in which case the result is empty or a singleton list; or
+-- • this LanguageTree is the root, in which case the result is empty or a
+--   singleton list; or
 -- • the root LanguageTree is fully parsed.
 --- @return any #table<integer, TSTree>
 function vim.treesitter.LanguageTree:trees() end

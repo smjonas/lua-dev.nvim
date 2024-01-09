@@ -87,7 +87,8 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 ---                    will be `nvim_buf_changedtick_event`. Not for Lua
 ---                    callbacks.
 --- @param opts dict(buf_attach) * #Optional parameters.
----                    • on_lines: Lua callback invoked on change. Return `true` to detach. Args:
+---                    • on_lines: Lua callback invoked on change. Return `true` to
+---                      detach. Args:
 ---                      • the string "lines"
 ---                      • buffer handle
 ---                      • b:changedtick
@@ -100,7 +101,8 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 ---
 ---                    • on_bytes: Lua callback invoked on change. This
 ---                      callback receives more granular information about the
----                      change compared to on_lines. Return `true` to detach. Args:
+---                      change compared to on_lines. Return `true` to
+---                      detach. Args:
 ---                      • the string "bytes"
 ---                      • buffer handle
 ---                      • b:changedtick
@@ -362,7 +364,8 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 wrapped lines.
 ---               • hl_mode : control how highlights are combined with the
 ---                 highlights of the text. Currently only affects virt_text
----                 highlights, but might affect `hl_group` in later versions.
+---                 highlights, but might affect `hl_group` in
+---                 later versions.
 ---                 • "replace": only show the virt_text color. This is the
 ---                   default.
 ---                 • "combine": combine with background text color.
@@ -535,7 +538,8 @@ function vim.api.nvim_chan_send(chan, data) end
 ---               • NOTE: Cannot be used with {pattern}
 ---
 ---             • group: (string|int) The augroup name or id.
----               • NOTE: If not passed, will only delete autocmds not in any group.
+---               • NOTE: If not passed, will only delete autocmds not in any
+---                 group.
 function vim.api.nvim_clear_autocmds(opts) end
 
 -- Executes an Ex command.
@@ -573,7 +577,9 @@ function vim.api.nvim_complete_set(index, opts) end
 --- @return any #Integer id of the created group.
 function vim.api.nvim_create_augroup(name, opts) end
 
--- Creates an |autocommand| event handler, defined by `callback` (Lua function or Vimscript function name string) or `command` (Ex command string).
+-- Creates an |autocommand| event handler, defined by `callback` (Lua
+-- function or Vimscript function name string) or `command` (Ex command
+-- string).
 --- @param event object #(string|array) Event(s) that will trigger the handler
 ---              (`callback` or `command`).
 --- @param opts dict(create_autocmd) * #Options dict:

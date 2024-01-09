@@ -60,7 +60,8 @@ function vim.lsp.clear_references() end
 -- Selects a code action available at the current cursor position.
 --- @param options any #(table|nil) Optional table which holds the following
 ---                optional fields:
----                • context: (table|nil) Corresponds to `CodeActionContext` of the LSP specification:
+---                • context: (table|nil) Corresponds to `CodeActionContext` of
+---                  the LSP specification:
 ---                  • diagnostics (table|nil): LSP `Diagnostic[]`. Inferred
 ---                    from the current position if not provided.
 ---                  • only (table|nil): List of LSP `CodeActionKind`s used to
@@ -97,8 +98,9 @@ function vim.lsp.compute_diff(___MissingCloseParenHere___) end
 -- and port
 --- @param host any #(string) host to connect to
 --- @param port any #(integer) port to connect to
---- @return any #fun(dispatchers: vim.lsp.rpc.Dispatchers ): vim.lsp.rpc.PublicClient function intended to be passed to |vim.lsp.start_client()| or
----     |vim.lsp.start()| on the field cmd
+--- @return any #fun(dispatchers: vim.lsp.rpc.Dispatchers ): vim.lsp.rpc.PublicClient function
+---     intended to be passed to |vim.lsp.start_client()| or |vim.lsp.start()|
+---     on the field cmd
 function vim.lsp.connect(host, port) end
 
 -- Converts any of `MarkedString` | `MarkedString[]` | `MarkupContent` into a
@@ -159,7 +161,8 @@ function vim.lsp.document_symbol(options) end
 -- name on Windows)
 --- @param pipe_path any #(string) file path of the domain socket (Unix) or name of
 ---                  the named pipe (Windows) to connect to
---- @return any #fun(dispatchers: vim.lsp.rpc.Dispatchers ): vim.lsp.rpc.PublicClient::function intended to be passed to
+--- @return any #fun(dispatchers: vim.lsp.rpc.Dispatchers ):
+---     vim.lsp.rpc.PublicClient::function intended to be passed to
 ---     |vim.lsp.start_client()| or |vim.lsp.start()| on the field cmd
 function vim.lsp.domain_socket_connect(pipe_path) end
 
@@ -222,7 +225,8 @@ function vim.lsp.format_rpc_error() end
 --- @param filter any #vim.lsp.inlay_hint.get.filter ? Optional filters |kwargs|:
 ---               • bufnr (integer?): 0 for current buffer
 ---               • range (lsp.Range?)
---- @return any #vim.lsp.inlay_hint.get.ret [] Each list item is a table with the following fields:
+--- @return any #vim.lsp.inlay_hint.get.ret [] Each list item is a table with the
+---     following fields:
 ---     • bufnr (integer)
 ---     • client_id (integer)
 ---     • inlay_hint (lsp.InlayHint)

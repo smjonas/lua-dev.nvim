@@ -120,8 +120,8 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---               • height: Window height (in character cells). Minimum of 1.
 ---               • bufpos: Places float relative to buffer text (only when
 ---                 relative="win"). Takes a tuple of zero-indexed [line,
----                 column]. `row` and `col` if given are applied relative to this position, else they
----                 default to:
+---                 column]. `row` and `col` if given are
+---                 applied relative to this position, else they default to:
 ---                 • `row=1` and `col=0` if `anchor` is "NW" or "NE"
 ---                 • `row=0` and `col=0` if `anchor` is "SW" or "SE" (thus
 ---                   like a tooltip near the buffer text).
@@ -136,8 +136,9 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---               • external: GUI should display the window as an external
 ---                 top-level window. Currently accepts no other positioning
 ---                 configuration together with this.
----               • zindex: Stacking order. floats with higher `zindex` go on top on floats with lower indices. Must be larger
----                 than zero. The following screen elements have hard-coded
+---               • zindex: Stacking order. floats with higher `zindex` go on
+---                 top on floats with lower indices. Must be larger than
+---                 zero. The following screen elements have hard-coded
 ---                 z-indices:
 ---                 • 100: insert completion popupmenu
 ---                 • 200: message scrollback
@@ -351,7 +352,8 @@ function vim.api.nvim_parse_expression(expr, flags, highlight) end
 --- @param data string #Multiline input. May be binary (containing NUL bytes).
 --- @param crlf boolean #Also break lines at CR and CRLF.
 --- @param phase integer #-1: paste in a single call (i.e. without streaming). To
----              "stream" a paste, call `nvim_paste` sequentially with these `phase` values:
+---              "stream" a paste, call `nvim_paste` sequentially
+---              with these `phase` values:
 ---              • 1: starts the paste (exactly once)
 ---              • 2: continues the paste (zero or more times)
 ---              • 3: ends the paste (exactly once)
