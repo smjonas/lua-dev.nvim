@@ -42,6 +42,13 @@ function vim.Iter:filter(f) end
 --- @return any #any
 function vim.Iter:find(f) end
 
+-- Flattens a |list-iterator|, un-nesting nested values up to the given
+-- {depth}. Errors if it attempts to flatten a dict-like value.
+--- @param depth any #(number|nil) Depth to which |list-iterator| should be
+---              flattened (defaults to 1)
+--- @return any #Iter
+function vim.Iter:flatten(depth) end
+
 -- Folds ("reduces") an iterator into a single value.
 --- @param init any #any Initial value of the accumulator.
 --- @param f any #function(acc:any, ...):A Accumulation function.
