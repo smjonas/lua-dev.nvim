@@ -577,9 +577,8 @@ function vim.api.nvim_complete_set(index, opts) end
 --- @return any #Integer id of the created group.
 function vim.api.nvim_create_augroup(name, opts) end
 
--- Creates an |autocommand| event handler, defined by `callback` (Lua
--- function or Vimscript function name string) or `command` (Ex command
--- string).
+-- Creates an |autocommand| event handler, defined by `callback` (Lua function
+-- or Vimscript function name string) or `command` (Ex command string).
 --- @param event object #(string|array) Event(s) that will trigger the handler
 ---              (`callback` or `command`).
 --- @param opts dict(create_autocmd) * #Options dict:
