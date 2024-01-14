@@ -3,6 +3,114 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Returns a pattern that matches only if the input string at the current
+-- position is preceded by `patt`. Pattern `patt` must match only strings
+-- with some fixed length, and it cannot contain captures. Like the and
+-- predicate, this pattern never consumes any input, independently of success
+-- or failure.
+--- @param pattern any #(`vim.lpeg.Pattern`)
+--- @return any #(`vim.lpeg.Pattern`)
+function vim.B(pattern) end
+
+-- Creates a simple capture, which captures the substring of the subject that
+-- matches `patt`. The captured value is a string. If `patt` has other
+-- captures, their values are returned after this one.
+--- @param patt any #(`vim.lpeg.Pattern`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.C(patt) end
+
+-- Creates an argument capture. This pattern matches the empty string and
+-- produces the value given as the nth extra argument given in the call to `lpeg.match` .
+--- @param n any #(`integer`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Carg(n) end
+
+-- Creates a back capture. This pattern matches the empty string and produces
+-- the values produced by the most recent group capture named `name` (where
+-- `name` can be any Lua value). Most recent means the last complete
+-- outermost group capture with the given name. A Complete capture means that
+-- the entire pattern corresponding to the capture has matched. An Outermost
+-- capture means that the capture is not inside another complete capture. In
+-- the same way that LPeg does not specify when it evaluates captures, it
+-- does not specify whether it reuses values previously produced by the group
+-- or re-evaluates them.
+--- @param name any #(`any`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cb(name) end
+
+-- Creates a constant capture. This pattern matches the empty string and
+-- produces all given values as its captured values.
+--- @vararg any #(`any`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cc(...) end
+
+-- Creates a fold capture. If `patt` produces a list of captures C1 C2 ...
+-- Cn, this capture will produce the value `func(...func(func(C1, C2),
+-- C3)...,Cn)`, that is, it will fold (or accumulate, or reduce) the captures
+-- from `patt` using function `func`. This capture assumes that `patt` should
+-- produce at least one capture with at least one value (of any type), which
+-- becomes the initial value of an accumulator. (If you need a specific
+-- initial value, you may prefix a constant captureto `patt`.) For each
+-- subsequent capture, LPeg calls `func` with this accumulator as the first
+-- argument and all values produced by the capture as extra arguments; the
+-- first result from this call becomes the new value for the accumulator. The
+-- final value of the accumulator becomes the captured value.
+--- @param patt any #(`vim.lpeg.Pattern`)
+--- @param func any #(`fun(acc, newvalue)`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cf(patt, func) end
+
+-- Creates a group capture. It groups all values returned by `patt` into a
+-- single capture. The group may be anonymous (if no name is given) or named
+-- with the given name (which can be any non-nil Lua value).
+--- @param patt any #(`vim.lpeg.Pattern`)
+--- @param name any #(`string?`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cg(patt, name) end
+
+-- Creates a match-time capture. Unlike all other captures, this one is
+-- evaluated immediately when a match occurs (even if it is part of a larger
+-- pattern that fails later). It forces the immediate evaluation of all its
+-- nested captures and then calls `function`. The given function gets as
+-- arguments the entire subject, the current position (after the match of
+-- `patt`), plus any capture values produced by `patt`. The first value
+-- returned by `function` defines how the match happens. If the call returns
+-- a number, the match succeeds and the returned number becomes the new
+-- current position. (Assuming a subject sand current position i, the
+-- returned number must be in the range [i, len(s) + 1].) If the call returns
+-- true, the match succeeds without consuming any input (so, to return true
+-- is equivalent to return i). If the call returns false, nil, or no value,
+-- the match fails. Any extra values returned by the function become the
+-- values produced by the capture.
+--- @param patt any #(`vim.lpeg.Pattern`)
+--- @param fn fun(...) #(`function`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cmt(patt, fn) end
+
+-- Creates a position capture. It matches the empty string and captures the
+-- position in the subject where the match occurs. The captured value is a
+-- number.
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cp() end
+
+-- Creates a substitution capture. This function creates a substitution
+-- capture, which captures the substring of the subject that matches `patt`,
+-- with substitutions. For any capture inside `patt` with a value, the
+-- substring that matched the capture is replaced by the capture value (which
+-- should be a string). The final captured value is the string resulting from
+-- all replacements.
+--- @param patt any #(`vim.lpeg.Pattern`)
+--- @return any #(`vim.lpeg.Capture`)
+function vim.Cs(patt) end
+
+-- Creates a table capture. This capture returns a table with all values from
+-- all anonymous captures made by `patt` inside this table in successive
+-- integer keys, starting at 1. Moreover, for each named capture group
+-- created by `patt`, the first value of the group is put into the table with
+-- the group name as its key. The captured value is only the table.
+--- @param patt any #(vim.lpeg.Pattern |' `) @return (` vim.lpeg.Capture`)
+function vim.Ct(patt) end
+
 --- @class vim.Iter
 vim.Iter = {}
 
@@ -153,6 +261,56 @@ function vim.Option:prepend(value) end
 --- @param value any #(`string`) Value to remove
 function vim.Option:remove(value) end
 
+-- Converts the given value into a proper pattern. This following rules are
+-- applied:
+-- • If the argument is a pattern, it is returned unmodified.
+-- • If the argument is a string, it is translated to a pattern that matches
+--   the string literally.
+-- • If the argument is a non-negative number `n`, the result is a pattern
+--   that matches exactly `n` characters.
+-- • If the argument is a negative number `-n`, the result is a pattern that
+--   succeeds only if the input string has less than `n` characters left:
+--   `lpeg.P(-n)` is equivalent to `-lpeg.P(n)` (see the unary minus
+--   operation).
+-- • If the argument is a boolean, the result is a pattern that always
+--   succeeds or always fails (according to the boolean value), without
+--   consuming any input.
+-- • If the argument is a table, it is interpreted as a grammar (see
+--   Grammars).
+-- • If the argument is a function, returns a pattern equivalent to a
+--   match-time captureover the empty string.
+--- @param value any #(`vim.lpeg.Pattern|string|integer|boolean|table|function`)
+--- @return any #(`vim.lpeg.Pattern`)
+function vim.P(value) end
+
+--- @class vim.Pattern
+vim.Pattern = {}
+
+-- Matches the given `pattern` against the `subject` string. If the match
+-- succeeds, returns the index in the subject of the first character after
+-- the match, or the captured values (if the pattern captured any value). An
+-- optional numeric argument `init` makes the match start at that position in
+-- the subject string. As usual in Lua libraries, a negative value counts
+-- from the end. Unlike typical pattern-matching functions, `match` works
+-- only in anchored mode; that is, it tries to match the pattern with a
+-- prefix of the given subject string (at position `init`), not with an
+-- arbitrary substring of the subject. So, if we want to find a pattern
+-- anywhere in a string, we must either write a loop in Lua or write a
+-- pattern that matches anywhere.
+--- @param subject any #(`string`)
+--- @param init any #(`integer?`)
+--- @return any #(`integer|vim.lpeg.Capture?`)
+function vim.Pattern:match(subject, init) end
+
+-- Returns a pattern that matches any single character belonging to one of
+-- the given ranges. Each `range` is a string `xy` of length 2, representing
+-- all characters with code between the codes of `x` and `y` (both
+-- inclusive). As an example, the pattern `lpeg.R("09")` matches any digit,
+-- and `lpeg.R("az", "AZ")` matches any ASCII letter.
+--- @vararg any #(`string`)
+--- @return any #(`vim.lpeg.Pattern`)
+function vim.R(...) end
+
 --- @class vim.Ringbuf
 vim.Ringbuf = {}
 
@@ -170,6 +328,23 @@ function vim.Ringbuf:pop() end
 -- Adds an item, overriding the oldest item if the buffer is full.
 --- @param item any #(`any`)
 function vim.Ringbuf:push(item) end
+
+-- Returns a pattern that matches any single character that appears in the
+-- given string (the `S` stands for Set). As an example, the pattern
+-- `lpeg.S("+-*&zwj;/")` matches any arithmetic operator. Note that, if `s`
+-- is a character (that is, a string of length 1), then `lpeg.P(s)` is
+-- equivalent to `lpeg.S(s)` which is equivalent to `lpeg.R(s..s)`. Note also
+-- that both `lpeg.S("")` and `lpeg.R()` are patterns that always fail.
+--- @param string any #(`string`)
+--- @return any #(`vim.lpeg.Pattern`)
+function vim.S(string) end
+
+-- Creates a non-terminal (a variable) for a grammar. This operation creates
+-- a non-terminal (a variable) for a grammar. The created non-terminal refers
+-- to the rule indexed by `v` in the enclosing grammar.
+--- @param v any #(`string|integer`)
+--- @return any #(`vim.lpeg.Pattern`)
+function vim.V(v) end
 
 -- Returns `true` if there's an active snippet in the current buffer.
 --- @return any #(`boolean`)
@@ -212,6 +387,14 @@ function vim.cmd() end
 --- @param v2 any #(`Version|number[]`) Version to compare with `v1` .
 --- @return any #(`integer`) -1 if `v1 < v2`, 0 if `v1 == v2`, 1 if `v1 > v2`.
 function vim.cmp(v1, v2) end
+
+-- Compiles the given {string} and returns an equivalent LPeg pattern. The
+-- given string may define either an expression or a grammar. The optional
+-- {defs} table provides extra Lua values to be used by the pattern.
+--- @param string any #(`string`)
+--- @param defs any #(`table?`)
+--- @return any #(`vim.lpeg.Pattern`)
+function vim.compile(string, defs) end
 
 -- Decodes (or "unpacks") the msgpack-encoded {str} to a Lua object.
 --- @param str any #(`string`)
@@ -429,6 +612,14 @@ function vim.go() end
 --- @return any #(`function`) Iterator over the split components
 function vim.gsplit(s, sep, opts) end
 
+-- Does a global substitution, replacing all occurrences of {pattern} in the
+-- given {subject} by {replacement}.
+--- @param subject any #(`string`)
+--- @param pattern any #(`vim.lpeg.Pattern|string`)
+--- @param replacement any #(`string`)
+--- @return any #(`string`)
+function vim.gsub(subject, pattern, replacement) end
+
 -- Returns `true` if `v1 > v2` . See |vim.version.cmp()| for usage.
 --- @param v1 any #(`Version|number[]`)
 --- @param v2 any #(`Version|number[]`)
@@ -564,6 +755,10 @@ function vim.list_extend(dst, src, start, finish) end
 --- @param finish any #(`integer?`) End range of slice
 --- @return any #(`list`) Copy of table sliced from start to finish (inclusive)
 function vim.list_slice(list, start, finish) end
+
+-- LPeg is a new pattern-matching library for Lua, based on Parsing Expression
+-- Grammars (PEGs).
+function vim.lpeg() end
 
 -- Returns `true` if `v1 < v2` . See |vim.version.cmp()| for usage.
 --- @param v1 any #(`Version|number[]`)
@@ -840,6 +1035,16 @@ function vim.select(items, opts, on_choice) end
 ---                 "noremap". Defaults to `false`.
 function vim.set(mode, lhs, rhs, opts) end
 
+-- Sets a limit for the size of the backtrack stack used by LPeg to track
+-- calls and choices. The default limit is `400`. Most well-written patterns
+-- need little backtrack levels and therefore you seldom need to change this
+-- limit; before changing it you should try to rewrite your pattern to avoid
+-- the need for extra space. Nevertheless, a few useful patterns may
+-- overflow. Also, with recursive grammars, subjects with deep recursion may
+-- also need larger limits.
+--- @param max any #(`integer`)
+function vim.setmaxstack(max) end
+
 -- Show all the items at a given buffer position.
 --- @param bufnr any #(`integer?`) defaults to the current buffer
 --- @param row any #(`integer?`) row to inspect, 0-based. Defaults to the row of
@@ -903,225 +1108,4 @@ function vim.str_utf_start(str, index) end
 --- @return any #(`integer`) UTF-32 index
 --- @return any #(`integer`) UTF-16 index
 function vim.str_utfindex(str, index) end
-
--- Compares strings case-insensitively.
---- @param a any #(`string`)
---- @param b any #(`string`)
---- @return any #(`0|1|-1`) if strings are equal, {a} is greater than {b} or {a} is
----     lesser than {b}, respectively.
-function vim.stricmp(a, b) end
-
--- Runs a system command or throws an error if {cmd} cannot be run.
---- @param cmd any #(`string[]`) Command to execute
---- @param opts any #(`vim.SystemOpts?`) Options:
----                • cwd: (string) Set the current working directory for the
----                  sub-process.
----                • env: table<string,string> Set environment variables for
----                  the new process. Inherits the current environment with
----                  `NVIM` set to |v:servername|.
----                • clear_env: (boolean) `env` defines the job environment
----                  exactly, instead of merging current environment.
----                • stdin: (string|string[]|boolean) If `true`, then a pipe
----                  to stdin is opened and can be written to via the
----                  `write()` method to SystemObj. If string or string[] then
----                  will be written to stdin and closed. Defaults to `false`.
----                • stdout: (boolean|function) Handle output from stdout.
----                  When passed as a function must have the signature
----                  `fun(err: string, data: string)`. Defaults to `true`
----                • stderr: (boolean|function) Handle output from stderr.
----                  When passed as a function must have the signature
----                  `fun(err: string, data: string)`. Defaults to `true`.
----                • text: (boolean) Handle stdout and stderr as text.
----                  Replaces `\r\n` with `\n`.
----                • timeout: (integer) Run the command with a time limit.
----                  Upon timeout the process is sent the TERM signal (15) and
----                  the exit code is set to 124.
----                • detach: (boolean) If true, spawn the child process in a
----                  detached state - this will make it a process group
----                  leader, and will effectively enable the child to keep
----                  running after the parent exits. Note that the child
----                  process will still keep the parent's event loop alive
----                  unless the parent process calls |uv.unref()| on the
----                  child's process handle.
---- @param on_exit any #(`fun(out: vim.SystemCompleted)?`) Called when subprocess
----                exits. When provided, the command runs asynchronously.
----                Receives SystemCompleted object, see return of
----                SystemObj:wait().
---- @return any #(`vim.SystemObj`) Object with the fields:
----     • pid (integer) Process ID
----     • wait (fun(timeout: integer|nil): SystemCompleted) Wait for the
----       process to complete. Upon timeout the process is sent the KILL
----       signal (9) and the exit code is set to 124. Cannot be called in
----       |api-fast|.
----       • SystemCompleted is an object with the fields:
----         • code: (integer)
----         • signal: (integer)
----         • stdout: (string), nil if stdout argument is passed
----         • stderr: (string), nil if stderr argument is passed
----
----
----     • kill (fun(signal: integer|string))
----     • write (fun(data: string|nil)) Requires `stdin=true`. Pass `nil` to
----       close the stream.
----     • is_closing (fun(): boolean)
-function vim.system(cmd, opts, on_exit) end
-
--- Add the reverse lookup values to an existing table. For example:
--- `tbl_add_reverse_lookup { A = 1 } == { [1] = 'A', A = 1 }`
---- @param o any #(`table`) Table to add the reverse to
---- @return any #(`table`) o
-function vim.tbl_add_reverse_lookup(o) end
-
--- Checks if a table contains a given value, specified either directly or via
--- a predicate that is checked for each value.
---- @param t any #(`table`) Table to check
---- @param value any #(`any`) Value to compare or predicate function reference
---- @param opts any #(`table?`) Keyword arguments |kwargs|:
----              • predicate: (boolean) `value` is a function reference to be
----                checked (default false)
---- @return any #(`boolean`) `true` if `t` contains `value`
-function vim.tbl_contains(t, value, opts) end
-
--- Counts the number of non-nil values in table `t`.
---- @param t any #(`table`) Table
---- @return any #(`integer`) Number of non-nil values in table
-function vim.tbl_count(t) end
-
--- Merges recursively two or more tables.
---- @param behavior any #(`string`) Decides what to do if a key is found in more
----                 than one map:
----                 • "error": raise an error
----                 • "keep": use value from the leftmost map
----                 • "force": use value from the rightmost map
---- @vararg any #(`table`) Two or more tables
---- @return any #(`table`) Merged table
-function vim.tbl_deep_extend(behavior, ...) end
-
--- Merges two or more tables.
---- @param behavior any #(`string`) Decides what to do if a key is found in more
----                 than one map:
----                 • "error": raise an error
----                 • "keep": use value from the leftmost map
----                 • "force": use value from the rightmost map
---- @vararg any #(`table`) Two or more tables
---- @return any #(`table`) Merged table
-function vim.tbl_extend(behavior, ...) end
-
--- Filter a table using a predicate function
---- @param func any #(`function`) Function
---- @param t any #(`table`) Table
---- @return any #(`table`) Table of filtered values
-function vim.tbl_filter(func, t) end
-
--- Creates a copy of a list-like table such that any nested tables are
--- "unrolled" and appended to the result.
---- @param t any #(`table`) List-like table
---- @return any #(`table`) Flattened copy of the given list-like table
-function vim.tbl_flatten(t) end
-
--- Index into a table (first argument) via string keys passed as subsequent
--- arguments. Return `nil` if the key does not exist.
---- @param o any #(`table`) Table to index
---- @vararg any #(`any`) Optional keys (0 or more, variadic) via which to index
----            the table
---- @return any #(`any`) Nested value indexed by key (if it exists), else nil
-function vim.tbl_get(o, ...) end
-
--- Tests if `t` is an "array": a table indexed only by integers (potentially
--- non-contiguous).
---- @param t any #(`table`)
---- @return any #(`boolean`) `true` if array-like table, else `false`.
-function vim.tbl_isarray(t) end
-
--- Checks if a table is empty.
---- @param t any #(`table`) Table to check
---- @return any #(`boolean`) `true` if `t` is empty
-function vim.tbl_isempty(t) end
-
--- Tests if `t` is a "list": a table indexed only by contiguous integers
--- starting from 1 (what |lua-length| calls a "regular array").
---- @param t any #(`table`)
---- @return any #(`boolean`) `true` if list-like table, else `false`.
-function vim.tbl_islist(t) end
-
--- Return a list of all keys used in a table. However, the order of the
--- return table of keys is not guaranteed.
---- @param t any #(`table`) Table
---- @return any #(`list`) List of keys
-function vim.tbl_keys(t) end
-
--- Apply a function to all values of a table.
---- @param func any #(`function`) Function
---- @param t any #(`table`) Table
---- @return any #(`table`) Table of transformed values
-function vim.tbl_map(func, t) end
-
--- Return a list of all values used in a table. However, the order of the
--- return table of values is not guaranteed.
---- @param t any #(`table`) Table
---- @return any #(`list`) List of values
-function vim.tbl_values(t) end
-
--- Parses a raw glob into an |lua-lpeg| pattern.
---- @param pattern any #(`string`) The raw glob pattern
---- @return any #(`vim.lpeg.Pattern`) pattern An |lua-lpeg| representation of the
----     pattern
-function vim.to_lpeg(pattern) end
-
--- Collects an |iterable| into a table.
---- @param f any #(`function`) Iterator function
---- @return any #(`table`)
-function vim.totable(f, ...) end
-
--- Trim whitespace (Lua pattern "%s") from both sides of a string.
---- @param s any #(`string`) String to trim
---- @return any #(`string`) String with whitespace removed from its beginning and end
-function vim.trim(s) end
-
--- Manage the trust database.
---- @param opts any #(`table`)
----             • action (string): "allow" to add a file to the trust database
----               and trust it, "deny" to add a file to the trust database and
----               deny it, "remove" to remove file from the trust database
----             • path (string|nil): Path to a file to update. Mutually
----               exclusive with {bufnr}. Cannot be used when {action} is
----               "allow".
----             • bufnr (number|nil): Buffer number to update. Mutually
----               exclusive with {path}.
---- @return any #(`boolean`) success true if operation was successful
---- @return any #(`string`) msg full path if operation was successful, else error
----     message
-function vim.trust(opts) end
-
--- Attach to ui events, similar to |nvim_ui_attach()| but receive events as
--- Lua callback. Can be used to implement screen elements like popupmenu or
--- message handling in Lua.
---- @param ns any #(`integer`)
---- @param options any #(`table<string, any>`)
---- @param callback any #(`fun()`)
-function vim.ui_attach(ns, options, callback) end
-
--- Detach a callback previously attached with |vim.ui_attach()| for the given
--- namespace {ns}.
---- @param ns any #(`integer`)
-function vim.ui_detach(ns) end
-
--- Validates a parameter specification (types and values).
---- @param opt any #(`table`) Names of parameters to validate. Each key is a
----            parameter name; each value is a tuple in one of these forms:
----            1. (arg_value, type_name, optional)
----               • arg_value: argument value
----               • type_name: string|table type name, one of: ("table", "t",
----                 "string", "s", "number", "n", "boolean", "b", "function",
----                 "f", "nil", "thread", "userdata") or list of them.
----               • optional: (optional) boolean, if true, `nil` is valid
----
----            2. (arg_value, fn, msg)
----               • arg_value: argument value
----               • fn: any function accepting one argument, returns true if
----                 and only if the argument is valid. Can optionally return
----                 an additional informative error message as the second
----                 returned value.
----               • msg: (optional) error string if validation fails
-function vim.validate(opt) end
 
