@@ -95,12 +95,10 @@ function vim.lsp.completion(context) end
 function vim.lsp.compute_diff(___MissingCloseParenHere___) end
 
 -- Create a LSP RPC client factory that connects via TCP to the given host
--- and port
+-- and port.
 --- @param host any #(`string`) host to connect to
 --- @param port any #(`integer`) port to connect to
 --- @return any #(`fun(dispatchers: vim.lsp.rpc.Dispatchers): vim.lsp.rpc.PublicClient`)
----     function intended to be passed to |vim.lsp.start_client()| or
----     |vim.lsp.start()| on the field cmd
 function vim.lsp.connect(host, port) end
 
 -- Converts any of `MarkedString` | `MarkedString[]` | `MarkupContent` into a
@@ -158,12 +156,10 @@ function vim.lsp.document_symbol(options) end
 
 -- Create a LSP RPC client factory that connects via named pipes (Windows) or
 -- unix domain sockets (Unix) to the given pipe_path (file path on Unix and
--- name on Windows)
+-- name on Windows).
 --- @param pipe_path any #(`string`) file path of the domain socket (Unix) or name
 ---                  of the named pipe (Windows) to connect to
 --- @return any #(`fun(dispatchers: vim.lsp.rpc.Dispatchers): vim.lsp.rpc.PublicClient`)
----     function intended to be passed to |vim.lsp.start_client()| or
----     |vim.lsp.start()| on the field cmd
 function vim.lsp.domain_socket_connect(pipe_path) end
 
 -- Enable/disable/toggle inlay hints for a buffer
@@ -218,7 +214,7 @@ function vim.lsp.force_refresh(bufnr) end
 function vim.lsp.format(options) end
 
 -- Constructs an error message from an LSP error object.
---- @return any #(`string`) The formatted error message
+--- @return any #(`string`) error_message The formatted error message
 function vim.lsp.format_rpc_error() end
 
 -- Get the list of inlay hints, (optionally) restricted by buffer or range.
@@ -494,10 +490,11 @@ function vim.lsp.rename(old_fname, new_fname, opts) end
 ---                              method
 --- @param callback any #(`fun(err: lsp.ResponseError?, result: any)`)
 ---                              Callback to invoke
---- @param notify_reply_callback any #(`function?`) Callback to invoke as soon as a
----                              request is no longer pending
---- @return any #(`boolean success, integer? request_id`) true, message_id if request
----     could be sent, `false` if not
+--- @param notify_reply_callback any #(`fun(message_id: integer)?`) Callback to
+---                              invoke as soon as a request is no longer
+---                              pending
+--- @return any #(`boolean`) success `true` if request could be sent, `false` if not
+--- @return any #(`integer?`) message_id if request could be sent, `nil` if not
 function vim.lsp.request(method, params, callback, notify_reply_callback) end
 
 -- Creates a normalized object describing LSP server capabilities.
