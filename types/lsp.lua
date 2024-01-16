@@ -322,13 +322,6 @@ function vim.lsp.list_workspace_folders() end
 --- @return any #(`vim.lsp.util.LocationItem[]`) list of items
 function vim.lsp.locations_to_items(locations, offset_encoding) end
 
--- Helper function to return nested values in language server settings
---- @param settings any #(`table`) language server settings
---- @param section any #(`string`) indicating the field of the settings table
---- @return any #(`table|string|vim.NIL`) The value of settings accessed via section.
----     `vim.NIL` if not found.
-function vim.lsp.lookup_section(settings, section) end
-
 -- Gets a new ClientCapabilities object describing the LSP client
 -- capabilities.
 --- @return any #(`lsp.ClientCapabilities`)
