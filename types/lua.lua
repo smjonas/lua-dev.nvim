@@ -115,14 +115,14 @@ function vim.Ct(patt) end
 vim.Iter = {}
 
 -- Returns true if all items in the iterator match the given predicate.
---- @param pred any #(`fun(...):bool`) Predicate function. Takes all values
+--- @param pred any #(`fun(...):boolean`) Predicate function. Takes all values
 ---             returned from the previous stage in the pipeline as arguments
 ---             and returns true if the predicate matches.
 function vim.Iter:all(pred) end
 
 -- Returns true if any of the items in the iterator match the given
 -- predicate.
---- @param pred any #(`fun(...):bool`) Predicate function. Takes all values
+--- @param pred any #(`fun(...):boolean`) Predicate function. Takes all values
 ---             returned from the previous stage in the pipeline as arguments
 ---             and returns true if the predicate matches.
 function vim.Iter:any(pred) end
@@ -140,7 +140,7 @@ function vim.Iter:each(f) end
 function vim.Iter:enumerate() end
 
 -- Filters an iterator pipeline.
---- @param f any #(`fun(...):bool`) Takes all values returned from the previous
+--- @param f any #(`fun(...):boolean`) Takes all values returned from the previous
 ---          stage in the pipeline and returns false or nil if the current
 ---          iterator element should be removed.
 --- @return any #(`Iter`)
@@ -564,9 +564,9 @@ function vim.exit() end
 function vim.expand(input) end
 
 -- Filters a table or other |iterable|.
---- @param f any #(`fun(...):bool`) Filter function. Accepts the current iterator
----            or table values as arguments and returns true if those values
----            should be kept in the final table
+--- @param f any #(`fun(...):boolean`) Filter function. Accepts the current
+---            iterator or table values as arguments and returns true if those
+---            values should be kept in the final table
 --- @param src any #(`table|function`) Table or iterator function to filter
 --- @return any #(`table`)
 function vim.filter(f, src, ...) end
