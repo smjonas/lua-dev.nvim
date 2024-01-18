@@ -162,7 +162,7 @@ function vim.lsp.document_symbol(options) end
 --- @return any #(`fun(dispatchers: vim.lsp.rpc.Dispatchers): vim.lsp.rpc.PublicClient`)
 function vim.lsp.domain_socket_connect(pipe_path) end
 
--- Enable/disable/toggle inlay hints for a buffer
+-- Enables or disables inlay hints for a buffer.
 --- @param bufnr any #(`integer?`) Buffer handle, or 0 or nil for current
 --- @param enable any #(`boolean?`) true/nil to enable, false to disable
 function vim.lsp.enable(bufnr, enable) end
