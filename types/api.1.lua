@@ -3,6 +3,11 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets the immediate children of process `pid`.
+--- @param pid integer
+--- @return any #Array of child process ids, empty if process not found.
+function vim.api.nvim_get_proc_children(pid) end
+
 -- Find files in runtime directories
 --- @param name string #pattern of files to search for
 --- @param all boolean #whether to return all matches or only the first

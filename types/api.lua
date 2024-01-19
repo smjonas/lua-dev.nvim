@@ -232,8 +232,8 @@ function vim.api.nvim_buf_get_commands(buffer, opts) end
 --- @return any #0-indexed (row, col) tuple or empty list () if extmark id was absent
 function vim.api.nvim_buf_get_extmark_by_id(buffer, ns_id, id, opts) end
 
--- Gets |extmarks| (including |signs|) in "traversal order" from a |charwise|
--- region defined by buffer positions (inclusive, 0-indexed |api-indexing|).
+-- Gets |extmarks| in "traversal order" from a |charwise| region defined by
+-- buffer positions (inclusive, 0-indexed |api-indexing|).
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param ns_id integer #Namespace id from |nvim_create_namespace()| or -1 for all
 ---               namespaces
@@ -399,7 +399,9 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 text around the mark was deleted and then restored by
 ---                 undo. Defaults to true.
 ---               • invalidate : boolean that indicates whether to hide the
----                 extmark if the entirety of its range is deleted. If
+---                 extmark if the entirety of its range is deleted. For
+---                 hidden marks, an "invalid" key is added to the "details"
+---                 array of |nvim_buf_get_extmarks()| and family. If
 ---                 "undo_restore" is false, the extmark is deleted instead.
 ---               • priority: a priority value for the highlight group or sign
 ---                 attribute. For example treesitter highlighting uses a
@@ -992,9 +994,4 @@ function vim.api.nvim_get_option_value(name, opts) end
 --- @param pid integer
 --- @return any #Map of process properties, or NIL if process not found.
 function vim.api.nvim_get_proc(pid) end
-
--- Gets the immediate children of process `pid`.
---- @param pid integer
---- @return any #Array of child process ids, empty if process not found.
-function vim.api.nvim_get_proc_children(pid) end
 
