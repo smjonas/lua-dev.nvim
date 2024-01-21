@@ -383,8 +383,8 @@ function vim.cmd() end
 -- Parses and compares two version objects (the result of
 -- |vim.version.parse()|, or specified literally as a `{major, minor, patch}`
 -- tuple, e.g. `{1, 0, 3}`).
---- @param v1 any #(`Version|number[]`) Version object.
---- @param v2 any #(`Version|number[]`) Version to compare with `v1` .
+--- @param v1 any #(`Version|number[]|string`) Version object.
+--- @param v2 any #(`Version|number[]|string`) Version to compare with `v1` .
 --- @return any #(`integer`) -1 if `v1 < v2`, 0 if `v1 == v2`, 1 if `v1 > v2`.
 function vim.cmp(v1, v2) end
 
@@ -550,8 +550,8 @@ function vim.env() end
 
 -- Returns `true` if the given versions are equal. See |vim.version.cmp()| for
 -- usage.
---- @param v1 any #(`Version|number[]`)
---- @param v2 any #(`Version|number[]`)
+--- @param v1 any #(`Version|number[]|string`)
+--- @param v2 any #(`Version|number[]|string`)
 --- @return any #(`boolean`)
 function vim.eq(v1, v2) end
 
@@ -592,6 +592,12 @@ function vim.filter(f, src, ...) end
 ---       for `modname="*"`
 function vim.find(modname, opts) end
 
+-- Returns `true` if `v1 >= v2` . See |vim.version.cmp()| for usage.
+--- @param v1 any #(`Version|number[]|string`)
+--- @param v2 any #(`Version|number[]|string`)
+--- @return any #(`boolean`)
+function vim.ge(v1, v2) end
+
 -- Get the default option value for a {filetype}.
 --- @param filetype any #(`string`) Filetype
 --- @param option any #(`string`) Option name
@@ -621,8 +627,8 @@ function vim.gsplit(s, sep, opts) end
 function vim.gsub(subject, pattern, replacement) end
 
 -- Returns `true` if `v1 > v2` . See |vim.version.cmp()| for usage.
---- @param v1 any #(`Version|number[]`)
---- @param v2 any #(`Version|number[]`)
+--- @param v1 any #(`Version|number[]|string`)
+--- @param v2 any #(`Version|number[]|string`)
 --- @return any #(`boolean`)
 function vim.gt(v1, v2) end
 
@@ -734,6 +740,12 @@ function vim.keycode(str) end
 --- @return any #(`Version?`)
 function vim.last(versions) end
 
+-- Returns `true` if `v1 <= v2` . See |vim.version.cmp()| for usage.
+--- @param v1 any #(`Version|number[]|string`)
+--- @param v2 any #(`Version|number[]|string`)
+--- @return any #(`boolean`)
+function vim.le(v1, v2) end
+
 -- Checks if a list-like table (integer keys without gaps) contains `value`.
 --- @param t any #(`table`) Table to check (must be list-like, not validated)
 --- @param value any #(`any`) Value to compare
@@ -761,8 +773,8 @@ function vim.list_slice(list, start, finish) end
 function vim.lpeg() end
 
 -- Returns `true` if `v1 < v2` . See |vim.version.cmp()| for usage.
---- @param v1 any #(`Version|number[]`)
---- @param v2 any #(`Version|number[]`)
+--- @param v1 any #(`Version|number[]|string`)
+--- @param v2 any #(`Version|number[]|string`)
 --- @return any #(`boolean`)
 function vim.lt(v1, v2) end
 
@@ -874,7 +886,8 @@ function vim.parents(start) end
 ---                  is attempted on input not conforming to semver v2.0.0. If
 ---                  `false`, `parse()` attempts to coerce input such as
 ---                  "1.0", "0-x", "tmux 3.2a" into valid versions.
---- @return any #(`table?`) parsed_version Version object or `nil` if input is invalid.
+--- @return any #(`Version?`) parsed_version Version object or `nil` if input is
+---     invalid.
 function vim.parse(version, opts) end
 
 -- Paste handler, invoked by |nvim_paste()| when a conforming UI (such as the
@@ -1093,19 +1106,4 @@ function vim.str_utf_end(str, index) end
 --- @param str any #(`string`)
 --- @return any #(`table`)
 function vim.str_utf_pos(str) end
-
--- Gets the distance (in bytes) from the starting byte of the codepoint
--- (character) that {index} points to.
---- @param str any #(`string`)
---- @param index any #(`number`)
---- @return any #(`number`)
-function vim.str_utf_start(str, index) end
-
--- Convert byte index to UTF-32 and UTF-16 indices. If {index} is not
--- supplied, the length of the string is used. All indices are zero-based.
---- @param str any #(`string`)
---- @param index any #(`number?`)
---- @return any #(`integer`) UTF-32 index
---- @return any #(`integer`) UTF-16 index
-function vim.str_utfindex(str, index) end
 

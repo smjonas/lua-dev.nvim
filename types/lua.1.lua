@@ -3,6 +3,21 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets the distance (in bytes) from the starting byte of the codepoint
+-- (character) that {index} points to.
+--- @param str any #(`string`)
+--- @param index any #(`number`)
+--- @return any #(`number`)
+function vim.str_utf_start(str, index) end
+
+-- Convert byte index to UTF-32 and UTF-16 indices. If {index} is not
+-- supplied, the length of the string is used. All indices are zero-based.
+--- @param str any #(`string`)
+--- @param index any #(`number?`)
+--- @return any #(`integer`) UTF-32 index
+--- @return any #(`integer`) UTF-16 index
+function vim.str_utfindex(str, index) end
+
 -- Compares strings case-insensitively.
 --- @param a any #(`string`)
 --- @param b any #(`string`)
