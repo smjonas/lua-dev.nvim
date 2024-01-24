@@ -436,6 +436,9 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 drawn by a UI. When set, the UI will receive win_extmark
 ---                 events. Note: the mark is positioned by virt_text
 ---                 attributes. Can be used together with virt_text.
+---               • url: A URL to associate with this extmark. In the TUI, the
+---                 OSC 8 control sequence is used to generate a clickable
+---                 hyperlink to this URL.
 --- @return any #Id of the created/updated extmark
 function vim.api.nvim_buf_set_extmark(buffer, ns_id, line, col, opts) end
 
@@ -989,9 +992,4 @@ function vim.api.nvim_get_option_info2(name, opts) end
 ---               autocommands for the corresponding filetype.
 --- @return any #Option value
 function vim.api.nvim_get_option_value(name, opts) end
-
--- Gets info describing process `pid`.
---- @param pid integer
---- @return any #Map of process properties, or NIL if process not found.
-function vim.api.nvim_get_proc(pid) end
 

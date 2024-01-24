@@ -3,6 +3,11 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
+-- Gets info describing process `pid`.
+--- @param pid integer
+--- @return any #Map of process properties, or NIL if process not found.
+function vim.api.nvim_get_proc(pid) end
+
 -- Gets the immediate children of process `pid`.
 --- @param pid integer
 --- @return any #Array of child process ids, empty if process not found.
