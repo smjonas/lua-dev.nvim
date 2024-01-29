@@ -615,6 +615,11 @@ function vim.api.nvim_tabpage_list_wins(tabpage) end
 --- @param value object #Variable value
 function vim.api.nvim_tabpage_set_var(tabpage, name, value) end
 
+-- Sets the current window in a tabpage
+--- @param tabpage tabpage #Tabpage handle, or 0 for current tabpage
+--- @param win window #Window handle, must already belong to {tabpage}
+function vim.api.nvim_tabpage_set_win(tabpage, win) end
+
 -- Activates UI events on the channel.
 --- @param width integer #Requested screen columns
 --- @param height integer #Requested screen rows
