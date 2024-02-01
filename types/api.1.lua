@@ -106,7 +106,8 @@ function vim.api.nvim_notify(msg, log_level, opts) end
 --- @return any #Channel id, or 0 on error
 function vim.api.nvim_open_term(buffer, opts) end
 
--- Open a new window.
+-- Opens a new split window, or a floating window if `relative` is specified,
+-- or an external window (managed by the UI) if `external` is specified.
 --- @param buffer buffer #Buffer to display, or 0 for current buffer
 --- @param enter boolean #Enter the window (make it the current window)
 --- @param config dict(float_config) * #Map defining the window configuration. Keys:
@@ -118,7 +119,8 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---                 • "cursor" Cursor position in current window.
 ---                 • "mouse" Mouse position
 ---
----               • win: |window-ID| for relative="win".
+---               • win: |window-ID| window to split, or relative window when
+---                 creating a float (relative="win").
 ---               • anchor: Decides which corner of the float to place at
 ---                 (row,col):
 ---                 • "NW" northwest (default)
@@ -215,6 +217,8 @@ function vim.api.nvim_open_term(buffer, opts) end
 ---               • fixed: If true when anchor is NW or SW, the float window
 ---                 would be kept fixed even if the window would be truncated.
 ---               • hide: If true the floating window will be hidden.
+---               • vertical: Split vertically |:vertical|.
+---               • split: Split direction: "left", "right", "above", "below".
 --- @return any #Window handle, or 0 on error
 function vim.api.nvim_open_win(buffer, enter, config) end
 
