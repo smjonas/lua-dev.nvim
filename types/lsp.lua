@@ -258,11 +258,11 @@ function vim.lsp.get_filename() end
 --- @return any #(`integer`) current log level
 function vim.lsp.get_level() end
 
+-- Get the diagnostic namespace associated with an LSP client
+-- |vim.diagnostic| for diagnostics
 --- @param client_id any #(`integer`) The id of the LSP client
 --- @param is_pull any #(`boolean?`) Whether the namespace is for a pull or push
 ---                  client. Defaults to push
---- @return any #(`lsp.Diagnostic`) Get the diagnostic namespace associated with an LSP
----     client |vim.diagnostic| for diagnostics
 function vim.lsp.get_namespace(client_id, is_pull) end
 
 -- Highlight a semantic token.

@@ -279,10 +279,7 @@ function vim.diagnostic.match(str, pat, groups, severity_map, defaults) end
 --- @return any #(`integer?, integer?`) ({float_bufnr}, {win_id})
 function vim.diagnostic.open_float(opts, ...) end
 
--- Unlike |vim.diagnostic.hide()|, this function removes all saved
--- diagnostics. They cannot be redisplayed using |vim.diagnostic.show()|. To
--- simply remove diagnostic decorations in a way that they can be
--- re-displayed, use |vim.diagnostic.hide()|.
+-- Remove all diagnostics from the given namespace.
 --- @param namespace any #(`integer?`) Diagnostic namespace. When omitted, remove
 ---                  diagnostics from all namespaces.
 --- @param bufnr any #(`integer?`) Remove diagnostics for the given buffer.
