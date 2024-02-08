@@ -850,7 +850,7 @@ function vim.api.nvim_get_api_info() end
 function vim.api.nvim_get_autocmds(opts) end
 
 -- Gets information about a channel.
---- @param chan integer
+--- @param chan integer #channel_id, or 0 for current channel
 --- @return any #Dictionary describing a channel, with these keys:
 ---     • "id" Channel id.
 ---     • "argv" (optional) Job arguments list.
