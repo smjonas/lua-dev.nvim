@@ -114,8 +114,10 @@ vim.treesitter.Query = {}
 --- @param node any #(`TSNode`) under which the search will occur
 --- @param source any #(`integer|string`) Source buffer or string to extract text
 ---               from
---- @param start any #(`integer`) Starting line for the search
---- @param stop any #(`integer`) Stopping line for the search (end-exclusive)
+--- @param start any #(`integer?`) Starting line for the search. Defaults to
+---               `node:start()`.
+--- @param stop any #(`integer?`) Stopping line for the search (end-exclusive).
+---               Defaults to `node:end_()`.
 --- @return any #(`fun(end_line: integer?): integer, TSNode, TSMetadata`) capture id,
 ---     capture node, metadata
 function vim.treesitter.Query:iter_captures(node, source, start, stop) end
@@ -123,13 +125,14 @@ function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 -- Iterates the matches of self on a given range.
 --- @param node any #(`TSNode`) under which the search will occur
 --- @param source any #(`integer|string`) Source buffer or string to search
---- @param start any #(`integer`) Starting line for the search
---- @param stop any #(`integer`) Stopping line for the search (end-exclusive)
---- @param opts any #(`table?`) Options:
+--- @param start any #(`integer?`) Starting line for the search. Defaults to
+---               `node:start()`.
+--- @param stop any #(`integer?`) Stopping line for the search (end-exclusive).
+---               Defaults to `node:end_()`.
+--- @param opts any #(`table?`) Optional keyword arguments:
 ---               • max_start_depth (integer) if non-zero, sets the maximum
 ---                 start depth for each match. This is used to prevent
----                 traversing too deep into a tree. Requires treesitter >=
----                 0.20.9.
+---                 traversing too deep into a tree.
 --- @return any #(`fun(): integer, table<integer,TSNode>, table`) pattern id, match,
 ---     metadata
 function vim.treesitter.Query:iter_matches(node, source, start, stop, opts) end
@@ -173,7 +176,8 @@ function vim.treesitter.edit(lang) end
 -- Returns the runtime query {query_name} for {lang}.
 --- @param lang any #(`string`) Language to use for the query
 --- @param query_name any #(`string`) Name of the query (e.g. "highlights")
---- @return any #(`Query?`) Parsed query
+--- @return any #(`vim.treesitter.Query?`) Parsed query. `nil` if no query files are
+---     found.
 function vim.treesitter.get(lang, query_name) end
 
 -- Gets the list of files used to make up a query
@@ -224,7 +228,7 @@ function vim.treesitter.omnifunc(findstart, base) end
 -- read the contents into a string before calling).
 --- @param lang any #(`string`) Language to use for the query
 --- @param query any #(`string`) Query in s-expr syntax
---- @return any #(`Query`) Parsed query
+--- @return any #(`vim.treesitter.Query`) Parsed query
 function vim.treesitter.parse(lang, query) end
 
 -- Register a parser named {lang} to be used for {filetype}(s).
