@@ -412,6 +412,7 @@ function vim.lsp.notify(method, params) end
 function vim.lsp.on_codelens(err, result, ctx, _) end
 
 -- |lsp-handler| for the method "textDocument/diagnostic"
+--- @param result any #(`lsp.DocumentDiagnosticReport`)
 --- @param ctx any #(`lsp.HandlerContext`)
 --- @param config any #(`table`) Configuration table (see
 ---               |vim.diagnostic.config()|).
