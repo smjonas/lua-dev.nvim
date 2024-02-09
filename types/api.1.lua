@@ -110,7 +110,7 @@ function vim.api.nvim_open_term(buffer, opts) end
 -- or an external window (managed by the UI) if `external` is specified.
 --- @param buffer buffer #Buffer to display, or 0 for current buffer
 --- @param enter boolean #Enter the window (make it the current window)
---- @param config dict(float_config) * #Map defining the window configuration. Keys:
+--- @param config dict(win_config) * #Map defining the window configuration. Keys:
 ---               • relative: Sets the window layout to "floating", placed at
 ---                 (row,col) coordinates relative to:
 ---                 • "editor" The global editor grid
@@ -760,7 +760,7 @@ function vim.api.nvim_win_set_buf(window, buffer) end
 -- Configures window layout. Currently only for floating and external windows
 -- (including changing a split window to those layouts).
 --- @param window window #Window handle, or 0 for current window
---- @param config dict(float_config) * #Map defining the window configuration, see |nvim_open_win()|
+--- @param config dict(win_config) * #Map defining the window configuration, see |nvim_open_win()|
 function vim.api.nvim_win_set_config(window, config) end
 
 -- Sets the (1,0)-indexed cursor position in the window. |api-indexing| This
