@@ -51,7 +51,8 @@ function vim.lsp.character_offset(buf, row, col, offset_encoding) end
 
 -- Clear the lenses
 --- @param client_id any #(`integer?`) filter by client_id. All clients if nil
---- @param bufnr any #(`integer?`) filter by buffer. All buffers if nil
+--- @param bufnr any #(`integer?`) filter by buffer. All buffers if nil, 0 for
+---                  current buffer
 function vim.lsp.clear(client_id, bufnr) end
 
 -- Removes document highlights from current buffer.
@@ -468,8 +469,12 @@ function vim.lsp.preview_location(location, opts) end
 ---                  |lsp-on-list-handler|
 function vim.lsp.references(context, options) end
 
--- Refresh the codelens for the current buffer
-function vim.lsp.refresh() end
+-- Refresh the lenses.
+--- @param opts any #(`vim.lsp.codelens.RefreshOptions?`) Table with the following
+---             fields:
+---             • `bufnr` (integer|nil): filter by buffer. All buffers if nil,
+---               0 for current buffer
+function vim.lsp.refresh(opts) end
 
 -- Remove the folder at path from the workspace folders. If {path} is not
 -- provided, the user will be prompted for a path using |input()|.
