@@ -420,8 +420,9 @@ function vim.lsp.on_codelens(err, result, ctx, _) end
 function vim.lsp.on_diagnostic(_, result, ctx, config) end
 
 -- |lsp-handler| for the method "textDocument/publishDiagnostics"
+--- @param result any #(`lsp.PublishDiagnosticsParams`)
 --- @param ctx any #(`lsp.HandlerContext`)
---- @param config any #(`table`) Configuration table (see
+--- @param config any #(`vim.diagnostic.Opts?`) Configuration table (see
 ---               |vim.diagnostic.config()|).
 function vim.lsp.on_publish_diagnostics(_, result, ctx, config) end
 
