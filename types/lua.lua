@@ -840,9 +840,9 @@ function vim.o() end
 
 -- Adds Lua function {fn} with namespace id {ns_id} as a listener to every,
 -- yes every, input key.
---- @param fn fun(...) #(`fun(key: string)`) Function invoked on every key press.
----              |i_CTRL-V| Returning nil removes the callback associated with
----              namespace {ns_id}.
+--- @param fn fun(...) #(`fun(key: string)?`) Function invoked on every key press.
+---              |i_CTRL-V| Passing in nil when {ns_id} is specified removes
+---              the callback associated with namespace {ns_id}.
 --- @param ns_id any #(`integer?`) Namespace ID. If nil or 0, generates and returns
 ---              a new |nvim_create_namespace()| id.
 --- @return any #(`integer`) Namespace id associated with {fn}. Or count of all
