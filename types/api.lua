@@ -148,8 +148,7 @@ function vim.api.nvim_buf_attach(buffer, send_buffer, opts) end
 --- @param buffer buffer #Buffer handle, or 0 for current buffer
 --- @param fun luaref #Function to call inside the buffer (currently Lua callable
 ---               only)
---- @return any #Return value of function. NB: will deepcopy Lua values currently, use
----     upvalues to send Lua references in and out.
+--- @return any #Return value of function.
 function vim.api.nvim_buf_call(buffer, fun) end
 
 -- Clears |namespace|d objects (highlights, |extmarks|, virtual text) from a
@@ -992,4 +991,9 @@ function vim.api.nvim_get_option_info2(name, opts) end
 ---               autocommands for the corresponding filetype.
 --- @return any #Option value
 function vim.api.nvim_get_option_value(name, opts) end
+
+-- Gets info describing process `pid`.
+--- @param pid integer
+--- @return any #Map of process properties, or NIL if process not found.
+function vim.api.nvim_get_proc(pid) end
 

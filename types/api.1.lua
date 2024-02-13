@@ -3,11 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Gets info describing process `pid`.
---- @param pid integer
---- @return any #Map of process properties, or NIL if process not found.
-function vim.api.nvim_get_proc(pid) end
-
 -- Gets the immediate children of process `pid`.
 --- @param pid integer
 --- @return any #Array of child process ids, empty if process not found.
@@ -678,8 +673,7 @@ function vim.api.nvim_unsubscribe(event) end
 --- @param window window #Window handle, or 0 for current window
 --- @param fun luaref #Function to call inside the window (currently Lua callable
 ---               only)
---- @return any #Return value of function. NB: will deepcopy Lua values currently, use
----     upvalues to send Lua references in and out.
+--- @return any #Return value of function.
 function vim.api.nvim_win_call(window, fun) end
 
 -- Closes the window (like |:close| with a |window-ID|).
