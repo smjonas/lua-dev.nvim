@@ -525,6 +525,7 @@ function vim.disable() end
 -- converts to an empty dictionary when translating Lua values to Vimscript
 -- or API types. Nvim by default converts an empty table `{}` without this
 -- metatable to an list/array.
+--- @return any #(`table`)
 function vim.empty_dict() end
 
 -- Enables the experimental Lua module loader:
