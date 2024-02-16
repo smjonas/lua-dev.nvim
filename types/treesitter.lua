@@ -133,7 +133,12 @@ function vim.treesitter.Query:iter_captures(node, source, start, stop) end
 ---               • max_start_depth (integer) if non-zero, sets the maximum
 ---                 start depth for each match. This is used to prevent
 ---                 traversing too deep into a tree.
---- @return any #(`fun(): integer, table<integer,TSNode>, table`) pattern id, match,
+---               • all (boolean) When set, the returned match table maps
+---                 capture IDs to a list of nodes. Older versions of
+---                 iter_matches incorrectly mapped capture IDs to a single
+---                 node, which is incorrect behavior. This option will
+---                 eventually become the default and removed.
+--- @return any #(`fun(): integer, table<integer, TSNode[]>, table`) pattern id, match,
 ---     metadata
 function vim.treesitter.Query:iter_matches(node, source, start, stop, opts) end
 
@@ -150,23 +155,37 @@ function vim.treesitter.add(lang, opts) end
 -- Adds a new directive to be used in queries
 --- @param name any #(`string`) Name of the directive, without leading #
 --- @param handler any #(`function`)
----                • match: see |treesitter-query|
----                  • node-level data are accessible via `match[capture_id]`
----
----                • pattern: see |treesitter-query|
+---                • match: A table mapping capture IDs to a list of captured
+---                  nodes
+---                • pattern: the index of the matching pattern in the query
+---                  file
 ---                • predicate: list of strings containing the full directive
 ---                  being called, e.g. `(node (#set! conceal "-"))` would get
 ---                  the predicate `{ "#set!", "conceal", "-" }`
---- @param force any #(`boolean?`)
-function vim.treesitter.add_directive(name, handler, force) end
+--- @param opts any #(`table<string, any>`) Optional options:
+---                • force (boolean): Override an existing predicate of the
+---                  same name
+---                • all (boolean): Use the correct implementation of the
+---                  match table where capture IDs map to a list of nodes
+---                  instead of a single node. Defaults to false (for backward
+---                  compatibility). This option will eventually become the
+---                  default and removed.
+function vim.treesitter.add_directive(name, handler, opts) end
 
 -- Adds a new predicate to be used in queries
 --- @param name any #(`string`) Name of the predicate, without leading #
 --- @param handler any #(`function`)
 ---                • see |vim.treesitter.query.add_directive()| for argument
 ---                  meanings
---- @param force any #(`boolean?`)
-function vim.treesitter.add_predicate(name, handler, force) end
+--- @param opts any #(`table<string, any>`) Optional options:
+---                • force (boolean): Override an existing predicate of the
+---                  same name
+---                • all (boolean): Use the correct implementation of the
+---                  match table where capture IDs map to a list of nodes
+---                  instead of a single node. Defaults to false (for backward
+---                  compatibility). This option will eventually become the
+---                  default and removed.
+function vim.treesitter.add_predicate(name, handler, opts) end
 
 -- Opens a live editor to query the buffer you started from.
 --- @param lang any #(`string?`) language to open the query editor for. If omitted,
