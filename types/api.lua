@@ -87,8 +87,9 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 ---                    will be `nvim_buf_changedtick_event`. Not for Lua
 ---                    callbacks.
 --- @param opts dict(buf_attach) * #Optional parameters.
----                    • on_lines: Lua callback invoked on change. Return `true` to
----                      detach. Args:
+---                    • on_lines: Lua callback invoked on change. Return a
+---                      truthy value (not `false` or `nil`)
+---                      to detach. Args:
 ---                      • the string "lines"
 ---                      • buffer handle
 ---                      • b:changedtick
@@ -101,7 +102,8 @@ function vim.api.nvim_buf_add_highlight(buffer, ns_id, hl_group, line, col_start
 ---
 ---                    • on_bytes: Lua callback invoked on change. This
 ---                      callback receives more granular information about the
----                      change compared to on_lines. Return `true` to
+---                      change compared to on_lines. Return a truthy value
+---                      (not `false` or `nil`) to
 ---                      detach. Args:
 ---                      • the string "bytes"
 ---                      • buffer handle
@@ -597,9 +599,9 @@ function vim.api.nvim_create_augroup(name, opts) end
 ---                troubleshooting).
 ---              • callback (function|string) optional: Lua function (or
 ---                Vimscript function name, if string) called when the
----                event(s) is triggered. Lua callback can return true to
----                delete the autocommand, and receives a table argument with
----                these keys:
+---                event(s) is triggered. Lua callback can return a truthy
+---                value (not `false` or `nil`) to delete the
+---                autocommand. Receives a table argument with these keys:
 ---                • id: (number) autocommand id
 ---                • event: (string) name of the triggered event
 ---                  |autocmd-events|
@@ -991,9 +993,4 @@ function vim.api.nvim_get_option_info2(name, opts) end
 ---               autocommands for the corresponding filetype.
 --- @return any #Option value
 function vim.api.nvim_get_option_value(name, opts) end
-
--- Gets info describing process `pid`.
---- @param pid integer
---- @return any #Map of process properties, or NIL if process not found.
-function vim.api.nvim_get_proc(pid) end
 
