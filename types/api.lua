@@ -441,6 +441,8 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---               • url: A URL to associate with this extmark. In the TUI, the
 ---                 OSC 8 control sequence is used to generate a clickable
 ---                 hyperlink to this URL.
+---               • scoped: boolean that indicates that the extmark should
+---                 only be displayed in the namespace scope. (experimental)
 --- @return any #Id of the created/updated extmark
 function vim.api.nvim_buf_set_extmark(buffer, ns_id, line, col, opts) end
 

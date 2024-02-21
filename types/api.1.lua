@@ -674,6 +674,12 @@ function vim.api.nvim_ui_try_resize_grid(grid, width, height) end
 --- @param event string #Event type string
 function vim.api.nvim_unsubscribe(event) end
 
+-- Adds the namespace scope to the window.
+--- @param window window #Window handle, or 0 for current window
+--- @param ns_id integer #the namespace to add
+--- @return any #true if the namespace was added, else false
+function vim.api.nvim_win_add_ns(window, ns_id) end
+
 -- Calls a function with window as temporary current window.
 --- @param window window #Window handle, or 0 for current window
 --- @param fun luaref #Function to call inside the window (currently Lua callable
@@ -715,6 +721,11 @@ function vim.api.nvim_win_get_cursor(window) end
 --- @return any #Height as a count of rows
 function vim.api.nvim_win_get_height(window) end
 
+-- Gets all the namespaces scopes associated with a window.
+--- @param window window #Window handle, or 0 for current window
+--- @return any #a list of namespaces ids
+function vim.api.nvim_win_get_ns(window) end
+
 -- Gets the window number
 --- @param window window #Window handle, or 0 for current window
 --- @return any #Window number
@@ -750,6 +761,12 @@ function vim.api.nvim_win_hide(window) end
 --- @param window window #Window handle, or 0 for current window
 --- @return any #true if the window is valid, false otherwise
 function vim.api.nvim_win_is_valid(window) end
+
+-- Removes the namespace scope from the window.
+--- @param window window #Window handle, or 0 for current window
+--- @param ns_id integer #the namespace to remove
+--- @return any #true if the namespace was removed, else false
+function vim.api.nvim_win_remove_ns(window, ns_id) end
 
 -- Sets the current buffer in a window, without side effects
 --- @param window window #Window handle, or 0 for current window
