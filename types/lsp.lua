@@ -482,7 +482,11 @@ function vim.lsp.refresh(opts) end
 function vim.lsp.remove_workspace_folder(workspace_folder) end
 
 -- Rename old_fname to new_fname
---- @param opts any #(`table`)
+--- @param old_fname any #(`string`)
+--- @param new_fname any #(`string`)
+--- @param opts any #(`table?`) options
+---                  • overwrite? boolean
+---                  • ignoreIfExists? boolean
 function vim.lsp.rename(old_fname, new_fname, opts) end
 
 -- Sends a request to the LSP server and runs {callback} upon response.
