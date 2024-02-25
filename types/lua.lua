@@ -664,7 +664,7 @@ function vim.in_fast_event() end
 
 -- Prompts the user for input, allowing arbitrary (potentially asynchronous)
 -- work until `on_confirm`.
---- @param opts any #(`table`) Additional options. See |input()|
+--- @param opts any #(`table?`) Additional options. See |input()|
 ---                   • prompt (string|nil) Text of the prompt
 ---                   • default (string|nil) Default reply to the input
 ---                   • completion (string|nil) Specifies type of completion
@@ -1015,7 +1015,7 @@ function vim.schedule_wrap(fn) end
 
 -- Prompts the user to pick from a list of items, allowing arbitrary
 -- (potentially asynchronous) work until `on_choice`.
---- @param items any #(`table`) Arbitrary items
+--- @param items any #(`any[]`) Arbitrary items
 --- @param opts any #(`table`) Additional options
 ---                  • prompt (string|nil) Text of the prompt. Defaults to
 ---                    `Select one of:`
@@ -1026,8 +1026,8 @@ function vim.schedule_wrap(fn) end
 ---                    item shape. Plugins reimplementing `vim.ui.select` may
 ---                    wish to use this to infer the structure or semantics of
 ---                    `items`, or the context in which select() was called.
---- @param on_choice any #(`function`) ((item|nil, idx|nil) -> ()) Called once the
----                  user made a choice. `idx` is the 1-based index of `item`
+--- @param on_choice any #(`fun(item: any?, idx: integer?)`) Called once the user
+---                  made a choice. `idx` is the 1-based index of `item`
 ---                  within `items`. `nil` if the user aborted the dialog.
 function vim.select(items, opts, on_choice) end
 
