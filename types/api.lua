@@ -412,21 +412,16 @@ function vim.api.nvim_buf_line_count(buffer) end
 ---                 placed if the line or column value is past the end of the
 ---                 buffer or end of the line respectively. Defaults to true.
 ---               • sign_text: string of length 1-2 used to display in the
----                 sign column. Note: ranges are unsupported and decorations
----                 are only applied to start_row
+---                 sign column.
 ---               • sign_hl_group: name of the highlight group used to
----                 highlight the sign column text. Note: ranges are
----                 unsupported and decorations are only applied to start_row
+---                 highlight the sign column text.
 ---               • number_hl_group: name of the highlight group used to
----                 highlight the number column. Note: ranges are unsupported
----                 and decorations are only applied to start_row
+---                 highlight the number column.
 ---               • line_hl_group: name of the highlight group used to
----                 highlight the whole line. Note: ranges are unsupported and
----                 decorations are only applied to start_row
+---                 highlight the whole line.
 ---               • cursorline_hl_group: name of the highlight group used to
----                 highlight the line when the cursor is on the same line as
----                 the mark and 'cursorline' is enabled. Note: ranges are
----                 unsupported and decorations are only applied to start_row
+---                 highlight the sign column text when the cursor is on the
+---                 same line as the mark and 'cursorline' is enabled.
 ---               • conceal: string which should be either empty or a single
 ---                 character. Enable concealing similar to |:syn-conceal|.
 ---                 When a character is supplied it is used as |:syn-cchar|.
@@ -996,4 +991,9 @@ function vim.api.nvim_get_option_info2(name, opts) end
 ---               autocommands for the corresponding filetype.
 --- @return any #Option value
 function vim.api.nvim_get_option_value(name, opts) end
+
+-- Gets info describing process `pid`.
+--- @param pid integer
+--- @return any #Map of process properties, or NIL if process not found.
+function vim.api.nvim_get_proc(pid) end
 

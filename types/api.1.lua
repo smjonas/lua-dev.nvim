@@ -3,11 +3,6 @@
 --# selene: allow(unused_variable)
 ---@diagnostic disable: unused-local
 
--- Gets info describing process `pid`.
---- @param pid integer
---- @return any #Map of process properties, or NIL if process not found.
-function vim.api.nvim_get_proc(pid) end
-
 -- Gets the immediate children of process `pid`.
 --- @param pid integer
 --- @return any #Array of child process ids, empty if process not found.
@@ -482,7 +477,7 @@ function vim.api.nvim_set_current_win(window) end
 ---              • on_win: called when starting to redraw a specific window.
 ---                ["win", winid, bufnr, topline, botline]
 ---              • on_line: called for each buffer line being redrawn. (The
----                interaction with fold lines is subject to change) ["win",
+---                interaction with fold lines is subject to change) ["line",
 ---                winid, bufnr, row]
 ---              • on_end: called at the end of a redraw cycle ["end", tick]
 function vim.api.nvim_set_decoration_provider(ns_id, opts) end
